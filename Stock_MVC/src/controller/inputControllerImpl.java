@@ -4,6 +4,7 @@ import view.viewInterface;
 
 import java.util.Scanner;
 
+
 public class inputControllerImpl implements inputController{
 
     public String currentScreen = "WS";

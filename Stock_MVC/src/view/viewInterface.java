@@ -1,5 +1,6 @@
 package view;
 
+
 public interface viewInterface {
 
   void showWelcomeScreen();

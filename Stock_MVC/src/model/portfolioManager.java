@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+
 public interface portfolioManager {
 
   //public portfolio[] portfolioList;

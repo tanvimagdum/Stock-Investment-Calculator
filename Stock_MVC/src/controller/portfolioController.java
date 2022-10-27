@@ -4,6 +4,7 @@ import model.portfolio;
 
 import java.util.Date;
 
+
 public interface portfolioController {
 
     public void portBuilder(String ticker, float count);
