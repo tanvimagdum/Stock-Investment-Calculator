@@ -8,5 +8,6 @@ public interface viewInterface {
   void showBuildScreen();
   void showPortfolioScreen();
   void printLine(String line);
+  void printLines(String[] lines);
   void displayError();
 }
