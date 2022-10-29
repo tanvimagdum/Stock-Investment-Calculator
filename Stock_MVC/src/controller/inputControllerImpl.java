@@ -52,7 +52,8 @@ public class inputControllerImpl implements inputController{
     private void portfolioScreen(int inputOption) {
 
         if (inputOption < 1 || inputOption > 4) {
-            //v.displayError();
+            v.displayError();
+            v.showPortfolioScreen();
         }
         else {
             switch (inputOption) {
@@ -68,6 +69,7 @@ public class inputControllerImpl implements inputController{
                     //save portfolio
                     break;
                 case 4 :
+                    v.showWelcomeScreen();
                     currentScreen = "WS";
                     break;
                 default :
@@ -80,7 +82,8 @@ public class inputControllerImpl implements inputController{
     private void buildScreen(int inputOption) {
 
         if (inputOption < 1 || inputOption > 3) {
-            //v.displayError();
+            v.displayError();
+            v.showBuildScreen();
         }
         else {
             //scanner to ask for portfolio name
@@ -90,6 +93,13 @@ public class inputControllerImpl implements inputController{
                     buildScreenHelper();
                     break;
                 case 2 :
+<<<<<<< HEAD
+=======
+                    // declare build
+                    break;
+                case 3 :
+                    v.showWelcomeScreen();
+>>>>>>> 7c5c66a (new commit 12.36)
                     currentScreen = "WS";
                     break;
                 default :
@@ -127,7 +137,8 @@ public class inputControllerImpl implements inputController{
     private void loadScreen(int inputOption) {
 
         if (inputOption < 1 || inputOption > 2) {
-            //v.displayError();
+            v.displayError();
+            v.showLoadScreen();
         }
         else {
             switch (inputOption) {
@@ -135,6 +146,7 @@ public class inputControllerImpl implements inputController{
                     // handle file loading
                     break;
                 case 2 :
+                    v.showWelcomeScreen();
                     currentScreen = "WS";
                     break;
                 default :
@@ -146,32 +158,32 @@ public class inputControllerImpl implements inputController{
     private void welcomeScreen(int inputOption) {
 
       if (inputOption < 1 || inputOption > 6) {
-          //v.displayError();
+          v.displayError();
+          v.showWelcomeScreen();
       }
       else {
           switch (inputOption) {
               case 1 :
                   v.showLoadScreen();
                   currentScreen = "LS";
-                  System.out.println("LS");
                   break;
               case 2 :
 
                   v.showBuildScreen();
 
                   currentScreen = "BS";
-                  System.out.println("BS");
                   break;
               case 3 :
                   v.showPortfolioScreen();
                   currentScreen = "PS";
-                  System.out.println("PS");
                   break;
               case 4 :
                   //save portfolio
+                  System.out.println("Save");
                   break;
               case 5 :
                   //save all portfolios
+                  System.out.println("Save All");
                   break;
               case 6 :
                   flag = false;
