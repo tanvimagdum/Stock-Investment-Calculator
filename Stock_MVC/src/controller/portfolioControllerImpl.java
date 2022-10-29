@@ -1,11 +1,8 @@
 package controller;
 
-<<<<<<< HEAD
 import model.Pair;
-=======
 import model.portfolioManager;
 import model.portfolioManagerImpl;
->>>>>>> 7c5c66a (new commit 12.36)
 import model.portfolio;
 
 import java.util.ArrayList;
@@ -20,14 +17,9 @@ public class portfolioControllerImpl implements portfolioController {
     model.portBuilder(ticker, count);
   }
 
-<<<<<<< HEAD
-    @Override
-    public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
-=======
   @Override
-  public void buildPortfolio() {
-    model.buildPortfolio();
-  }
+  public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
+
 
   @Override
   public portfolio getPortfolio(String name) {
@@ -38,7 +30,6 @@ public class portfolioControllerImpl implements portfolioController {
   public void readPortfolioFile(String filename) {
     model.readPortfolioFile(filename);
   }
->>>>>>> 7c5c66a (new commit 12.36)
 
   @Override
   public ArrayList<String> getPortfolioNames() {
