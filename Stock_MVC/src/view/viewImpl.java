@@ -49,6 +49,11 @@ public class viewImpl implements viewInterface {
   }
 
   @Override
+  public void printLine(String line){
+    System.out.println(line);
+  }
+
+  @Override
   public void displayError() {
     System.out.println("Please re-enter the option number from the given list.");
   }

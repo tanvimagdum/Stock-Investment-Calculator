@@ -13,13 +13,9 @@ public class portfolioControllerImpl implements portfolioController {
 
   portfolioManager model = new portfolioManagerImpl();
   @Override
-  public void portBuilder(String ticker, float count) {
-    model.portBuilder(ticker, count);
-  }
-
-  @Override
   public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
-
+    model.portBuilder(list, name);
+  }
 
   @Override
   public portfolio getPortfolio(String name) {
