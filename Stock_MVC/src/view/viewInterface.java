@@ -7,5 +7,6 @@ public interface viewInterface {
   void showLoadScreen();
   void showBuildScreen();
   void showPortfolioScreen();
+  void printLine(String line);
   void displayError();
 }

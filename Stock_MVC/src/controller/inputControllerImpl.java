@@ -93,13 +93,10 @@ public class inputControllerImpl implements inputController{
                     buildScreenHelper();
                     break;
                 case 2 :
-<<<<<<< HEAD
-=======
                     // declare build
                     break;
                 case 3 :
                     v.showWelcomeScreen();
->>>>>>> 7c5c66a (new commit 12.36)
                     currentScreen = "WS";
                     break;
                 default :
