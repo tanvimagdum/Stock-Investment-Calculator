@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -11,7 +12,7 @@ public interface portfolioManager {
   public void buildPortfolio();
   public portfolio getPortfolio(String name);
   public void readPortfolioFile(String filename);
-  public String[] getPortfolioNames();
+  public ArrayList<String> getPortfolioNames();
   public String[] getPortfolioValue(String name, Date date);
 
 }
