@@ -41,7 +41,7 @@ public class portfolioControllerImpl implements portfolioController {
 >>>>>>> 7c5c66a (new commit 12.36)
 
   @Override
-  public String[] getPortfolioNames() {
+  public ArrayList<String> getPortfolioNames() {
     return model.getPortfolioNames();
   }
   @Override
