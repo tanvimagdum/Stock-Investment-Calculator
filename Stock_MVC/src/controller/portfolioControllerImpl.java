@@ -1,7 +1,9 @@
 package controller;
 
+import model.Pair;
 import model.portfolio;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -9,12 +11,7 @@ public class portfolioControllerImpl implements portfolioController {
 
 
     @Override
-    public void portBuilder(String ticker, float count) {
-
-    }
-
-    @Override
-    public void buildPortfolio() {
+    public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
 
     }
 

@@ -1,7 +1,9 @@
 package controller;
+import model.Pair;
 import view.viewImpl;
 import view.viewInterface;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -81,14 +83,13 @@ public class inputControllerImpl implements inputController{
             //v.displayError();
         }
         else {
+            //scanner to ask for portfolio name
             switch (inputOption) {
                 case 1 :
                     //helper method to process input
+                    buildScreenHelper();
                     break;
                 case 2 :
-                    // declare build
-                    break;
-                case 3 :
                     currentScreen = "WS";
                     break;
                 default :
@@ -96,6 +97,31 @@ public class inputControllerImpl implements inputController{
             }
         }
 
+    }
+
+    private void buildScreenHelper() {
+        String name;
+        ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
+
+        Scanner sc = new Scanner(System.in);
+        v.printLine("Please enter the portfolio's name.");
+
+        name = sc.next();
+
+        while(true) {
+            String ticker;
+            int count;
+            v.printLine("Please enter a ticker symbol or enter 'done'.");
+            ticker = sc.next();
+            if (ticker.equals("done")) {
+                break;
+            }
+
+            v.printLine("Please enter the stock count.");
+            count = sc.nextInt();
+            tempList.add(new Pair<>(ticker, (float)count));
+
+        }
     }
 
     private void loadScreen(int inputOption) {
@@ -130,7 +156,9 @@ public class inputControllerImpl implements inputController{
                   System.out.println("LS");
                   break;
               case 2 :
+
                   v.showBuildScreen();
+
                   currentScreen = "BS";
                   System.out.println("BS");
                   break;

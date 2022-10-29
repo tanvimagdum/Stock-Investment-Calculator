@@ -19,17 +19,12 @@ public class portfolioImpl implements portfolio{
         private ArrayList<Pair<String, Float>> tempStockList;
         private String tempName = "";
 
-        public portfolioImpl build() {
+        public portfolioImpl build(ArrayList<Pair<String, Float>> list, String name) {
+            tempName = name;
+            tempStockList = list;
             return new portfolioImpl(tempStockList, tempName);
         }
 
-        public void addItem(String ticker, Float count) {
-            tempStockList.add(new Pair(ticker, count));
-        }
-
-        public void name(String name) {
-            tempName = name;
-        }
     }
     @Override
     public ArrayList<Pair<String,Float>> returnList() {

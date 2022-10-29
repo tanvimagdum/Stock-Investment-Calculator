@@ -9,14 +9,11 @@ public class portfolioManagerImpl implements portfolioManager {
     private API api = new APIImpl();
 
     @Override
-    public void portBuilder(String ticker, float count) {
-
+    public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
+        portfolioImpl newPort = portfolioImpl.builder().build(list, name);
+        portfolios.add(newPort);
     }
 
-    @Override
-    public void buildPortfolio() {
-
-    }
 
     @Override
     public portfolio getPortfolio(String name) {
