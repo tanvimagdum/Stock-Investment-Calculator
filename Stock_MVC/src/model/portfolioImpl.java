@@ -2,15 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
-/**
- *
- */
-
-public class portfolioImpl implements portfolio {
+public class portfolioImpl implements portfolio{
   private final ArrayList<Pair<String, Float>> stockList;
   private final String portfolioName;
 
-  private portfolioImpl(ArrayList<Pair<String, Float>> tempStockList, String name) {
+  private portfolioImpl(ArrayList<Pair<String, Float>> tempStockList, String name){
     stockList = tempStockList;
     portfolioName = name;
   }
@@ -35,12 +31,10 @@ public class portfolioImpl implements portfolio {
     return stockList;
   }
 
-  @Override
   public String getPortfolioName() {
     return portfolioName;
   }
 
-  @Override
   public String[] getTickers() {
     int size = stockList.size();
     String[] tickers = new String[size];
@@ -50,7 +44,6 @@ public class portfolioImpl implements portfolio {
     return tickers;
   }
 
-  @Override
   public Float[] getCounts() {
     int size = stockList.size();
     Float[] counts = new Float[size];
@@ -60,5 +53,3 @@ public class portfolioImpl implements portfolio {
     return counts;
   }
 }
-
-
