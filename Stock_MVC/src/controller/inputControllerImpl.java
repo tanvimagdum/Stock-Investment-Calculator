@@ -111,28 +111,6 @@ public class inputControllerImpl implements inputController{
         }
     }
 
-    private String[] portfolioValueHelper(String name) {
-        String[] tickers = p.getTickers(name);
-        Float[] counts = p.getCounts(name);
-        String[] out = new String[tickers.length+2];
-        v.printLine("For each of the following tickers, please enter a dollar value.");
-        Scanner sc = new Scanner(System.in);
-        out[0] = "Value of Portfolio " + name;
-        float sum = 0;
-        for (int i = 0; i < tickers.length; i++) {
-            v.printLine(tickers[i]);
-            //try
-            float value = Float.valueOf(sc.nextLine());
-            sum += value*counts[i];
-            //String a = sc.nextLine();2
-            out[i+1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                    + "; Value per: " + value + "; Total value: " + value*counts[i];
-        }
-        out[tickers.length+1] = "Total value: " + sum;
-
-        return out;
-    }
-
     private void buildScreen(int inputOption) {
 
         if (inputOption < 1 || inputOption > 2) {
