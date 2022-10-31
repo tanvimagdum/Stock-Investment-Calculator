@@ -8,6 +8,8 @@ import view.viewInterface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -16,6 +18,12 @@ import java.util.Scanner;
 public class portfolioControllerImpl implements portfolioController {
 
   portfolioManager model = new portfolioManagerImpl();
+
+  private InputStream input;
+
+  public portfolioControllerImpl(InputStream in) {
+    this.input = in;
+  }
   @Override
   public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
     model.portBuilder(list, name);
@@ -50,7 +58,7 @@ public class portfolioControllerImpl implements portfolioController {
     }
     v.printLines(numbered);
     v.printLine("Please enter one of the following names:");
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(input);
     int index = sc.nextInt();
     sc.nextLine();
     return portNames[index-1];
@@ -70,7 +78,7 @@ public class portfolioControllerImpl implements portfolioController {
     String name;
     ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
 
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(input);
     v.printLine("Please enter the portfolio's name.");
     name = sc.nextLine();
     while(true) {
@@ -97,7 +105,7 @@ public class portfolioControllerImpl implements portfolioController {
     Float[] counts = getCounts(name);
     String[] out = new String[tickers.length+2];
     v.printLine("For each of the following tickers, please enter a dollar value.");
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(input);
     out[0] = "Value of Portfolio " + name;
     float sum = 0;
     for (int i = 0; i < tickers.length; i++) {

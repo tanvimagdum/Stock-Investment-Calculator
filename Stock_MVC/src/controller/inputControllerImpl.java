@@ -2,10 +2,7 @@ package controller;
 import view.viewImpl;
 import view.viewInterface;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -17,25 +14,29 @@ public class inputControllerImpl implements inputController{
     public portfolioController p;
 
     private InputStream input;
-    private OutputStream output;
+    private PrintStream output;
 
     public static void main(String[] args) {
-        inputController in = new inputControllerImpl(new viewImpl(), new portfolioControllerImpl());
+        inputController in = new inputControllerImpl(new viewImpl(System.out),
+                                new portfolioControllerImpl(System.in),
+                                System.in, System.out);
         in.start();
     }
 
-    public inputControllerImpl(viewInterface view, portfolioController portCon) {
+    public inputControllerImpl(viewInterface view, portfolioController portCon, InputStream in, PrintStream out) {
         this.v = view;
         this.p = portCon;
+        this.input = in;
+        this.output = out;
     }
     @Override
     public void start() {
 
-        portfolioController bus = new portfolioControllerImpl();
+        portfolioController bus = new portfolioControllerImpl(input);
 
         v.showWelcomeScreen();
         while (flag) {
-            Scanner sc = new Scanner(System.in);
+            Scanner sc = new Scanner(input);
             try {
                 int inputOption = sc.nextInt();
                 switch (currentScreen) {
@@ -73,7 +74,7 @@ public class inputControllerImpl implements inputController{
                 case 1 :
                     try {
                         String name = p.selectPortfolio(v);
-                        Scanner sc = new Scanner(System.in);
+                        Scanner sc = new Scanner(input);
                         v.printLines(p.getPortfolioContents(name));
                         v.printLine("Hit any key to return to the previous menu.");
                         sc.nextLine();
@@ -86,7 +87,7 @@ public class inputControllerImpl implements inputController{
                     }
 
                 case 2 :
-                    Scanner sc = new Scanner(System.in);
+                    Scanner sc = new Scanner(input);
                     String date = sc.nextLine();
                     //get value by date
                     v.showPortfolioScreen();
@@ -94,7 +95,7 @@ public class inputControllerImpl implements inputController{
                 case 3 :
                     //manually input values
                     try {
-                        sc = new Scanner(System.in);
+                        sc = new Scanner(input);
                         String name = p.selectPortfolio(v);
                         String[] valueByHand = p.manualValuation(name, v);
                         v.printLines(valueByHand);
@@ -153,7 +154,7 @@ public class inputControllerImpl implements inputController{
                 case 1 :
                     //
                     v.printLine("Please enter the filename.");
-                    Scanner sc = new Scanner(System.in);
+                    Scanner sc = new Scanner(input);
                     String name = sc.nextLine();
                     try {
                         p.readPortfolioFile(name);

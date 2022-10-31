@@ -87,19 +87,16 @@ public class portfolioManagerImpl implements portfolioManager {
         String[] tickers = thisPortfolio.getTickers();
         Float[] counts = thisPortfolio.getCounts();
 
-        try {
-            FileWriter writer = new FileWriter(portfolioName + ".csv");
-            for (int i = 0; i < tickers.length; i++) {
-                writer.append(tickers[i]);
-                writer.append(",");
-                writer.append(String.valueOf(counts[i]));
-                writer.append("\n");
-            }
-            writer.flush();
-            writer.close();
-        } catch (Exception e) {
-            throw new IOException("Could not write the file.");
+        FileWriter writer = new FileWriter(portfolioName + ".csv");
+        for (int i = 0; i < tickers.length; i++) {
+            writer.append(tickers[i]);
+            writer.append(",");
+            writer.append(counts[i].toString());
+            writer.append("\n");
         }
+        writer.flush();
+        writer.close();
+
     }
 
     @Override
@@ -151,7 +148,7 @@ public class portfolioManagerImpl implements portfolioManager {
 
         float sum = 0;
         for (int i = 0; i < tickers.length; i++) {
-            out[i+1] = "Ticker: " + tickers[i] + "; Count: " + counts[i];
+            out[i+1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
         }
 
         return out;
