@@ -14,13 +14,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * A class to represent methods that pass the user input
+ * to model for processing and defines some methods to
+ * take input from users other than menu options.
+ */
 
 public class portfolioControllerImpl implements portfolioController {
 
   portfolioManager model = new portfolioManagerImpl();
-
   private InputStream input;
 
+  /**
+   * Construct a Controller Implementation object
+   * @param in input stream object for input
+   */
   public portfolioControllerImpl(InputStream in) {
     this.input = in;
   }
@@ -53,15 +61,18 @@ public class portfolioControllerImpl implements portfolioController {
   public String selectPortfolio(viewInterface v) {
     String[] portNames = getPortfolioNames();
     String[] numbered = new String[portNames.length];
+
     for (int i = 0; i < portNames.length; i++) {
-      numbered[i] = (i+1) + ". " + portNames[i];
+      numbered[i] = (i + 1) + ". " + portNames[i];
     }
+
     v.printLines(numbered);
     v.printLine("Please enter one of the following names:");
     Scanner sc = new Scanner(input);
     int index = sc.nextInt();
     sc.nextLine();
-    return portNames[index-1];
+
+    return portNames[index - 1];
   }
 
   @Override
@@ -77,16 +88,17 @@ public class portfolioControllerImpl implements portfolioController {
   public void buildPortfolio(viewInterface v) {
     String name;
     ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
-
     Scanner sc = new Scanner(input);
     v.printLine("Please enter the portfolio's name.");
     name = sc.nextLine();
-    while(true) {
+
+    while (true) {
       String ticker;
       int count;
-      v.printLine("Please enter a ticker symbol or enter 'done'.");
+      v.printLine("Please enter a ticker symbol or enter 'Done'.");
       ticker = sc.nextLine();
-      if (ticker.equals("done")) {
+
+      if (ticker.equalsIgnoreCase("done")) {
         break;
       }
 
@@ -94,8 +106,8 @@ public class portfolioControllerImpl implements portfolioController {
       count = sc.nextInt();
       tempList.add(new Stock<>(ticker, (float)count));
       sc.nextLine();
-
     }
+
     portBuilder(tempList, name);
   }
 
@@ -103,22 +115,22 @@ public class portfolioControllerImpl implements portfolioController {
   public String[] manualValuation(String name, viewInterface v) {
     String[] tickers = getTickers(name);
     Float[] counts = getCounts(name);
-    String[] out = new String[tickers.length+2];
+    String[] out = new String[tickers.length + 2];
     v.printLine("For each of the following tickers, please enter a dollar value.");
     Scanner sc = new Scanner(input);
     out[0] = "Value of Portfolio " + name;
     float sum = 0;
+
     for (int i = 0; i < tickers.length; i++) {
       v.printLine(tickers[i]);
       //try
       float value = Float.valueOf(sc.nextLine());
       sum += value*counts[i];
-      //String a = sc.nextLine();2
-      out[i+1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+      out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
               + "; Value per: " + value + "; Total value: " + value*counts[i];
     }
-    out[tickers.length+1] = "Total value: " + sum;
 
+    out[tickers.length + 1] = "Total value: " + sum;
     return out;
   }
 
