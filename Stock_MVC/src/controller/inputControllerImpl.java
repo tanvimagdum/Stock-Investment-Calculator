@@ -1,11 +1,11 @@
 package controller;
-import model.Pair;
 import view.viewImpl;
 import view.viewInterface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Scanner;
 
 
@@ -13,15 +13,21 @@ public class inputControllerImpl implements inputController{
 
     public String currentScreen = "WS";
     public boolean flag = true;
-    public viewInterface v = new viewImpl();
-    public portfolioController p = new portfolioControllerImpl();
+    public viewInterface v;
+    public portfolioController p;
+
+    private InputStream input;
+    private OutputStream output;
 
     public static void main(String[] args) {
-        inputController in = new inputControllerImpl();
+        inputController in = new inputControllerImpl(new viewImpl(), new portfolioControllerImpl());
         in.start();
     }
 
-
+    public inputControllerImpl(viewInterface view, portfolioController portCon) {
+        this.v = view;
+        this.p = portCon;
+    }
     @Override
     public void start() {
 

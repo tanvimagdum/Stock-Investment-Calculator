@@ -1,6 +1,6 @@
 package controller;
 
-import model.Pair;
+import model.Stock;
 import model.portfolioManager;
 import model.portfolioManagerImpl;
 import model.portfolio;
@@ -17,7 +17,7 @@ public class portfolioControllerImpl implements portfolioController {
 
   portfolioManager model = new portfolioManagerImpl();
   @Override
-  public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
+  public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
     model.portBuilder(list, name);
   }
 
@@ -68,7 +68,7 @@ public class portfolioControllerImpl implements portfolioController {
   @Override
   public void buildPortfolio(viewInterface v) {
     String name;
-    ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
+    ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
 
     Scanner sc = new Scanner(System.in);
     v.printLine("Please enter the portfolio's name.");
@@ -84,7 +84,7 @@ public class portfolioControllerImpl implements portfolioController {
 
       v.printLine("Please enter the stock count.");
       count = sc.nextInt();
-      tempList.add(new Pair<>(ticker, (float)count));
+      tempList.add(new Stock<>(ticker, (float)count));
       sc.nextLine();
 
     }

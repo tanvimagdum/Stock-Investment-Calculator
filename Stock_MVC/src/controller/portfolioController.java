@@ -1,6 +1,6 @@
 package controller;
 
-import model.Pair;
+import model.Stock;
 import model.portfolio;
 import view.viewInterface;
 
@@ -12,7 +12,7 @@ import java.util.Date;
 
 public interface portfolioController {
 
-    public void portBuilder(ArrayList<Pair<String, Float>> list, String name);
+    public void portBuilder(ArrayList<Stock<String, Float>> list, String name);
     public portfolio getPortfolio(String name);
     public void readPortfolioFile(String filename) throws FileNotFoundException;
     public void savePortfolio(String filename) throws IOException;

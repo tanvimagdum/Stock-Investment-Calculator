@@ -1,6 +1,6 @@
 package model;
 
-public interface PairInterface<S,F> {
+public interface StockInterface<S,F> {
   public S getS();
   public F getF();
 }

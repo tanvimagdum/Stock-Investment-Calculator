@@ -1,13 +1,11 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 
@@ -16,7 +14,7 @@ public class portfolioManagerImpl implements portfolioManager {
     private API api = new APIImpl();
 
     @Override
-    public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
+    public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
         portfolioImpl newPort = portfolioImpl.builder().build(list, name);
         portfolios.add(newPort);
     }
@@ -51,7 +49,7 @@ public class portfolioManagerImpl implements portfolioManager {
 
     private void readCSV(String filename) throws FileNotFoundException {
         String name = filename.substring(0,filename.length()-4);
-        ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
+        ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
@@ -67,7 +65,7 @@ public class portfolioManagerImpl implements portfolioManager {
                 } catch (Exception e) {
                     throw new RuntimeException("Only integers are allowed for stock counts.");
                 }
-                tempList.add(new Pair<>(elements[0], Float.valueOf ((int) Float.parseFloat(elements[1]))));
+                tempList.add(new Stock<>(elements[0], Float.valueOf ((int) Float.parseFloat(elements[1]))));
                 row = reader.readLine();
             }
 

@@ -3,10 +3,10 @@ package model;
 import java.util.ArrayList;
 
 public class portfolioImpl implements portfolio{
-  private final ArrayList<Pair<String, Float>> stockList;
+  private final ArrayList<Stock<String, Float>> stockList;
   private final String portfolioName;
 
-  private portfolioImpl(ArrayList<Pair<String, Float>> tempStockList, String name){
+  private portfolioImpl(ArrayList<Stock<String, Float>> tempStockList, String name){
     stockList = tempStockList;
     portfolioName = name;
   }
@@ -16,10 +16,10 @@ public class portfolioImpl implements portfolio{
   }
 
   public static final class portfolioBuilder {
-    private ArrayList<Pair<String, Float>> tempStockList;
+    private ArrayList<Stock<String, Float>> tempStockList;
     private String tempName = "";
 
-    public portfolioImpl build(ArrayList<Pair<String, Float>> list, String name) {
+    public portfolioImpl build(ArrayList<Stock<String, Float>> list, String name) {
       tempName = name;
       tempStockList = list;
       return new portfolioImpl(tempStockList, tempName);
@@ -27,7 +27,7 @@ public class portfolioImpl implements portfolio{
 
   }
   @Override
-  public ArrayList<Pair<String,Float>> returnList() {
+  public ArrayList<Stock<String,Float>> returnList() {
     return stockList;
   }
 
