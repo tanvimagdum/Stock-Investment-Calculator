@@ -37,7 +37,7 @@ public class viewImpl implements viewInterface {
   public void showBuildScreen() {
 
     System.out.println("\n" + "====== Build a new portfolio ======" + "\n");
-    System.out.println("Please enter a choice number");
+    System.out.println("Please enter a choice number" + "\n");
     System.out.println("1. Begin building the portfolio");
     System.out.println("2. Go Back");
 
@@ -47,12 +47,11 @@ public class viewImpl implements viewInterface {
   public void showPortfolioScreen() {
 
     System.out.println("\n" + "====== View a portfolio ======" + "\n");
-    System.out.println("Please enter a choice number");
+    System.out.println("Please enter a choice number" + "\n");
     System.out.println("1. View the stocks list in the portfolio");
     System.out.println("2. View the value of portfolio on a certain date");
     System.out.println("3. View the value of portfolio with manually input prices.");
-    System.out.println("4. Save the viewed portfolio");
-    System.out.println("5. Go Back");
+    System.out.println("4. Go back");
 
   }
 
