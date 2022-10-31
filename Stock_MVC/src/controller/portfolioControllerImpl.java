@@ -8,10 +8,13 @@ import model.portfolio;
 import java.util.ArrayList;
 import java.util.Date;
 
-
+/**
+ * A class to represent
+ */
 public class portfolioControllerImpl implements portfolioController {
 
   portfolioManager model = new portfolioManagerImpl();
+
   @Override
   public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
     model.portBuilder(list, name);
@@ -28,13 +31,26 @@ public class portfolioControllerImpl implements portfolioController {
   }
 
   @Override
-  public ArrayList<String> getPortfolioNames() {
+  public String[] getPortfolioNames() {
     return model.getPortfolioNames();
   }
   @Override
   public String[] getPortfolioValue(String name, Date date) {
     return model.getPortfolioValue(name,date);
   }
+  @Override
+  public String[] getPortfolioContents(String name) {
+    return model.getPortfolioContents(name);
+  }
 
+  @Override
+  public String[] getTickers(String name) {
+    return model.getTickers(name);
+  }
+
+  @Override
+  public Float[] getCounts(String name) {
+    return model.getCounts(name);
+  }
 
 }

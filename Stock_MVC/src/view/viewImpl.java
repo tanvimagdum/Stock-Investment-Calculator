@@ -1,25 +1,33 @@
 package view;
 
+/**
+ * A class to represent the contents
+ * of the user interface including the
+ * menu, error messages and help texts.
+ */
 public class viewImpl implements viewInterface {
 
   @Override
   public void showWelcomeScreen() {
 
-    System.out.println("Welcome!");
-    System.out.println("Please enter the option number.");
+    System.out.println("\n" + "=================================" +
+            "\n" + "    Welcome to 'GROW MONEY'!" + "\n" +
+            "=================================" + "\n");
+    System.out.println("Please enter a choice number" + "\n");
     System.out.println("1. Load a portfolio");
     System.out.println("2. Build a new portfolio");
     System.out.println("3. View a portfolio");
     System.out.println("4. Save a portfolio");
     System.out.println("5. Save all portfolios");
-    System.out.println("6. Exit.");
+    System.out.println("6. Exit");
+
   }
 
   @Override
   public void showLoadScreen() {
 
-    System.out.println("Load a portfolio");
-    System.out.println("Please enter the option number.");
+    System.out.println("\n" + "====== Load a portfolio ======" + "\n");
+    System.out.println("Please enter a choice number" + "\n");
     System.out.println("1. Enter the portfolio filename");
     System.out.println("2. Go Back");
 
@@ -28,9 +36,9 @@ public class viewImpl implements viewInterface {
   @Override
   public void showBuildScreen() {
 
-    System.out.println("Build a new portfolio");
-    System.out.println("Please enter the option number.");
-    System.out.println("1. Begin building the portfolio.");
+    System.out.println("\n" + "====== Build a new portfolio ======" + "\n");
+    System.out.println("Please enter a choice number");
+    System.out.println("1. Begin building the portfolio");
     System.out.println("2. Go Back");
 
   }
@@ -38,8 +46,8 @@ public class viewImpl implements viewInterface {
   @Override
   public void showPortfolioScreen() {
 
-    System.out.println("View a portfolio");
-    System.out.println("Please enter the option number.");
+    System.out.println("\n" + "====== View a portfolio ======" + "\n");
+    System.out.println("Please enter a choice number");
     System.out.println("1. View the stocks list in the portfolio");
     System.out.println("2. View the value of portfolio on a certain date");
     System.out.println("3. View the value of portfolio with manually input prices.");
@@ -49,7 +57,7 @@ public class viewImpl implements viewInterface {
   }
 
   @Override
-  public void printLine(String line){
+  public void printLine(String line) {
     System.out.println(line);
   }
 
@@ -62,7 +70,7 @@ public class viewImpl implements viewInterface {
 
   @Override
   public void displayError() {
-    System.out.println("Please re-enter the option number from the given list.");
+    System.out.println("Please re-enter a choice number from the given list");
   }
 
 }
