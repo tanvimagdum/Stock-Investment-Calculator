@@ -29,29 +29,29 @@ public class inputControllerImpl implements inputController{
 
         v.showWelcomeScreen();
         while (flag) {
-          Scanner sc = new Scanner(System.in);
-          try {
-              int inputOption = sc.nextInt();
-              switch (currentScreen) {
-                  case "WS":
-                      welcomeScreen(inputOption);
-                      break;
-                  case "LS":
-                      loadScreen(inputOption);
-                      break;
-                  case "BS":
-                      buildScreen(inputOption);
-                      break;
-                  case "PS":
-                      portfolioScreen(inputOption);
-                      break;
-                  default:
-                      break;
-              }
-          } catch (Exception e) {
-              v.printLine("Please be sure to enter an integer for menu selection.");
-              v.showWelcomeScreen();
-          }
+            Scanner sc = new Scanner(System.in);
+            try {
+                int inputOption = sc.nextInt();
+                switch (currentScreen) {
+                    case "WS":
+                        welcomeScreen(inputOption);
+                        break;
+                    case "LS":
+                        loadScreen(inputOption);
+                        break;
+                    case "BS":
+                        buildScreen(inputOption);
+                        break;
+                    case "PS":
+                        portfolioScreen(inputOption);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                v.printLine("Please be sure to enter an integer for menu selection.");
+                v.showWelcomeScreen();
+            }
         }
 
     }
@@ -169,52 +169,52 @@ public class inputControllerImpl implements inputController{
 
     private void welcomeScreen(int inputOption) {
 
-      if (inputOption < 1 || inputOption > 6) {
-          v.displayError();
-          v.showWelcomeScreen();
-      }
-      else {
-          switch (inputOption) {
-              case 1 :
-                  v.showLoadScreen();
-                  currentScreen = "LS";
-                  break;
-              case 2 :
-                  v.showBuildScreen();
-                  currentScreen = "BS";
-                  break;
-              case 3 :
-                  v.showPortfolioScreen();
-                  currentScreen = "PS";
-                  break;
-              case 4 :
-                  String name = p.selectPortfolio(v);
-                  try {
-                      p.savePortfolio(name);
-                      v.printLine("Portfolio saved.");
-                  } catch (IOException e) {
-                      v.printLine("Saving failed.");
-                  }
-                  v.showWelcomeScreen();
-                  break;
-              case 5 :
-                  String[] names = p.getPortfolioNames();
-                  try {
-                      for (int i = 0; i < names.length; i++) {
-                          p.savePortfolio(names[i]);
-                      }
-                      v.printLine("All portfolios saved.");
-                  } catch (Exception e) {
-                      v.printLine("Unable to successfully save all portfolios.");
-                  }
-                  v.showWelcomeScreen();
-                  break;
-              case 6 :
-                  flag = false;
-                  break;
-              default :
-                  break;
-          }
-      }
+        if (inputOption < 1 || inputOption > 6) {
+            v.displayError();
+            v.showWelcomeScreen();
+        }
+        else {
+            switch (inputOption) {
+                case 1 :
+                    v.showLoadScreen();
+                    currentScreen = "LS";
+                    break;
+                case 2 :
+                    v.showBuildScreen();
+                    currentScreen = "BS";
+                    break;
+                case 3 :
+                    v.showPortfolioScreen();
+                    currentScreen = "PS";
+                    break;
+                case 4 :
+                    String name = p.selectPortfolio(v);
+                    try {
+                        p.savePortfolio(name);
+                        v.printLine("Portfolio saved.");
+                    } catch (IOException e) {
+                        v.printLine("Saving failed.");
+                    }
+                    v.showWelcomeScreen();
+                    break;
+                case 5 :
+                    String[] names = p.getPortfolioNames();
+                    try {
+                        for (int i = 0; i < names.length; i++) {
+                            p.savePortfolio(names[i]);
+                        }
+                        v.printLine("All portfolios saved.");
+                    } catch (Exception e) {
+                        v.printLine("Unable to successfully save all portfolios.");
+                    }
+                    v.showWelcomeScreen();
+                    break;
+                case 6 :
+                    flag = false;
+                    break;
+                default :
+                    break;
+            }
+        }
     }
 }

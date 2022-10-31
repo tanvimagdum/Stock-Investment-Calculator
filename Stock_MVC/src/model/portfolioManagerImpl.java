@@ -60,7 +60,7 @@ public class portfolioManagerImpl implements portfolioManager {
                 String[] elements = row.split(",");
                 if (elements.length != 2) {
                     throw new RuntimeException("File not properly formatted. Please ensure there"
-                    + "are no headers and only one string and one value per line.");
+                            + "are no headers and only one string and one value per line.");
                 }
                 try {
                     int a = (int) Float.parseFloat(elements[1]);
