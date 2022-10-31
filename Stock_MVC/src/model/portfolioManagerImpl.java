@@ -1,13 +1,11 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 
@@ -16,7 +14,7 @@ public class portfolioManagerImpl implements portfolioManager {
     private API api = new APIImpl();
 
     @Override
-    public void portBuilder(ArrayList<Pair<String, Float>> list, String name) {
+    public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
         portfolioImpl newPort = portfolioImpl.builder().build(list, name);
         portfolios.add(newPort);
     }
@@ -51,7 +49,7 @@ public class portfolioManagerImpl implements portfolioManager {
 
     private void readCSV(String filename) throws FileNotFoundException {
         String name = filename.substring(0,filename.length()-4);
-        ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
+        ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
@@ -60,14 +58,14 @@ public class portfolioManagerImpl implements portfolioManager {
                 String[] elements = row.split(",");
                 if (elements.length != 2) {
                     throw new RuntimeException("File not properly formatted. Please ensure there"
-                    + "are no headers and only one string and one value per line.");
+                            + "are no headers and only one string and one value per line.");
                 }
                 try {
                     int a = (int) Float.parseFloat(elements[1]);
                 } catch (Exception e) {
                     throw new RuntimeException("Only integers are allowed for stock counts.");
                 }
-                tempList.add(new Pair<>(elements[0], Float.valueOf ((int) Float.parseFloat(elements[1]))));
+                tempList.add(new Stock<>(elements[0], Float.valueOf ((int) Float.parseFloat(elements[1]))));
                 row = reader.readLine();
             }
 
@@ -80,7 +78,7 @@ public class portfolioManagerImpl implements portfolioManager {
     }
 
     private void readJSON(String filename) {
-
+        //not yet implemented
     }
 
     @Override
@@ -89,19 +87,16 @@ public class portfolioManagerImpl implements portfolioManager {
         String[] tickers = thisPortfolio.getTickers();
         Float[] counts = thisPortfolio.getCounts();
 
-        try {
-            FileWriter writer = new FileWriter(portfolioName + ".csv");
-            for (int i = 0; i < tickers.length; i++) {
-                writer.append(tickers[i]);
-                writer.append(",");
-                writer.append(String.valueOf(counts[i]));
-                writer.append("\n");
-            }
-            writer.flush();
-            writer.close();
-        } catch (Exception e) {
-            throw new IOException("Could not write the file.");
+        FileWriter writer = new FileWriter(portfolioName + ".csv");
+        for (int i = 0; i < tickers.length; i++) {
+            writer.append(tickers[i]);
+            writer.append(",");
+            writer.append(counts[i].toString());
+            writer.append("\n");
         }
+        writer.flush();
+        writer.close();
+
     }
 
     @Override
@@ -153,7 +148,7 @@ public class portfolioManagerImpl implements portfolioManager {
 
         float sum = 0;
         for (int i = 0; i < tickers.length; i++) {
-            out[i+1] = "Ticker: " + tickers[i] + "; Count: " + counts[i];
+            out[i+1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
         }
 
         return out;

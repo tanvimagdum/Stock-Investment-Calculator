@@ -1,6 +1,6 @@
 package model;
 
-public class Pair<S,F> implements PairInterface{
+public class Stock<S,F> implements StockInterface {
   S dataOne;
   F dataTwo;
 
@@ -12,7 +12,7 @@ public class Pair<S,F> implements PairInterface{
     return dataTwo;
   }
 
-  public Pair(S newDataOne, F newDataTwo) {
+  public Stock(S newDataOne, F newDataTwo) {
     dataOne = newDataOne;
     dataTwo = newDataTwo;
   }

@@ -2,15 +2,20 @@ package model;
 
 import java.util.Date;
 
-public class APIImpl implements API {
-    @Override
-    public float[] getPrices(String[] tickerList, Date date) {
-        return new float[0];
-    }
+/**
+ * A class representing methods to
+ * retrieve and validate portfolio
+ * information using API.
+ */
 
-    @Override
-    public boolean validateTicker(String ticker) {
-        return false;
-    }
+public class APIImpl implements API {
+  @Override
+  public float[] getPrices(String[] tickerList, Date date) {
+    return new float[0];
+  }
+  @Override
+  public boolean validateTicker(String ticker) {
+    return false;
+  }
 }
 

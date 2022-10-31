@@ -10,7 +10,7 @@ public interface portfolioManager {
 
   //public portfolio[] portfolioList;
 
-  public void portBuilder(ArrayList<Pair<String, Float>> list, String name);
+  public void portBuilder(ArrayList<Stock<String, Float>> list, String name);
   public portfolio getPortfolio(String name);
   public void readPortfolioFile(String filename) throws FileNotFoundException;
   public void savePortfolio(String portfolioName) throws IOException;
