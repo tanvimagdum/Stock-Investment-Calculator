@@ -3,6 +3,8 @@ import model.Pair;
 import view.viewImpl;
 import view.viewInterface;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,22 +30,27 @@ public class inputControllerImpl implements inputController{
         v.showWelcomeScreen();
         while (flag) {
           Scanner sc = new Scanner(System.in);
-          int inputOption = sc.nextInt();
-          switch (currentScreen) {
-              case "WS" :
-                  welcomeScreen(inputOption);
-                  break;
-              case "LS" :
-                  loadScreen(inputOption);
-                  break;
-              case "BS":
-                  buildScreen(inputOption);
-                  break;
-              case "PS":
-                  portfolioScreen(inputOption);
-                  break;
-              default :
-                  break;
+          try {
+              int inputOption = sc.nextInt();
+              switch (currentScreen) {
+                  case "WS":
+                      welcomeScreen(inputOption);
+                      break;
+                  case "LS":
+                      loadScreen(inputOption);
+                      break;
+                  case "BS":
+                      buildScreen(inputOption);
+                      break;
+                  case "PS":
+                      portfolioScreen(inputOption);
+                      break;
+                  default:
+                      break;
+              }
+          } catch (Exception e) {
+              v.printLine("Please be sure to enter an integer for menu selection.");
+              v.showWelcomeScreen();
           }
         }
 
@@ -58,35 +65,43 @@ public class inputControllerImpl implements inputController{
         else {
             switch (inputOption) {
                 case 1 :
-                    v.printLines(p.getPortfolioNames());
-                    v.printLine("Please enter one of the following names:");
-                    Scanner sc = new Scanner(System.in);
-                    String name = sc.nextLine();
-                    v.printLines(p.getPortfolioContents(name));
-                    v.printLine("Hit any key to return to the previous menu.");
-                    sc.nextLine();
-                    v.showPortfolioScreen();
-                    break;
+                    try {
+                        String name = p.selectPortfolio(v);
+                        Scanner sc = new Scanner(System.in);
+                        v.printLines(p.getPortfolioContents(name));
+                        v.printLine("Hit any key to return to the previous menu.");
+                        sc.nextLine();
+                        v.showPortfolioScreen();
+                        break;
+                    } catch (Exception e) {
+                        v.printLine("There are no portfolios, yet.");
+                        v.showPortfolioScreen();
+                        break;
+                    }
+
                 case 2 :
-                    sc = new Scanner(System.in);
-                    String date = sc.next();
+                    Scanner sc = new Scanner(System.in);
+                    String date = sc.nextLine();
                     //get value by date
+                    v.showPortfolioScreen();
                     break;
                 case 3 :
                     //manually input values
-                    v.printLines(p.getPortfolioNames());
-                    v.printLine("Please enter one of the following names:");
-                    sc = new Scanner(System.in);
-                    name = sc.nextLine();
-                    String[] valueByHand = portfolioValueHelper(name);
-                    v.printLines(valueByHand);
-                    v.printLine("Hit any key to return to the previous menu.");
-                    sc.nextLine();
-                    v.showPortfolioScreen();
+                    try {
+                        sc = new Scanner(System.in);
+                        String name = p.selectPortfolio(v);
+                        String[] valueByHand = p.manualValuation(name, v);
+                        v.printLines(valueByHand);
+                        v.printLine("Hit any key to return to the previous menu.");
+                        sc.nextLine();
+                        v.showPortfolioScreen();
+                        break;
+                    } catch (Exception e) {
+                        v.printLine("There are no portfolios, yet.");
+                        v.showPortfolioScreen();
+                        break;
+                    }
                 case 4 :
-                    //save portfolio
-                    break;
-                case 5 :
                     v.showWelcomeScreen();
                     currentScreen = "WS";
                     break;
@@ -120,7 +135,7 @@ public class inputControllerImpl implements inputController{
 
     private void buildScreen(int inputOption) {
 
-        if (inputOption < 1 || inputOption > 3) {
+        if (inputOption < 1 || inputOption > 2) {
             v.displayError();
             v.showBuildScreen();
         }
@@ -129,7 +144,7 @@ public class inputControllerImpl implements inputController{
             switch (inputOption) {
                 case 1 :
                     //helper method to process input
-                    buildScreenHelper();
+                    p.buildPortfolio(v);
                     v.showBuildScreen();
                     break;
                 case 2 :
@@ -143,33 +158,6 @@ public class inputControllerImpl implements inputController{
 
     }
 
-    private void buildScreenHelper() {
-        String name;
-        ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
-
-        Scanner sc = new Scanner(System.in);
-        v.printLine("Please enter the portfolio's name.");
-
-        name = sc.nextLine();
-
-        while(true) {
-            String ticker;
-            int count;
-            v.printLine("Please enter a ticker symbol or enter 'done'.");
-            ticker = sc.nextLine();
-            if (ticker.equals("done")) {
-                break;
-            }
-
-            v.printLine("Please enter the stock count.");
-            count = sc.nextInt();
-            tempList.add(new Pair<>(ticker, (float)count));
-            String a = sc.nextLine();
-
-        }
-        p.portBuilder(tempList, name);
-    }
-
     private void loadScreen(int inputOption) {
 
         if (inputOption < 1 || inputOption > 2) {
@@ -179,7 +167,17 @@ public class inputControllerImpl implements inputController{
         else {
             switch (inputOption) {
                 case 1 :
-                    // handle file loading
+                    //
+                    v.printLine("Please enter the filename.");
+                    Scanner sc = new Scanner(System.in);
+                    String name = sc.nextLine();
+                    try {
+                        p.readPortfolioFile(name);
+                        v.printLine("File loaded.");
+                    } catch (FileNotFoundException e) {
+                        v.printLine("The file was either not found, or not in the right format.");
+                    }
+                    v.showLoadScreen();
                     break;
                 case 2 :
                     v.showWelcomeScreen();
@@ -204,9 +202,7 @@ public class inputControllerImpl implements inputController{
                   currentScreen = "LS";
                   break;
               case 2 :
-
                   v.showBuildScreen();
-
                   currentScreen = "BS";
                   break;
               case 3 :
@@ -214,12 +210,26 @@ public class inputControllerImpl implements inputController{
                   currentScreen = "PS";
                   break;
               case 4 :
-                  //save portfolio
-                  System.out.println("Save");
+                  String name = p.selectPortfolio(v);
+                  try {
+                      p.savePortfolio(name);
+                      v.printLine("Portfolio saved.");
+                  } catch (IOException e) {
+                      v.printLine("Saving failed.");
+                  }
+                  v.showWelcomeScreen();
                   break;
               case 5 :
-                  //save all portfolios
-                  System.out.println("Save All");
+                  String[] names = p.getPortfolioNames();
+                  try {
+                      for (int i = 0; i < names.length; i++) {
+                          p.savePortfolio(names[i]);
+                      }
+                      v.printLine("All portfolios saved.");
+                  } catch (Exception e) {
+                      v.printLine("Unable to successfully save all portfolios.");
+                  }
+                  v.showWelcomeScreen();
                   break;
               case 6 :
                   flag = false;
@@ -228,6 +238,5 @@ public class inputControllerImpl implements inputController{
                   break;
           }
       }
-
     }
 }

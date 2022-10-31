@@ -1,6 +1,13 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -27,8 +34,74 @@ public class portfolioManagerImpl implements portfolioManager {
     }
 
     @Override
-    public void readPortfolioFile(String filename) {
-        //filereader
+    public void readPortfolioFile(String filename) throws IllegalArgumentException,
+            FileNotFoundException {
+
+        if (filename.length() < 5) {
+            throw new IllegalArgumentException("String given is not an accepted filename.");
+        }
+        if (filename.endsWith(".csv")) {
+            readCSV(filename);
+        } else if (filename.endsWith(".json")) {
+            readJSON(filename);
+        } else {
+            throw new IllegalArgumentException("String given is not an accepted filename.");
+        }
+    }
+
+    private void readCSV(String filename) throws FileNotFoundException {
+        String name = filename.substring(0,filename.length()-4);
+        ArrayList<Pair<String, Float>> tempList = new ArrayList<>();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
+            String row = reader.readLine();
+            while (row != null) {
+                String[] elements = row.split(",");
+                if (elements.length != 2) {
+                    throw new RuntimeException("File not properly formatted. Please ensure there"
+                    + "are no headers and only one string and one value per line.");
+                }
+                try {
+                    int a = (int) Float.parseFloat(elements[1]);
+                } catch (Exception e) {
+                    throw new RuntimeException("Only integers are allowed for stock counts.");
+                }
+                tempList.add(new Pair<>(elements[0], Float.valueOf ((int) Float.parseFloat(elements[1]))));
+                row = reader.readLine();
+            }
+
+            reader.close();
+            portBuilder(tempList, name);
+        } catch (Exception e) {
+            throw new FileNotFoundException();
+        }
+
+    }
+
+    private void readJSON(String filename) {
+
+    }
+
+    @Override
+    public void savePortfolio(String portfolioName) throws IOException {
+        portfolio thisPortfolio = getPortfolio(portfolioName);
+        String[] tickers = thisPortfolio.getTickers();
+        Float[] counts = thisPortfolio.getCounts();
+
+        try {
+            FileWriter writer = new FileWriter(portfolioName + ".csv");
+            for (int i = 0; i < tickers.length; i++) {
+                writer.append(tickers[i]);
+                writer.append(",");
+                writer.append(String.valueOf(counts[i]));
+                writer.append("\n");
+            }
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            throw new IOException("Could not write the file.");
+        }
     }
 
     @Override

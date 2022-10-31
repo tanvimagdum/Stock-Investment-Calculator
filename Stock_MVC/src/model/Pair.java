@@ -1,6 +1,6 @@
 package model;
 
-public class Pair<S,F> {
+public class Pair<S,F> implements PairInterface{
   S dataOne;
   F dataTwo;
 
