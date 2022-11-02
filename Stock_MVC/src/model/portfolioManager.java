@@ -17,7 +17,8 @@ public interface portfolioManager {
    * Build a portfolio from scratch by getting several stocks containing
    * ticker number and stock count from user, and the portfolio name in
    * which the input stocks are to be added.
-   * @param list a list of stocks with ticker number and count of stocks
+   * @param tickerList a list of stocks with ticker number
+   * @param floatList a list of counts of stocks
    * @param name name of the portfolio
    */
   public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name);

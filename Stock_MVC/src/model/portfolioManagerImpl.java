@@ -65,6 +65,7 @@ public class portfolioManagerImpl implements portfolioManager {
     ArrayList<Float> floatList = new ArrayList<>();
 
     BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
+
     String row = reader.readLine();
 
     while (row != null) {
@@ -150,7 +151,7 @@ public class portfolioManagerImpl implements portfolioManager {
         sum += values[i]*counts[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
                 + "; Value per: " + String.format("%.02f", values[i])
-                + "; Total value: " + String.format("%.02f", values[i] * counts[i]);
+                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
       }
     }
 
@@ -213,7 +214,7 @@ public class portfolioManagerImpl implements portfolioManager {
         sum += values[i] * counts[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
                 + "; Value per: " + String.format("%.02f", values[i])
-                + "; Total value: " + String.format("%.02f", values[i] * counts[i]);
+                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
 
       }
     }

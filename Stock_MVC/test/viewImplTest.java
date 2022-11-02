@@ -51,7 +51,16 @@ public class viewImplTest {
     OutputStream out = new ByteArrayOutputStream();
     viewInterface v = new viewImpl(new PrintStream(out));
     v.showBuildScreen();
-    //System.out.println(out);
+    String temp = "\n" +
+    "====== Build a new portfolio ======\n" +
+            "\n" +
+            "Please enter a choice number\n" +
+            "\n" +
+            "1. Begin building the portfolio\n" +
+            "2. Go Back\n";
+    if (temp.equals(out.toString())) {
+      fail();
+    }
     assertEquals("\n" +
             "====== Build a new portfolio ======\n" +
             "\n" +
@@ -68,15 +77,15 @@ public class viewImplTest {
     viewInterface v = new viewImpl(new PrintStream(out));
     v.showPortfolioScreen();
     //System.out.println(out);
-    assertEquals("\n" +
-            "====== View a portfolio ======\n" +
+    assertEquals("\n====== View a portfolio ======\n" +
             "\n" +
             "Please enter a choice number\n" +
             "\n" +
             "1. View the stocks list in the portfolio\n" +
-            "2. View the value of portfolio on a certain date\n" +
-            "3. View the value of portfolio with manually input prices.\n" +
-            "4. Go back\n", out.toString());
+            "2. View the value of a portfolio on a certain date (2010-2018)\n" +
+            "3. View the value of a portfolio as of 2022-10-31\n" +
+            "4. View the value of a portfolio with manually input prices.\n" +
+            "5. Go back\n", out.toString());
 
   }
 
