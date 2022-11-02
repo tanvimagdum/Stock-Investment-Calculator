@@ -20,13 +20,6 @@ import java.util.Date;
 
 public interface portfolioController {
 
-  /**
-   * This method passes the stocks for a particular portfolio
-   * for processing to model.
-   * @param list list of stocks
-   * @param name name of portfolio
-   */
-  public void portBuilder(ArrayList<Stock<String, Float>> list, String name);
 
   /**
    * This method calls the method in model to get

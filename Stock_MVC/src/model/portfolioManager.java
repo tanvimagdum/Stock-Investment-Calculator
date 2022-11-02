@@ -20,7 +20,7 @@ public interface portfolioManager {
    * @param list a list of stocks with ticker number and count of stocks
    * @param name name of the portfolio
    */
-  public void portBuilder(ArrayList<Stock<String, Float>> list, String name);
+  public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name);
 
   /**
    * Get the portfolio by portfolio name.

@@ -33,10 +33,6 @@ public class portfolioControllerImpl implements portfolioController {
   public portfolioControllerImpl(InputStream in) {
     this.input = in;
   }
-  @Override
-  public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
-    model.portBuilder(list, name);
-  }
 
   @Override
   public portfolio getPortfolio(String name) {
@@ -93,10 +89,25 @@ public class portfolioControllerImpl implements portfolioController {
   @Override
   public void buildPortfolio(viewInterface v) throws IOException {
     String name;
-    ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
+    ArrayList<String> tickerList = new ArrayList<>();
+    ArrayList<Float> floatList = new ArrayList<>();
     Scanner sc = new Scanner(input);
     v.printLine("Please enter the portfolio's name.");
     name = sc.nextLine();
+
+    try {
+      String[] existing = getPortfolioNames();
+      for (int i = 0; i < existing.length; i++) {
+        if (existing[i].equals(name)) {
+          v.printLine("A portfolio with that name already exists. Please try again.");
+          return;
+        }
+      }
+    } catch (Exception e) {
+      //there are no portfolios
+    }
+
+
     boolean flag = true;
     for (int i = 0; i < name.length(); i++) {
       if (Character.isLetterOrDigit(name.charAt(i))) {
@@ -141,11 +152,11 @@ public class portfolioControllerImpl implements portfolioController {
         continue;
       }
 
-
-      tempList.add(new Stock<>(ticker, Float.parseFloat(count)));
+      tickerList.add(ticker);
+      floatList.add(Float.parseFloat(count));
     }
 
-    portBuilder(tempList, name);
+    model.portBuilder(tickerList, floatList, name);
     v.printLines(getPortfolioContents(name));
     v.printLine("Hit any key to return to the previous menu.");
     sc.nextLine();

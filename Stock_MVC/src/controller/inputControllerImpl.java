@@ -263,6 +263,24 @@ public class inputControllerImpl implements inputController{
           v.printLine("Please enter the filename.");
           Scanner sc = new Scanner(input);
           String name = sc.nextLine();
+
+          try {
+            boolean problem = false;
+            String[] existing = p.getPortfolioNames();
+            for (int i = 0; i < existing.length; i++) {
+              if (existing[i].equals(name.substring(0,name.length()-4))) {
+                v.printLine("A portfolio with that name already exists. Please try again.");
+                problem = true;
+              }
+            }
+            if (problem) {
+              v.showLoadScreen();
+              break;
+            }
+          } catch (Exception e) {
+            //there are no portfolios
+          }
+
           try {
             p.readPortfolioFile(name);
             name = name.substring(0, name.length()-4);

@@ -21,8 +21,12 @@ public class portfolioManagerImpl implements portfolioManager {
   private API api = new APIImpl();
 
   @Override
-  public void portBuilder(ArrayList<Stock<String, Float>> list, String name) {
-    portfolioImpl newPort = portfolioImpl.builder().build(list, name);
+  public void portBuilder(ArrayList<String> tickerList,ArrayList<Float> floatList, String name) {
+    ArrayList<Stock<String, Float>> finalList = new ArrayList<>();
+    for (int i = 0; i < tickerList.size(); i++){
+      finalList.add(new Stock<>(tickerList.get(i), floatList.get(i)));
+    }
+    portfolioImpl newPort = portfolioImpl.builder().build(finalList, name);
     portfolios.add(newPort);
   }
 
@@ -57,8 +61,8 @@ public class portfolioManagerImpl implements portfolioManager {
 
   private void readCSV(String filename) throws IOException {
     String name = filename.substring(0, filename.length() - 4);
-    ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
-
+    ArrayList<String> tickerList = new ArrayList<>();
+    ArrayList<Float> floatList = new ArrayList<>();
 
     BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
     String row = reader.readLine();
@@ -79,13 +83,13 @@ public class portfolioManagerImpl implements portfolioManager {
       } catch (Exception e) {
         throw new RuntimeException("Only integers are allowed for stock counts.");
       }
-
-      tempList.add(new Stock<>(elements[0], Float.valueOf((int) Float.parseFloat(elements[1]))));
+      tickerList.add(elements[0]);
+      floatList.add(Float.valueOf((int) Float.parseFloat(elements[1])));
       row = reader.readLine();
     }
 
     reader.close();
-    portBuilder(tempList, name);
+    portBuilder(tickerList, floatList, name);
 
   }
 
