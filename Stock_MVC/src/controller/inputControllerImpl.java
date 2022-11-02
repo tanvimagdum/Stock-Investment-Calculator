@@ -59,7 +59,26 @@ public class inputControllerImpl implements inputController{
         inputOption = sc.nextInt();
       } catch (Exception e) {
         v.printLine("Please be sure to enter an integer for menu selection.");
-        v.showWelcomeScreen();
+        switch (currentScreen) {
+          case "WS":
+            v.showWelcomeScreen();
+            break;
+
+          case "LS":
+            v.showLoadScreen();
+            break;
+
+          case "BS":
+            v.showBuildScreen();
+            break;
+
+          case "PS":
+            v.showPortfolioScreen();
+            break;
+
+          default:
+            break;
+        }
         continue;
       }
         switch (currentScreen) {
@@ -87,7 +106,7 @@ public class inputControllerImpl implements inputController{
 
   private void portfolioScreen(int inputOption) {
 
-    if (inputOption < 1 || inputOption > 4) {
+    if (inputOption < 1 || inputOption > 5) {
       v.displayError();
       v.showPortfolioScreen();
     }
@@ -103,13 +122,20 @@ public class inputControllerImpl implements inputController{
             v.showPortfolioScreen();
             break;
           } catch (Exception e) {
-            v.printLine("There are no portfolios, yet.");
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
 
         case 2 :
-          String name = p.selectPortfolio(v);
+          String name;
+          try {
+            name = p.selectPortfolio(v);
+          } catch(Exception e) {
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.showPortfolioScreen();
+            break;
+          }
           Scanner sc = new Scanner(input);
           String year;
           String mon;
@@ -142,33 +168,47 @@ public class inputControllerImpl implements inputController{
           } catch (Exception e) {
             v.printLine("There was an error attempting to value the portfolio.");
           }
+          v.printLine("Hit any key to return to the previous menu.");
+          sc.nextLine();
           v.showPortfolioScreen();
           break;
+
         case 3:
-          name = p.selectPortfolio(v);
+          sc = new Scanner(input);
+          try {
+            name = p.selectPortfolio(v);
+          } catch(Exception e) {
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.showPortfolioScreen();
+            break;
+          }
           try {
             v.printLines(p.getPortfolioValueLatest(name));
           } catch (IOException e) {
             v.printLine("There was an error attempting to value the portfolio.");
           }
+          v.printLine("Hit any key to return to the previous menu.");
+          sc.nextLine();
           v.showPortfolioScreen();
           break;
+
         case 4 :
           //manually input values
+          sc = new Scanner(input);
           try {
-            sc = new Scanner(input);
             name = p.selectPortfolio(v);
-            String[] valueByHand = p.manualValuation(name, v);
-            v.printLines(valueByHand);
-            v.printLine("Hit any key to return to the previous menu.");
-            sc.nextLine();
-            v.showPortfolioScreen();
-            break;
           } catch (Exception e) {
-            v.printLine("There are no portfolios, yet.");
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
+
+          String[] valueByHand = p.manualValuation(name, v);
+          v.printLines(valueByHand);
+          v.printLine("Hit any key to return to the previous menu.");
+          sc.nextLine();
+          v.showPortfolioScreen();
+          break;
 
         case 5 :
           v.showWelcomeScreen();

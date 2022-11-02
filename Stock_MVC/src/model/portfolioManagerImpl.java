@@ -73,7 +73,7 @@ public class portfolioManagerImpl implements portfolioManager {
 
       try {
         float newFloat = Float.parseFloat(elements[1]);
-        if (newFloat != Math.ceil(newFloat)) {
+        if ((newFloat != Math.ceil(newFloat) || (newFloat < 0))) {
           throw new RuntimeException();
         }
       } catch (Exception e) {
@@ -145,11 +145,12 @@ public class portfolioManagerImpl implements portfolioManager {
       } else {
         sum += values[i]*counts[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + values[i] + "; Total value: " + values[i] * counts[i];
+                + "; Value per: " + String.format(".02f", values[i])
+                + "; Total value: " + String.format("%.02f", values[i] * counts[i]);
       }
     }
 
-    out[tickers.length + 1] = "Total value of portfolio: " + sum;
+    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
 
     return out;
   }
@@ -207,11 +208,12 @@ public class portfolioManagerImpl implements portfolioManager {
       } else {
         sum += values[i] * counts[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + values[i] + "; Total value: " + values[i] * counts[i];
+                + "; Value per: " + String.format("%.02f", values[i])
+                + "; Total value: " + String.format("%.02f", values[i] * counts[i]);
 
       }
     }
-    out[tickers.length + 1] = "Total value of portfolio: " + sum;
+    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
 
     return out;
   }
