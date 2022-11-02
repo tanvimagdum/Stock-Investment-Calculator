@@ -145,7 +145,7 @@ public class portfolioManagerImpl implements portfolioManager {
       } else {
         sum += values[i]*counts[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + String.format(".02f", values[i])
+                + "; Value per: " + String.format("%.02f", values[i])
                 + "; Total value: " + String.format("%.02f", values[i] * counts[i]);
       }
     }

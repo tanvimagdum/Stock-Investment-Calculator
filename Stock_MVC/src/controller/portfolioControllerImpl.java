@@ -178,7 +178,8 @@ public class portfolioControllerImpl implements portfolioController {
       }
       sum += value*counts[i];
       out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-              + "; Value per: " + value + "; Total value: " + value*counts[i];
+              + "; Value per: " + String.format("%.02f", value)
+              + "; Total value: " + String.format("%.02f", value*counts[i]);
     }
 
     out[tickers.length + 1] = "Total value: " + sum;
