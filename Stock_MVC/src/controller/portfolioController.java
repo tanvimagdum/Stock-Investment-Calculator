@@ -6,6 +6,7 @@ import view.viewInterface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -41,7 +42,7 @@ public interface portfolioController {
    * @param filename file to be read
    * @throws FileNotFoundException if the file is missing or name is invalid
    */
-  public void readPortfolioFile(String filename) throws FileNotFoundException;
+  public void readPortfolioFile(String filename) throws IOException;
 
   /**
    * This method calls the method in model to save or write
@@ -76,7 +77,7 @@ public interface portfolioController {
    * @return the content/description and the total value of the portfolio
    *          in a string array
    */
-  public String[] getPortfolioValue(String name, String date) throws IOException;
+  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
   /**
    * This method calls the method in model

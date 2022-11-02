@@ -122,7 +122,7 @@ public class inputControllerImpl implements inputController{
           v.printLine("Please enter the day (2 digits):");
           day = sc.nextLine();
           try {
-            DateFormat date = new SimpleDateFormat();
+            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
             date.setLenient(false);
             Date target = date.parse(mon + "/" + day + "/" + year);
             Date lowerLimit = date.parse("01/01/2010");
@@ -137,10 +137,21 @@ public class inputControllerImpl implements inputController{
             v.showPortfolioScreen();
             break;
           }
-          p.getPortfolioValue( name,year + "-" + mon + "-" + day);
+          try {
+            v.printLines(p.getPortfolioValue(name, year + "-" + mon + "-" + day));
+          } catch (Exception e) {
+            v.printLine("There was an error attempting to value the portfolio.");
+          }
           v.showPortfolioScreen();
           break;
         case 3:
+          name = p.selectPortfolio(v);
+          try {
+            v.printLines(p.getPortfolioValueLatest(name));
+          } catch (IOException e) {
+            v.printLine("There was an error attempting to value the portfolio.");
+          }
+          v.showPortfolioScreen();
           break;
         case 4 :
           //manually input values
@@ -218,8 +229,7 @@ public class inputControllerImpl implements inputController{
             v.printLines(p.getPortfolioContents(name));
             v.printLine("Hit any key to return to the previous menu.");
             sc.nextLine();
-            v.showPortfolioScreen();
-          } catch (FileNotFoundException e) {
+          } catch (Exception e) {
             v.printLine("The file was either not found, or not in the right format.");
           }
           v.showLoadScreen();

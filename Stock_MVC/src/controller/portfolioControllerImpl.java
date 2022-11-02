@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -43,7 +44,7 @@ public class portfolioControllerImpl implements portfolioController {
   }
 
   @Override
-  public void readPortfolioFile(String filename) throws FileNotFoundException {
+  public void readPortfolioFile(String filename) throws IOException {
     model.readPortfolioFile(filename);
   }
 
@@ -76,7 +77,7 @@ public class portfolioControllerImpl implements portfolioController {
   }
 
   @Override
-  public String[] getPortfolioValue(String name, String date) throws IOException{
+  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException {
     return model.getPortfolioValue(name,date);
   }
 
@@ -137,7 +138,6 @@ public class portfolioControllerImpl implements portfolioController {
 
     for (int i = 0; i < tickers.length; i++) {
       v.printLine(tickers[i]);
-      //try
       float value = Float.valueOf(sc.nextLine());
       sum += value*counts[i];
       out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]

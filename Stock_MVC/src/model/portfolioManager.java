@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,7 +34,7 @@ public interface portfolioManager {
    * @param filename name of the portfolio file to be read
    * @throws FileNotFoundException if the file is missing or format is incorrect
    */
-  public void readPortfolioFile(String filename) throws FileNotFoundException;
+  public void readPortfolioFile(String filename) throws IOException;
 
   /**
    *
@@ -57,7 +58,7 @@ public interface portfolioManager {
    * @return the content of portfolio and the total value in
    *          a string array
    */
-  public String[] getPortfolioValue(String name, String date) throws IOException;
+  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
   /**
    * Get the value of a specified portfolio for 10/31/2022
