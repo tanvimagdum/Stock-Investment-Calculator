@@ -160,10 +160,22 @@ public class portfolioControllerImpl implements portfolioController {
     Scanner sc = new Scanner(input);
     out[0] = "Value of Portfolio " + name;
     float sum = 0;
-
+    float value;
     for (int i = 0; i < tickers.length; i++) {
       v.printLine(tickers[i]);
-      float value = Float.valueOf(sc.nextLine());
+
+      try {
+        value = Float.valueOf(sc.nextLine());
+        if(value < 0) {
+          v.printLine("Please be sure to enter a positive number.");
+          i--;
+          continue;
+        }
+      } catch(Exception e) {
+        v.printLine("Please be sure to enter a number.");
+        i--;
+        continue;
+      }
       sum += value*counts[i];
       out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
               + "; Value per: " + value + "; Total value: " + value*counts[i];
