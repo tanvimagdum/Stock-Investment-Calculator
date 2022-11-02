@@ -30,6 +30,7 @@ public class portfolioControllerImpl implements portfolioController {
    * Construct a Controller Implementation object
    * @param in input stream object for input
    */
+
   public portfolioControllerImpl(InputStream in) {
     this.input = in;
   }

@@ -11,6 +11,10 @@ public class viewImpl implements viewInterface {
 
   private PrintStream out;
 
+  /**
+   * This constructor allows the view's output to be given as an argument.
+   * @param out the output stream or object
+   */
   public viewImpl(PrintStream out) {
     this.out = out;
   }
