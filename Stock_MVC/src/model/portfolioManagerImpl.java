@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -128,7 +129,8 @@ public class portfolioManagerImpl implements portfolioManager {
     String[] tickers = subject.getTickers();
     Float[] counts = subject.getCounts();
 
-    float[] values = api.getPrices(tickers, date);
+    ArrayList tickerList = (ArrayList) Arrays.asList(tickers);
+    float[] values = api.getPrices(tickerList, date);
     String[] out = new String[tickers.length + 2];
 
     out[0] = "Value of Portfolio: " + name;

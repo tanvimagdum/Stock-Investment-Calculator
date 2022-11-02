@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public interface API {
    * @param date date at which price is to be known
    * @return the list of prices of every stock on the certain date
    */
-  public float[] getPrices(String[] ticketList, Date date);
+  public float[] getPrices(ArrayList<String> ticketList, Date date);
 
   /**
    * Validate the ticker entered by user with the ticker

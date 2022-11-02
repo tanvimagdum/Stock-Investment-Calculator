@@ -51,8 +51,14 @@ public class inputControllerImpl implements inputController{
     v.showWelcomeScreen();
     while (flag) {
       Scanner sc = new Scanner(input);
+      int inputOption = 0;
       try {
-        int inputOption = sc.nextInt();
+        inputOption = sc.nextInt();
+      } catch (Exception e) {
+        v.printLine("Please be sure to enter an integer for menu selection.");
+        v.showWelcomeScreen();
+        continue;
+      }
         switch (currentScreen) {
           case "WS":
             welcomeScreen(inputOption);
@@ -73,10 +79,6 @@ public class inputControllerImpl implements inputController{
           default:
             break;
         }
-      } catch (Exception e) {
-        v.printLine("Please be sure to enter an integer for menu selection.");
-        v.showWelcomeScreen();
-      }
     }
   }
 
@@ -178,7 +180,11 @@ public class inputControllerImpl implements inputController{
           String name = sc.nextLine();
           try {
             p.readPortfolioFile(name);
-            v.printLine("File loaded.");
+            name = name.substring(0, name.length()-4);
+            v.printLines(p.getPortfolioContents(name));
+            v.printLine("Hit any key to return to the previous menu.");
+            sc.nextLine();
+            v.showPortfolioScreen();
           } catch (FileNotFoundException e) {
             v.printLine("The file was either not found, or not in the right format.");
           }
