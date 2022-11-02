@@ -57,9 +57,10 @@ public class viewImpl implements viewInterface {
     out.println("\n" + "====== View a portfolio ======" + "\n");
     out.println("Please enter a choice number" + "\n");
     out.println("1. View the stocks list in the portfolio");
-    out.println("2. View the value of portfolio on a certain date");
-    out.println("3. View the value of portfolio with manually input prices.");
-    out.println("4. Go back");
+    out.println("2. View the value of a portfolio on a certain date (2010-2018)");
+    out.println("3. View the value of a portfolio as of 2022-10-31");
+    out.println("4. View the value of a portfolio with manually input prices.");
+    out.println("5. Go back");
 
   }
 

@@ -3,6 +3,9 @@ import view.viewImpl;
 import view.viewInterface;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -106,17 +109,44 @@ public class inputControllerImpl implements inputController{
           }
 
         case 2 :
+          String name = p.selectPortfolio(v);
           Scanner sc = new Scanner(input);
-          String date = sc.nextLine();
-          //get value by date
+          String year;
+          String mon;
+          String day;
+          v.printLine("Please enter the year (4 digits):");
+          year = sc.nextLine();
+
+          v.printLine("Please enter the month (2 digits):");
+          mon = sc.nextLine();
+          v.printLine("Please enter the day (2 digits):");
+          day = sc.nextLine();
+          try {
+            DateFormat date = new SimpleDateFormat();
+            date.setLenient(false);
+            Date target = date.parse(mon + "/" + day + "/" + year);
+            Date lowerLimit = date.parse("01/01/2010");
+            Date upperLimit = date.parse("03/27/2018");
+            if (target.compareTo(lowerLimit) < 0 || target.compareTo(upperLimit) > 0) {
+              v.printLine("The date entered is out of bounds.");
+              v.showPortfolioScreen();
+              break;
+            }
+          } catch(Exception e) {
+            v.printLine("The date provided was not valid.");
+            v.showPortfolioScreen();
+            break;
+          }
+          p.getPortfolioValue( name,year + "-" + mon + "-" + day);
           v.showPortfolioScreen();
           break;
-
-        case 3 :
+        case 3:
+          break;
+        case 4 :
           //manually input values
           try {
             sc = new Scanner(input);
-            String name = p.selectPortfolio(v);
+            name = p.selectPortfolio(v);
             String[] valueByHand = p.manualValuation(name, v);
             v.printLines(valueByHand);
             v.printLine("Hit any key to return to the previous menu.");
@@ -129,7 +159,7 @@ public class inputControllerImpl implements inputController{
             break;
           }
 
-        case 4 :
+        case 5 :
           v.showWelcomeScreen();
           currentScreen = "WS";
           break;
@@ -151,7 +181,11 @@ public class inputControllerImpl implements inputController{
       switch (inputOption) {
         case 1 :
           //helper method to process input
-          p.buildPortfolio(v);
+          try {
+            p.buildPortfolio(v);
+          } catch (IOException e) {
+            v.printLine("There was an error building the portfolio. Please try again.");
+          }
           v.showBuildScreen();
           break;
 

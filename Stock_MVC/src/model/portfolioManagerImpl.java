@@ -124,13 +124,12 @@ public class portfolioManagerImpl implements portfolioManager {
   }
 
   @Override
-  public String[] getPortfolioValue(String name, Date date) {
+  public String[] getPortfolioValue(String name, String date) throws IOException {
     portfolio subject = getPortfolio(name);
     String[] tickers = subject.getTickers();
     Float[] counts = subject.getCounts();
 
-    ArrayList tickerList = (ArrayList) Arrays.asList(tickers);
-    float[] values = api.getPrices(tickerList, date);
+    float[] values = getPricesByDate(tickers, date);
     String[] out = new String[tickers.length + 2];
 
     out[0] = "Value of Portfolio: " + name;
@@ -145,6 +144,38 @@ public class portfolioManagerImpl implements portfolioManager {
     out[tickers.length + 1] = "Total value of portfolio: " + sum;
 
     return out;
+  }
+
+  private float[] getPricesByDate(String[] tickers, String date) {
+
+    return new float[0];
+  }
+
+  public String[] getPortfolioValueLatest(String name) throws IOException{
+    portfolio subject = getPortfolio(name);
+    String[] tickers = subject.getTickers();
+    Float[] counts = subject.getCounts();
+
+    float[] values = getPricesLatest(tickers);
+    String[] out = new String[tickers.length + 2];
+
+    out[0] = "Value of Portfolio: " + name;
+
+    float sum = 0;
+    for (int i = 0; i < values.length; i++) {
+      sum += values[i];
+      out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+              + "Value per: " + values[i] + "; Total value: " + values[i] * counts[i];
+    }
+
+    out[tickers.length + 1] = "Total value of portfolio: " + sum;
+
+    return out;
+  }
+
+  private float[] getPricesLatest(String[] tickers) throws IOException{
+
+    return new float[0];
   }
 
   @Override
@@ -163,6 +194,23 @@ public class portfolioManagerImpl implements portfolioManager {
     }
 
     return out;
+  }
+
+  public boolean validateTicker(String ticker) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader("./TickerListSP500.csv"));
+    String row = reader.readLine();
+
+    while (row != null) {
+      String[] elements = row.split(",");
+      if (elements[0].equals(ticker)){
+        return true;
+      }
+      row = reader.readLine();
+    }
+
+    reader.close();
+
+    return false;
   }
 
   public String[] getTickers(String name) {

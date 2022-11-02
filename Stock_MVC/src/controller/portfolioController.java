@@ -76,7 +76,17 @@ public interface portfolioController {
    * @return the content/description and the total value of the portfolio
    *          in a string array
    */
-  public String[] getPortfolioValue(String name, Date date);
+  public String[] getPortfolioValue(String name, String date) throws IOException;
+
+  /**
+   * This method calls the method in model
+   * to get the value of stocks of a portfolio
+   * on a 10/31/2022
+   * @param name name of the portfolio
+   * @return the content/description and the total value of the portfolio
+   *          in a string array
+   */
+  public String[] getPortfolioValueLatest(String name) throws IOException;
 
   /**
    * This method calls the method in model
@@ -95,7 +105,7 @@ public interface portfolioController {
    *          to UI to allow user to input values required
    *          for building a portfolio
    */
-  public void buildPortfolio(viewInterface v);
+  public void buildPortfolio(viewInterface v) throws IOException;
 
   /**
    * A method to find value of a portfolio by manually

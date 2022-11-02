@@ -67,7 +67,7 @@ public class portfolioControllerImpl implements portfolioController {
     }
 
     v.printLines(numbered);
-    v.printLine("Please enter one of the following names:");
+    v.printLine("Please choose one of the following options:");
     Scanner sc = new Scanner(input);
     int index = sc.nextInt();
     sc.nextLine();
@@ -76,8 +76,13 @@ public class portfolioControllerImpl implements portfolioController {
   }
 
   @Override
-  public String[] getPortfolioValue(String name, Date date) {
+  public String[] getPortfolioValue(String name, String date) throws IOException{
     return model.getPortfolioValue(name,date);
+  }
+
+  @Override
+  public String[] getPortfolioValueLatest(String name) throws IOException {
+    return model.getPortfolioValueLatest(name);
   }
   @Override
   public String[] getPortfolioContents(String name) {
@@ -85,7 +90,7 @@ public class portfolioControllerImpl implements portfolioController {
   }
 
   @Override
-  public void buildPortfolio(viewInterface v) {
+  public void buildPortfolio(viewInterface v) throws IOException {
     String name;
     ArrayList<Stock<String, Float>> tempList = new ArrayList<>();
     Scanner sc = new Scanner(input);
@@ -104,8 +109,17 @@ public class portfolioControllerImpl implements portfolioController {
 
       v.printLine("Please enter the stock count.");
       count = sc.nextInt();
-      tempList.add(new Stock<>(ticker, (float)count));
       sc.nextLine();
+
+      if (!model.validateTicker(ticker)) {
+        v.printLine("Warning: the symbol you entered is not recognized.");
+        v.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
+        String response = sc.nextLine();
+        if (!response.equals("y")) {
+          continue;
+        }
+      }
+      tempList.add(new Stock<>(ticker, (float)count));
     }
 
     portBuilder(tempList, name);

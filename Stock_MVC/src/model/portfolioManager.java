@@ -57,8 +57,15 @@ public interface portfolioManager {
    * @return the content of portfolio and the total value in
    *          a string array
    */
-  public String[] getPortfolioValue(String name, Date date);
+  public String[] getPortfolioValue(String name, String date) throws IOException;
 
+  /**
+   * Get the value of a specified portfolio for 10/31/2022
+   * @param name name of the portfolio
+   * @return the content of portfolio and the total value in
+   *          a string array
+   */
+  public String[] getPortfolioValueLatest(String name) throws IOException;
   /**
    * Get the ticker numbers and count of stocks together
    * for a specified name of portfolio.
@@ -67,6 +74,13 @@ public interface portfolioManager {
    *          as pairs of ticker number and count of stocks
    */
   public String[] getPortfolioContents(String name);
+
+  /**
+   * Check whether the ticker is on the approved list of stocks.
+   * @param ticker the symbol being checked
+   * @return true if the ticker is recognized, false otherwise
+   */
+  public boolean validateTicker(String ticker) throws IOException;
 
   /**
    * Get the ticker numbers for all stocks in a portfolio.
