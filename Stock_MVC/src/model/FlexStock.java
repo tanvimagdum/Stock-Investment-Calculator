@@ -1,13 +1,13 @@
 package model;
 
-public class FlexStock<T> extends Stock{
-    T dataThree;
+public class FlexStock<D> extends Stock{
+    D dataThree;
 
-    public T getT() {
+    public D getT() {
         return dataThree;
     }
 
-    public FlexStock(Object newDataOne, Object newDataTwo, T newDataThree) {
+    public FlexStock(Object newDataOne, Object newDataTwo, D newDataThree) {
         super(newDataOne, newDataTwo);
         this.dataThree = newDataThree;
     }
