@@ -17,3 +17,11 @@
 9. Input Controller: scanner "sc" is now a field in the class
 
 10. Portfolio Controller: buildPortfolio(), manualValuation(), and selectPortfolio() now take a scanner as input
+
+11. Persistence: added Persistence class
+
+12. Portfolio Manager: now takes a persistence object in construction
+
+13. Portfolio Controller: now takes the model in via constructor
+
+14. Input Controller: now constructs a model and passes it to the Portfolio Controller

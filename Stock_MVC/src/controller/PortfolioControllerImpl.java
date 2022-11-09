@@ -1,8 +1,6 @@
 package controller;
 
 import model.PortfolioManager;
-import model.PortfolioManagerImpl;
-import model.Portfolio;
 import view.ViewInterface;
 
 import java.io.IOException;
@@ -18,8 +16,12 @@ import java.util.Scanner;
 
 public class PortfolioControllerImpl implements PortfolioController {
 
-  PortfolioManager model = new PortfolioManagerImpl();
+  PortfolioManager model;
   private Readable input;
+
+  public PortfolioControllerImpl(PortfolioManager model) {
+    this.model = model;
+  }
 
   /**
    * This is the constructor for the portfolio controller.

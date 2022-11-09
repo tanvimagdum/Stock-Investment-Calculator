@@ -16,7 +16,13 @@ import java.util.Date;
 
 public class PortfolioManagerImpl implements PortfolioManager {
   private ArrayList<PortfolioImpl> portfolios = new ArrayList<>();
+
+  private Persistence pers;
   private API api = new APIImpl();
+
+  public PortfolioManagerImpl(Persistence pers) {
+    this.pers = pers;
+  }
 
   @Override
   public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name) {
@@ -101,19 +107,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   @Override
   public void savePortfolio(String portfolioName) throws IOException {
     Portfolio thisPortfolio = getPortfolio(portfolioName);
-    String[] tickers = thisPortfolio.getTickers();
-    Float[] counts = thisPortfolio.getCounts();
-
-    FileWriter writer = new FileWriter(portfolioName + ".csv");
-    for (int i = 0; i < tickers.length; i++) {
-      writer.append(tickers[i]);
-      writer.append(",");
-      writer.append(counts[i].toString());
-      writer.append("\n");
-    }
-    writer.flush();
-    writer.close();
-
+    pers.saveToDisc(thisPortfolio, portfolioName);
   }
 
   @Override
