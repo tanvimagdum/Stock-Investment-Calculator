@@ -32,25 +32,6 @@ public class PortfolioControllerImplTest {
   }
 
   @Test
-  public void testPortfolioContents() throws IOException {
-
-    ArrayList<String> str = new ArrayList<>(Arrays.asList("A", "AAPL"));
-    ArrayList<Float> flt = new ArrayList<>(Arrays.asList((float)10.00, (float)12.00));
-
-    Readable in = new StringReader("Port AAPL 10 A 20 Done");
-
-    PortfolioController pc = new PortfolioControllerImpl(in, new PortfolioManagerImpl(new Persistence()));
-    pc.readPortfolioFile("port.csv");
-
-    assertEquals("port",pc.getPortfolioNames()[0]);
-
-    //assertEquals("Contents of Portfolio: port",pc.getPortfolioContents("port")[0] );
-    //assertEquals("Ticker: A; Count: 10.00", pc.getPortfolioContents("port")[1]);
-    //assertEquals("Ticker: AAPl; Count: 12.00", pc.getPortfolioContents("port")[2]);
-
-  }
-
-  @Test
   public void testPortfolioLatestValue() throws IOException {
 
     ArrayList<String> str = new ArrayList<>(Arrays.asList("A", "AAPL"));

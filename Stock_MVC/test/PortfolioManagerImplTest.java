@@ -34,9 +34,8 @@ public class PortfolioManagerImplTest {
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
 
-    //Portfolio portfolio = portManager.getPortfolio("My Portfolio");
-    //assertEquals(stockList.size(), portfolio.getTickers().length);
-    //assertEquals("My Portfolio", portfolio.getPortfolioName()); FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    assertEquals(stockList.size(), portManager.getTickers("My Portfolio").length);
+    assertEquals("My Portfolio", portManager.getPortfolioNames()[0]);
 
     assertEquals("GOOG", portManager.getTickers("My Portfolio")[0]);
     assertEquals("AAPL", portManager.getTickers("My Portfolio")[1]);
@@ -129,23 +128,6 @@ public class PortfolioManagerImplTest {
   }
 
   @Test
-  public void testGetPortfolioContents() {
-    ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
-    ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.20,
-            (float) 11.22, (float) 14.80));
-
-    PortfolioManager portManager = new PortfolioManagerImpl(pers);
-    portManager.portBuilder(tickerList, floatList, "My Portfolio");
-
-    //String[] out = portManager.getPortfolioContents("My Portfolio");
-
-    //assertEquals("Contents of Portfolio: My Portfolio", out[0]);
-    //assertEquals("Ticker: GOOG; Count: 10.20", out[1]);
-    //assertEquals("Ticker: AAPL; Count: 11.22", out[2]);
-    //assertEquals("Ticker: MSFT; Count: 14.80", out[3]);
-  }
-
-  @Test
   public void testReadWritePortfolio() {
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00,
@@ -171,15 +153,13 @@ public class PortfolioManagerImplTest {
       fail();
     }
 
-/*    Portfolio writtenFile = portManager2.getPortfolio("My Portfolio");
+    assertEquals("GOOG", portManager2.getTickers("My Portfolio")[0]);
+    assertEquals("AAPL", portManager2.getTickers("My Portfolio")[1]);
+    assertEquals("MSFT", portManager2.getTickers("My Portfolio")[2]);
 
-    assertEquals("GOOG", writtenFile.getTickers()[0]);
-    assertEquals("AAPL", writtenFile.getTickers()[1]);
-    assertEquals("MSFT", writtenFile.getTickers()[2]);
-
-    assertEquals((int) 10.00, writtenFile.getCounts()[0], 0.0001);
-    assertEquals((int) 11.00, writtenFile.getCounts()[1], 0.0001);   FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    assertEquals((int) 14.00, writtenFile.getCounts()[2], 0.0001);*/
+    assertEquals((int) 10.00, portManager2.getCounts("My Portfolio")[0], 0.0001);
+    assertEquals((int) 11.00, portManager2.getCounts("My Portfolio")[1], 0.0001);
+    assertEquals((int) 14.00, portManager2.getCounts("My Portfolio")[2], 0.0001);
 
 
     tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
@@ -206,7 +186,7 @@ public class PortfolioManagerImplTest {
     }
   }
 
-  @Test
+  /*@Test
   public void validateTickerTest() throws IOException {
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     boolean trueBool = portManager.validateTicker("GOOG");
@@ -217,5 +197,5 @@ public class PortfolioManagerImplTest {
     if (falseBool) {
       fail();
     }
-  }
+  }*/
 }

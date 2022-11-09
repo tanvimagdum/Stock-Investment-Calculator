@@ -1,0 +1,27 @@
+1. Portfolio: removed returnList() signature and code
+
+2. Portfolio Manager: removed returnPortfolio() signature and made private in code
+
+3. Portfolio Controller: removed returnPortfolio() signature and code
+
+4. Input Controller: Added contentsHelper()
+
+5. Portfolio Controller: removed getPortfolioContents() signature and code
+
+6. Portfolio Manager: removed getPortfolioContents() signature and code
+
+7. Portfolio Controller: readPortfolioFile() and buildPortfolio() now return strings
+
+8. Portfolio Manager: readPortfolioFile() and buildPortfolio() now return strings
+
+9. Input Controller: scanner "sc" is now a field in the class
+
+10. Portfolio Controller: buildPortfolio(), manualValuation(), and selectPortfolio() now take a scanner as input
+
+11. Persistence: added Persistence class
+
+12. Portfolio Manager: now takes a persistence object in construction
+
+13. Portfolio Controller: now takes the model in via constructor
+
+14. Input Controller: now constructs a model and passes it to the Portfolio Controller

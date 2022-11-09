@@ -22,7 +22,6 @@ public class PortfolioImplTest {
     stockList.add(new Stock<>("MSF", (float) 14.80));
 
     Portfolio port = builder().build(stockList, "My Portfolio");
-    //assertEquals(stockList, port.returnList()); FI LATER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     assertEquals("My Portfolio", port.getPortfolioName());
     assertEquals("GOOG", port.getTickers()[0]);
     assertEquals("AAPL", port.getTickers()[1]);
@@ -42,7 +41,6 @@ public class PortfolioImplTest {
     stockList.add(new Stock<>("MSF", (float) 14.80));
 
     Portfolio port = builder().build(stockList, "My Portfolio");
-    //assertEquals(stockList, port.returnList());  FIX LATER A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     String portName = port.getPortfolioName();
     portName = "My Port";
