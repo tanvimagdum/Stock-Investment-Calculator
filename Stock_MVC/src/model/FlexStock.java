@@ -3,7 +3,7 @@ package model;
 public class FlexStock<D> extends Stock{
     D dataThree;
 
-    public D getT() {
+    public D getD() {
         return dataThree;
     }
 
