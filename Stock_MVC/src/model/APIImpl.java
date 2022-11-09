@@ -23,8 +23,8 @@ public class APIImpl implements API {
 
     for (int i = 0; i < tickerList.size(); i++) {
       try {
-        url = new URL("https://data.nasdaq.com/api/v3/"
-                + "datasets/WIKI/" + tickerList.get(i) + ".csv?api_key=" + apiKey);
+        url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+                + tickerList.get(i) + "&apikey=" + apiKey + "&datatype=csv");
       } catch (MalformedURLException e) {
         throw new RuntimeException("the alphavantage API has either changed or "
                 + "no longer works");
@@ -36,7 +36,7 @@ public class APIImpl implements API {
       try {
         in = url.openStream();
 
-        FileWriter writer = new FileWriter(".\\Stocks\\" + tickerList.get(i) + ".csv");
+        FileWriter writer = new FileWriter(".\\NewStocks\\" + tickerList.get(i) + ".csv");
 
         in = url.openStream();
         int b;

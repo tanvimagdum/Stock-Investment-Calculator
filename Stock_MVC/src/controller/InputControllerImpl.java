@@ -27,7 +27,6 @@ public class InputControllerImpl implements InputController {
   public ViewInterface v;
   public PortfolioController p;
   private Readable input;
-
   private Scanner sc;
 
   /**
