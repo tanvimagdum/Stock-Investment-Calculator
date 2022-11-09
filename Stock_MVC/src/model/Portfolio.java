@@ -10,12 +10,6 @@ import java.util.ArrayList;
 
 public interface Portfolio {
 
-  /**
-   * Returns an array list of stocks.
-   * @return arraylist containing stocks with a
-   *          ticker number and count of stocks
-   */
-  ArrayList<Stock<String, Float>> returnList();
 
   /**
    * Get the name of portfolio.

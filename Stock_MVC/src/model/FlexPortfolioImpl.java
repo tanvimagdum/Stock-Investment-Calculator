@@ -13,17 +13,6 @@ public class FlexPortfolioImpl implements Portfolio{
 
 
     /**
-     * Returns an array list of stocks.
-     *
-     * @return arraylist containing stocks with a
-     * ticker number and count of stocks
-     */
-    @Override
-    public ArrayList<Stock<String, Float>> returnList() {
-        return null;
-    }
-
-    /**
      * Get the name of portfolio.
      *
      * @return the portfolio name as a string

@@ -37,7 +37,7 @@ public class PortfolioManagerImplTest {
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
 
     Portfolio portfolio = portManager.getPortfolio("My Portfolio");
-    assertEquals(stockList.size(), portfolio.returnList().size());
+    assertEquals(stockList.size(), portfolio.getTickers().length);
     assertEquals("My Portfolio", portfolio.getPortfolioName());
 
     assertEquals("GOOG", portManager.getTickers("My Portfolio")[0]);

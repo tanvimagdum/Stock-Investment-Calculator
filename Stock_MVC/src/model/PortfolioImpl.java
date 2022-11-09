@@ -57,7 +57,6 @@ public class PortfolioImpl implements Portfolio {
 
   }
 
-  @Override
   public ArrayList<Stock<String, Float>> returnList() {
     return stockList;
   }
