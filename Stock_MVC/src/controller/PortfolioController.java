@@ -6,6 +6,7 @@ import view.ViewInterface;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Scanner;
 
 
 /**
@@ -26,7 +27,7 @@ public interface PortfolioController {
    * @param filename file to be read
    * @throws FileNotFoundException if the file is missing or name is invalid
    */
-  public void readPortfolioFile(String filename) throws IOException;
+  public String readPortfolioFile(String filename) throws IOException;
 
   /**
    * This method calls the method in model to save or write
@@ -54,7 +55,7 @@ public interface PortfolioController {
    *             for selecting a portfolio
    * @return selected portfolio name
    */
-  public String selectPortfolio(ViewInterface view);
+  public String selectPortfolio(ViewInterface view, Scanner sc);
 
   /**
    * This method calls the method in model
@@ -82,17 +83,6 @@ public interface PortfolioController {
   public String[] getPortfolioValueLatest(String name) throws IOException;
 
   /**
-   * This method calls the method in model
-   * to get the contents of a specified portfolio.
-   *
-   * @param name name of the portfolio
-   * @return the contents of the specified portfolio
-   *         as ticker number and count of stocks
-   *         in a string array
-   */
-  public String[] getPortfolioContents(String name);
-
-  /**
    * This method calls the method in model to create
    * a portfolio.
    *
@@ -101,7 +91,7 @@ public interface PortfolioController {
    *          for building a portfolio
    * @throws IOException if there is difficulty reading in files
    */
-  public void buildPortfolio(ViewInterface v) throws IOException;
+  public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException;
 
   /**
    * A method to find value of a portfolio by manually
@@ -114,7 +104,7 @@ public interface PortfolioController {
    * @return the contents along with the values of individual stocks
    *         of a portfolio in the form of string array
    */
-  public String[] manualValuation(String name, ViewInterface v);
+  public String[] manualValuation(String name, ViewInterface v, Scanner sc);
 
   /**
    * This method calls the method in model

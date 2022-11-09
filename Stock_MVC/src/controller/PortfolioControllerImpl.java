@@ -32,8 +32,8 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public void readPortfolioFile(String filename) throws IOException {
-    model.readPortfolioFile(filename);
+  public String readPortfolioFile(String filename) throws IOException {
+    return model.readPortfolioFile(filename);
   }
 
   @Override
@@ -47,7 +47,7 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public String selectPortfolio(ViewInterface v) {
+  public String selectPortfolio(ViewInterface v, Scanner sc) {
     String[] portNames = getPortfolioNames();
     String[] numbered = new String[portNames.length];
 
@@ -57,7 +57,6 @@ public class PortfolioControllerImpl implements PortfolioController {
 
     v.printLines(numbered);
     v.printLine("Please choose one of the following options:");
-    Scanner sc = new Scanner(input);
     int index = sc.nextInt();
     sc.nextLine();
 
@@ -75,16 +74,11 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public String[] getPortfolioContents(String name) {
-    return model.getPortfolioContents(name);
-  }
-
-  @Override
-  public void buildPortfolio(ViewInterface v) throws IOException {
+  public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
     String name;
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Float> floatList = new ArrayList<>();
-    Scanner sc = new Scanner(input);
+
     v.printLine("Please enter the portfolio's name.");
     name = sc.nextLine();
 
@@ -93,7 +87,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       for (int i = 0; i < existing.length; i++) {
         if (existing[i].equals(name)) {
           v.printLine("A portfolio with that name already exists. Please try again.");
-          return;
+          return name;
         }
       }
     } catch (Exception e) {
@@ -110,7 +104,7 @@ public class PortfolioControllerImpl implements PortfolioController {
 
     if (flag) {
       v.printLine("The entered name is not valid. Please try again.");
-      return;
+      return name;
     }
 
     while (true) {
@@ -150,18 +144,15 @@ public class PortfolioControllerImpl implements PortfolioController {
     }
 
     model.portBuilder(tickerList, floatList, name);
-    v.printLines(getPortfolioContents(name));
-    v.printLine("Hit any key to return to the previous menu.");
-    sc.nextLine();
+    return name;
   }
 
   @Override
-  public String[] manualValuation(String name, ViewInterface v) {
+  public String[] manualValuation(String name, ViewInterface v, Scanner sc) {
     String[] tickers = getTickers(name);
     Float[] counts = getCounts(name);
     String[] out = new String[tickers.length + 2];
     v.printLine("For each of the following tickers, please enter a dollar value.");
-    Scanner sc = new Scanner(input);
     out[0] = "Value of Portfolio " + name;
     float sum = 0;
     float value;

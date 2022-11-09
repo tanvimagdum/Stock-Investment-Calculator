@@ -29,7 +29,7 @@ public interface PortfolioManager {
    * @param filename name of the portfolio file to be read
    * @throws FileNotFoundException if the file is missing or format is incorrect
    */
-  public void readPortfolioFile(String filename) throws IOException;
+  public String readPortfolioFile(String filename) throws IOException;
 
   /**
    * Attempts to write the selected portfolio out to a csv. The file will be given the name of
@@ -70,16 +70,6 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading in a file
    */
   public String[] getPortfolioValueLatest(String name) throws IOException;
-
-  /**
-   * Get the ticker numbers and count of stocks together
-   * for a specified name of portfolio.
-   *
-   * @param name name of the portfolio
-   * @return the string array of content of the portfolio
-   *         as pairs of ticker number and count of stocks
-   */
-  public String[] getPortfolioContents(String name);
 
   /**
    * Check whether the ticker is on the approved list of stocks.

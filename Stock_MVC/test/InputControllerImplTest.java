@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,8 +33,9 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public void readPortfolioFile(String filename) throws IOException {
+    public String readPortfolioFile(String filename) throws IOException {
       log.append("readPortfolio method called with " + filename + " ");
+      return "";
     }
 
     @Override
@@ -48,7 +50,7 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String selectPortfolio(ViewInterface view) {
+    public String selectPortfolio(ViewInterface view, Scanner sc) {
       log.append("selectPortfolio method called ");
       return null;
     }
@@ -66,18 +68,13 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String[] getPortfolioContents(String name) {
-      log.append("getPortfolioContents method called with " + name + " ");
-      return new String[0];
-    }
-
-    @Override
-    public void buildPortfolio(ViewInterface v) throws IOException {
+    public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
       log.append("buildPortfolio method called ");
+      return "";
     }
 
     @Override
-    public String[] manualValuation(String name, ViewInterface v) {
+    public String[] manualValuation(String name, ViewInterface v, Scanner sc) {
       log.append("manualValuation method called with " + name);
       return new String[0];
     }

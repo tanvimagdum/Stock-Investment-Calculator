@@ -41,7 +41,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public void readPortfolioFile(String filename) throws IllegalArgumentException,
+  public String readPortfolioFile(String filename) throws IllegalArgumentException,
           IOException {
 
     if (filename.length() < 5) {
@@ -54,6 +54,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
     } else {
       throw new IllegalArgumentException("String given is not an accepted filename.");
     }
+
+    return filename.substring(0, filename.length() - 4);
+
   }
 
   private void readCSV(String filename) throws IOException {
@@ -256,24 +259,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
 
     return prices;
-  }
-
-  @Override
-  public String[] getPortfolioContents(String name) {
-    Portfolio subject = getPortfolio(name);
-    String[] tickers = subject.getTickers();
-    Float[] counts = subject.getCounts();
-
-    String[] out = new String[tickers.length + 1];
-
-    out[0] = "Contents of Portfolio: " + name;
-
-    float sum = 0;
-    for (int i = 0; i < tickers.length; i++) {
-      out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
-    }
-
-    return out;
   }
 
   /**

@@ -3,3 +3,17 @@
 2. Portfolio Manager: removed returnPortfolio() signature and made private in code
 
 3. Portfolio Controller: removed returnPortfolio() signature and code
+
+4. Input Controller: Added contentsHelper()
+
+5. Portfolio Controller: removed getPortfolioContents() signature and code
+
+6. Portfolio Manager: removed getPortfolioContents() signature and code
+
+7. Portfolio Controller: readPortfolioFile() and buildPortfolio() now return strings
+
+8. Portfolio Manager: readPortfolioFile() and buildPortfolio() now return strings
+
+9. Input Controller: scanner "sc" is now a field in the class
+
+10. Portfolio Controller: buildPortfolio(), manualValuation(), and selectPortfolio() now take a scanner as input

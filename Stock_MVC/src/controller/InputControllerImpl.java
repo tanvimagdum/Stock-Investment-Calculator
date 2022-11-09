@@ -25,6 +25,8 @@ public class InputControllerImpl implements InputController {
   public PortfolioController p;
   private Readable input;
 
+  private Scanner sc;
+
   /**
    * The main loop, which facilitates menu navigation and continues until the user
    * enters the exit condition.
@@ -52,12 +54,12 @@ public class InputControllerImpl implements InputController {
     this.v = view;
     this.p = portCon;
     this.input = in;
+    this.sc = new Scanner(input);
   }
 
   @Override
   public void start() {
 
-    Scanner sc = new Scanner(input);
     v.showWelcomeScreen();
     while (flag) {
       int inputOption = 0;
@@ -119,9 +121,8 @@ public class InputControllerImpl implements InputController {
       switch (inputOption) {
         case 1:
           try {
-            String name = p.selectPortfolio(v);
-            Scanner sc = new Scanner(input);
-            v.printLines(p.getPortfolioContents(name));
+            String name = p.selectPortfolio(v, sc);
+            v.printLines(contentsHelper(name));
             v.printLine("Hit any key to return to the previous menu.");
             sc.nextLine();
             v.showPortfolioScreen();
@@ -135,13 +136,12 @@ public class InputControllerImpl implements InputController {
         case 2:
           String name;
           try {
-            name = p.selectPortfolio(v);
+            name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
-          Scanner sc = new Scanner(input);
           String year;
           String mon;
           String day;
@@ -179,9 +179,8 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 3:
-          sc = new Scanner(input);
           try {
-            name = p.selectPortfolio(v);
+            name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
@@ -199,16 +198,15 @@ public class InputControllerImpl implements InputController {
 
         case 4:
           //manually input values
-          sc = new Scanner(input);
           try {
-            name = p.selectPortfolio(v);
+            name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
 
-          String[] valueByHand = p.manualValuation(name, v);
+          String[] valueByHand = p.manualValuation(name, v, sc);
           v.printLines(valueByHand);
           v.printLine("Hit any key to return to the previous menu.");
           sc.nextLine();
@@ -226,6 +224,21 @@ public class InputControllerImpl implements InputController {
     }
   }
 
+  private String[] contentsHelper(String name) {
+    String[] tickers = p.getTickers(name);
+    Float[] counts = p.getCounts(name);
+
+    String[] out = new String[tickers.length + 2];
+
+    out[0] = "Contents of Portfolio: " + name;
+
+    for (int i = 0; i < tickers.length; i++) {
+      out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
+    }
+
+    return out;
+  }
+
   private void buildScreen(int inputOption) {
 
     if (inputOption < 1 || inputOption > 2) {
@@ -237,8 +250,15 @@ public class InputControllerImpl implements InputController {
         case 1:
           //helper method to process input
           try {
-            p.buildPortfolio(v);
-          } catch (IOException e) {
+            String name = p.buildPortfolio(v,sc);
+            try {
+              v.printLines(contentsHelper(name));
+              v.printLine("Hit any key to return to the previous menu.");
+              sc.nextLine();
+            } catch (Exception e) {
+              //do nothing
+            }
+           } catch (IOException e) {
             v.printLine("There was an error building the portfolio. Please try again.");
           }
           v.showBuildScreen();
@@ -264,7 +284,6 @@ public class InputControllerImpl implements InputController {
       switch (inputOption) {
         case 1:
           v.printLine("Please enter the filename.");
-          Scanner sc = new Scanner(input);
           String name = sc.nextLine();
 
           try {
@@ -287,7 +306,7 @@ public class InputControllerImpl implements InputController {
           try {
             p.readPortfolioFile(name);
             name = name.substring(0, name.length() - 4);
-            v.printLines(p.getPortfolioContents(name));
+            v.printLines(contentsHelper(name));
             v.printLine("Hit any key to return to the previous menu.");
             sc.nextLine();
           } catch (Exception e) {
@@ -332,7 +351,7 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 4:
-          String name = p.selectPortfolio(v);
+          String name = p.selectPortfolio(v, sc);
           try {
             p.savePortfolio(name);
             v.printLine("Portfolio saved.");
