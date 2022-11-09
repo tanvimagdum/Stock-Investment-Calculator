@@ -25,3 +25,8 @@
 13. Portfolio Controller: now takes the model in via constructor
 
 14. Input Controller: now constructs a model and passes it to the Portfolio Controller
+
+15. Portfolio Manager: getPortfolioValue now returns floats representing prices,
+    string formatting moved to Input Controller
+
+16.

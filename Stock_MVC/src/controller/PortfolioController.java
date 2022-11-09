@@ -69,7 +69,7 @@ public interface PortfolioController {
    * @throws IOException if there is difficulty reading files
    * @throws ParseException if there is a wrong string trying to be read in as a float
    */
-  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
   /**
    * This method calls the method in model to get the value of stocks of a portfolio

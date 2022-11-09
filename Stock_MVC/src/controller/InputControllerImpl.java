@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -171,7 +172,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
           try {
-            v.printLines(p.getPortfolioValue(name, year + "-" + mon + "-" + day));
+            v.printLines(simpleValueHelper(name, year + "-" + mon + "-" + day));
           } catch (Exception e) {
             v.printLine("There was an error attempting to value the portfolio.");
           }
@@ -238,6 +239,30 @@ public class InputControllerImpl implements InputController {
       out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
     }
 
+    return out;
+  }
+
+  private String[] simpleValueHelper(String name, String date) throws IOException, ParseException {
+    String[] tickers = p.getTickers(name);
+    Float[] counts = p.getCounts(name);
+    float[] values = p.getPortfolioValue(name, date);
+    String[] out = new String[tickers.length + 2];
+
+    out[0] = "Value of Portfolio: " + name + " on " + date;
+
+    float sum = 0;
+    for (int i = 0; i < values.length; i++) {
+      if (values[i] < 0) {
+        out[i + 1] = "No information found for symbol: " + tickers[i];
+      } else {
+        sum += values[i] * counts[i];
+        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+                + "; Value per: " + String.format("%.02f", values[i])
+                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+      }
+    }
+
+    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
     return out;
   }
 

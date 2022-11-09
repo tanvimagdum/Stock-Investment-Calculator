@@ -59,7 +59,7 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading in files
    * @throws ParseException if there is an incorrect entry in a file being read
    */
-  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
   /**
    * Get the value of a specified portfolio for 10/31/2022.

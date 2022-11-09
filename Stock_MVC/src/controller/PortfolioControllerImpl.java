@@ -63,7 +63,7 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException {
+  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
     return model.getPortfolioValue(name, date);
   }
 

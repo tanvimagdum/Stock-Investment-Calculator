@@ -18,14 +18,13 @@ public class APIImpl implements API {
   @Override
   public float[] getPrices(ArrayList<String> tickerList, Date date) {
 
-    String apiKey = "BS58H4QP10QUOOQJ";
-    String nasKey = "yVv3jAbTKC6Hn6JsstqX";
+    String apiKey = "4U3NNSG5OHR1CBIG";
     URL url = null;
 
     for (int i = 0; i < tickerList.size(); i++) {
       try {
         url = new URL("https://data.nasdaq.com/api/v3/"
-                + "datasets/WIKI/" + tickerList.get(i) + ".csv?api_key=" + nasKey);
+                + "datasets/WIKI/" + tickerList.get(i) + ".csv?api_key=" + apiKey);
       } catch (MalformedURLException e) {
         throw new RuntimeException("the alphavantage API has either changed or "
                 + "no longer works");

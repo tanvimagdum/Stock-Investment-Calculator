@@ -56,9 +56,9 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String[] getPortfolioValue(String name, String date) {
+    public float[] getPortfolioValue(String name, String date) {
       log.append("getPortfolioValue method called with " + name + "and" + date + " ");
-      return new String[0];
+      return new float[0];
     }
 
     @Override

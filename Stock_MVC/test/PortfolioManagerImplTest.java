@@ -71,7 +71,7 @@ public class PortfolioManagerImplTest {
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
-    String[] output = new String[0];
+    float[] output = new float[0];
     try {
       output = portManager.getPortfolioValue("My Portfolio", "2012-05-24");
     } catch (IOException e) {
@@ -79,11 +79,9 @@ public class PortfolioManagerImplTest {
     } catch (ParseException e) {
       fail();
     }
-    assertEquals("Value of Portfolio: My Portfolio on 2012-05-24", output[0]);
-    assertEquals("Ticker: GOOG; Count: 10.0; Value per: 558.46; Total Value: 5584.60", output[1]);
-    assertEquals("Ticker: AAPL; Count: 11.0; Value per: 565.32; Total Value: 6218.52", output[2]);
-    assertEquals("Ticker: MSFT; Count: 15.0; Value per: 29.07; Total Value: 436.05", output[3]);
-    assertEquals("Total value of portfolio: 12239.17", output[4]);
+    assertEquals(10, output[0], 0.001);
+    assertEquals(10, output[1], 0.001);
+    assertEquals(10, output[2], 0.001);
 
     tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     floatList = new ArrayList<>(Arrays.asList((float) 10.00,

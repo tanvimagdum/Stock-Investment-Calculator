@@ -126,32 +126,15 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public String[] getPortfolioValue(String name, String date) throws IOException, ParseException {
+  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
 
     Portfolio subject = getPortfolio(name);
     String[] tickers = subject.getTickers();
     Float[] counts = subject.getCounts();
 
     float[] values = getPricesByDate(tickers, date);
-    String[] out = new String[tickers.length + 2];
 
-    out[0] = "Value of Portfolio: " + name + " on " + date;
-
-    float sum = 0;
-    for (int i = 0; i < values.length; i++) {
-      if (values[i] < 0) {
-        out[i + 1] = "No information found for symbol: " + tickers[i];
-      } else {
-        sum += values[i] * counts[i];
-        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + String.format("%.02f", values[i])
-                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
-      }
-    }
-
-    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
-
-    return out;
+    return values;
   }
 
   private float[] getPricesByDate(String[] tickers, String date) throws IOException,
