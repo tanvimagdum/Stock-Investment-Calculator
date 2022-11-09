@@ -19,18 +19,15 @@ public class PortfolioControllerImpl implements PortfolioController {
   PortfolioManager model;
   private Readable input;
 
-  public PortfolioControllerImpl(PortfolioManager model) {
-    this.model = model;
-  }
-
   /**
    * This is the constructor for the portfolio controller.
    *
    * @param in input stream object for input
    */
 
-  public PortfolioControllerImpl(Readable in) {
+  public PortfolioControllerImpl(Readable in, PortfolioManager model) {
     this.input = in;
+    this.model = model;
   }
 
   @Override

@@ -1,5 +1,7 @@
 package controller;
 
+import model.Persistence;
+import model.PortfolioManagerImpl;
 import view.ViewImpl;
 import view.ViewInterface;
 
@@ -34,7 +36,7 @@ public class InputControllerImpl implements InputController {
    */
   public static void main(String[] args) {
     InputController in = new InputControllerImpl(new ViewImpl(System.out),
-            new PortfolioControllerImpl(new InputStreamReader(System.in)),
+            new PortfolioControllerImpl(new InputStreamReader(System.in), new PortfolioManagerImpl(new Persistence())),
             new InputStreamReader(System.in), System.out);
     in.start();
   }
