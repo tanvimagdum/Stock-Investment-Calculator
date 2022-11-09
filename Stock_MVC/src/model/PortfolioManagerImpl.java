@@ -130,7 +130,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
     Portfolio subject = getPortfolio(name);
     String[] tickers = subject.getTickers();
-    Float[] counts = subject.getCounts();
 
     float[] values = getPricesByDate(tickers, date);
 

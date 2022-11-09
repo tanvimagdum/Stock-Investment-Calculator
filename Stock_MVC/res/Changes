@@ -29,4 +29,6 @@
 15. Portfolio Manager: getPortfolioValue now returns floats representing prices,
     string formatting moved to Input Controller
 
-16.
+16. (Tentative) Portfolio Manager: removed getPortfolioValueLatest()
+
+17.
