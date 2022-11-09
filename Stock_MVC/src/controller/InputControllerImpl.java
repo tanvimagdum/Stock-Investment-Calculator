@@ -68,6 +68,7 @@ public class InputControllerImpl implements InputController {
       int inputOption = 0;
       try {
         inputOption = Integer.parseInt(sc.next());
+        sc.nextLine(); //swallows \n
       } catch (Exception e) {
         v.printLine("Please be sure to enter an integer for menu selection.");
         switch (currentScreen) {
@@ -231,7 +232,7 @@ public class InputControllerImpl implements InputController {
     String[] tickers = p.getTickers(name);
     Float[] counts = p.getCounts(name);
 
-    String[] out = new String[tickers.length + 2];
+    String[] out = new String[tickers.length + 1];
 
     out[0] = "Contents of Portfolio: " + name;
 
