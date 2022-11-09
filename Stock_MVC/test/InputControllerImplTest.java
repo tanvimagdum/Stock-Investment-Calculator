@@ -32,12 +32,6 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public Portfolio getPortfolio(String name) {
-      log.append("getPortfolio method called with " + name + " ");
-      return null;
-    }
-
-    @Override
     public void readPortfolioFile(String filename) throws IOException {
       log.append("readPortfolio method called with " + filename + " ");
     }

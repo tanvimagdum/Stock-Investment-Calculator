@@ -28,8 +28,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     portfolios.add(newPort);
   }
 
-  @Override
-  public Portfolio getPortfolio(String name) {
+  private Portfolio getPortfolio(String name) {
     int size = portfolios.size();
 
     for (int i = 0; i < size; i++) {

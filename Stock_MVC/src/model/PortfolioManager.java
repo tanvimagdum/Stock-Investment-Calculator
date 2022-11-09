@@ -24,14 +24,6 @@ public interface PortfolioManager {
   public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name);
 
   /**
-   * Get the portfolio by portfolio name.
-   *
-   * @param name name of the portfolio to be retrieved
-   * @return the retrieved portfolio
-   */
-  public Portfolio getPortfolio(String name);
-
-  /**
    * Read a portfolio file in the program.
    *
    * @param filename name of the portfolio file to be read

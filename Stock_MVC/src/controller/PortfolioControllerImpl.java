@@ -32,11 +32,6 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public Portfolio getPortfolio(String name) {
-    return model.getPortfolio(name);
-  }
-
-  @Override
   public void readPortfolioFile(String filename) throws IOException {
     model.readPortfolioFile(filename);
   }

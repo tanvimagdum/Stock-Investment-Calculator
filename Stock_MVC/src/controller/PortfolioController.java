@@ -20,15 +20,6 @@ public interface PortfolioController {
 
 
   /**
-   * This method calls the method in model to get
-   * the desired portfolio.
-   *
-   * @param name name of portfolio
-   * @return the desired portfolio
-   */
-  public Portfolio getPortfolio(String name);
-
-  /**
    * This method calls the method in model to read
    * the desired portfolio.
    *

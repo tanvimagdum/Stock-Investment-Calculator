@@ -1,1 +1,5 @@
-1. Portfolio Interface: removed returnList() signature
+1. Portfolio: removed returnList() signature and code
+
+2. Portfolio Manager: removed returnPortfolio() signature and made private in code
+
+3. Portfolio Controller: removed returnPortfolio() signature and code
