@@ -204,7 +204,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       return name;
     }
 
-    //return model.editFlexPortfolio();
+    //editFlexPortfolio();
     return name;
   }
 
