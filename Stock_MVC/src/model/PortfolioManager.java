@@ -57,6 +57,14 @@ public interface PortfolioManager {
   public String[] getPortfolioNames();
 
   /**
+   * Get names of all the flexible portfolios in the system.
+   *
+   * @return the string array containing names
+   *         of flexible portfolios
+   */
+  public String[] getFlexPortfolioNames();
+
+  /**
    * Get the value of a specified portfolio for a certain input date.
    *
    * @param name name of the portfolio
@@ -117,4 +125,16 @@ public interface PortfolioManager {
    *         in the specified portfolio
    */
   public Float[] getCounts(String name);
+
+  /**
+   * Get the purchased/sold date for all stocks in a portfolio.
+   *
+   * @param name name of the portfolio
+   * @return the date array for all the stocks
+   *         in the specified portfolio
+   */
+  public Date[] getDates(String name) throws IllegalArgumentException;
+
 }
+
+

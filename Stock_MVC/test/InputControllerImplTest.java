@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
@@ -49,9 +50,21 @@ public class InputControllerImplTest {
       return new String[0];
     }
 
+    //change
+    @Override
+    public String[] getFlexPortfolioNames() {
+      return new String[0];
+    }
+
     @Override
     public String selectPortfolio(ViewInterface view, Scanner sc) {
       log.append("selectPortfolio method called ");
+      return null;
+    }
+
+    //change
+    @Override
+    public String selectFlexPortfolio(ViewInterface v, Scanner sc) {
       return null;
     }
 
@@ -73,9 +86,21 @@ public class InputControllerImplTest {
       return "";
     }
 
+    //change
+    @Override
+    public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException {
+      return null;
+    }
+
     @Override
     public String[] manualValuation(String name, ViewInterface v, Scanner sc) {
       log.append("manualValuation method called with " + name);
+      return new String[0];
+    }
+
+    //change
+    @Override
+    public String[] portfolioPerformance(String name) {
       return new String[0];
     }
 
@@ -89,6 +114,12 @@ public class InputControllerImplTest {
     public Float[] getCounts(String name) {
       log.append("getCounts method called with " + name);
       return new Float[0];
+    }
+
+    //change
+    @Override
+    public Date[] getDates(String name) throws IllegalArgumentException {
+      return new Date[0];
     }
   }
 

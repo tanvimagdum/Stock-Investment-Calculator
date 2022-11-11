@@ -188,15 +188,15 @@ public class InputControllerImpl implements InputController {
         case 4:
           //performance over time
           try {
-            name = p.selectPortfolio(v, sc);
+            name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
           try {
-            v.printLines(p.getPortfolioValueLatest(name));
-          } catch (IOException e) {
+            v.printLines(p.portfolioPerformance(name));
+          } catch (Exception e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
           }
           v.printLine("Hit any key to return to the previous menu.");
@@ -233,18 +233,47 @@ public class InputControllerImpl implements InputController {
   }
 
   private String[] contentsHelper(String name) {
-    String[] tickers = p.getTickers(name);
-    Float[] counts = p.getCounts(name);
 
-    String[] out = new String[tickers.length + 1];
+    try {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+      Date[] dates = p.getDates(name);
 
-    out[0] = "Contents of Portfolio: " + name;
+      String[] out = new String[tickers.length + 1];
 
-    for (int i = 0; i < tickers.length; i++) {
-      out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i]);
+      out[0] = "Contents of Flexible Portfolio: " + name;
+
+      for (int i = 0; i < tickers.length; i++) {
+        if (counts[i] > 0) {
+          out[i + 1] = "BUY " +
+                  "; Ticker: " + tickers[i] +
+                  "; Count: " + String.format("%.02f", counts[i]) +
+                  "; Date: " + dates[i];
+        }
+        if (counts[i] < 0) {
+          out[i + 1] = "SELL" +
+                  "; Ticker: " + tickers[i] +
+                  "; Count: " + String.format("%.02f", Math.abs(counts[i])) +
+                  "; Date: " + dates[i];
+        }
+      }
+      return out;
+
+    } catch(Exception e) {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+
+      String[] out = new String[tickers.length + 1];
+
+      out[0] = "Contents of Simple Portfolio: " + name;
+
+      for (int i = 0; i < tickers.length; i++) {
+        out[i + 1] = "Ticker: " + tickers[i] +
+                    "; Count: " + String.format("%.02f", counts[i]);
+      }
+      return out;
     }
 
-    return out;
   }
 
   private String[] simpleValueHelper(String name, String date) throws IOException, ParseException {
@@ -299,7 +328,7 @@ public class InputControllerImpl implements InputController {
         case 2:
           //flex build
           try {
-            String name = p.buildPortfolio(v,sc);
+            String name = p.buildFlexPortfolio(v,sc);
             try {
               v.printLines(contentsHelper(name));
               v.printLine("Hit any key to return to the previous menu.");
