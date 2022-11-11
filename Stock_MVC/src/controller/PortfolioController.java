@@ -6,6 +6,7 @@ import view.ViewInterface;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Scanner;
 
 
@@ -47,6 +48,14 @@ public interface PortfolioController {
   public String[] getPortfolioNames();
 
   /**
+   * This method calls the method in model to get
+   * all the flexible portfolio names loaded in the system.
+   *
+   * @return a string of flexible portfolio names
+   */
+  String[] getFlexPortfolioNames();
+
+  /**
    * This method prompts the user to select a portfolio from those loaded in the program
    * then returns the name of the portfolio.
    *
@@ -56,6 +65,18 @@ public interface PortfolioController {
    * @return selected portfolio name
    */
   public String selectPortfolio(ViewInterface view, Scanner sc);
+
+  /**
+   * This method prompts the user to select a flexible portfolio
+   * from those loaded in the program
+   * then returns the name of the portfolio.
+   *
+   * @param view an object of viewInterface to send messages
+   *             to UI to allow user to input values required
+   *             for selecting a flexible portfolio
+   * @return selected flexible portfolio name
+   */
+  String selectFlexPortfolio(ViewInterface view, Scanner sc);
 
   /**
    * This method calls the method in model
@@ -94,6 +115,17 @@ public interface PortfolioController {
   public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException;
 
   /**
+   * This method calls the method in model to build
+   * a flexible portfolio.
+   *
+   * @param v an object of viewInterface to send messages
+   *          to UI to allow user to input values required
+   *          for building a portfolio
+   * @throws IOException if there is difficulty reading in files
+   */
+  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException;
+
+  /**
    * A method to find value of a portfolio by manually
    * adding the stock values.
    *
@@ -105,6 +137,13 @@ public interface PortfolioController {
    *         of a portfolio in the form of string array
    */
   public String[] manualValuation(String name, ViewInterface v, Scanner sc);
+
+  /**
+   *
+   * @param name the name of the flexible portfolio
+   * @return
+   */
+  public String[] portfolioPerformance(String name);
 
   /**
    * This method calls the method in model
@@ -123,5 +162,15 @@ public interface PortfolioController {
    * @return the string array containing all the stock counts
    */
   public Float[] getCounts(String name);
+
+  /**
+   * This method calls the method in model
+   * to get purchased/sold date for all the stocks in a specified portfolio.
+   *
+   * @param name name of the portfolio
+   * @return the string array containing dates for all stocks
+   */
+  public Date[] getDates(String name) throws IllegalArgumentException;
+
 
 }

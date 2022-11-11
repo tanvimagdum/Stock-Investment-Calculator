@@ -6,6 +6,7 @@ import view.ViewInterface;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -46,8 +47,30 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
+  public String[] getFlexPortfolioNames() {
+    return model.getFlexPortfolioNames();
+  }
+
+  @Override
   public String selectPortfolio(ViewInterface v, Scanner sc) {
     String[] portNames = getPortfolioNames();
+    String[] numbered = new String[portNames.length];
+
+    for (int i = 0; i < portNames.length; i++) {
+      numbered[i] = (i + 1) + ". " + portNames[i];
+    }
+
+    v.printLines(numbered);
+    v.printLine("Please choose one of the following options:");
+    int index = sc.nextInt();
+    sc.nextLine();
+
+    return portNames[index - 1];
+  }
+
+  @Override
+  public String selectFlexPortfolio(ViewInterface v, Scanner sc) {
+    String[] portNames = getFlexPortfolioNames();
     String[] numbered = new String[portNames.length];
 
     for (int i = 0; i < portNames.length; i++) {
@@ -92,7 +115,6 @@ public class PortfolioControllerImpl implements PortfolioController {
     } catch (Exception e) {
       //there are no portfolios
     }
-
 
     boolean flag = true;
     for (int i = 0; i < name.length(); i++) {
@@ -146,6 +168,49 @@ public class PortfolioControllerImpl implements PortfolioController {
     return name;
   }
 
+
+
+  @Override
+  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException {
+    String name;
+    ArrayList<String> tickerList = new ArrayList<>();
+    ArrayList<Float> floatList = new ArrayList<>();
+    ArrayList<Date> dateList = new ArrayList<>();
+
+    v.printLine("Please enter the portfolio's name.");
+    name = sc.nextLine();
+
+    try {
+      String[] existing = getPortfolioNames();
+      for (int i = 0; i < existing.length; i++) {
+        if (existing[i].equals(name)) {
+          v.printLine("A portfolio with that name already exists. Please try again.");
+          return name;
+        }
+      }
+    } catch (Exception e) {
+      //there are no portfolios
+    }
+
+    boolean flag = true;
+    for (int i = 0; i < name.length(); i++) {
+      if (Character.isLetterOrDigit(name.charAt(i))) {
+        flag = false;
+      }
+    }
+
+    if (flag) {
+      v.printLine("The entered name is not valid. Please try again.");
+      return name;
+    }
+
+    //return model.editFlexPortfolio();
+    return name;
+  }
+
+
+
+
   @Override
   public String[] manualValuation(String name, ViewInterface v, Scanner sc) {
     String[] tickers = getTickers(name);
@@ -180,6 +245,12 @@ public class PortfolioControllerImpl implements PortfolioController {
     return out;
   }
 
+  //change
+  @Override
+  public String[] portfolioPerformance(String name) {
+    return new String[0];
+  }
+
   @Override
   public String[] getTickers(String name) {
     return model.getTickers(name);
@@ -188,6 +259,11 @@ public class PortfolioControllerImpl implements PortfolioController {
   @Override
   public Float[] getCounts(String name) {
     return model.getCounts(name);
+  }
+
+  @Override
+  public Date[] getDates(String name) throws IllegalArgumentException{
+    return model.getDates(name);
   }
 
 }

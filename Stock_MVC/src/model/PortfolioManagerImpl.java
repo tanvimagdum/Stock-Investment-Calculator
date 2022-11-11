@@ -1,8 +1,9 @@
 package model;
 
+import controller.PortfolioController;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -126,6 +127,25 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
     for (int i = 0; i < size; i++) {
       listOfNames[i] = portfolios.get(i).getPortfolioName();
+    }
+
+    return listOfNames;
+  }
+
+  @Override
+  public String[] getFlexPortfolioNames() {
+    int j = 0;
+    int size = portfolios.size();
+    String[] listOfNames = new String[size];
+
+    if (size == 0) {
+      throw new IllegalArgumentException("There are no flexible portfolios yet.");
+    }
+    for (int i = 0; i < size; i++) {
+      if (portfolios.get(i) instanceof FlexPortfolioImpl) {
+        listOfNames[j] = portfolios.get(i).getPortfolioName();
+        j++;
+      }
     }
 
     return listOfNames;
@@ -267,12 +287,31 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return false;
   }
 
+  @Override
+  public void editFlexPortfolio(String name, String ticker,
+                                Float count, Date date)
+          throws IllegalArgumentException {
+
+  }
+
   public String[] getTickers(String name) {
     return getPortfolio(name).getTickers();
   }
 
   public Float[] getCounts(String name) {
     return getPortfolio(name).getCounts();
+  }
+
+  public Date[] getDates(String name) throws IllegalArgumentException{
+
+    try {
+      Portfolio flexPort = getPortfolio(name);
+      return ((FlexPortfolioImpl) flexPort).getDates();
+    } catch(Exception e) {
+      throw new IllegalArgumentException("Portfolio must be a flexible portfolio " +
+                        "in order to get dates.");
+    }
+
   }
 
 }
