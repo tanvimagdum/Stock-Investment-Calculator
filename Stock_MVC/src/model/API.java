@@ -1,5 +1,7 @@
 package model;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,20 +14,18 @@ public interface API {
 
   /**
    * Get the prices of stocks on a certain date from API.
-   * @param ticketList array of ticker numbers for several stocks
+   * @param tickerList array of ticker numbers for several stocks
    * @param date date at which price is to be known
    * @return the list of prices of every stock on the certain date
    */
-  public float[] getPrices(ArrayList<String> ticketList, Date date);
+  public float[] getPrices(ArrayList<String> tickerList, Date date) throws IOException, ParseException;
+
 
   /**
-   * Validate the ticker entered by user with the ticker
-   * number present in API.
-   * @param ticker ticker number entered by the user
-   * @return true if the ticker number entered by user is present in API
-   *         false if the ticker entered by user is incorrect and does not
-   *              match any ticker in API
+   * Get the prices of stocks on several dates.
+   * @param tickerList the list of stocks
+   * @param dates the days for which we want prices
+   * @return a 2D array of prices, tickers X dates
    */
-  public boolean validateTicker(String ticker);
-
+  public float[][] getPerformance(ArrayList<String> tickerList, Date[] dates);
 }

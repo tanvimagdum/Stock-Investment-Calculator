@@ -267,6 +267,18 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return false;
   }
 
+  /**
+   * @param name
+   * @param ticker
+   * @param count
+   * @param date
+   * @throws IllegalArgumentException
+   */
+  @Override
+  public void editFlexPortfolio(String name, String ticker, Float count, Date date) throws IllegalArgumentException {
+
+  }
+
   public String[] getTickers(String name) {
     return getPortfolio(name).getTickers();
   }

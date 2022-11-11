@@ -29,6 +29,12 @@
 15. Portfolio Manager: getPortfolioValue now returns floats representing prices,
     string formatting moved to Input Controller
 
-16. (Tentative) Portfolio Manager: removed getPortfolioValueLatest()
+16. Portfolio Manager: removed getPortfolioValueLatest()
 
-17.
+17. Portfolio Manager: added getFlexPortfolioNames()
+
+18. API: added getPerformance()
+
+19. API: removed validateTicker() method
+
+20.

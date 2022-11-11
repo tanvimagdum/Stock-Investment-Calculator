@@ -2,8 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 import model.API;
@@ -11,12 +12,17 @@ import model.APIImpl;
 
 public class SideOps {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, ParseException {
     API api = new APIImpl();
     SideOps side = new SideOps();
     ArrayList<String> testTickers = side.getTickers();
-    float[] prices = api.getPrices(testTickers, new Date());
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    Date target = format.parse("2020-05-06");
+    float[] prices = api.getPrices(testTickers, target);
 
+    for (int i = 0;i < prices.length;i++) {
+      System.out.println(testTickers.get(i) + " " + prices[i]);
+    }
     //side.makeList();
   }
 

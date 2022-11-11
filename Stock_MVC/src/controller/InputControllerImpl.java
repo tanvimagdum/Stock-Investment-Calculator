@@ -188,14 +188,14 @@ public class InputControllerImpl implements InputController {
         case 4:
           //performance over time
           try {
-            name = p.selectFlexPortfolio(v, sc);
+            name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
           try {
-            v.printLines(p.portfolioPerformance(name));
+            v.printLines(p.getPortfolioValueLatest(name));
           } catch (IOException e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
           }
@@ -299,9 +299,9 @@ public class InputControllerImpl implements InputController {
         case 2:
           //flex build
           try {
-            String name = p.buildFlexPortfolio(v,sc);
+            String name = p.buildPortfolio(v,sc);
             try {
-              v.printLines(flexContentsHelper(name));
+              v.printLines(contentsHelper(name));
               v.printLine("Hit any key to return to the previous menu.");
               sc.nextLine();
             } catch (Exception e) {
