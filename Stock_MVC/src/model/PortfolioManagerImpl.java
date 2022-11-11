@@ -15,7 +15,7 @@ import java.util.Date;
  */
 
 public class PortfolioManagerImpl implements PortfolioManager {
-  private ArrayList<PortfolioImpl> portfolios = new ArrayList<>();
+  private ArrayList<Portfolio> portfolios = new ArrayList<>();
 
   private Persistence pers;
   private API api = new APIImpl();
@@ -32,6 +32,12 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
     PortfolioImpl newPort = PortfolioImpl.builder().build(finalList, name);
     portfolios.add(newPort);
+  }
+
+  @Override
+  public void portFlexBuilder(String name) {
+    Portfolio flexPort = new FlexPortfolioImpl(name);
+    portfolios.add(flexPort);
   }
 
   private Portfolio getPortfolio(String name) {

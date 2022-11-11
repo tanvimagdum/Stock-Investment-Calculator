@@ -117,7 +117,7 @@ public class InputControllerImpl implements InputController {
 
   private void portfolioScreen(int inputOption) {
 
-    if (inputOption < 1 || inputOption > 5) {
+    if (inputOption < 1 || inputOption > 6) {
       v.displayError();
       v.showPortfolioScreen();
     } else {
@@ -182,24 +182,29 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 3:
+          //cost basis
+          break;
+
+        case 4:
+          //performance over time
           try {
-            name = p.selectPortfolio(v, sc);
+            name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
-            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
             v.showPortfolioScreen();
             break;
           }
           try {
-            v.printLines(p.getPortfolioValueLatest(name));
+            v.printLines(p.portfolioPerformance(name));
           } catch (IOException e) {
-            v.printLine("There was an error attempting to value the portfolio.");
+            v.printLine("There was an error attempting to calculate portfolio's performance.");
           }
           v.printLine("Hit any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
           break;
 
-        case 4:
+        case 5:
           //manually input values
           try {
             name = p.selectPortfolio(v, sc);
@@ -216,7 +221,7 @@ public class InputControllerImpl implements InputController {
           v.showPortfolioScreen();
           break;
 
-        case 5:
+        case 6:
           v.showWelcomeScreen();
           currentScreen = "WS";
           break;
@@ -268,7 +273,7 @@ public class InputControllerImpl implements InputController {
 
   private void buildScreen(int inputOption) {
 
-    if (inputOption < 1 || inputOption > 2) {
+    if (inputOption < 1 || inputOption > 4) {
       v.displayError();
       v.showBuildScreen();
     } else {
@@ -286,12 +291,33 @@ public class InputControllerImpl implements InputController {
               //do nothing
             }
            } catch (IOException e) {
-            v.printLine("There was an error building the portfolio. Please try again.");
+            v.printLine("There was an error building the simple portfolio. Please try again.");
           }
           v.showBuildScreen();
           break;
 
         case 2:
+          //flex build
+          try {
+            String name = p.buildFlexPortfolio(v,sc);
+            try {
+              v.printLines(flexContentsHelper(name));
+              v.printLine("Hit any key to return to the previous menu.");
+              sc.nextLine();
+            } catch (Exception e) {
+              //do nothing
+            }
+          } catch (IOException e) {
+            v.printLine("There was an error building the flexible portfolio. Please try again.");
+          }
+          v.showBuildScreen();
+          break;
+
+        case 3:
+          //edit flex port
+          break;
+
+        case 4:
           v.showWelcomeScreen();
           currentScreen = "WS";
           break;

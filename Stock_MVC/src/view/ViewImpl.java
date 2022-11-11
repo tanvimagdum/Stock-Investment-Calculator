@@ -49,10 +49,12 @@ public class ViewImpl implements ViewInterface {
   @Override
   public void showBuildScreen() {
 
-    out.println("\n" + "====== Build a new portfolio ======" + "\n");
+    out.println("\n" + "====== Build/Edit a new portfolio ======" + "\n");
     out.println("Please enter a choice number" + "\n");
-    out.println("1. Begin building the portfolio");
-    out.println("2. Go Back");
+    out.println("1. Begin building a simple portfolio");
+    out.println("2. Begin building a flexible portfolio");
+    out.println("3. Edit a flexible portfolio");
+    out.println("4. Go Back");
 
   }
 
@@ -62,10 +64,11 @@ public class ViewImpl implements ViewInterface {
     out.println("\n" + "====== View a portfolio ======" + "\n");
     out.println("Please enter a choice number" + "\n");
     out.println("1. View the stocks list in the portfolio");
-    out.println("2. View the value of a portfolio on a certain date (2010-2018)");
-    out.println("3. View the value of a portfolio as of 2022-10-31");
-    out.println("4. View the value of a portfolio with manually input prices.");
-    out.println("5. Go back");
+    out.println("2. View the value of a portfolio on a certain date");
+    out.println("3. View the cost basis of a flexible portfolio");
+    out.println("4. View the performance over time for flexible portfolio");
+    out.println("5. View the value of a portfolio with manually input prices.");
+    out.println("6. Go back");
 
   }
 

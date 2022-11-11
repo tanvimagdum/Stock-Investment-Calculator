@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * An interface containing methods to perform
@@ -22,6 +23,13 @@ public interface PortfolioManager {
    * @param name       name of the portfolio
    */
   public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name);
+
+  /**
+   * Build a flexible portfolio that is editable.
+   *
+   * @param name       name of the portfolio
+   */
+  public void portFlexBuilder(String name);
 
   /**
    * Read a portfolio file in the program.
@@ -79,6 +87,18 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading the reference file
    */
   public boolean validateTicker(String ticker) throws IOException;
+
+  /**
+   *
+   * @param name
+   * @param ticker
+   * @param count
+   * @param date
+   * @throws IllegalArgumentException
+   */
+  public void editFlexPortfolio(String name, String ticker,
+                                Float count, Date date)
+                                throws IllegalArgumentException;
 
   /**
    * Get the ticker numbers for all stocks in a portfolio.
