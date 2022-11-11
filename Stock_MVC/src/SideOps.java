@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import model.API;
@@ -15,7 +16,7 @@ public class SideOps {
     SideOps side = new SideOps();
     ArrayList<String> testTickers = side.getTickers();
     float[] prices = api.getPrices(testTickers, new Date());
-    System.out.println(prices);
+
     //side.makeList();
   }
 

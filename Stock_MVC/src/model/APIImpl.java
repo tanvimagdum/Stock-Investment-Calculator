@@ -1,8 +1,6 @@
 package model;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class APIImpl implements API {
 
     for (int i = 0; i < tickerList.size(); i++) {
       try {
-        url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="
+        url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol="
                 + tickerList.get(i) + "&apikey=" + apiKey + "&datatype=csv");
       } catch (MalformedURLException e) {
         throw new RuntimeException("the alphavantage API has either changed or "
@@ -34,18 +32,11 @@ public class APIImpl implements API {
       StringBuilder output = new StringBuilder();
 
       try {
-        in = url.openStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
-        FileWriter writer = new FileWriter(".\\NewStocks\\" + tickerList.get(i) + ".csv");
-
-        in = url.openStream();
-        int b;
-
-        while ((b = in.read()) != -1) {
-          writer.append((char) b);
+        while (reader.ready()) {
+          String[] elements = reader.readLine().split(",");
         }
-        writer.flush();
-        writer.close();
 
       } catch (IOException e) {
         System.out.println("No price data found for " + tickerList.get(i));
