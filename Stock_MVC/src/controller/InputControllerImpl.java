@@ -291,6 +291,9 @@ public class InputControllerImpl implements InputController {
       Float[] counts = new Float[j];
       Date[] dates = new Date[j];
 
+      System.out.println(startCounts.length);
+      System.out.println(j);
+
       int k = 0;
       int l = 0;
       while (k < j) {
