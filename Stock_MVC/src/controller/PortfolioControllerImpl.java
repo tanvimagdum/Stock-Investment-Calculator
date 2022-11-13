@@ -187,6 +187,11 @@ public class PortfolioControllerImpl implements PortfolioController {
     return model.getPortfolioValue(name, date);
   }
 
+  @Override
+  public float[] getCostBasis(String name, String date) {
+    return model.getCostBasis(name, date);
+  }
+
 
   @Override
   public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
@@ -355,6 +360,16 @@ public class PortfolioControllerImpl implements PortfolioController {
   @Override
   public Date[] getDates(String name) throws IllegalArgumentException{
     return model.getDates(name);
+  }
+
+  @Override
+  public float getCommissionFee() {
+    return model.getCommissionFee();
+  }
+
+  @Override
+  public void setCommissionFee(float fee) {
+    model.setCommissionFee(fee);
   }
 
 }

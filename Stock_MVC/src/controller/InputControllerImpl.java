@@ -181,6 +181,56 @@ public class InputControllerImpl implements InputController {
 
         case 3:
           //cost basis
+          try {
+            name = p.selectPortfolio(v, sc);
+          } catch (Exception e) {
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.showPortfolioScreen();
+            break;
+          }
+
+          v.printLine("Please enter the year (4 digits):");
+          year = sc.nextLine();
+          v.printLine("Please enter the month (2 digits):");
+          mon = sc.nextLine();
+          v.printLine("Please enter the day (2 digits):");
+          day = sc.nextLine();
+          try {
+            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+            date.setLenient(false);
+            Date target = date.parse(mon + "/" + day + "/" + year);
+            Date upperLimit = new Date();
+            if (target.compareTo(upperLimit) > 0) {
+              v.printLine("The date entered is out of bounds.");
+              v.showPortfolioScreen();
+              break;
+            }
+          } catch (Exception e) {
+            v.printLine("The date provided was not valid.");
+            v.showPortfolioScreen();
+            break;
+          }
+
+          v.printLine("The current commission fee is: " + p.getCommissionFee());
+          v.printLine("If you would like to change the fee, enter a dollar amount ('xx.yy'). "
+                  + "Otherwise, enter anything else.");
+          String cf = sc.nextLine();
+          try {
+            p.setCommissionFee(Float.parseFloat(cf));
+          } catch (Exception e) {
+            //do nothing
+          }
+          String date = year+"-"+mon+"-"+day;
+          try{
+            v.printLines(costBasisHelper(name, date));
+          } catch (Exception e) {
+            v.printLine("There was difficulty calculating the cost-basis. Please try again.");
+            v.showPortfolioScreen();
+            break;
+          }
+
+          v.printLine("Hit any key to return to the previous menu.");
+          sc.nextLine();
           v.showPortfolioScreen();
           break;
 
@@ -308,7 +358,7 @@ public class InputControllerImpl implements InputController {
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
       for (int i = 0; i < values.length; i++) {
-        if (values[i] < 0) {
+        if (values[i] <= 0) {
           out[i + 1] = "No information found for symbol: " + tickers[i];
         } else {
           sum += values[i] * counts[i];
@@ -335,7 +385,7 @@ public class InputControllerImpl implements InputController {
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
       for (int i = 0; i < values.length; i++) {
-        if (values[i] < 0) {
+        if (values[i] <= 0) {
           out[i + 1] = "No information found for symbol: " + tickers[i];
         } else {
           sum += values[i] * counts[i];
@@ -347,6 +397,55 @@ public class InputControllerImpl implements InputController {
       out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
       return out;
     }
+  }
+
+  private String[] costBasisHelper(String name, String date) throws ParseException, IOException {
+    String[] startTickers = p.getTickers(name);
+    Float[] startCounts = p.getCounts(name);
+    Date[] startDates = p.getDates(name);
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    int j = 0;
+    for (int i = 0; i < startDates.length; i++){
+      if (startDates[i].compareTo(formatter.parse(date)) < 1 && startCounts[i] > 0 ) {
+        j++;
+      }
+    }
+    String[] tickers = new String[j];
+    Float[] counts = new Float[j];
+    Date[] dates = new Date[j];
+
+    int k = 0;
+    int l = 0;
+    while (k < j) {
+      if (startDates[l].compareTo(formatter.parse(date)) < 1 && startCounts[l] > 0) {
+        tickers[k] = startTickers[l];
+        counts[k] = startCounts[l];
+        dates[k] = startDates[l];
+        k++;
+      }
+      l++;
+    }
+
+    float[] values = p.getCostBasis(name, date);
+    String[] out = new String[tickers.length + 3];
+    out[0] = "Cost Basis of Portfolio: " + name + " on " + date;
+    float sum = 0;
+    for (int i = 0; i < values.length; i++) {
+      if (values[i] <= 0) {
+        out[i + 1] = "No information found for symbol: " + tickers[i];
+      } else {
+        sum += values[i] * counts[i];
+        if (counts[i] > 0) {
+          out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+                  + "; Price per: " + String.format("%.02f", values[i])
+                  + "; Purchased: " + formatter.format(dates[i])
+                  + "; Total Cost: " + String.format("%.02f", values[i] * counts[i]);
+        }
+      }
+    }
+    out[tickers.length+1] = "Total Spent on Commission Fee: " + String.format("%.02f",p.getCommissionFee()*j);
+    out[tickers.length+2] = "Total Cost Basis of Portfolio: " + String.format("%.02f",(sum-p.getCommissionFee()));
+    return out;
   }
 
   private void buildScreen(int inputOption) {

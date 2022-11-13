@@ -114,9 +114,10 @@ public interface PortfolioManager {
    * @param date
    * @throws IllegalArgumentException
    */
-  public void editFlexPortfolio(String name, String ticker,
-                                Float count, Date date)
+  public void editFlexPortfolio(String name, String ticker, Float count, Date date)
                                 throws IllegalArgumentException;
+
+  public float[] getCostBasis(String name, String date) throws ParseException, IOException;
 
   /**
    * Get the ticker numbers for all stocks in a portfolio.
@@ -144,6 +145,10 @@ public interface PortfolioManager {
    *         in the specified portfolio
    */
   public Date[] getDates(String name) throws IllegalArgumentException;
+
+  public float getCommissionFee();
+
+  public void setCommissionFee(float fee);
 
 }
 

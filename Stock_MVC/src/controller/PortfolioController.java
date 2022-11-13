@@ -101,6 +101,8 @@ public interface PortfolioController {
    */
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
+  public float[] getCostBasis(String name, String date);
+
   /**
    * This method calls the method in model to create
    * a portfolio.
@@ -169,6 +171,9 @@ public interface PortfolioController {
    * @return the string array containing dates for all stocks
    */
   public Date[] getDates(String name) throws IllegalArgumentException;
+
+  public float getCommissionFee();
+  public void setCommissionFee(float fee);
 
 
 }

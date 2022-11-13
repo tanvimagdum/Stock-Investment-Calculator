@@ -228,6 +228,42 @@ public class PortfolioManagerImpl implements PortfolioManager {
     port.addFlexStock(ticker, count, date);
   }
 
+  @Override
+  public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+    FlexPortfolioImpl subject = (FlexPortfolioImpl) getPortfolio(name);
+    String[] startTickers = subject.getTickers();
+    Float[] startCounts = subject.getCounts();
+    Date[] startDates = subject.getDates();
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date target = formatter.parse(date);
+    int j = 0;
+    for (int i = 0; i < startDates.length; i++){
+      if (startDates[i].compareTo(target) < 1 && startCounts[i] > 0 ) {
+        j++;
+      }
+    }
+    String[] tickers = new String[j];
+    Date[] dates = new Date[j];
+    int k = 0;
+    int l = 0;
+    while (k < j) {
+      if (startDates[l].compareTo(target) < 1 && startCounts[l] > 0) {
+        tickers[k] = startTickers[l];
+        dates[k] = startDates[l];
+        k++;
+      }
+      l++;
+    }
+    float[] values = new float[j];
+    for (int i = 0; i < tickers.length; i++) {
+      String[] temp = new String[1];
+      temp[0] = tickers[i];
+      float[] apiOut = api.getPrices(temp, target);
+      values[i] = apiOut[0];
+    }
+    return values;
+  }
+
   public String[] getTickers(String name) {
     return getPortfolio(name).getTickers();
   }
