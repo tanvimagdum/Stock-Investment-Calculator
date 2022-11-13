@@ -57,7 +57,7 @@ public class Persistence implements PersistenceInterface{
         while (row != null) {
             String[] elements = row.split(",");
 
-            if (!(elements.length == 2 || elements.length ==3)) {
+            if (!(elements.length == 2 || elements.length == 3)) {
                 throw new RuntimeException("File not properly formatted. Please ensure there"
                         + "are no headers and only one string and one value per line.");
             }
@@ -78,4 +78,6 @@ public class Persistence implements PersistenceInterface{
             }
         }
         reader.close();
+        return null;
+    }
 }
