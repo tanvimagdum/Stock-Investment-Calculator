@@ -187,10 +187,6 @@ public class PortfolioControllerImpl implements PortfolioController {
     return model.getPortfolioValue(name, date);
   }
 
-  @Override
-  public String[] getPortfolioValueLatest(String name) throws IOException {
-    return model.getPortfolioValueLatest(name);
-  }
 
   @Override
   public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {

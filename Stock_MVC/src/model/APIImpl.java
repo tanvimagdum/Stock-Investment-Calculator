@@ -16,18 +16,18 @@ import java.util.Date;
 
 public class APIImpl implements API {
   @Override
-  public float[] getPrices(ArrayList<String> tickerList, Date date) throws IOException, ParseException {
+  public float[] getPrices(String[] tickerList, Date date) throws IOException, ParseException {
 
     String apiKey = "4U3NNSG5OHR1CBIG";
     URL url = null;
-    float[] out = new float[tickerList.size()];
+    float[] out = new float[tickerList.length];
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     date = format.parse(format.format(date));
 
-    for (int i = 0; i < tickerList.size(); i++) {
+    for (int i = 0; i < tickerList.length; i++) {
       try {
         url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="
-                + tickerList.get(i) + "&outputsize=full&apikey=" + apiKey + "&datatype=csv");
+                + tickerList[i] + "&outputsize=full&apikey=" + apiKey + "&datatype=csv");
       } catch (MalformedURLException e) {
         throw new RuntimeException("There was an error retrieving that information from the API.");
       }
@@ -59,7 +59,7 @@ public class APIImpl implements API {
         }
 
       } catch (IOException e) {
-        throw new IOException("There was difficulty reading the input stream for " + tickerList.get(i));
+        throw new IOException("There was difficulty reading the input stream for " + tickerList[i]);
       }
     }
     return out;

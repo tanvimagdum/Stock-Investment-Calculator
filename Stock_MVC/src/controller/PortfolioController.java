@@ -102,17 +102,6 @@ public interface PortfolioController {
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
   /**
-   * This method calls the method in model to get the value of stocks of a portfolio
-   * on 10/31/2022.
-   *
-   * @param name name of the portfolio
-   * @return the content/description and the total value of the portfolio
-   *         in a string array
-   * @throws IOException if there is difficulty reading files
-   */
-  public String[] getPortfolioValueLatest(String name) throws IOException;
-
-  /**
    * This method calls the method in model to create
    * a portfolio.
    *

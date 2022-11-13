@@ -18,11 +18,11 @@ public class SideOps {
     ArrayList<String> testTickers = side.getTickers();
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     Date target = format.parse("2020-05-06");
-    float[] prices = api.getPrices(testTickers, target);
+    //float[] prices = api.getPrices(testTickers, target);
 
-    for (int i = 0;i < prices.length;i++) {
-      System.out.println(testTickers.get(i) + " " + prices[i]);
-    }
+    //for (int i = 0;i < prices.length;i++) {
+    //  System.out.println(testTickers.get(i) + " " + prices[i]);
+    //}
     //side.makeList();
   }
 

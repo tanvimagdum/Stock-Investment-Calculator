@@ -165,81 +165,12 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
     Portfolio subject = getPortfolio(name);
     String[] tickers = subject.getTickers();
-
-    float[] values = getPricesByDate(tickers, date);
-
-    return values;
-  }
-
-  private float[] getPricesByDate(String[] tickers, String date) throws IOException,
-                                                                        ParseException {
-    float[] prices = new float[tickers.length];
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     Date target = format.parse(date);
-    for (int i = 0; i < tickers.length; i++) {
-      boolean empty = true;
-      String symbol = tickers[i];
-      BufferedReader reader;
-      try {
-        reader = new BufferedReader(new FileReader("./Stocks/" + symbol + ".csv"));
-      } catch (Exception e) {
-        prices[i] = -1;
-        continue;
-      }
-      String row;
-      row = reader.readLine(); //skip header
-      while (row != null) {
-        String[] elements = row.split(",");
 
-        Date rowDate = format.parse(elements[0]);
-        if (target.compareTo(rowDate) < 1) {
-          prices[i] = Float.parseFloat(elements[1]);
-          empty = false;
-        }
+    float[] values = api.getPrices(tickers, target);
 
-        row = reader.readLine();
-      }
-      if (empty) {
-        prices[i] = -1;
-      }
-    }
-
-    return prices;
-  }
-
-  /**
-   * This method is similar to get prices, but instead of finding the prices based on a certain
-   * date, it gets the last trade prices as of the specific day 10/31/2022.
-   *
-   * @param name name of the portfolio
-   * @return a string array detailing the contents of the portfolio and their value
-   * @throws IOException if it has difficulty reading files
-   */
-  public String[] getPortfolioValueLatest(String name) throws IOException {
-    Portfolio subject = getPortfolio(name);
-    String[] tickers = subject.getTickers();
-    Float[] counts = subject.getCounts();
-
-    float[] values = getPricesLatest(tickers);
-    String[] out = new String[tickers.length + 2];
-
-    out[0] = "Value of Portfolio: " + name + " as of 10/31/2022";
-
-    float sum = 0;
-    for (int i = 0; i < values.length; i++) {
-      if (values[i] < 0) {
-        out[i + 1] = "No information found for symbol: " + tickers[i];
-      } else {
-        sum += values[i] * counts[i];
-        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + String.format("%.02f", values[i])
-                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
-
-      }
-    }
-    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
-
-    return out;
+    return values;
   }
 
   @Override

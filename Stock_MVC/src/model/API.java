@@ -18,7 +18,7 @@ public interface API {
    * @param date date at which price is to be known
    * @return the list of prices of every stock on the certain date
    */
-  public float[] getPrices(ArrayList<String> tickerList, Date date) throws IOException, ParseException;
+  public float[] getPrices(String[] tickerList, Date date) throws IOException, ParseException;
 
 
   /**

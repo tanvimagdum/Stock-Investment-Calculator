@@ -77,15 +77,6 @@ public interface PortfolioManager {
    */
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
-  /**
-   * Get the value of a specified portfolio for 10/31/2022.
-   *
-   * @param name name of the portfolio
-   * @return the content of portfolio and the total value in
-   *         a string array
-   * @throws IOException if there is difficulty reading in a file
-   */
-  public String[] getPortfolioValueLatest(String name) throws IOException;
 
   /**
    *
