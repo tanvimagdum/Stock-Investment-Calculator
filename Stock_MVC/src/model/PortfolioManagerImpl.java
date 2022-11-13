@@ -62,8 +62,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
     if (filename.endsWith(".csv")) {
       readCSV(filename);
-    } else if (filename.endsWith(".json")) {
-      readJSON(filename);
     } else {
       throw new IllegalArgumentException("String given is not an accepted filename.");
     }
@@ -107,14 +105,15 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   }
 
-  private void readJSON(String filename) {
-    //not yet implemented
-  }
-
   @Override
   public void savePortfolio(String portfolioName) throws IOException {
     Portfolio thisPortfolio = getPortfolio(portfolioName);
-    pers.saveToDisc(thisPortfolio, portfolioName);
+    try {
+      ((FlexPortfolioImpl) thisPortfolio).getDates();
+      pers.saveFlexCSV(thisPortfolio);
+    } catch (Exception e){
+      pers.saveSimpleCSV(thisPortfolio);
+    }
   }
 
   @Override
