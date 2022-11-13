@@ -37,7 +37,10 @@ public class Persistence implements PersistenceInterface{
             writer.append(",");
             writer.append(counts[i].toString());
             writer.append(",");
-            writer.append(dates[i].toString());
+            int y = dates[i].getYear();
+            int m = dates[i].getMonth();
+            int d = dates[i].getDay();
+            writer.append(y+"-"+m+"-"+d);
             writer.append("\n");
         }
         writer.flush();
