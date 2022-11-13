@@ -21,6 +21,8 @@ public class PortfolioManagerImpl implements PortfolioManager {
   private Persistence pers;
   private API api = new APIImpl();
 
+  private float commissionFee;
+
   public PortfolioManagerImpl(Persistence pers) {
     this.pers = pers;
   }
@@ -214,6 +216,13 @@ public class PortfolioManagerImpl implements PortfolioManager {
                         "in order to get dates.");
     }
 
+  }
+
+  public float getCommissionFee() {
+    return commissionFee;
+  }
+  public void setCommissionFee(float cf) {
+    this.commissionFee = cf;
   }
 
 }
