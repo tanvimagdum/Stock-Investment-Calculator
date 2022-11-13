@@ -40,8 +40,7 @@ public class APIImpl implements API {
           String[] elements = line.split(",");
 
           Date rowDate = null;
-          System.out.println(i);
-          System.out.println(line);
+
           try {
             rowDate = format.parse(elements[0]);
           } catch (Exception e) {
@@ -50,11 +49,9 @@ public class APIImpl implements API {
           }
 
           if (rowDate.compareTo(date) < 1) {
-            System.out.println(elements[5]);
             out[i] = Float.parseFloat(elements[5]);
             break;
           }
-          System.out.println(reader.ready());
           line = reader.readLine();
         }
 
