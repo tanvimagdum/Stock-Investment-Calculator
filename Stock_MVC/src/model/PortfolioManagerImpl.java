@@ -5,6 +5,7 @@ import controller.PortfolioController;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -129,15 +130,44 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   @Override
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
+    try {
+      Portfolio subject = getPortfolio(name);
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      Date target = format.parse(date);
+      String[] startTickers = subject.getTickers();
+      Date[] startDates = ((FlexPortfolioImpl) subject).getDates();
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      int j = 0;
+      for (int i = 0; i < startDates.length; i++){
+        if (startDates[i].compareTo(target) < 1) {
+          j++;
+        }
+      }
+      String[] tickers = new String[j];
 
-    Portfolio subject = getPortfolio(name);
-    String[] tickers = subject.getTickers();
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    Date target = format.parse(date);
+      int k = 0;
+      int l = 0;
+      while (k < j) {
+        if (startDates[l].compareTo(formatter.parse(date)) < 1) {
+          tickers[k] = startTickers[l];
+          k++;
+        }
+        l++;
+      }
+      float[] values = api.getPrices(tickers, target);
+      return values;
 
-    float[] values = api.getPrices(tickers, target);
 
-    return values;
+    } catch (Exception e) {
+      Portfolio subject = getPortfolio(name);
+      String[] tickers = subject.getTickers();
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      Date target = format.parse(date);
+
+      float[] values = api.getPrices(tickers, target);
+
+      return values;
+    }
   }
 
   @Override
