@@ -112,10 +112,9 @@ public class PortfolioManagerImplTest {
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
-    String[] output = new String[0];
-    try {
-      output = portManager.getPortfolioValueLatest("My Portfolio");
-    } catch (IOException e) {
+    float[] output = new float[0];
+    try {output = portManager.getPortfolioValue("My Portfolio","2022-02-02");
+    } catch (IOException | ParseException e) {
       fail();
     }
     assertEquals("Value of Portfolio: My Portfolio as of 10/31/2022", output[0]);

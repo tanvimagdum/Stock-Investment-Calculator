@@ -79,7 +79,7 @@ public class FlexPortfolioImpl implements Portfolio{
 
         sum = 0;
         for (int i = 0; i < tickers.length; i++) {
-            if (tickers[i].equals(ticker)){
+            if (tickers[i].equals(ticker) && dates[i].compareTo(date) < 0){
                 sum += counts[i];
             }
         }

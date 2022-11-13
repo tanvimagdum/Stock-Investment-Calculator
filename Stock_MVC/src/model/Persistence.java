@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Persistence implements PersistenceInterface{
+public class Persistence implements PersistenceInterface {
 
     public void saveSimpleCSV(Portfolio thisPortfolio) throws IOException {
         String[] tickers = thisPortfolio.getTickers();
@@ -107,6 +107,11 @@ public class Persistence implements PersistenceInterface{
         } else {
             FlexPortfolioImpl newPort = new FlexPortfolioImpl(name);
             for (int i = 0; i < tickerList.size(); i++) {
+                if (floatList.get(i) < 0) {
+                    if (!newPort.checkEdit(tickerList.get(i), Math.abs(floatList.get(i)), dateList.get(i))) {
+                        throw new RuntimeException("Cannot load invalid flexible portfolios.");
+                    }
+                }
                 newPort.addFlexStock(tickerList.get(i), floatList.get(i), dateList.get(i));
             }
             return newPort;

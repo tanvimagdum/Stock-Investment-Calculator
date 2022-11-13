@@ -353,7 +353,7 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 2:
-          //flex build
+          //flex.csv build
           try {
             String name = p.buildFlexPortfolio(v,sc);
             try {
@@ -370,7 +370,7 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 3:
-          //edit flex port
+          //edit flex.csv port
           String name = null;
           try {
             name = p.selectFlexPortfolio(v, sc);
@@ -380,12 +380,14 @@ public class InputControllerImpl implements InputController {
             break;
           }
           try {
+            v.printLines(contentsHelper(name));
             p.editFlexPortfolio(name, v, sc);
           } catch (Exception e) {
             v.printLine("There was difficulty editing the portfolio. Please try again.");
             v.showBuildScreen();
             break;
           }
+          v.showBuildScreen();
           break;
 
         case 4:
