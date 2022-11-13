@@ -258,7 +258,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     for (int i = 0; i < tickers.length; i++) {
       String[] temp = new String[1];
       temp[0] = tickers[i];
-      float[] apiOut = api.getPrices(temp, target);
+      float[] apiOut = api.getPrices(temp, dates[i]);
       values[i] = apiOut[0];
     }
     return values;
