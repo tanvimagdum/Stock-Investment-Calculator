@@ -1,7 +1,11 @@
 package model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +43,7 @@ public class Persistence implements PersistenceInterface{
             writer.append(",");
             int y = dates[i].getYear();
             int m = dates[i].getMonth();
-            int d = dates[i].getDay();
+            int d = dates[i].getDate();
             writer.append(y+"-"+m+"-"+d);
             writer.append("\n");
         }
@@ -48,10 +52,11 @@ public class Persistence implements PersistenceInterface{
     }
 
     @Override
-    public Portfolio loadCSV(String filename) throws IOException {
+    public Portfolio loadCSV(String filename) throws IOException, ParseException {
         String name = filename.substring(0, filename.length() - 4);
         ArrayList<String> tickerList = new ArrayList<>();
         ArrayList<Float> floatList = new ArrayList<>();
+        ArrayList<Date> dateList = new ArrayList<>();
 
         BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
 
@@ -66,7 +71,6 @@ public class Persistence implements PersistenceInterface{
             }
 
             if (elements.length == 2) {
-
                 try {
                     float newFloat = Float.parseFloat(elements[1]);
                     if ((newFloat != Math.ceil(newFloat) || (newFloat < 0))) {
@@ -78,9 +82,36 @@ public class Persistence implements PersistenceInterface{
                 tickerList.add(elements[0]);
                 floatList.add(Float.valueOf((int) Float.parseFloat(elements[1])));
                 row = reader.readLine();
+            } else {
+                try {
+                    float newFloat = Float.parseFloat(elements[1]);
+                    if ((newFloat != Math.ceil(newFloat))) {
+                        throw new RuntimeException();
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Only integers are allowed for stock counts.");
+                }
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                tickerList.add(elements[0]);
+                floatList.add(Float.valueOf((int) Float.parseFloat(elements[1])));
+                dateList.add(format.parse(elements[2]));
+                row = reader.readLine();
             }
         }
         reader.close();
-        return null;
+        if (dateList.isEmpty()) {
+            ArrayList<Stock<String, Float>> finalList = new ArrayList<>();
+            for (int i = 0; i < tickerList.size(); i++) {
+                finalList.add(new Stock<>(tickerList.get(i), floatList.get(i)));
+            }
+            PortfolioImpl newPort = PortfolioImpl.builder().build(finalList, name);
+            return newPort;
+        } else {
+            FlexPortfolioImpl newPort = new FlexPortfolioImpl(name);
+            for (int i = 0; i < tickerList.size(); i++) {
+                newPort.addFlexStock(tickerList.get(i), floatList.get(i), dateList.get(i));
+            }
+            return newPort;
+        }
     }
 }
