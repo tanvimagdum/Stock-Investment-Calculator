@@ -277,12 +277,34 @@ public class InputControllerImpl implements InputController {
 
   private String[] simpleValueHelper(String name, String date) throws IOException, ParseException {
     try {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-      Date[] dates = p.getDates(name);
+      String[] startTickers = p.getTickers(name);
+      Float[] startCounts = p.getCounts(name);
+      Date[] startDates = p.getDates(name);
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      int j = 0;
+      for (int i = 0; i < startDates.length; i++){
+        if (startDates[i].compareTo(formatter.parse(date)) < 1) {
+          j++;
+        }
+      }
+      String[] tickers = new String[j];
+      Float[] counts = new Float[j];
+      Date[] dates = new Date[j];
+
+      int k = 0;
+      int l = 0;
+      while (k < j) {
+        if (startDates[l].compareTo(formatter.parse(date)) < 1) {
+          tickers[k] = startTickers[l];
+          counts[k] = startCounts[l];
+          dates[k] = startDates[l];
+          k++;
+        }
+        l++;
+      }
+
       float[] values = p.getPortfolioValue(name, date);
       String[] out = new String[tickers.length + 2];
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
       for (int i = 0; i < values.length; i++) {
