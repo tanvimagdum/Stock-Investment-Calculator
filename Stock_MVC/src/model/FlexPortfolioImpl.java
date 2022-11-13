@@ -62,4 +62,14 @@ public class FlexPortfolioImpl implements Portfolio{
         }
         return dates;
     }
+
+    /**
+     * A method to add new stock items to the portfolio's list
+     * @param ticker
+     * @param count
+     * @param date
+     */
+    public void addFlexStock(String ticker, float count, Date date) {
+        stockList.add(new FlexStock<>(ticker, count, date));
+    }
 }

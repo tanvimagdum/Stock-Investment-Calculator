@@ -4,7 +4,9 @@ import model.PortfolioManager;
 import view.ViewInterface;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -52,10 +54,88 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public void editFlexPortfolio(String name, String ticker,
-                                Float count, Date date)
-          throws IllegalArgumentException {
-    model.editFlexPortfolio(name, ticker, count, date);
+  public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException {
+    while (true) {
+      String ticker;
+      String count;
+
+      v.printLine("Please choose whether to buy or sell, by entering 'b' or 's'. Alternatively, "
+              + "or enter 'Done' to finish.");
+      String bs = sc.nextLine();
+
+      if (bs.equalsIgnoreCase("done")) {
+        break;
+      }
+
+      if (!bs.equalsIgnoreCase("b") || !bs.equalsIgnoreCase("s")){
+        v.printLine("Please be sure to enter 'b' or 's'.");
+        continue;
+      }
+
+
+      v.printLine("Please enter a ticker symbol '.");
+      ticker = sc.nextLine();
+
+      boolean dateCheck = true;
+      if (!model.validateTicker(ticker)) {
+        v.printLine("Warning: the symbol you entered is not recognized.");
+        v.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
+        String response = sc.nextLine();
+        if (!response.equals("y")) {
+          continue;
+        } else {
+          dateCheck = false;
+        }
+      }
+
+      v.printLine("Please enter the stock count.");
+      count = sc.nextLine();
+      try {
+        int temp = Integer.parseInt(count);
+        if (temp < 0) {
+          v.printLine("The count entered is not a positive integer. Please try again.");
+          continue;
+        }
+      } catch (Exception e) {
+        v.printLine("The count entered was not an integer. Please try again.");
+        continue;
+      }
+
+      String year;
+      String mon;
+      String day;
+      v.printLine("Please enter the year (4 digits):");
+      year = sc.nextLine();
+      v.printLine("Please enter the month (2 digits):");
+      mon = sc.nextLine();
+      v.printLine("Please enter the day (2 digits):");
+      day = sc.nextLine();
+      Date target;
+      try {
+        DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+        date.setLenient(false);
+        target = date.parse(mon + "/" + day + "/" + year);
+        Date upperLimit = new Date();
+        if (target.compareTo(upperLimit) > 0) {
+          v.printLine("The date entered is out of bounds.");
+          continue;
+        }
+      } catch (Exception e) {
+        v.printLine("The date provided was not valid.");
+        continue;
+      }
+
+      if (!model.validateTicker(ticker, target)) {
+        v.printLine("You cannot buy a stock before it is available. Please try again.");
+        continue;
+      }
+
+      if (bs.equalsIgnoreCase("b")) {
+        model.editFlexPortfolio(name, ticker, Float.parseFloat(count), target);
+      } else {
+        model.editFlexPortfolio(name, ticker, -1*Float.parseFloat(count), target);
+      }
+    }
   }
 
   @Override
@@ -178,7 +258,7 @@ public class PortfolioControllerImpl implements PortfolioController {
 
 
   @Override
-  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException {
+  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException, ParseException {
     String name;
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Float> floatList = new ArrayList<>();
@@ -211,12 +291,9 @@ public class PortfolioControllerImpl implements PortfolioController {
       return name;
     }
 
-    editFlexPortfolio(name);
+    editFlexPortfolio(name, v, sc);
     return name;
   }
-
-
-
 
   @Override
   public String[] manualValuation(String name, ViewInterface v, Scanner sc) {

@@ -311,10 +311,10 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public void editFlexPortfolio(String name, String ticker,
-                                Float count, Date date)
+  public void editFlexPortfolio(String name, String ticker, Float count, Date date)
           throws IllegalArgumentException {
-
+    FlexPortfolioImpl port = (FlexPortfolioImpl) getPortfolio(name);
+    port.addFlexStock(ticker, count, date);
   }
 
   public String[] getTickers(String name) {

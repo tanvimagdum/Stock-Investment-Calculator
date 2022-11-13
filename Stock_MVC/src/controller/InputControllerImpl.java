@@ -336,7 +336,7 @@ public class InputControllerImpl implements InputController {
             } catch (Exception e) {
               //do nothing
             }
-          } catch (IOException e) {
+          } catch (IOException | ParseException e) {
             v.printLine("There was an error building the flexible portfolio. Please try again.");
           }
           v.showBuildScreen();
@@ -344,6 +344,21 @@ public class InputControllerImpl implements InputController {
 
         case 3:
           //edit flex port
+          String name = null;
+          try {
+            name = p.selectFlexPortfolio(v, sc);
+          } catch (Exception e) {
+            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.showBuildScreen();
+            break;
+          }
+          try {
+            p.editFlexPortfolio(name, v, sc);
+          } catch (Exception e) {
+            v.printLine("There was difficulty editing the portfolio. Please try again.");
+            v.showBuildScreen();
+            break;
+          }
           break;
 
         case 4:

@@ -57,15 +57,12 @@ public interface PortfolioController {
 
   /**
    *
-   * @param name
-   * @param ticker
-   * @param count
-   * @param date
+   * @param name the name of the portfolio
+   * @param v the view interface the controller speaks through
+   * @param sc the scanner object for the controller to take input
    * @throws IllegalArgumentException
    */
-  void editFlexPortfolio(String name, String ticker,
-                         Float count, Date date)
-          throws IllegalArgumentException;
+  void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException;
 
   /**
    * This method prompts the user to select a portfolio from those loaded in the program
@@ -135,7 +132,7 @@ public interface PortfolioController {
    *          for building a portfolio
    * @throws IOException if there is difficulty reading in files
    */
-  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException;
+  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException, ParseException;
 
   /**
    * A method to find value of a portfolio by manually
