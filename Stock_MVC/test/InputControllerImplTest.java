@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -50,10 +51,15 @@ public class InputControllerImplTest {
       return new String[0];
     }
 
-    //change
     @Override
     public String[] getFlexPortfolioNames() {
+      log.append("getFlexPortfolioNames method called ");
       return new String[0];
+    }
+
+    @Override
+    public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException {
+      log.append("editFlexPortfolio method called ");
     }
 
     @Override
@@ -62,9 +68,9 @@ public class InputControllerImplTest {
       return null;
     }
 
-    //change
     @Override
     public String selectFlexPortfolio(ViewInterface v, Scanner sc) {
+      log.append("selectFlexPortfolio method called ");
       return null;
     }
 
@@ -75,20 +81,14 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String[] getPortfolioValueLatest(String name) {
-      log.append("getPortfolioValueLatest method called with " + name + " ");
-      return new String[0];
-    }
-
-    @Override
     public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
       log.append("buildPortfolio method called ");
-      return "";
+      return null;
     }
 
-    //change
     @Override
     public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException {
+      log.append("buildFlexPortfolio method called ");
       return null;
     }
 
@@ -98,9 +98,9 @@ public class InputControllerImplTest {
       return new String[0];
     }
 
-    //change
     @Override
     public String[] portfolioPerformance(String name) {
+      log.append("portfolioPerformance method called with " + name);
       return new String[0];
     }
 
@@ -116,9 +116,9 @@ public class InputControllerImplTest {
       return new Float[0];
     }
 
-    //change
     @Override
     public Date[] getDates(String name) throws IllegalArgumentException {
+      log.append("getDates method called with " + name);
       return new Date[0];
     }
   }

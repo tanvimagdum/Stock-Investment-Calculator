@@ -6,10 +6,12 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+
 
 /**
  * A JUnit test for the portfolio controller implementation.
@@ -17,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class PortfolioControllerImplTest {
 
   @Test
-  public void testReadGetPortfolio() throws IOException {
+  public void testReadGetPortfolio() throws IOException, ParseException {
 
     ArrayList<String> str = new ArrayList<>(Arrays.asList("A", "AAPL"));
     ArrayList<Float> flt = new ArrayList<>(Arrays.asList((float)10.00, (float)12.00));
@@ -32,7 +34,7 @@ public class PortfolioControllerImplTest {
   }
 
   @Test
-  public void testPortfolioLatestValue() throws IOException {
+  public void testPortfolioLatestValue() throws IOException, ParseException {
 
     ArrayList<String> str = new ArrayList<>(Arrays.asList("A", "AAPL"));
     ArrayList<Float> flt = new ArrayList<>(Arrays.asList((float)10.00, (float)12.00));
@@ -44,14 +46,6 @@ public class PortfolioControllerImplTest {
 
     assertEquals("port",pc.getPortfolioNames()[0]);
 
-    assertEquals("Value of Portfolio: port as of 10/31/2022",
-            pc.getPortfolioValueLatest("port")[0] );
-    assertEquals("Ticker: A; Count: 10.0; Value per: 140.89; Total Value: 1408.90",
-            pc.getPortfolioValueLatest("port")[1]);
-    assertEquals("Ticker: AAPL; Count: 12.0; Value per: 150.65; Total Value: 1807.80",
-            pc.getPortfolioValueLatest("port")[2]);
-    assertEquals("Total value of portfolio: 3216.70",
-            pc.getPortfolioValueLatest("port")[3]);
   }
 
 }
