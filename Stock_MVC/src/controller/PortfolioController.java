@@ -56,6 +56,18 @@ public interface PortfolioController {
   String[] getFlexPortfolioNames();
 
   /**
+   *
+   * @param name
+   * @param ticker
+   * @param count
+   * @param date
+   * @throws IllegalArgumentException
+   */
+  void editFlexPortfolio(String name, String ticker,
+                         Float count, Date date)
+          throws IllegalArgumentException;
+
+  /**
    * This method prompts the user to select a portfolio from those loaded in the program
    * then returns the name of the portfolio.
    *

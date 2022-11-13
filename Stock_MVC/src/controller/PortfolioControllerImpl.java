@@ -52,6 +52,13 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
+  public void editFlexPortfolio(String name, String ticker,
+                                Float count, Date date)
+          throws IllegalArgumentException {
+    model.editFlexPortfolio(name, ticker, count, date);
+  }
+
+  @Override
   public String selectPortfolio(ViewInterface v, Scanner sc) {
     String[] portNames = getPortfolioNames();
     String[] numbered = new String[portNames.length];
@@ -204,7 +211,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       return name;
     }
 
-    //editFlexPortfolio();
+    editFlexPortfolio(name);
     return name;
   }
 

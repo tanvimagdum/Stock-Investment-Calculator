@@ -28,7 +28,7 @@ public class ViewImpl implements ViewInterface {
             + "=================================" + "\n");
     out.println("Please enter a choice number" + "\n");
     out.println("1. Load a portfolio");
-    out.println("2. Build a new portfolio");
+    out.println("2. Build/Edit a portfolio");
     out.println("3. View a portfolio");
     out.println("4. Save a portfolio");
     out.println("5. Save all portfolios");
@@ -49,7 +49,7 @@ public class ViewImpl implements ViewInterface {
   @Override
   public void showBuildScreen() {
 
-    out.println("\n" + "====== Build/Edit a new portfolio ======" + "\n");
+    out.println("\n" + "====== Build/Edit a portfolio ======" + "\n");
     out.println("Please enter a choice number" + "\n");
     out.println("1. Begin building a simple portfolio");
     out.println("2. Begin building a flexible portfolio");
