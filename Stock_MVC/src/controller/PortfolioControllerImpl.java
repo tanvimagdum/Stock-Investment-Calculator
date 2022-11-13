@@ -67,13 +67,13 @@ public class PortfolioControllerImpl implements PortfolioController {
         break;
       }
 
-      if (!bs.equalsIgnoreCase("b") || !bs.equalsIgnoreCase("s")){
+      if (!bs.equalsIgnoreCase("b") && !bs.equalsIgnoreCase("s")){
         v.printLine("Please be sure to enter 'b' or 's'.");
         continue;
       }
 
 
-      v.printLine("Please enter a ticker symbol '.");
+      v.printLine("Please enter a ticker symbol");
       ticker = sc.nextLine();
 
       boolean dateCheck = true;
@@ -92,8 +92,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       count = sc.nextLine();
       try {
         int temp = Integer.parseInt(count);
-        if (temp < 0) {
-          v.printLine("The count entered is not a positive integer. Please try again.");
+        if (temp <= 0) {
+          v.printLine("The count entered is not a positive integer above 0. Please try again.");
           continue;
         }
       } catch (Exception e) {
@@ -125,9 +125,11 @@ public class PortfolioControllerImpl implements PortfolioController {
         continue;
       }
 
-      if (!model.validateTicker(ticker, target)) {
-        v.printLine("You cannot buy a stock before it is available. Please try again.");
-        continue;
+      if(dateCheck) {
+        if (!model.validateTicker(ticker, target)) {
+          v.printLine("You cannot buy a stock before it is available. Please try again.");
+          continue;
+        }
       }
 
       if (bs.equalsIgnoreCase("b")) {
@@ -238,8 +240,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       count = sc.nextLine();
       try {
         int temp = Integer.parseInt(count);
-        if (temp < 0) {
-          v.printLine("The count entered is not a positive integer. Please try again.");
+        if (temp <= 0) {
+          v.printLine("The count entered is not a positive integer above 0. Please try again.");
           continue;
         }
       } catch (Exception e) {
@@ -291,6 +293,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       return name;
     }
 
+    model.portFlexBuilder(name);
     editFlexPortfolio(name, v, sc);
     return name;
   }

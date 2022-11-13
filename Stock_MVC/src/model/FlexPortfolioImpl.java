@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FlexPortfolioImpl implements Portfolio{
-    private ArrayList<FlexStock<String, Float, Date>> stockList;
+    private ArrayList<FlexStock<String, Float, Date>> stockList = new ArrayList<>();
     private final String portfolioName;
 
     public FlexPortfolioImpl(String portfolioName) {
