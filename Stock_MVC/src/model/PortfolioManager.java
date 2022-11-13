@@ -77,7 +77,6 @@ public interface PortfolioManager {
    */
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
-
   /**
    *
    * @param name
