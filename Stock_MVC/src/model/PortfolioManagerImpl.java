@@ -141,7 +141,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   @Override
   public boolean checkFlexEdit(String name, String ticker, float count, Date date) {
     FlexPortfolioImpl port = (FlexPortfolioImpl) getPortfolio(name);
-    return port.checkEdit(String ticker, float count, Date date);
+    return port.checkEdit(ticker, count, date);
   }
 
   /**

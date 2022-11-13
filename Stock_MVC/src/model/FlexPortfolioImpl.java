@@ -63,6 +63,33 @@ public class FlexPortfolioImpl implements Portfolio{
         return dates;
     }
 
+    public boolean checkEdit(String ticker, float count, Date date) {
+        String[] tickers = getTickers();
+        Float[] counts =  getCounts();
+        Date[] dates = getDates();
+        float sum = 0;
+        for (int i = 0; i < tickers.length; i++) {
+            if (tickers[i].equals(ticker)){
+                sum += counts[i];
+            }
+        }
+        if (sum < count) {
+            return false;
+        }
+
+        sum = 0;
+        for (int i = 0; i < tickers.length; i++) {
+            if (tickers[i].equals(ticker)){
+                sum += counts[i];
+            }
+        }
+        if (sum < count) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * A method to add new stock items to the portfolio's list
      * @param ticker
