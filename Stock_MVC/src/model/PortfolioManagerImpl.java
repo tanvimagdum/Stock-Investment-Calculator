@@ -235,7 +235,20 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   @Override
   public boolean checkFlexEdit(String name, String ticker, float count, Date date) {
-    return false;
+    FlexPortfolioImpl port = (FlexPortfolioImpl) getPortfolio(name);
+    String[] tickers = port.getTickers();
+    Float[] counts =  port.getCounts();
+    float sum = 0;
+    for (int i = 0; i < tickers.length; i++) {
+      if (tickers[i].equals(ticker)){
+        sum += counts[i];
+      }
+    }
+    if (sum < count) {
+      return false;
+    }
+
+    return true;
   }
 
 
