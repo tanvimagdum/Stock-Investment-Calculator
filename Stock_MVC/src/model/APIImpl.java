@@ -31,7 +31,10 @@ public class APIImpl implements API {
       } catch (MalformedURLException e) {
         throw new RuntimeException("There was an error retrieving that information from the API.");
       }
-
+      if (!validateTicker(tickerList[i])) {
+        out[i] = 0;
+        continue;
+      }
       try {
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line = reader.readLine();
@@ -119,6 +122,21 @@ public class APIImpl implements API {
       }
     }
     return out;
+  }
+
+  private boolean validateTicker(String ticker) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
+    String row = reader.readLine();
+
+    while (row != null) {
+      String[] elements = row.split(",");
+      if (elements[0].equals(ticker)) {
+        return true;
+      }
+      row = reader.readLine();
+    }
+    reader.close();
+    return false;
   }
 }
 

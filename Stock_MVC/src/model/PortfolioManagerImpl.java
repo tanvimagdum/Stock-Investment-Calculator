@@ -162,9 +162,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       }
       row = reader.readLine();
     }
-
     reader.close();
-
     return false;
   }
 
