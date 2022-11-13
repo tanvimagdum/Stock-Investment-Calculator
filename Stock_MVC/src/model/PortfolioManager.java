@@ -97,6 +97,16 @@ public interface PortfolioManager {
   public boolean validateTicker(String ticker) throws IOException;
 
   /**
+   * Check whether the ticker is on the approved and the given date is after the stock's IPO.
+   *
+   * @param ticker the symbol being checked
+   * @return true if the ticker is recognized, false otherwise
+   * @throws IOException if there is difficulty reading the reference file
+   * @throws ParseException if there is difficulty reading the date off the reference file
+   */
+  public boolean validateTicker(String ticker, Date date) throws IOException, ParseException;
+
+  /**
    *
    * @param name
    * @param ticker

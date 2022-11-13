@@ -271,13 +271,36 @@ public class PortfolioManagerImpl implements PortfolioManager {
    * @throws IOException when there is difficulty reading the reference file
    */
   public boolean validateTicker(String ticker) throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader("./TickerListSP500.csv"));
+    BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
     String row = reader.readLine();
 
     while (row != null) {
       String[] elements = row.split(",");
       if (elements[0].equals(ticker)) {
         return true;
+      }
+      row = reader.readLine();
+    }
+
+    reader.close();
+
+    return false;
+  }
+
+  public boolean validateTicker(String ticker, Date date) throws IOException, ParseException {
+    BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
+    String row = reader.readLine();
+
+    while (row != null) {
+      String[] elements = row.split(",");
+      if (elements[0].equals(ticker)) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date readDate = format.parse(elements[1]);
+        if (readDate.compareTo(date) < 0) {
+          return true;
+        } else {
+          return false;
+        }
       }
       row = reader.readLine();
     }
