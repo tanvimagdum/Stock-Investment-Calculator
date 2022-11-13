@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +18,12 @@ public class Persistence implements PersistenceInterface {
         String[] tickers = thisPortfolio.getTickers();
         Float[] counts = thisPortfolio.getCounts();
         String portfolioName = thisPortfolio.getPortfolioName();
+
+        try{
+            Files.deleteIfExists(Path.of("./" + portfolioName + ".csv"));
+        } catch (Exception e) {
+            //do nothing
+        }
 
         FileWriter writer = new FileWriter(portfolioName + ".csv");
         for (int i = 0; i < tickers.length; i++) {
@@ -34,6 +42,13 @@ public class Persistence implements PersistenceInterface {
         Float[] counts = flexPort.getCounts();
         Date[] dates = ((FlexPortfolioImpl) flexPort).getDates();
         String portfolioName = flexPort.getPortfolioName();
+
+        try{
+            Files.deleteIfExists(Path.of("./" + portfolioName + ".csv"));
+        } catch (Exception e) {
+            //do nothing
+        }
+
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         FileWriter writer = new FileWriter(portfolioName + ".csv");
