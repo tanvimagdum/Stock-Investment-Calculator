@@ -170,6 +170,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
           try {
+            v.printLine("Please wait while the API retrieves that information.");
             v.printLines(simpleValueHelper(name, year + "-" + mon + "-" + day));
           } catch (Exception e) {
             v.printLine("There was an error attempting to value the portfolio.");
@@ -222,6 +223,7 @@ public class InputControllerImpl implements InputController {
           }
           String date = year+"-"+mon+"-"+day;
           try{
+            v.printLine("Please wait while the API retrieves that information.");
             v.printLines(costBasisHelper(name, date));
           } catch (Exception e) {
             v.printLine("There was difficulty calculating the cost-basis. Please try again.");
@@ -444,7 +446,7 @@ public class InputControllerImpl implements InputController {
       }
     }
     out[tickers.length+1] = "Total Spent on Commission Fee: " + String.format("%.02f",p.getCommissionFee()*j);
-    out[tickers.length+2] = "Total Cost Basis of Portfolio: " + String.format("%.02f",(sum-p.getCommissionFee()));
+    out[tickers.length+2] = "Total Cost Basis of Portfolio: " + String.format("%.02f",(sum-p.getCommissionFee()*j));
     return out;
   }
 

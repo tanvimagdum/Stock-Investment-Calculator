@@ -188,7 +188,7 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public float[] getCostBasis(String name, String date) {
+  public float[] getCostBasis(String name, String date) throws ParseException, IOException {
     return model.getCostBasis(name, date);
   }
 

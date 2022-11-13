@@ -101,7 +101,7 @@ public interface PortfolioController {
    */
   public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
 
-  public float[] getCostBasis(String name, String date);
+  public float[] getCostBasis(String name, String date) throws ParseException, IOException;
 
   /**
    * This method calls the method in model to create
