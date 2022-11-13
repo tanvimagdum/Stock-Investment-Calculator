@@ -233,6 +233,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return out;
   }
 
+  @Override
+  public boolean checkFlexEdit(String name, String ticker, float count, Date date) {
+    return false;
+  }
+
 
   private float[] getPricesLatest(String[] tickers) throws IOException {
     float[] prices = new float[tickers.length];

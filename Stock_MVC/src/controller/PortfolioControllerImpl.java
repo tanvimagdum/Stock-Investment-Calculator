@@ -132,6 +132,14 @@ public class PortfolioControllerImpl implements PortfolioController {
         }
       }
 
+      if (bs.equalsIgnoreCase("s")) {
+        boolean valid = model.checkFlexEdit(name, ticker, Float.parseFloat(count), target);
+        if (!valid) {
+          v.printLine("This sale would invalidate the existing portfolio.");
+          continue;
+        }
+      }
+
       if (bs.equalsIgnoreCase("b")) {
         model.editFlexPortfolio(name, ticker, Float.parseFloat(count), target);
       } else {

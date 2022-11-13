@@ -88,6 +88,16 @@ public interface PortfolioManager {
   public String[] getPortfolioValueLatest(String name) throws IOException;
 
   /**
+   *
+   * @param name
+   * @param ticker
+   * @param count
+   * @param date
+   * @return
+   */
+  public boolean checkFlexEdit(String name, String ticker, float count, Date date);
+
+  /**
    * Check whether the ticker is on the approved list of stocks.
    *
    * @param ticker the symbol being checked
