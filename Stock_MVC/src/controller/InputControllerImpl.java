@@ -348,7 +348,7 @@ public class InputControllerImpl implements InputController {
           try {
             name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
-            v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
             v.showBuildScreen();
             break;
           }

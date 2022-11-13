@@ -148,7 +148,16 @@ public class PortfolioManagerImpl implements PortfolioManager {
       }
     }
 
-    return listOfNames;
+    if (j == 0) {
+      throw new IllegalArgumentException("There are no flexible portfolios yet.");
+    }
+
+    String[] flexNames = new String[j];
+    for (int i = 0; i  < j; i++) {
+      flexNames[i] = listOfNames[i];
+    }
+
+    return flexNames;
   }
 
   @Override
