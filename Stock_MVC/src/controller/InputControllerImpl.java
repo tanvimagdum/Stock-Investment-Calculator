@@ -150,7 +150,6 @@ public class InputControllerImpl implements InputController {
           String day;
           v.printLine("Please enter the year (4 digits):");
           year = sc.nextLine();
-
           v.printLine("Please enter the month (2 digits):");
           mon = sc.nextLine();
           v.printLine("Please enter the day (2 digits):");
@@ -159,9 +158,8 @@ public class InputControllerImpl implements InputController {
             DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
             date.setLenient(false);
             Date target = date.parse(mon + "/" + day + "/" + year);
-            Date lowerLimit = date.parse("01/01/2010");
-            Date upperLimit = date.parse("03/27/2018");
-            if (target.compareTo(lowerLimit) < 0 || target.compareTo(upperLimit) > 0) {
+            Date upperLimit = new Date();
+            if (target.compareTo(upperLimit) > 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
               break;
@@ -183,6 +181,7 @@ public class InputControllerImpl implements InputController {
 
         case 3:
           //cost basis
+          v.showPortfolioScreen();
           break;
 
         case 4:
@@ -242,19 +241,19 @@ public class InputControllerImpl implements InputController {
       String[] out = new String[tickers.length + 1];
 
       out[0] = "Contents of Flexible Portfolio: " + name;
-
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       for (int i = 0; i < tickers.length; i++) {
         if (counts[i] > 0) {
           out[i + 1] = "BUY " +
                   "; Ticker: " + tickers[i] +
                   "; Count: " + String.format("%.02f", counts[i]) +
-                  "; Date: " + dates[i];
+                  "; Date: " + formatter.format(dates[i]);
         }
         if (counts[i] < 0) {
           out[i + 1] = "SELL" +
                   "; Ticker: " + tickers[i] +
                   "; Count: " + String.format("%.02f", Math.abs(counts[i])) +
-                  "; Date: " + dates[i];
+                  "; Date: " + formatter.format(dates[i]);
         }
       }
       return out;
@@ -277,27 +276,55 @@ public class InputControllerImpl implements InputController {
   }
 
   private String[] simpleValueHelper(String name, String date) throws IOException, ParseException {
-    String[] tickers = p.getTickers(name);
-    Float[] counts = p.getCounts(name);
-    float[] values = p.getPortfolioValue(name, date);
-    String[] out = new String[tickers.length + 2];
-
-    out[0] = "Value of Portfolio: " + name + " on " + date;
-
-    float sum = 0;
-    for (int i = 0; i < values.length; i++) {
-      if (values[i] < 0) {
-        out[i + 1] = "No information found for symbol: " + tickers[i];
-      } else {
-        sum += values[i] * counts[i];
-        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + String.format("%.02f", values[i])
-                + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+    try {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+      Date[] dates = p.getDates(name);
+      float[] values = p.getPortfolioValue(name, date);
+      String[] out = new String[tickers.length + 2];
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      out[0] = "Value of Portfolio: " + name + " on " + date;
+      float sum = 0;
+      for (int i = 0; i < values.length; i++) {
+        if (values[i] < 0) {
+          out[i + 1] = "No information found for symbol: " + tickers[i];
+        } else {
+          sum += values[i] * counts[i];
+          if (counts[i] > 0) {
+            out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+                    + "; Value per: " + String.format("%.02f", values[i])
+                    + "; Purchased: " + formatter.format(dates[i])
+                    + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+          } else {
+            out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + -1*counts[i]
+                    + "; Value per: " + String.format("%.02f", values[i])
+                    + "; Sold: " + formatter.format(dates[i])
+                    + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+          }
+        }
       }
+      out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
+      return out;
+    } catch (Exception e) {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+      float[] values = p.getPortfolioValue(name, date);
+      String[] out = new String[tickers.length + 2];
+      out[0] = "Value of Portfolio: " + name + " on " + date;
+      float sum = 0;
+      for (int i = 0; i < values.length; i++) {
+        if (values[i] < 0) {
+          out[i + 1] = "No information found for symbol: " + tickers[i];
+        } else {
+          sum += values[i] * counts[i];
+          out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+                  + "; Value per: " + String.format("%.02f", values[i])
+                  + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+        }
+      }
+      out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
+      return out;
     }
-
-    out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
-    return out;
   }
 
   private void buildScreen(int inputOption) {

@@ -141,49 +141,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   @Override
   public boolean checkFlexEdit(String name, String ticker, float count, Date date) {
     FlexPortfolioImpl port = (FlexPortfolioImpl) getPortfolio(name);
-    String[] tickers = port.getTickers();
-    Float[] counts =  port.getCounts();
-    float sum = 0;
-    for (int i = 0; i < tickers.length; i++) {
-      if (tickers[i].equals(ticker)){
-        sum += counts[i];
-      }
-    }
-    if (sum < count) {
-      return false;
-    }
-
-    return true;
-  }
-
-
-  private float[] getPricesLatest(String[] tickers) throws IOException {
-    float[] prices = new float[tickers.length];
-    for (int i = 0; i < tickers.length; i++) {
-      boolean empty = true;
-      BufferedReader reader;
-      try {
-        reader = new BufferedReader(new FileReader("./TickerListSP500.csv"));
-      } catch (Exception e) {
-        prices[i] = -1;
-        continue;
-      }
-      String row;
-      row = reader.readLine();
-      while (row != null) {
-        String[] elements = row.split(",");
-        if (elements[0].equals(tickers[i])) {
-          prices[i] = Float.parseFloat(elements[2]);
-          empty = false;
-        }
-        row = reader.readLine();
-      }
-      if (empty) {
-        prices[i] = -1;
-      }
-    }
-
-    return prices;
+    return port.checkEdit(String ticker, float count, Date date);
   }
 
   /**

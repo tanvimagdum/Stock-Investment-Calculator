@@ -34,6 +34,7 @@ public class Persistence implements PersistenceInterface{
         Float[] counts = flexPort.getCounts();
         Date[] dates = ((FlexPortfolioImpl) flexPort).getDates();
         String portfolioName = flexPort.getPortfolioName();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         FileWriter writer = new FileWriter(portfolioName + ".csv");
         for (int i = 0; i < tickers.length; i++) {
@@ -41,10 +42,7 @@ public class Persistence implements PersistenceInterface{
             writer.append(",");
             writer.append(counts[i].toString());
             writer.append(",");
-            int y = dates[i].getYear();
-            int m = dates[i].getMonth();
-            int d = dates[i].getDate();
-            writer.append(y+"-"+m+"-"+d);
+            writer.append(formatter.format(dates[i]));
             writer.append("\n");
         }
         writer.flush();
