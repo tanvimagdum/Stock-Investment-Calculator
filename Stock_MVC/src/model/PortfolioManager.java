@@ -37,7 +37,7 @@ public interface PortfolioManager {
    * @param filename name of the portfolio file to be read
    * @throws FileNotFoundException if the file is missing or format is incorrect
    */
-  public String readPortfolioFile(String filename) throws IOException;
+  public String readPortfolioFile(String filename) throws IOException, ParseException;
 
   /**
    * Attempts to write the selected portfolio out to a csv. The file will be given the name of

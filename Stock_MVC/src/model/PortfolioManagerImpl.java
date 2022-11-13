@@ -55,53 +55,19 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   @Override
   public String readPortfolioFile(String filename) throws IllegalArgumentException,
-          IOException {
+          IOException, ParseException {
 
     if (filename.length() < 5) {
       throw new IllegalArgumentException("String given is not an accepted filename.");
     }
     if (filename.endsWith(".csv")) {
-      readCSV(filename);
+      Portfolio in = pers.loadCSV(filename);
+      portfolios.add(in);
     } else {
       throw new IllegalArgumentException("String given is not an accepted filename.");
     }
 
     return filename.substring(0, filename.length() - 4);
-
-  }
-
-  private void readCSV(String filename) throws IOException {
-    String name = filename.substring(0, filename.length() - 4);
-    ArrayList<String> tickerList = new ArrayList<>();
-    ArrayList<Float> floatList = new ArrayList<>();
-
-    BufferedReader reader = new BufferedReader(new FileReader("./" + filename));
-
-    String row = reader.readLine();
-
-    while (row != null) {
-      String[] elements = row.split(",");
-
-      if (elements.length != 2) {
-        throw new RuntimeException("File not properly formatted. Please ensure there"
-                + "are no headers and only one string and one value per line.");
-      }
-
-      try {
-        float newFloat = Float.parseFloat(elements[1]);
-        if ((newFloat != Math.ceil(newFloat) || (newFloat < 0))) {
-          throw new RuntimeException();
-        }
-      } catch (Exception e) {
-        throw new RuntimeException("Only integers are allowed for stock counts.");
-      }
-      tickerList.add(elements[0]);
-      floatList.add(Float.valueOf((int) Float.parseFloat(elements[1])));
-      row = reader.readLine();
-    }
-
-    reader.close();
-    portBuilder(tickerList, floatList, name);
 
   }
 
