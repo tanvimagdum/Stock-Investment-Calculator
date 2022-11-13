@@ -28,7 +28,7 @@ public interface PortfolioController {
    * @param filename file to be read
    * @throws FileNotFoundException if the file is missing or name is invalid
    */
-  public String readPortfolioFile(String filename) throws IOException;
+  public String readPortfolioFile(String filename) throws IOException, ParseException;
 
   /**
    * This method calls the method in model to save or write
