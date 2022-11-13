@@ -370,7 +370,6 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 3:
-          //edit flex.csv port
           String name = null;
           try {
             name = p.selectFlexPortfolio(v, sc);
@@ -387,6 +386,9 @@ public class InputControllerImpl implements InputController {
             v.showBuildScreen();
             break;
           }
+          v.printLines(contentsHelper(name));
+          v.printLine("Hit any key to return to the previous menu.");
+          sc.nextLine();
           v.showBuildScreen();
           break;
 
