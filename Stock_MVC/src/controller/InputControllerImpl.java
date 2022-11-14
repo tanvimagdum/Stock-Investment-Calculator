@@ -533,17 +533,18 @@ public class InputControllerImpl implements InputController {
         case 3:
         case 4:
         case 5:
-              break;
-          case 30:
-              break;
-          case 90:
-              break;
-          case 180:
-              break;
-          case 365:
-              break;
-          default:
-              break;
+          
+          break;
+        case 30:
+          break;
+        case 90:
+          break;
+        case 180:
+          break;
+        case 365:
+          break;
+        default:
+          break;
       }
 
       Date[] out = new Date[tempDateList.size()];
