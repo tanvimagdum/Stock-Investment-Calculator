@@ -86,6 +86,16 @@ public class PortfolioControllerImplTest {
     }
 
     @Override
+    public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+      return new float[0];
+    }
+
+    @Override
+    public float[] portfolioPerformance(String name, Date[] dates) {
+      return new float[0];
+    }
+
+    @Override
     public String[] getTickers(String name) {
       return new String[0];
     }
@@ -98,6 +108,16 @@ public class PortfolioControllerImplTest {
     @Override
     public Date[] getDates(String name) throws IllegalArgumentException {
       return new Date[0];
+    }
+
+    @Override
+    public float getCommissionFee() {
+      return 0;
+    }
+
+    @Override
+    public void setCommissionFee(float fee) {
+
     }
   }
 
