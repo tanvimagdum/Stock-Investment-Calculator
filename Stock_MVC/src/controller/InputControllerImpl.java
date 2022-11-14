@@ -303,7 +303,12 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
-          Date[] dates = dateHelper(target1, target2);
+          Date[] dates = new Date[0];
+          try {
+            dates = dateHelper(target1, target2);
+          } catch (Exception e) {
+            //do nothing
+          }
           float[] values;
           try {
             values = p.portfolioPerformance(name, dates);
@@ -424,22 +429,12 @@ public class InputControllerImpl implements InputController {
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
       for (int i = 0; i < values.length; i++) {
-        if (values[i] <= 0) {
-          out[i + 1] = "No information found for symbol: " + tickers[i];
-        } else {
-          sum += values[i] * counts[i];
-          if (counts[i] > 0) {
-            out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                    + "; Value per: " + String.format("%.02f", values[i])
-                    + "; Purchased: " + formatter.format(dates[i])
-                    + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
-          } else {
-            out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + -1*counts[i]
-                    + "; Value per: " + String.format("%.02f", values[i])
-                    + "; Sold: " + formatter.format(dates[i])
-                    + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
-          }
-        }
+        sum += values[i];
+        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+                + "; Value per: " + String.format("%.02f", values[i])
+                + "; Purchased: " + formatter.format(dates[i])
+                + "; Total Value: " + String.format("%.02f", values[i]);
+
       }
       out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
       return out;
@@ -516,7 +511,7 @@ public class InputControllerImpl implements InputController {
     return out;
   }
 
-  private Date[] dateHelper(Date start, Date end){
+  private Date[] dateHelper(Date start, Date end) throws ParseException {
       int[] tests = new int[]{1,2,3,4,5,30,90,180,365};
       float days = (end.getTime() - start.getTime())/(1000*60*60*24);
       float target = 17;
@@ -533,8 +528,11 @@ public class InputControllerImpl implements InputController {
       DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       ArrayList<Date> tempDateList = new ArrayList<>();
       switch (tests[scale]) {
-          case 1,2,3,4,5:
-
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
               break;
           case 30:
               break;
@@ -552,6 +550,10 @@ public class InputControllerImpl implements InputController {
       for (int i = 0; i < tempDateList.size(); i++) {
         out[i] = tempDateList.get(i);
       }
+
+      out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
+              formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
+              formatter.parse("2019-01-01")};
 
     return out;
   }
@@ -583,7 +585,7 @@ public class InputControllerImpl implements InputController {
 
     float ast = (max-base)/40;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    out[0] = "Contents of Flexible Portfolio: " + name + "from " + formatter.format(dates[0]) + "to "
+    out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0]) + "to "
             + formatter.format(dates[dates.length-1]) + "\n";
     for (int i = 0; i < dates.length; i++) {
       int astCount = 0;

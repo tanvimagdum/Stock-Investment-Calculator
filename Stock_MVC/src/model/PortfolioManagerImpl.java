@@ -135,6 +135,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
       Date target = format.parse(date);
       String[] startTickers = subject.getTickers();
+      Float[] startCounts = subject.getCounts();
       Date[] startDates = ((FlexPortfolioImpl) subject).getDates();
       DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       int j = 0;
@@ -144,17 +145,22 @@ public class PortfolioManagerImpl implements PortfolioManager {
         }
       }
       String[] tickers = new String[j];
+      Float[] counts = new Float[j];
 
       int k = 0;
       int l = 0;
       while (k < j) {
         if (startDates[l].compareTo(formatter.parse(date)) < 1) {
           tickers[k] = startTickers[l];
+          counts[k] = startCounts[l];
           k++;
         }
         l++;
       }
       float[] values = api.getPrices(tickers, target);
+      for (int i = 0; i < values.length; i++) {
+        values[i] = values[i]*counts[i];
+      }
       return values;
 
 
@@ -271,7 +277,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
     for (int i = 0; i  < dates.length; i++) {
       float[] values = getPortfolioValue(name, formatter.format(dates[i]));
       float sum = 0;
+      System.out.println("-----");
       for (int j = 0; j < values.length; j++) {
+        System.out.println(values[j]);
         sum += values[j];
       }
       out[i] = sum;
