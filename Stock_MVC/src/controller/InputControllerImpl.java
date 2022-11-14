@@ -221,10 +221,10 @@ public class InputControllerImpl implements InputController {
           } catch (Exception e) {
             //do nothing
           }
-          String date = year+"-"+mon+"-"+day;
+          String dateString = year+"-"+mon+"-"+day;
           try{
             v.printLine("Please wait while the API retrieves that information.");
-            v.printLines(costBasisHelper(name, date));
+            v.printLines(costBasisHelper(name, dateString));
           } catch (Exception e) {
             v.printLine("There was difficulty calculating the cost-basis. Please try again.");
             v.showPortfolioScreen();
@@ -245,6 +245,51 @@ public class InputControllerImpl implements InputController {
             v.showPortfolioScreen();
             break;
           }
+          Date upperLimit = new Date();
+          DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+          formatter.setLenient(false);
+
+          v.printLine("Please enter the year (4 digits):");
+          year = sc.nextLine();
+          v.printLine("Please enter the month (2 digits):");
+          mon = sc.nextLine();
+          v.printLine("Please enter the day (2 digits):");
+          day = sc.nextLine();
+          try {
+            Date target1 = formatter.parse(mon + "/" + day + "/" + year);
+            if (target1.compareTo(upperLimit) > 0) {
+              v.printLine("The date entered is out of bounds.");
+              v.showPortfolioScreen();
+              break;
+            }
+          } catch (Exception e) {
+            v.printLine("The date provided was not valid.");
+            v.showPortfolioScreen();
+            break;
+          }
+
+
+          v.printLine("Please enter the year of the (4 digits):");
+          year = sc.nextLine();
+          v.printLine("Please enter the month (2 digits):");
+          mon = sc.nextLine();
+          v.printLine("Please enter the day (2 digits):");
+          day = sc.nextLine();
+          try {
+            Date target2 = formatter.parse(mon + "/" + day + "/" + year);
+            if (target2.compareTo(upperLimit) > 0) {
+              v.printLine("The date entered is out of bounds.");
+              v.showPortfolioScreen();
+              break;
+            }
+          } catch (Exception e) {
+            v.printLine("The date provided was not valid.");
+            v.showPortfolioScreen();
+            break;
+          }
+
+
+
           try {
             v.printLines(p.portfolioPerformance(name));
           } catch (Exception e) {
@@ -445,9 +490,16 @@ public class InputControllerImpl implements InputController {
         }
       }
     }
-    out[tickers.length+1] = "Total Spent on Commission Fee: " + String.format("%.02f",p.getCommissionFee()*j);
-    out[tickers.length+2] = "Total Cost Basis of Portfolio: " + String.format("%.02f",(sum-p.getCommissionFee()*j));
+    out[tickers.length+1] = "Total Spent on Commission Fee: "
+            + String.format("%.02f",p.getCommissionFee()* startTickers.length);
+    out[tickers.length+2] = "Total Cost Basis of Portfolio: "
+            + String.format("%.02f",(sum-p.getCommissionFee()* startTickers.length));
     return out;
+  }
+
+  private String[] performanceOverTimeHelper(){
+
+    return new String[0];
   }
 
   private void buildScreen(int inputOption) {
