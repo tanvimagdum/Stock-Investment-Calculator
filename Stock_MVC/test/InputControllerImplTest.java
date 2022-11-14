@@ -80,6 +80,11 @@ public class InputControllerImplTest {
     }
 
     @Override
+    public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+      return new float[0];
+    }
+
+    @Override
     public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
       log.append("buildPortfolio method called ");
       return null;
@@ -98,9 +103,9 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String[] portfolioPerformance(String name, Date[] dates) {
+    public float[] portfolioPerformance(String name, Date[] dates) {
       log.append("portfolioPerformance method called with " + name);
-      return new String[0];
+      return new float[0];
     }
 
     @Override
@@ -119,6 +124,16 @@ public class InputControllerImplTest {
     public Date[] getDates(String name) throws IllegalArgumentException {
       log.append("getDates method called with " + name);
       return new Date[0];
+    }
+
+    @Override
+    public float getCommissionFee() {
+      return 0;
+    }
+
+    @Override
+    public void setCommissionFee(float fee) {
+
     }
   }
 
@@ -211,7 +226,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("2 2 6");
+    Readable in = new StringReader("2 4 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
@@ -229,7 +244,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("3 5 6");
+    Readable in = new StringReader("3 6 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
@@ -271,7 +286,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("1 2 3 5 2 2 6");
+    Readable in = new StringReader("1 2 3 6 2 4 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
