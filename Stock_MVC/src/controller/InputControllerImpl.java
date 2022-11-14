@@ -303,12 +303,16 @@ public class InputControllerImpl implements InputController {
           }
 
           Date[] dates = dateHelper(target1, target2);
-
+          float[] values;
           try {
-            float[] values = p.portfolioPerformance(name, dates);
+            values = p.portfolioPerformance(name, dates);
           } catch (Exception e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
+            v.showPortfolioScreen();
+            break;
           }
+
+          v.printLines(performanceOverTimeHelper(dates, values));
           v.printLine("Hit any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
