@@ -64,7 +64,7 @@ public class APIImpl implements API {
     }
     return out;
   }
-
+/*
   @Override
   public float[][] getPerformance(ArrayList<String> tickerList, Date[] dates){
     String apiKey = "4U3NNSG5OHR1CBIG";
@@ -122,7 +122,7 @@ public class APIImpl implements API {
       }
     }
     return out;
-  }
+  }*/
 
   private boolean validateTicker(String ticker) throws IOException {
     BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));

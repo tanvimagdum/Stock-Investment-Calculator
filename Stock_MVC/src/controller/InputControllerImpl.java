@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -312,7 +313,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
-          v.printLines(performanceOverTimeHelper(dates, values));
+          v.printLines(performanceOverTimeHelper(name, dates, values));
           v.printLine("Hit any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
@@ -516,13 +517,83 @@ public class InputControllerImpl implements InputController {
   }
 
   private Date[] dateHelper(Date start, Date end){
+      int[] tests = new int[]{1,2,3,4,5,30,90,180,365};
+      float days = (end.getTime() - start.getTime())/(1000*60*60*24);
+      float target = 17;
+      float closest = 10000000;
+      int scale = 0;
+      for (int i = 0; i < tests.length; i++) {
+          float dist = Math.abs((days/tests[i]));
+          if (dist < closest) {
+              scale = i;
+              closest = dist;
+          }
+      }
 
-    return new Date[0];
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      ArrayList<Date> tempDateList = new ArrayList<>();
+      switch (tests[scale]) {
+          case 1,2,3,4,5:
+
+              break;
+          case 30:
+              break;
+          case 90:
+              break;
+          case 180:
+              break;
+          case 365:
+              break;
+          default:
+              break;
+      }
+
+      Date[] out = new Date[tempDateList.size()];
+      for (int i = 0; i < tempDateList.size(); i++) {
+        out[i] = tempDateList.get(i);
+      }
+
+    return out;
   }
 
-  private String[] performanceOverTimeHelper(Date[] dates, float[] values){
+  private String[] performanceOverTimeHelper(String name, Date[] dates, float[] values){
 
-    return new String[0];
+    String[] out = new String[dates.length + 2];
+
+    float min = values[0];
+    float max = values[0];
+    for (int i = 0; i < values.length; i++) {
+      if (values[i] > max) {
+        max = values[i];
+      }
+      if (values[i] < min) {
+        min = values[i];
+      }
+    }
+
+    int base = 1;
+
+    while (min - base >= 0) {
+      base = base * 10;
+    }
+    int temp = base;
+    while(min- base > 0) {
+      base = base + temp;
+    }
+
+    float ast = (max-base)/40;
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    out[0] = "Contents of Flexible Portfolio: " + name + "from " + formatter.format(dates[0]) + "to "
+            + formatter.format(dates[dates.length-1]) + "\n";
+    for (int i = 0; i < dates.length; i++) {
+      int astCount = 0;
+      while (astCount*ast <= values[i]) {
+          astCount++;
+      }
+      out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
+    }
+    out[dates.length+1] = "\nOne * represents: $" + String.format("%.02f", ast);
+    return out;
   }
 
   private void buildScreen(int inputOption) {

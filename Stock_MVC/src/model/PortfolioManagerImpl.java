@@ -265,8 +265,18 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates) {
-    return new float[0];
+  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException {
+    float[] out = new float[dates.length];
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    for (int i = 0; i  < dates.length; i++) {
+      float[] values = getPortfolioValue(name, formatter.format(dates[i]));
+      float sum = 0;
+      for (int j = 0; j < values.length; j++) {
+        sum += values[j];
+      }
+      out[i] = sum;
+    }
+    return out;
   }
 
   public String[] getTickers(String name) {

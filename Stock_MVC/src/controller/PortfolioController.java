@@ -142,7 +142,7 @@ public interface PortfolioController {
    * @param dates
    * @return
    */
-  public float[] portfolioPerformance(String name, Date[] dates);
+  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException;
 
   /**
    * This method calls the method in model

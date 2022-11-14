@@ -343,7 +343,7 @@ public class PortfolioControllerImpl implements PortfolioController {
 
   //change
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates) {
+  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException {
     return model.portfolioPerformance(name, dates);
   }
 

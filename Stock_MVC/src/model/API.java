@@ -20,12 +20,4 @@ public interface API {
    */
   public float[] getPrices(String[] tickerList, Date date) throws IOException, ParseException;
 
-
-  /**
-   * Get the prices of stocks on several dates.
-   * @param tickerList the list of stocks
-   * @param dates the days for which we want prices
-   * @return a 2D array of prices, tickers X dates
-   */
-  public float[][] getPerformance(ArrayList<String> tickerList, Date[] dates);
 }
