@@ -211,7 +211,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("2 2 6");
+    Readable in = new StringReader("2 4 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
@@ -229,7 +229,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("3 5 6");
+    Readable in = new StringReader("3 6 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
@@ -271,7 +271,7 @@ public class InputControllerImplTest {
     PortfolioController mockC = new MockPortfolioController(log);
     ViewInterface mockV = new MockView(log);
 
-    Readable in = new StringReader("1 2 3 5 2 2 6");
+    Readable in = new StringReader("1 2 3 6 2 4 6");
     OutputStream out = new ByteArrayOutputStream();
 
     InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));

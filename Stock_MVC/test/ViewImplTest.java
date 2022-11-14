@@ -25,7 +25,7 @@ public class ViewImplTest {
             + "Please enter a choice number\n"
             + "\n"
             + "1. Load a portfolio\n"
-            + "2. Build a new portfolio\n"
+            + "2. Build/Edit a portfolio\n"
             + "3. View a portfolio\n"
             + "4. Save a portfolio\n"
             + "5. Save all portfolios\n"
@@ -51,21 +51,16 @@ public class ViewImplTest {
     OutputStream out = new ByteArrayOutputStream();
     ViewInterface v = new ViewImpl(new PrintStream(out));
     v.showBuildScreen();
-    String temp = "\n"
-            + "====== Build a new portfolio ======\n"
-            + "\n"
-            + "Please enter a choice number\n"
-            + "\n"
-            + "1. Begin building the portfolio\n"
-            + "2. Go Back\n";
 
     assertEquals("\n"
-            + "====== Build a new portfolio ======\n"
+            + "====== Build/Edit a portfolio ======\n"
             + "\n"
             + "Please enter a choice number\n"
             + "\n"
-            + "1. Begin building the portfolio\n"
-            + "2. Go Back\n", out.toString());
+            + "1. Begin building a simple portfolio\n"
+            + "2. Begin building a flexible portfolio\n"
+            + "3. Edit a flexible portfolio\n"
+            + "4. Go Back\n", out.toString());
 
   }
 
@@ -80,9 +75,10 @@ public class ViewImplTest {
             + "\n"
             + "1. View the stocks list in the portfolio\n"
             + "2. View the value of a portfolio on a certain date (2010-2018)\n"
-            + "3. View the value of a portfolio as of 2022-10-31\n"
-            + "4. View the value of a portfolio with manually input prices.\n"
-            + "5. Go back\n", out.toString());
+            + "3. View the cost basis of a flexible portfolio\n"
+            + "4. View the performance over time for flexible portfolio\n"
+            + "5. View the value of a portfolio with manually input prices\n"
+            + "6. Go back\n", out.toString());
 
   }
 

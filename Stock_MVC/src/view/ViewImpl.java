@@ -67,7 +67,7 @@ public class ViewImpl implements ViewInterface {
     out.println("2. View the value of a portfolio on a certain date");
     out.println("3. View the cost basis of a flexible portfolio");
     out.println("4. View the performance over time for flexible portfolio");
-    out.println("5. View the value of a portfolio with manually input prices.");
+    out.println("5. View the value of a portfolio with manually input prices");
     out.println("6. Go back");
 
   }
