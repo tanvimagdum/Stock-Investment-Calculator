@@ -119,6 +119,8 @@ public interface PortfolioManager {
 
   public float[] getCostBasis(String name, String date) throws ParseException, IOException;
 
+  public float[] portfolioPerformance(String name, Date[] dates);
+
   /**
    * Get the ticker numbers for all stocks in a portfolio.
    *

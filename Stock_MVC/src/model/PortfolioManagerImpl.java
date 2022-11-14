@@ -264,6 +264,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return values;
   }
 
+  @Override
+  public float[] portfolioPerformance(String name, Date[] dates) {
+    return new float[0];
+  }
+
   public String[] getTickers(String name) {
     return getPortfolio(name).getTickers();
   }

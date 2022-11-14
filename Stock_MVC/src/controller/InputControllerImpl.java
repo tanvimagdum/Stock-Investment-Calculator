@@ -248,6 +248,7 @@ public class InputControllerImpl implements InputController {
           Date upperLimit = new Date();
           DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
           formatter.setLenient(false);
+          Date lowerLimit = new Date();
 
           v.printLine("Please enter the starting year (4 digits):");
           year = sc.nextLine();
@@ -257,8 +258,9 @@ public class InputControllerImpl implements InputController {
           day = sc.nextLine();
           Date target1 = new Date();
           try {
+            lowerLimit = formatter.parse("01/01/1990");
             target1 = formatter.parse(mon + "/" + day + "/" + year);
-            if (target1.compareTo(upperLimit) > 0) {
+            if (target1.compareTo(upperLimit) > 0 || target1.compareTo(lowerLimit) < 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
               break;
@@ -279,7 +281,7 @@ public class InputControllerImpl implements InputController {
           Date target2 = new Date();
           try {
             target2 = formatter.parse(mon + "/" + day + "/" + year);
-            if (target2.compareTo(upperLimit) > 0) {
+            if (target2.compareTo(upperLimit) > 0 || target1.compareTo(lowerLimit) < 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
               break;
@@ -291,12 +293,19 @@ public class InputControllerImpl implements InputController {
           }
 
           long interval = target2.getTime() - target1.getTime();
-
+          long minimum = 1000L*60*60*24*5;
+          long maximum = 1000L*60*60*24*365*20;
+          if (interval < minimum || interval > maximum) {
+            v.printLine("Please enter two dates, chronologically and at least 5 days apart,"
+                    + "but no more than 20 years apart.");
+            v.showPortfolioScreen();
+            break;
+          }
 
           Date[] dates = dateHelper(target1, target2);
 
           try {
-            v.printLines(p.portfolioPerformance(name, dates));
+            float[] values = p.portfolioPerformance(name, dates);
           } catch (Exception e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
           }
@@ -502,7 +511,12 @@ public class InputControllerImpl implements InputController {
     return out;
   }
 
-  private String[] performanceOverTimeHelper(){
+  private Date[] dateHelper(Date start, Date end){
+
+    return new Date[0];
+  }
+
+  private String[] performanceOverTimeHelper(Date[] dates, float[] values){
 
     return new String[0];
   }
