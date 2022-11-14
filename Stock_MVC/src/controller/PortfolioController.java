@@ -1,6 +1,5 @@
 package controller;
 
-import model.Portfolio;
 import view.ViewInterface;
 
 import java.io.FileNotFoundException;
@@ -139,11 +138,11 @@ public interface PortfolioController {
   public String[] manualValuation(String name, ViewInterface v, Scanner sc);
 
   /**
-   *
-   * @param name the name of the flexible portfolio
+   * @param name  the name of the flexible portfolio
+   * @param dates
    * @return
    */
-  public String[] portfolioPerformance(String name);
+  public String[] portfolioPerformance(String name, Date[] dates);
 
   /**
    * This method calls the method in model

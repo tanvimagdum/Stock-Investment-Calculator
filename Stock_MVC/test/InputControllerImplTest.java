@@ -1,7 +1,6 @@
 import controller.InputController;
 import controller.InputControllerImpl;
 import controller.PortfolioController;
-import model.Portfolio;
 
 import org.junit.Test;
 
@@ -99,7 +98,7 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String[] portfolioPerformance(String name) {
+    public String[] portfolioPerformance(String name, Date[] dates) {
       log.append("portfolioPerformance method called with " + name);
       return new String[0];
     }

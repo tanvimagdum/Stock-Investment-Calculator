@@ -343,7 +343,7 @@ public class PortfolioControllerImpl implements PortfolioController {
 
   //change
   @Override
-  public String[] portfolioPerformance(String name) {
+  public String[] portfolioPerformance(String name, Date[] dates) {
     return new String[0];
   }
 

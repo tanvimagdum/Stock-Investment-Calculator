@@ -249,14 +249,15 @@ public class InputControllerImpl implements InputController {
           DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
           formatter.setLenient(false);
 
-          v.printLine("Please enter the year (4 digits):");
+          v.printLine("Please enter the starting year (4 digits):");
           year = sc.nextLine();
-          v.printLine("Please enter the month (2 digits):");
+          v.printLine("Please enter the starting month (2 digits):");
           mon = sc.nextLine();
-          v.printLine("Please enter the day (2 digits):");
+          v.printLine("Please enter the starting day (2 digits):");
           day = sc.nextLine();
+          Date target1 = new Date();
           try {
-            Date target1 = formatter.parse(mon + "/" + day + "/" + year);
+            target1 = formatter.parse(mon + "/" + day + "/" + year);
             if (target1.compareTo(upperLimit) > 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
@@ -269,14 +270,15 @@ public class InputControllerImpl implements InputController {
           }
 
 
-          v.printLine("Please enter the year of the (4 digits):");
+          v.printLine("Please enter the ending year(4 digits):");
           year = sc.nextLine();
-          v.printLine("Please enter the month (2 digits):");
+          v.printLine("Please enter the ending month (2 digits):");
           mon = sc.nextLine();
-          v.printLine("Please enter the day (2 digits):");
+          v.printLine("Please enter the ending day (2 digits):");
           day = sc.nextLine();
+          Date target2 = new Date();
           try {
-            Date target2 = formatter.parse(mon + "/" + day + "/" + year);
+            target2 = formatter.parse(mon + "/" + day + "/" + year);
             if (target2.compareTo(upperLimit) > 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
@@ -288,10 +290,13 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
+          long interval = target2.getTime() - target1.getTime();
 
+
+          Date[] dates = dateHelper(target1, target2);
 
           try {
-            v.printLines(p.portfolioPerformance(name));
+            v.printLines(p.portfolioPerformance(name, dates));
           } catch (Exception e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
           }
