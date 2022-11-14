@@ -21,7 +21,7 @@ public class FlexStockTest {
     FlexStock<String, Float, Date> flexStock = new FlexStock<>("GOOG", (float) 10.20, date);
     assertEquals("GOOG", flexStock.getS());
     assertEquals((float) 10.20, flexStock.getF(), 0.0001);
-    assertEquals("01-01-2018", flexStock.getD().toString());
+    assertEquals("01-01-2018", formatter.format(flexStock.getD()));
   }
 
 }
