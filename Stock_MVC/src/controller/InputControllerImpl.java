@@ -518,13 +518,14 @@ public class InputControllerImpl implements InputController {
       float closest = 10000000;
       int scale = 0;
       for (int i = 0; i < tests.length; i++) {
-          float dist = Math.abs((days/tests[i]));
+          float dist = Math.abs((days/tests[i])-target);
           if (dist < closest) {
               scale = i;
               closest = dist;
           }
       }
-
+      System.out.println("dateHelper--");
+      System.out.println(tests[scale]);
       DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       ArrayList<Date> tempDateList = new ArrayList<>();
       switch (tests[scale]) {
@@ -533,7 +534,14 @@ public class InputControllerImpl implements InputController {
         case 3:
         case 4:
         case 5:
-          
+          long interval = tests[scale] * 1000L*60*60*24;
+          Date current = start;
+          System.out.println(formatter.format(current));
+          while (current.compareTo(end) < 0) {
+            tempDateList.add(current);
+            current = new Date(current.getTime() + interval);
+            System.out.println(formatter.format(current));
+          }
           break;
         case 30:
           break;
@@ -552,9 +560,9 @@ public class InputControllerImpl implements InputController {
         out[i] = tempDateList.get(i);
       }
 
-      out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
-              formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
-              formatter.parse("2019-01-01")};
+      //out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
+      //        formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
+      //        formatter.parse("2019-01-01")};
 
     return out;
   }
@@ -584,13 +592,13 @@ public class InputControllerImpl implements InputController {
       base = base + temp;
     }
 
-    float ast = (max-base)/40;
+    float ast = (Math.abs(max)-Math.abs(base))/40;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0]) + "to "
             + formatter.format(dates[dates.length-1]) + "\n";
     for (int i = 0; i < dates.length; i++) {
-      int astCount = 0;
-      while (astCount*ast <= values[i]) {
+      int astCount = 1;
+      while (astCount*ast + base <= values[i]) {
           astCount++;
       }
       out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
