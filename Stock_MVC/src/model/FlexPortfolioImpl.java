@@ -104,10 +104,7 @@ public class FlexPortfolioImpl implements Portfolio {
         sum += counts[i];
       }
     }
-    if (sum < count) {
-      return false;
-    }
-    return true;
+    return !(sum < count);
   }
 
   /**

@@ -20,8 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * A JUnit test class for portfolio manager implementation
- * class.
+ * A JUnit test class for portfolio manager implementation class.
  */
 
 public class PortfolioManagerImplTest {
@@ -45,6 +44,7 @@ public class PortfolioManagerImplTest {
       return mFloat;
     }
   }
+
   Persistence pers = new Persistence();
 
   @Rule
@@ -59,8 +59,7 @@ public class PortfolioManagerImplTest {
 
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.20,
-            (float) 11.20, (float) 14.80));
-
+        (float) 11.20, (float) 14.80));
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
@@ -93,7 +92,7 @@ public class PortfolioManagerImplTest {
 
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.20,
-            (float) 11.20, (float) 14.80));
+        (float) 11.20, (float) 14.80));
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio_1");
@@ -167,7 +166,7 @@ public class PortfolioManagerImplTest {
   public void testReadWriteSimplePortfolio() {
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00,
-            (float) 11.00, (float) 14.00));
+        (float) 11.00, (float) 14.00));
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
@@ -197,10 +196,9 @@ public class PortfolioManagerImplTest {
     assertEquals((int) 11.00, portManager2.getCounts("My Portfolio")[1], 0.0001);
     assertEquals((int) 14.00, portManager2.getCounts("My Portfolio")[2], 0.0001);
 
-
     tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     floatList = new ArrayList<>(Arrays.asList((float) 10.20,
-            (float) 11.00, (float) 14.00));
+        (float) 11.00, (float) 14.00));
 
     portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
@@ -255,8 +253,6 @@ public class PortfolioManagerImplTest {
     assertEquals("GOOG", flex2.getTickers("My Portfolio")[0]);
     assertEquals((int) 100.00, flex2.getCounts("My Portfolio")[0], 0.0001);
     assertEquals("01-01-2018", formatter.format(flex2.getDates("My Portfolio")[0]));
-
-
 
     ticker = "GOOG";
     count = (float) 100;
@@ -320,19 +316,19 @@ public class PortfolioManagerImplTest {
     flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
 
     Date checkDate = formatter.parse("01-01-2019");
-    boolean res = flex.checkFlexEdit("My Portfolio","GOOG", 200, checkDate);
+    boolean res = flex.checkFlexEdit("My Portfolio", "GOOG", 200, checkDate);
     assertEquals(false, res);
 
     Date checkDate1 = formatter.parse("01-01-2017");
-    boolean res1 = flex.checkFlexEdit("My Portfolio","GOOG", 50, checkDate1);
+    boolean res1 = flex.checkFlexEdit("My Portfolio", "GOOG", 50, checkDate1);
     assertEquals(false, res1);
 
     Date checkDate2 = formatter.parse("01-01-2019");
-    boolean res2 = flex.checkFlexEdit("My Portfolio","GOOG", 50, checkDate2);
+    boolean res2 = flex.checkFlexEdit("My Portfolio", "GOOG", 50, checkDate2);
     assertEquals(true, res2);
 
     Date checkDate3 = formatter.parse("01-01-2017");
-    boolean res3 = flex.checkFlexEdit("My Portfolio","GOOG", 200, checkDate3);
+    boolean res3 = flex.checkFlexEdit("My Portfolio", "GOOG", 200, checkDate3);
     assertEquals(false, res3);
 
   }
@@ -360,7 +356,7 @@ public class PortfolioManagerImplTest {
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portFlexBuilder("My Portfolio");
 
-    for (int i = 0; i < tickerList.length; i++){
+    for (int i = 0; i < tickerList.length; i++) {
       portManager.editFlexPortfolio("My Portfolio", tickerList[i], floatList[i], dateList[i]);
     }
 
@@ -393,8 +389,8 @@ public class PortfolioManagerImplTest {
     flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
     float[] res = flex.getCostBasis(name, "01-01-2019", mockA);
 
-    assertEquals("getPrices method called ",log.toString());
-    assertEquals((float)100, res[0], 0.00001);
+    assertEquals("getPrices method called ", log.toString());
+    assertEquals((float) 100, res[0], 0.00001);
 
   }
 
@@ -414,15 +410,15 @@ public class PortfolioManagerImplTest {
     flex.editFlexPortfolio("My Portfolio", ticker, count, d1[0]);
     float[] res = flex.portfolioPerformance(name, d1, mockA);
 
-    assertEquals("getPrices method called ",log.toString());
-    assertEquals((float)10000, res[0], 0.00001);
+    assertEquals("getPrices method called ", log.toString());
+    assertEquals((float) 10000, res[0], 0.00001);
   }
 
   @Test
   public void testSetGetCommission() {
     PortfolioManager flex = new PortfolioManagerImpl(pers);
     flex.portFlexBuilder("My Portfolio");
-    flex.setCommissionFee((float)100.10);
-    assertEquals((float)100.10, flex.getCommissionFee(), 0.00001);
+    flex.setCommissionFee((float) 100.10);
+    assertEquals((float) 100.10, flex.getCommissionFee(), 0.00001);
   }
 }
