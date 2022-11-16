@@ -9,8 +9,10 @@ import java.util.Date;
 /**
  * An interface containing methods to perform
  * operations on a portfolio.
+ *
+ * Changes:
+ * 1.
  */
-
 public interface PortfolioManager {
 
   /**
@@ -117,8 +119,30 @@ public interface PortfolioManager {
   public void editFlexPortfolio(String name, String ticker, Float count, Date date)
                                 throws IllegalArgumentException;
 
+  /**
+   * Takes in a date and api, gets a portfolio, then figures out which stocks to include based
+   * on the date. Finally, calls the API to value those stocks on the given date.
+   *
+   * @param name the name of the portfolio
+   * @param date a string of the form "yyyy-MM-dd"
+   * @param api the api object that gets the prices
+   * @return an array of values representing prices
+   * @throws ParseException if the date is not given correctly
+   * @throws IOException if the API has issues
+   */
   public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
 
+  /**
+   * Gets the prices for a portfolios stocks based on the dates given, via portfolioValueByDate(),
+   * which takes the API object.
+   *
+   * @param name the portfolio's name
+   * @param dates the dates we want prices for
+   * @param api the object making API calls
+   * @return a float array of prices
+   * @throws IOException
+   * @throws ParseException
+   */
   public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
 
   /**
@@ -148,8 +172,16 @@ public interface PortfolioManager {
    */
   public Date[] getDates(String name) throws IllegalArgumentException;
 
+  /**
+   * Accesses and returns the commission fee for cost-basis use.
+   */
   public float getCommissionFee();
 
+  /**
+   * Sets the commission fee.
+   *
+   * @param fee the fee
+   */
   public void setCommissionFee(float fee);
 
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * A class representing the methods to build, read, write,
- * get contents of the desired portfolio.
+ * and get contents of the desired portfolio.
  */
 
 public class PortfolioManagerImpl implements PortfolioManager {
@@ -22,6 +22,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
   private Persistence pers;
   private float commissionFee;
 
+  /**
+   * A constructor for the portfolio manager that takes in a persistence object.
+   *
+   * @param pers the persistence object
+   */
   public PortfolioManagerImpl(Persistence pers) {
     this.pers = pers;
   }
@@ -202,6 +207,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return false;
   }
 
+  @Override
   public boolean validateTicker(String ticker, Date date) throws IOException, ParseException {
     BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
     String row = reader.readLine();
@@ -283,14 +289,17 @@ public class PortfolioManagerImpl implements PortfolioManager {
     return out;
   }
 
+  @Override
   public String[] getTickers(String name) {
     return getPortfolio(name).getTickers();
   }
 
+  @Override
   public Float[] getCounts(String name) {
     return getPortfolio(name).getCounts();
   }
 
+  @Override
   public Date[] getDates(String name) throws IllegalArgumentException{
 
     try {
@@ -303,9 +312,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   }
 
+  @Override
   public float getCommissionFee() {
     return commissionFee;
   }
+  @Override
   public void setCommissionFee(float cf) {
     this.commissionFee = cf;
   }

@@ -203,7 +203,7 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Float> floatList = new ArrayList<>();
 
-    v.printLine("Please enter the portfolio's name.");
+    v.printLine("Please enter the portfolio's name (alphanumeric).");
     name = sc.nextLine();
 
     try {
@@ -282,7 +282,7 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<Float> floatList = new ArrayList<>();
     ArrayList<Date> dateList = new ArrayList<>();
 
-    v.printLine("Please enter the portfolio's name.");
+    v.printLine("Please enter the portfolio's name (alphanumeric).");
     name = sc.nextLine();
 
     try {
