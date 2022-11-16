@@ -1,11 +1,10 @@
 package model;
 
 
-import java.util.ArrayList;
-
 /**
- * A portfolio interface to define
- * the structure of a portfolio.
+ * A portfolio interface to define the structure of a portfolio.
+ * Changes:
+ * 1. Removed returnPortfolio() as this method is now defunct.
  */
 
 public interface Portfolio {

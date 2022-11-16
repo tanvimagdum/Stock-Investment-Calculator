@@ -10,11 +10,20 @@ import java.util.Scanner;
 
 
 /**
- * A controller interface to send the
- * inputs acquired from input controller
- * to further processing and take inputs
- * from users required for internal operations
+ * A controller interface to send the inputs acquired from input controller
+ * to further processing and take inputs from users required for internal operations
  * other than selecting from menu.
+ *
+ * Changes:
+ * 1. Removed returnPortfolio() as it was removed in the model.
+ * 2. Removed getPortfolioContents() as other methods are sufficient.
+ * 3. readPortfolioFile() and buildPortfolio() now return the portfolio name for convenience.
+ * 4. buildPortfolio(), manualValuation(), and selectPortfolio() now take a scanner as input.
+ *    This is in keeping with maintaining a single scanner in the Input Controller.
+ * 5. Now takes the model in construction, making this class more flexible and aiding testing.
+ * 6. Removed getPortfolioValueLatest() as the method was removed in model.
+ * 7. Several functions that invoke the model now pass an API object, to keep the API in the
+ *    controller.
  */
 
 public interface PortfolioController {
@@ -189,9 +198,9 @@ public interface PortfolioController {
   public float getCommissionFee();
 
   /**
+   * Allows the commission fee to be set.
    *
-   *
-   * @param fee
+   * @param fee the value to set the commission fee to
    */
   public void setCommissionFee(float fee);
 

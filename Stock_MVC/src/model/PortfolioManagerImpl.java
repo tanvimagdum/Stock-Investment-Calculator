@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * A class representing the methods to build, read, write,
- * and get contents of the desired portfolio.
+ * A class representing the methods to build, read, write, and get contents of the desired
+ * portfolio.
  */
 
 public class PortfolioManagerImpl implements PortfolioManager {
+
   private ArrayList<Portfolio> portfolios = new ArrayList<>();
 
   private Persistence pers;
@@ -61,7 +62,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   @Override
   public String readPortfolioFile(String filename) throws IllegalArgumentException,
-          IOException, ParseException {
+      IOException, ParseException {
 
     if (filename.length() < 5) {
       throw new IllegalArgumentException("String given is not an accepted filename.");
@@ -83,7 +84,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     try {
       ((FlexPortfolioImpl) thisPortfolio).getDates();
       pers.saveFlexCSV(thisPortfolio);
-    } catch (Exception e){
+    } catch (Exception e) {
       pers.saveSimpleCSV(thisPortfolio);
     }
   }
@@ -124,7 +125,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
 
     String[] flexNames = new String[j];
-    for (int i = 0; i  < j; i++) {
+    for (int i = 0; i < j; i++) {
       flexNames[i] = listOfNames[i];
     }
 
@@ -132,7 +133,8 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException {
+  public float[] getPortfolioValue(String name, String date, controller.API api)
+      throws IOException, ParseException {
     try {
       Portfolio subject = getPortfolio(name);
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,7 +144,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       Date[] startDates = ((FlexPortfolioImpl) subject).getDates();
       DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       int j = 0;
-      for (int i = 0; i < startDates.length; i++){
+      for (int i = 0; i < startDates.length; i++) {
         if (startDates[i].compareTo(target) < 1) {
           j++;
         }
@@ -162,7 +164,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       }
       float[] values = api.getPrices(tickers, target);
       for (int i = 0; i < values.length; i++) {
-        values[i] = values[i]*counts[i];
+        values[i] = values[i] * counts[i];
       }
       return values;
 
@@ -186,8 +188,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   /**
-   * This method performs a check on a submitted ticker symbol to see if it matches those in
-   * our database.
+   * This method performs a check on a submitted ticker symbol to see if it matches those in our
+   * database.
+   *
    * @param ticker the symbol being checked
    * @return a boolean for whether the symbol was or was not recognized
    * @throws IOException when there is difficulty reading the reference file
@@ -233,13 +236,14 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   @Override
   public void editFlexPortfolio(String name, String ticker, Float count, Date date)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     FlexPortfolioImpl port = (FlexPortfolioImpl) getPortfolio(name);
     port.addFlexStock(ticker, count, date);
   }
 
   @Override
-  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException {
+  public float[] getCostBasis(String name, String date, controller.API api)
+      throws ParseException, IOException {
     FlexPortfolioImpl subject = (FlexPortfolioImpl) getPortfolio(name);
     String[] startTickers = subject.getTickers();
     Float[] startCounts = subject.getCounts();
@@ -247,8 +251,8 @@ public class PortfolioManagerImpl implements PortfolioManager {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date target = formatter.parse(date);
     int j = 0;
-    for (int i = 0; i < startDates.length; i++){
-      if (startDates[i].compareTo(target) < 1 && startCounts[i] > 0 ) {
+    for (int i = 0; i < startDates.length; i++) {
+      if (startDates[i].compareTo(target) < 1 && startCounts[i] > 0) {
         j++;
       }
     }
@@ -275,10 +279,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException {
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api)
+      throws IOException, ParseException {
     float[] out = new float[dates.length];
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    for (int i = 0; i  < dates.length; i++) {
+    for (int i = 0; i < dates.length; i++) {
       float[] values = getPortfolioValue(name, formatter.format(dates[i]), api);
       float sum = 0;
       for (int j = 0; j < values.length; j++) {
@@ -300,14 +305,14 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public Date[] getDates(String name) throws IllegalArgumentException{
+  public Date[] getDates(String name) throws IllegalArgumentException {
 
     try {
       Portfolio flexPort = getPortfolio(name);
       return ((FlexPortfolioImpl) flexPort).getDates();
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw new IllegalArgumentException("Portfolio must be a flexible portfolio " +
-                        "in order to get dates.");
+          "in order to get dates.");
     }
 
   }
@@ -316,6 +321,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   public float getCommissionFee() {
     return commissionFee;
   }
+
   @Override
   public void setCommissionFee(float cf) {
     this.commissionFee = cf;
