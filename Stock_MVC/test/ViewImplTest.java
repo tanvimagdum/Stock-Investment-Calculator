@@ -74,7 +74,7 @@ public class ViewImplTest {
             + "Please enter a choice number\n"
             + "\n"
             + "1. View the stocks list in the portfolio\n"
-            + "2. View the value of a portfolio on a certain date (2010-2018)\n"
+            + "2. View the value of a portfolio on a certain date\n"
             + "3. View the cost basis of a flexible portfolio\n"
             + "4. View the performance over time for flexible portfolio\n"
             + "5. View the value of a portfolio with manually input prices\n"

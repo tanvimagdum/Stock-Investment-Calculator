@@ -4,6 +4,7 @@ import model.Persistence;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import org.junit.Test;
+import view.ViewInterface;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -80,13 +82,13 @@ public class PortfolioControllerImplTest {
     @Override
     public boolean validateTicker(String ticker) throws IOException {
       log.append("validateTicker method called with " + ticker + " ");
-      return false;
+      return true;
     }
 
     @Override
     public boolean validateTicker(String ticker, Date date) throws IOException, ParseException {
       log.append("validateTicker method called with " + ticker + " and " + date + " ");
-      return false;
+      return true;
     }
 
     @Override
@@ -133,9 +135,57 @@ public class PortfolioControllerImplTest {
 
     @Override
     public void setCommissionFee(float fee) {
-      log.append("setCommissionFee method called with ");
+      log.append(String.format("setCommissionFee method called with %.2f", fee) + " ");
     }
   }
+
+  /**
+   * A mock view to be passed to the input controller for testing purposes.
+   */
+  public class MockView implements ViewInterface {
+
+    private StringBuilder log;
+
+    public MockView(StringBuilder log) {
+      this.log = log;
+    }
+
+    @Override
+    public void showWelcomeScreen() {
+      log.append("showWelcomeScreen method called ");
+    }
+
+    @Override
+    public void showLoadScreen() {
+      log.append("showLoadScreen method called ");
+    }
+
+    @Override
+    public void showBuildScreen() {
+      log.append("showBuildScreen method called ");
+    }
+
+    @Override
+    public void showPortfolioScreen() {
+      log.append("showPortfolioScreen method called ");
+    }
+
+    @Override
+    public void printLine(String line) {
+      log.append("printLine method called ");
+    }
+
+    @Override
+    public void printLines(String[] lines) {
+      log.append("printLines method called ");
+    }
+
+    @Override
+    public void displayError() {
+      log.append("displayError method called ");
+    }
+  }
+
 
   @Test
   public void testReadPortfolio() throws IOException, ParseException {
@@ -198,7 +248,7 @@ public class PortfolioControllerImplTest {
   }
 
   @Test
-  public void testPortfolioPerformance() {
+  public void testPortfolioPerformance() throws IOException, ParseException {
     Readable in = new StringReader(" ");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
@@ -236,6 +286,43 @@ public class PortfolioControllerImplTest {
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.getDates("port");
     assertEquals("getDates method called with port ", log.toString());
+  }
+
+  @Test
+  public void testGetCommissionFee() {
+    Readable in = new StringReader(" ");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.getCommissionFee();
+    assertEquals("getCommissionFee method called ", log.toString());
+  }
+
+  @Test
+  public void testSetCommissionFee() {
+    Readable in = new StringReader(" ");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.setCommissionFee(100.10f);
+    assertEquals("setCommissionFee method called with 100.10 ", log.toString());
+  }
+
+  @Test
+  public void testEditFlexPortfolio() throws IOException, ParseException {
+    Readable in = new StringReader("b\r AAPL\r 100 \n 2016\r 01\r 01\r");
+    //"AAPL 100 2016 01 01"
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.editFlexPortfolio("port", mockV, new Scanner(in));
+    System.out.println();
+    //System.out.println(log.toString());
+    /*assertEquals("Please choose whether to buy or sell, by entering 'b' or 's'. Alternatively, "
+            + "or enter 'Done' to finish."
+            , log.toString());*/
+
   }
 
  /* @Test
