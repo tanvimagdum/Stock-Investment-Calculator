@@ -33,8 +33,14 @@
 
 17. Portfolio Manager: added getFlexPortfolioNames()
 
-18. API: added getPerformance()
+18. Portfolio Controller: removed references to getPortfolioValueLatest()
 
 19. API: removed validateTicker() method
 
-20.
+20. API: was moved to the controller package
+
+21. Portfolio Controller: API calls passed to the model now also pass the API to the model
+
+22. Portfolio Manager: getCostBasis(), portfolioPerformance(), and getPortfolioValue() now take an API object as input
+
+23. Input Controller: moved some functionality from switch statements to private helpers

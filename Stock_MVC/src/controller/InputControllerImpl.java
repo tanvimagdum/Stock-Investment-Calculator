@@ -1,6 +1,5 @@
 package controller;
 
-import model.Persistence;
 import model.PortfolioManagerImpl;
 import view.ViewImpl;
 import view.ViewInterface;

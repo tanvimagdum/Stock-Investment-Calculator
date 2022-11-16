@@ -1,65 +1,66 @@
 
-
 Running the program from the JAR file -- 
 
-1. Make sure the runnable JAR file, TickerListSP500.csv file and the Stocks folder are contained in one single folder (ex. Stocks_Runnable).
+1. Make sure the runnable JAR file and Full Ticker List.csv file are in the same directory (any will do).
 
-2. Navigate to that folder (here, Stocks_Runnable) through CLI and make it the current directory.
+2. While in that directory enter this command -: java -jar Stock_MVC.jar
 
-3. Enter command -: java -jar Stock_MVC.jar 
+3. If the program runs successfully the user will see the ' Welcome to 'GROW MONEY'! ' screen.
 
-4. User must see ' Welcome to 'GROW MONEY'! ' screen.
+4. The program will exit when option '6' is selected from the main menu.
 
-
-
-Instructions on how to run the program --
+Instructions to purchase 3 companies stock on 3 different dates and view the value and cost basis on 2 different dates:
 
 1. User will see ' Welcome to 'GROW MONEY'! ' screen after running the JAR file.
 
-2. Enter '2' from the keyboard. Press Enter. User will see 'Build a new portfolio' screen.
+2. Enter '2' to navigate to the build/edit menu
 
-3. Enter '1 from the keyboard. Press Enter. User will be asked to enter the name for the new portfolio.
+3. Enter '2' to begin making a flexible portfolio
 
-4. Enter a string of your choice as portfolio name (for ex. 'Portfolio_1'). Press Enter. User will be asked to enter the ticker number for 1st record or to enter 'Done'.
+4. Enter any non-empty alphanumeric string as the portfolio's name: 'example'
 
-5. Enter a valid ticker symbol as string (for ex. 'A'). Press Enter. User will be asked to enter the count of stocks.
+5. To buy a stock, enter: 'b'
 
-6. Enter any desired stock count (for ex. 10). Press Enter. User will be asked to enter the ticker again or to enter 'Done'.
+6. Enter the stock's ticker: 'MSFT'
 
-7. Enter a valid ticker symbol as string (for ex. 'AAPL'). Press Enter. User will be asked to enter the count of stocks.
+7. Enter the count: '100'
 
-8. Enter any desired stock count (for ex. 20). Press Enter. User will be asked to enter the ticker again or to enter 'Done'.
+8. Enter the date in 3 separate inputs (each input will be individually queried): '2015' '01' '01'
 
-9. Enter a valid ticker symbol as string (for ex. 'ABC'). Press Enter. User will be asked to enter the count of stocks.
+9. Repeat 5-8 with the following inputs:
+    'b' 'AAPL' '200' '2012' '05' '24'
+    'b' 'GOOG' '150' '2010' '10' '01'
 
-10. Enter any desired stock count (for ex. 30). Press Enter. User will be asked to enter the ticker again or to enter 'Done'.
+10. Enter 'done' to finish changing the portfolio, then enter anything to return to the build/edit menu
 
-11. Enter 'Done' (case-insensitive) and press Enter. User will be directed back to 'Build a new portfolio' screen.
+11. Enter '4' to return to the main menu
 
-12. Enter '1', press Enter. User will be asked to enter the name for the second portfolio.
+12. Enter '3' to navigate to the view menu
 
-13. Enter a string of your choice as portfolio name (for ex. 'Portfolio_2'). Press Enter. User will be asked to enter the ticker number for 1st record or to enter 'Done'.
+13. Enter '2' to see the portfolio's value on a certain date
 
-14. Repeat steps 5 to 8.
+14. Enter '1' to select 'example'
 
-15. Repeat step 11.
+15. Repeat step 8: '2011' '01' '01'
 
-16. Enter '2', press Enter. User will be directed back to the ' Welcome to 'GROW MONEY'! ' screen.
+16. Wait patiently for the API, try to resist entering additional input, it may confuse the menus and the user
+    (it shouldn't cause any problems though)
 
-17. Enter '3' and press Enter. User will be able to see 'View a portfolio' screen.
+17. Enter anything to continue, then repeat steps 13-16 with a different date: '2016' '05' '05'
 
-18. Enter '2' and press Enter. User will be asked to select a portfolio.
+18. Enter anything to continue, then enter '3' to view the cost basis of a portfolio
 
-19. Enter the desired option number. Press Enter. User will be asked to enter the date.
+19. Enter '1' to select 'example'
 
-20. Enter year, month and day separately by hitting Enter (date between 2010-01-01 to 2018-03-27 as YYYY-MM-DD). User will see the contents and total value of the portfolio on the specified date.
+20. Repeat step 8: '2011' '01' '01'
 
-21. Enter '2' again and repeat the same steps for a different portfolio.
+21. Repeat step 16
 
-22. Enter '3', press Enter. User will be asked to select a portfolio.
+22. Enter anything to continue, then repeat steps 18-21 with a different date: '2016' '05' '05'
 
-23. Enter the desired option number. Press Enter. User will see the contents and total value of the portfolio on 2022-10-31 (YYYY-MM-DD).
+23. Enter anything to continue, then enter '6' to return to the main menu
 
+24. (Optional) Enter '4' then '1' or just enter '5' to save 'example'
 
+25. Enter '6' to exit the program
 
-List of stocks the program supports can be found in 'TickerListSP500.csv' file. All the tickers are recognizable. 

@@ -1,7 +1,6 @@
 package model;
 
-import controller.API;
-import controller.APIImpl;
+import controller.Persistence;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
