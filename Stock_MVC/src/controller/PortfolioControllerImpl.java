@@ -61,8 +61,8 @@ public class PortfolioControllerImpl implements PortfolioController {
 
       v.printLine("Please choose whether to buy or sell, by entering 'b' or 's'. Alternatively, "
               + "or enter 'Done' to finish.");
-      String bs = sc.nextLine();
-
+      String bs = sc.next();
+      sc.nextLine();
       if (bs.equalsIgnoreCase("done")) {
         break;
       }
@@ -74,13 +74,14 @@ public class PortfolioControllerImpl implements PortfolioController {
 
 
       v.printLine("Please enter a ticker symbol");
-      ticker = sc.nextLine();
-
+      ticker = sc.next();
+      sc.nextLine();
       boolean dateCheck = true;
       if (!model.validateTicker(ticker)) {
         v.printLine("Warning: the symbol you entered is not recognized.");
         v.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
-        String response = sc.nextLine();
+        String response = sc.next();
+        sc.nextLine();
         if (!response.equals("y")) {
           continue;
         } else {
@@ -89,7 +90,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       }
 
       v.printLine("Please enter the stock count.");
-      count = sc.nextLine();
+      count = sc.next();
+      sc.nextLine();
       try {
         int temp = Integer.parseInt(count);
         if (temp <= 0) {
@@ -105,11 +107,14 @@ public class PortfolioControllerImpl implements PortfolioController {
       String mon;
       String day;
       v.printLine("Please enter the year (4 digits):");
-      year = sc.nextLine();
+      year = sc.next();
+      sc.nextLine();
       v.printLine("Please enter the month (2 digits):");
-      mon = sc.nextLine();
+      mon = sc.next();
+      sc.nextLine();
       v.printLine("Please enter the day (2 digits):");
-      day = sc.nextLine();
+      day = sc.next();
+      sc.nextLine();
       Date target;
       try {
         DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
@@ -200,7 +205,8 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<Float> floatList = new ArrayList<>();
 
     v.printLine("Please enter the portfolio's name.");
-    name = sc.nextLine();
+    name = sc.next();
+    sc.nextLine();
 
     try {
       String[] existing = getPortfolioNames();
@@ -230,7 +236,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       String ticker;
       String count;
       v.printLine("Please enter a ticker symbol or enter 'Done'.");
-      ticker = sc.nextLine();
+      ticker = sc.next();
+      sc.nextLine();
 
       if (ticker.equalsIgnoreCase("done")) {
         break;
@@ -239,7 +246,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       if (!model.validateTicker(ticker)) {
         v.printLine("Warning: the symbol you entered is not recognized.");
         v.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
-        String response = sc.nextLine();
+        String response = sc.next();
+        sc.next();
         if (!response.equals("y")) {
           continue;
         }
