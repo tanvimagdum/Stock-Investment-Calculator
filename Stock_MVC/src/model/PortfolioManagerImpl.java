@@ -276,9 +276,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     for (int i = 0; i  < dates.length; i++) {
       float[] values = getPortfolioValue(name, formatter.format(dates[i]), api);
       float sum = 0;
-      System.out.println("-----");
       for (int j = 0; j < values.length; j++) {
-        System.out.println(values[j]);
         sum += values[j];
       }
       out[i] = sum;

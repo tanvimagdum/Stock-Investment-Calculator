@@ -611,7 +611,8 @@ public class InputControllerImpl implements InputController {
       }
       out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
     }
-    out[dates.length+1] = "\nOne * represents: $" + String.format("%.02f", ast);
+    out[dates.length+1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
+            + " above the base of " + String.format("%.02f", base);
     return out;
   }
 
