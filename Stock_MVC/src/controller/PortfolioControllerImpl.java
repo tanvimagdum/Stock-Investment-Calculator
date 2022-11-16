@@ -220,7 +220,8 @@ public class PortfolioControllerImpl implements PortfolioController {
 
     boolean flag = true;
     for (int i = 0; i < name.length(); i++) {
-      if (Character.isLetterOrDigit(name.charAt(i))) {
+      if (!Character.isLetterOrDigit(name.charAt(i))) {
+        System.out.println(name.charAt(i));
         flag = false;
       }
     }
@@ -299,7 +300,7 @@ public class PortfolioControllerImpl implements PortfolioController {
 
     boolean flag = true;
     for (int i = 0; i < name.length(); i++) {
-      if (Character.isLetterOrDigit(name.charAt(i))) {
+      if (!Character.isLetterOrDigit(name.charAt(i))) {
         flag = false;
       }
     }
