@@ -137,3 +137,7 @@ methods.
     The 'Input Controller' is constructed in the main loop, requiring a view, a portfolio controller, an input stream,
 an output stream, and an API. The 'View' is passed the output stream. The 'Portfolio Controller' is passed the input
 stream and a new 'Portfolio Manager' which itself is passed a 'Persistence' object.
+
+    The flexible portfolio has two rules to keep in mind while constructing it. You cannot sell stock you have not
+already bought in the portfolio. You cannot sell stock on a date before if not enough of that stock was previously
+purchased.

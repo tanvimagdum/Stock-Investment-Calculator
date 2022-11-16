@@ -21,8 +21,7 @@ public interface PortfolioController {
 
 
   /**
-   * This method calls the method in model to read
-   * the desired portfolio.
+   * This method calls the method in model to read the desired portfolio.
    *
    * @param filename file to be read
    * @throws FileNotFoundException if the file is missing or name is invalid
@@ -30,8 +29,7 @@ public interface PortfolioController {
   public String readPortfolioFile(String filename) throws IOException, ParseException;
 
   /**
-   * This method calls the method in model to save or write
-   * the desired portfolio.
+   * This method calls the method in model to save or write the desired portfolio.
    *
    * @param filename file to be saved/write
    * @throws IOException if the file is invalid
@@ -55,11 +53,13 @@ public interface PortfolioController {
   String[] getFlexPortfolioNames();
 
   /**
+   * Makes a change to a flexible portfolio by adding a stock item representing either a buy
+   * or a sell.
    *
    * @param name the name of the portfolio
    * @param v the view interface the controller speaks through
    * @param sc the scanner object for the controller to take input
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the edit breaks the rules
    */
   void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException;
 
@@ -75,8 +75,7 @@ public interface PortfolioController {
   public String selectPortfolio(ViewInterface view, Scanner sc);
 
   /**
-   * This method prompts the user to select a flexible portfolio
-   * from those loaded in the program
+   * This method prompts the user to select a flexible portfolio from those loaded in the program
    * then returns the name of the portfolio.
    *
    * @param view an object of viewInterface to send messages
@@ -87,12 +86,11 @@ public interface PortfolioController {
   String selectFlexPortfolio(ViewInterface view, Scanner sc);
 
   /**
-   * This method calls the method in model
-   * to get the value of stocks of a portfolio
+   * This method calls the method in model to get the value of stocks of a portfolio
    * on a certain date.
    *
    * @param name name of the portfolio
-   * @param date the desired date at which value is to be known
+   * @param date the desired date at which value is to be known, 'yyyy-MM-dd'
    * @return the content/description and the total value of the portfolio
    *         in a string array
    * @throws IOException if there is difficulty reading files
@@ -100,6 +98,16 @@ public interface PortfolioController {
    */
   public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
 
+  /**
+   * Gets the cost basis for a portfolio on a given date, via API calls.
+   *
+   * @param name the name of the portfolio
+   * @param date the date to be used: must be 'yyyy-MM-dd'
+   * @param api the object making API calls
+   * @return a list of prices
+   * @throws ParseException if the date is incorrectly entered or not a real date
+   * @throws IOException if the API encounters difficulty
+   */
   public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
 
   /**
@@ -138,9 +146,11 @@ public interface PortfolioController {
   public String[] manualValuation(String name, ViewInterface v, Scanner sc);
 
   /**
+   * Collects a list of total portfolio values across the provided dates.
+   *
    * @param name  the name of the flexible portfolio
-   * @param dates
-   * @return
+   * @param dates the dates to get values for
+   * @return the value of the portfolio on those dates
    */
   public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
 
@@ -163,15 +173,26 @@ public interface PortfolioController {
   public Float[] getCounts(String name);
 
   /**
-   * This method calls the method in model
-   * to get purchased/sold date for all the stocks in a specified portfolio.
+   * This method calls the method in model to get purchased/sold date for all the stocks in a
+   * specified portfolio.
    *
    * @param name name of the portfolio
    * @return the string array containing dates for all stocks
    */
   public Date[] getDates(String name) throws IllegalArgumentException;
 
+  /**
+   * Accesses the current commission fee from the model.
+   *
+   * @return the commission fee
+   */
   public float getCommissionFee();
+
+  /**
+   *
+   *
+   * @param fee
+   */
   public void setCommissionFee(float fee);
 
 

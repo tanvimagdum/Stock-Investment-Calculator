@@ -11,7 +11,18 @@ import java.util.Date;
  * operations on a portfolio.
  *
  * Changes:
- * 1.
+ * 1. Removed returnPortfolio() to retain portfolio access only in model.
+ * 2. Removed getPortfolioContents() as other existing methods were sufficient.
+ * 3. readPortfolio() and buildPortfolio() return the portfolio names for convenience.
+ * 4. Constructor now takes a persistence object, saving and loading use this object.
+ *    This ensures persistence can be chosen by the user or the controller.
+ * 5. getPortfolioValue() now only returns the prices, rather than formatted String arrays.
+ *    This ensures that only raw data is passed from model to controller.
+ * 6. Removed getPortfolioValueLatest() as it was limited and is supplanted with API calls.
+ * 7. Added getFlexPortfolioNames() to distinguish only flexible portfolios from
+ *    getPortfolioNames().
+ * 8. getCostBasis(), portfolioPerformance(), and getPortfolioValue() now take API as arguments
+ *    to maintain IO responsibility in the controller.
  */
 public interface PortfolioManager {
 
@@ -29,7 +40,7 @@ public interface PortfolioManager {
   /**
    * Build a flexible portfolio that is editable.
    *
-   * @param name       name of the portfolio
+   * @param name the name of the portfolio
    */
   public void portFlexBuilder(String name);
 
@@ -80,12 +91,13 @@ public interface PortfolioManager {
   public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
 
   /**
+   * Checks to see if an edit invalidates the rules of the portfolio and returns a boolean.
    *
-   * @param name
-   * @param ticker
-   * @param count
-   * @param date
-   * @return
+   * @param name the name of the portfolio being edited
+   * @param ticker the ticker of the stock edit
+   * @param count the count of the stock edit, negative for sales
+   * @param date the date of the stock edit
+   * @return a boolean indicating whether the edit is valid
    */
   public boolean checkFlexEdit(String name, String ticker, float count, Date date);
 
@@ -109,12 +121,13 @@ public interface PortfolioManager {
   public boolean validateTicker(String ticker, Date date) throws IOException, ParseException;
 
   /**
+   * Adds an element to the portfolio's stocks list.
    *
-   * @param name
-   * @param ticker
-   * @param count
-   * @param date
-   * @throws IllegalArgumentException
+   * @param name the name of the portfolio being added to
+   * @param ticker the ticker of the stock being added
+   * @param count the count of the stock being added, negative for sales
+   * @param date the date of the transaction
+   * @throws IllegalArgumentException if this edit violates the rules of the portfolio
    */
   public void editFlexPortfolio(String name, String ticker, Float count, Date date)
                                 throws IllegalArgumentException;
