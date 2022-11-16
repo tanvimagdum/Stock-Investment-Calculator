@@ -225,7 +225,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       }
     }
 
-    if (flag) {
+    if (!flag) {
       v.printLine("The entered name is not valid. Please try again.");
       return name;
     }
@@ -304,7 +304,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       }
     }
 
-    if (flag) {
+    if (!flag) {
       v.printLine("The entered name is not valid. Please try again.");
       return name;
     }
