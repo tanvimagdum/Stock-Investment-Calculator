@@ -2,13 +2,17 @@ import controller.APIImpl;
 import controller.Persistence;
 import model.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -20,6 +24,9 @@ import static org.junit.Assert.fail;
 
 public class PortfolioManagerImplTest {
   Persistence pers = new Persistence();
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void testPortfolioBuilder() {
@@ -38,6 +45,7 @@ public class PortfolioManagerImplTest {
 
     assertEquals(stockList.size(), portManager.getTickers("My Portfolio").length);
     assertEquals("My Portfolio", portManager.getPortfolioNames()[0]);
+    assertEquals("My Portfolio", portManager.getFlexPortfolioNames()[0]);
 
     assertEquals("GOOG", portManager.getTickers("My Portfolio")[0]);
     assertEquals("AAPL", portManager.getTickers("My Portfolio")[1]);
@@ -50,7 +58,17 @@ public class PortfolioManagerImplTest {
   }
 
   @Test
-  public void testGetPortfolioNames() {
+  public void testFlexPortfolioBuilder() {
+    ArrayList<FlexStock<String, Float, Date>> flexStockList = new ArrayList<>();
+    PortfolioManager portManager = new PortfolioManagerImpl(pers);
+    portManager.portFlexBuilder("My Portfolio");
+
+    assertEquals("My Portfolio", portManager.getPortfolioNames()[0]);
+    assertEquals("My Portfolio", portManager.getFlexPortfolioNames()[0]);
+  }
+
+  @Test
+  public void testGetSimplePortfolioNames() throws IllegalArgumentException {
 
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.20,
@@ -62,8 +80,24 @@ public class PortfolioManagerImplTest {
 
     assertEquals("My Portfolio_1", portManager.getPortfolioNames()[0]);
     assertEquals("My Portfolio_2", portManager.getPortfolioNames()[1]);
+
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("There are no flexible portfolios yet.");
+    portManager.getFlexPortfolioNames();
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("There are no flexible portfolios yet.");
+    portManager.getFlexPortfolioNames();
   }
 
+  @Test
+  public void testGetFlexPortfolioNames() {
+    ArrayList<FlexStock<String, Float, Date>> flexStockList = new ArrayList<>();
+    PortfolioManager portManager = new PortfolioManagerImpl(pers);
+    portManager.portFlexBuilder("My Portfolio");
+
+    assertEquals("My Portfolio", portManager.getPortfolioNames()[0]);
+    assertEquals("My Portfolio", portManager.getFlexPortfolioNames()[0]);
+  }
 
   @Test
   public void testGetPortfolioValue() {
@@ -105,26 +139,6 @@ public class PortfolioManagerImplTest {
       fail();
     }
   }
-
-  /*@Test
-  public void testGetPortfolioValueLatest() {
-    ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
-    ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00,
-            (float) 11.00, (float) 15.00));
-
-    PortfolioManager portManager = new PortfolioManagerImpl(pers);
-    portManager.portBuilder(tickerList, floatList, "My Portfolio");
-    float[] output = new float[0];
-    try {output = portManager.getPortfolioValue("My Portfolio","2022-02-02");
-    } catch (IOException | ParseException e) {
-      fail();
-    }
-    assertEquals("Value of Portfolio: My Portfolio as of 10/31/2022", output[0]);
-    assertEquals("Ticker: GOOG; Count: 10.0; Value per: 90.50; Total Value: 905.00", output[1]);
-    assertEquals("Ticker: AAPL; Count: 11.0; Value per: 150.65; Total Value: 1657.15", output[2]);
-    assertEquals("Ticker: MSFT; Count: 15.0; Value per: 228.17; Total Value: 3422.55", output[3]);
-    assertEquals("Total value of portfolio: 5984.70", output[4]);
-  }*/
 
   @Test
   public void testReadWritePortfolio() {
@@ -197,4 +211,59 @@ public class PortfolioManagerImplTest {
       fail();
     }
   }
+
+  @Test
+  public void validateDateTickerTest() throws IOException {
+    PortfolioManager portManager = new PortfolioManagerImpl(pers);
+    boolean trueBool = portManager.validateTicker("GOOG");
+    boolean falseBool = portManager.validateTicker("GEEG");
+    if (!trueBool) {
+      fail();
+    }
+    if (falseBool) {
+      fail();
+    }
+  }
+
+  @Test
+  public void testEditFlexPortfolio() throws ParseException {
+    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+    Date d1 = formatter.parse("01-01-2018");
+    Date d2 = formatter.parse("01-31-2019");
+    Date d3 = formatter.parse("11-11-2020");
+
+    String[] tickerList = new String[3];
+    tickerList[0] = "GOOG";
+    tickerList[1] = "AAPL";
+    tickerList[2] = "MSF";
+    Float[] floatList = new Float[3];
+    floatList[0] = (float) 10.20;
+    floatList[1] = (float) 11.20;
+    floatList[2] = (float) 14.80;
+    Date[] dateList = new Date[3];
+    dateList[0] = d1;
+    dateList[1] = d2;
+    dateList[2] = d3;
+
+    PortfolioManager portManager = new PortfolioManagerImpl(pers);
+    portManager.portFlexBuilder("My Portfolio");
+
+    for (int i = 0; i < tickerList.length; i++){
+      portManager.editFlexPortfolio("My Portfolio", tickerList[i], floatList[i], dateList[i]);
+    }
+
+    assertEquals("GOOG", portManager.getTickers("My Portfolio")[0]);
+    assertEquals("AAPL", portManager.getTickers("My Portfolio")[1]);
+    assertEquals("MSF", portManager.getTickers("My Portfolio")[2]);
+
+    assertEquals((float) 10.20, portManager.getCounts("My Portfolio")[0], 0.0001);
+    assertEquals((float) 11.20, portManager.getCounts("My Portfolio")[1], 0.0001);
+    assertEquals((float) 14.80, portManager.getCounts("My Portfolio")[2], 0.0001);
+
+    assertEquals("01-01-2018", formatter.format(portManager.getDates("My Portfolio")[0]));
+    assertEquals("01-31-2019", formatter.format(portManager.getDates("My Portfolio")[1]));
+    assertEquals("11-11-2020", formatter.format(portManager.getDates("My Portfolio")[2]));
+
+  }
+
 }

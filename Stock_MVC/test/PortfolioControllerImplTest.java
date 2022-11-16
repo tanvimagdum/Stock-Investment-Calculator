@@ -7,6 +7,7 @@ import view.ViewInterface;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -82,15 +83,17 @@ public class PortfolioControllerImplTest {
 
     @Override
     public boolean validateTicker(String ticker, Date date) {
-      log.append("validateTicker method called with " + ticker + " and " + date + " ");
+      SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+      log.append("validateTicker method called with " + ticker + " and " + formatter.format(date) + " ");
       return true;
     }
 
     @Override
     public void editFlexPortfolio(String name, String ticker, Float count, Date date)
             throws IllegalArgumentException {
+      SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
       log.append("editFlexPortfolio method called with " + name + ", " + ticker + ", "
-              + count + ", " + date + " ");
+              + count + ", " + formatter.format(date) + " ");
     }
 
     @Override
@@ -319,8 +322,8 @@ public class PortfolioControllerImplTest {
             + "printLine method called "
             + "printLine method called "
             + "printLine method called "
-            + "validateTicker method called with AAPL and Fri Jan 01 00:00:00 EST 2016 "
-            + "editFlexPortfolio method called with port, AAPL, 100.0, Fri Jan 01 00:00:00 EST 2016 "
+            + "validateTicker method called with AAPL and 01-01-2016 "
+            + "editFlexPortfolio method called with port, AAPL, 100.0, 01-01-2016 "
             + "printLine method called "
             , log.toString());
 
@@ -392,8 +395,8 @@ public class PortfolioControllerImplTest {
                     + "printLine method called "
                     + "printLine method called "
                     + "printLine method called "
-                    + "validateTicker method called with AAPL and Fri Jan 01 00:00:00 EST 2016 "
-                    + "editFlexPortfolio method called with port, AAPL, 100.0, Fri Jan 01 00:00:00 EST 2016 "
+                    + "validateTicker method called with AAPL and 01-01-2016 "
+                    + "editFlexPortfolio method called with port, AAPL, 100.0, 01-01-2016 "
                     + "printLine method called "
             , log.toString());
   }
