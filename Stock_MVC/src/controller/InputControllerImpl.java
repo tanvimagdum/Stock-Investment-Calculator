@@ -25,7 +25,6 @@ public class InputControllerImpl implements InputController {
   public boolean flag = true;
   public ViewInterface v;
   public PortfolioController p;
-  private Readable input;
   private Scanner sc;
   private API api;
 
@@ -57,8 +56,7 @@ public class InputControllerImpl implements InputController {
       Readable in, PrintStream out, API api) {
     this.v = view;
     this.p = portCon;
-    this.input = in;
-    this.sc = new Scanner(input);
+    this.sc = new Scanner(in);
     this.api = api;
   }
 

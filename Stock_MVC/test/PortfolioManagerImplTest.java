@@ -1,8 +1,9 @@
-import controller.APIImpl;
 import controller.Persistence;
-import model.*;
+import model.Stock;
+import model.PortfolioManager;
+import model.PortfolioManagerImpl;
+import model.FlexStock;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

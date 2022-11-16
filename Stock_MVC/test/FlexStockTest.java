@@ -8,8 +8,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 
 /**
- * A JUnit test class for testing
- * new object of type Stock.
+ * A JUnit test class for testing new object of type Stock.
  */
 public class FlexStockTest {
 

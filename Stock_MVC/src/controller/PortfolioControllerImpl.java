@@ -12,15 +12,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
- * A class to represent methods that pass the user input
- * to model for processing and defines some methods to
- * take input from users other than menu options.
+ * A class to represent methods that pass the user input to model for processing and defines some
+ * methods to take input from users other than menu options.
  */
 
 public class PortfolioControllerImpl implements PortfolioController {
 
   PortfolioManager model;
-  private Readable input;
 
   /**
    * This is the constructor for the portfolio controller.
@@ -29,7 +27,6 @@ public class PortfolioControllerImpl implements PortfolioController {
    */
 
   public PortfolioControllerImpl(Readable in, PortfolioManager model) {
-    this.input = in;
     this.model = model;
   }
 
@@ -54,24 +51,24 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException {
+  public void editFlexPortfolio(String name, ViewInterface v, Scanner sc)
+      throws IllegalArgumentException, IOException, ParseException {
     while (true) {
       String ticker;
       String count;
 
       v.printLine("Please choose whether to buy or sell, by entering 'b' or 's'. Alternatively, "
-              + "or enter 'Done' to finish.");
+          + "or enter 'Done' to finish.");
       String bs = sc.next();
       sc.nextLine();
       if (bs.equalsIgnoreCase("done")) {
         break;
       }
 
-      if (!bs.equalsIgnoreCase("b") && !bs.equalsIgnoreCase("s")){
+      if (!bs.equalsIgnoreCase("b") && !bs.equalsIgnoreCase("s")) {
         v.printLine("Please be sure to enter 'b' or 's'.");
         continue;
       }
-
 
       v.printLine("Please enter a ticker symbol");
       ticker = sc.next();
@@ -130,7 +127,7 @@ public class PortfolioControllerImpl implements PortfolioController {
         continue;
       }
 
-      if(dateCheck) {
+      if (dateCheck) {
         if (!model.validateTicker(ticker, target)) {
           v.printLine("You cannot buy a stock before it is available. Please try again.");
           continue;
@@ -148,7 +145,7 @@ public class PortfolioControllerImpl implements PortfolioController {
       if (bs.equalsIgnoreCase("b")) {
         model.editFlexPortfolio(name, ticker, Float.parseFloat(count), target);
       } else {
-        model.editFlexPortfolio(name, ticker, -1*Float.parseFloat(count), target);
+        model.editFlexPortfolio(name, ticker, -1 * Float.parseFloat(count), target);
       }
     }
   }
@@ -187,12 +184,14 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date, API api) throws IOException, ParseException {
+  public float[] getPortfolioValue(String name, String date, API api)
+      throws IOException, ParseException {
     return model.getPortfolioValue(name, date, api);
   }
 
   @Override
-  public float[] getCostBasis(String name, String date, API api) throws ParseException, IOException {
+  public float[] getCostBasis(String name, String date, API api)
+      throws ParseException, IOException {
     return model.getCostBasis(name, date, api);
   }
 
@@ -275,9 +274,9 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
 
-
   @Override
-  public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException, ParseException {
+  public String buildFlexPortfolio(ViewInterface v, Scanner sc)
+      throws IOException, ParseException {
     String name;
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Float> floatList = new ArrayList<>();
@@ -342,8 +341,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       }
       sum += value * counts[i];
       out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-              + "; Value per: " + String.format("%.02f", value)
-              + "; Total value: " + String.format("%.02f", value * counts[i]);
+          + "; Value per: " + String.format("%.02f", value)
+          + "; Total value: " + String.format("%.02f", value * counts[i]);
     }
 
     out[tickers.length + 1] = "Total value: " + sum;
@@ -352,7 +351,8 @@ public class PortfolioControllerImpl implements PortfolioController {
 
   //change
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates, API api) throws IOException, ParseException {
+  public float[] portfolioPerformance(String name, Date[] dates, API api)
+      throws IOException, ParseException {
     return model.portfolioPerformance(name, dates, api);
   }
 
@@ -367,7 +367,7 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public Date[] getDates(String name) throws IllegalArgumentException{
+  public Date[] getDates(String name) throws IllegalArgumentException {
     return model.getDates(name);
   }
 

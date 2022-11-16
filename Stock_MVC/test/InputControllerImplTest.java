@@ -53,7 +53,8 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException {
+    public void editFlexPortfolio(String name, ViewInterface v, Scanner sc)
+        throws IllegalArgumentException {
       log.append("editFlexPortfolio method called ");
     }
 
@@ -129,7 +130,7 @@ public class InputControllerImplTest {
 
     @Override
     public void setCommissionFee(float fee) {
-
+      //does nothing
     }
   }
 
@@ -193,7 +194,8 @@ public class InputControllerImplTest {
     Readable in = new StringReader("6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called ", log.toString());
@@ -210,12 +212,13 @@ public class InputControllerImplTest {
     Readable in = new StringReader("1\n 2\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
-            + "showLoadScreen method called "
-            + "showWelcomeScreen method called ", log.toString());
+        + "showLoadScreen method called "
+        + "showWelcomeScreen method called ", log.toString());
   }
 
   @Test
@@ -228,12 +231,13 @@ public class InputControllerImplTest {
     Readable in = new StringReader("2\n 4\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
-            + "showBuildScreen method called "
-            + "showWelcomeScreen method called ", log.toString());
+        + "showBuildScreen method called "
+        + "showWelcomeScreen method called ", log.toString());
   }
 
   @Test
@@ -246,12 +250,13 @@ public class InputControllerImplTest {
     Readable in = new StringReader("3\n 6\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
-            + "showPortfolioScreen method called "
-            + "showWelcomeScreen method called ", log.toString());
+        + "showPortfolioScreen method called "
+        + "showWelcomeScreen method called ", log.toString());
   }
 
   @Test
@@ -264,7 +269,8 @@ public class InputControllerImplTest {
     Readable in = new StringReader("4\n 5\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
@@ -275,7 +281,7 @@ public class InputControllerImplTest {
             + "getPortfolioNames method called "
             + "printLine method called with All portfolios saved. "
             + "showWelcomeScreen method called ",
-            log.toString());
+        log.toString());
   }
 
   @Test
@@ -288,17 +294,18 @@ public class InputControllerImplTest {
     Readable in = new StringReader("1\n 2\n 3\n 6\n 2\n 4\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
-                    + "showLoadScreen method called "
-                    + "showWelcomeScreen method called "
-                    + "showPortfolioScreen method called "
-                    + "showWelcomeScreen method called "
-                    + "showBuildScreen method called "
-                    + "showWelcomeScreen method called ",
-            log.toString());
+            + "showLoadScreen method called "
+            + "showWelcomeScreen method called "
+            + "showPortfolioScreen method called "
+            + "showWelcomeScreen method called "
+            + "showBuildScreen method called "
+            + "showWelcomeScreen method called ",
+        log.toString());
   }
 
   @Test
@@ -311,7 +318,8 @@ public class InputControllerImplTest {
     Readable in = new StringReader("2\n 2\n port\n q\n done\n 4\n 6\n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out),
+        new APIImpl());
     input.start();
 
     System.out.println(log);
@@ -334,6 +342,6 @@ public class InputControllerImplTest {
             + "Please be sure to enter an integer for menu selection. "
             + "showBuildScreen method called "
             + "showWelcomeScreen method called ",
-            log.toString());
+        log.toString());
   }
 }

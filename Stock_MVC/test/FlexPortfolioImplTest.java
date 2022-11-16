@@ -6,8 +6,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * This is a JUnit test for the FlexPortfolioImplTest class.
+ */
 public class FlexPortfolioImplTest {
 
   @Test
@@ -29,7 +32,7 @@ public class FlexPortfolioImplTest {
     String ticker = "GOOG";
     Float count = (float) 100;
     FlexPortfolioImpl flex = new FlexPortfolioImpl("My Portfolio");
-    flex.addFlexStock(ticker,count,d1);
+    flex.addFlexStock(ticker, count, d1);
 
     Date checkDate = formatter.parse("01-01-2019");
     boolean res = flex.checkEdit("GOOG", 200, checkDate);
@@ -70,7 +73,7 @@ public class FlexPortfolioImplTest {
     dateList[2] = d3;
 
     FlexPortfolioImpl flex = new FlexPortfolioImpl("My Portfolio");
-    for (int i = 0; i < tickerList.length; i++){
+    for (int i = 0; i < tickerList.length; i++) {
       flex.addFlexStock(tickerList[i], floatList[i], dateList[i]);
     }
 

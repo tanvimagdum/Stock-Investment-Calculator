@@ -3,7 +3,6 @@ package controller;
 /**
  * This interface represents the input method for controller which asks the user input
  * to select an option from provided menu continuously.
- *
  * Changes:
  * 1. The class now has a scanner as a field. So that the same scanner can be passed around and for
  *    tests.

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -32,7 +33,7 @@ public class PortfolioControllerImplTest {
     @Override
     public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name) {
       log.append("portBuilder method called with " + tickerList + ", "
-                  + floatList + ", " + name + " ");
+          + floatList + ", " + name + " ");
     }
 
     @Override
@@ -72,7 +73,7 @@ public class PortfolioControllerImplTest {
     @Override
     public boolean checkFlexEdit(String name, String ticker, float count, Date date) {
       log.append("checkFlexEdit method called with " + name + ", " + ticker + ", "
-                    + count + ", " + date + " ");
+          + count + ", " + date + " ");
       return false;
     }
 
@@ -85,16 +86,17 @@ public class PortfolioControllerImplTest {
     @Override
     public boolean validateTicker(String ticker, Date date) {
       SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-      log.append("validateTicker method called with " + ticker + " and " + formatter.format(date) + " ");
+      log.append(
+          "validateTicker method called with " + ticker + " and " + formatter.format(date) + " ");
       return true;
     }
 
     @Override
     public void editFlexPortfolio(String name, String ticker, Float count, Date date)
-            throws IllegalArgumentException {
+        throws IllegalArgumentException {
       SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
       log.append("editFlexPortfolio method called with " + name + ", " + ticker + ", "
-              + count + ", " + formatter.format(date) + " ");
+          + count + ", " + formatter.format(date) + " ");
     }
 
     @Override
@@ -325,8 +327,8 @@ public class PortfolioControllerImplTest {
             + "printLine method called "
             + "validateTicker method called with AAPL and 01-01-2016 "
             + "editFlexPortfolio method called with port, AAPL, 100.0, 01-01-2016 "
-            + "printLine method called "
-            , log.toString());
+            + "printLine method called ",
+        log.toString());
 
   }
 
@@ -339,9 +341,9 @@ public class PortfolioControllerImplTest {
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.selectPortfolio(mockV, new Scanner(in));
     assertEquals("getPortfolioNames method called "
-                    + "printLines method called "
-                    + "printLine method called "
-            , log.toString());
+            + "printLines method called "
+            + "printLine method called ",
+        log.toString());
   }
 
   @Test
@@ -353,9 +355,9 @@ public class PortfolioControllerImplTest {
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.selectFlexPortfolio(mockV, new Scanner(in));
     assertEquals("getFlexPortfolioNames method called "
-                    + "printLines method called "
-                    + "printLine method called "
-            , log.toString());
+            + "printLines method called "
+            + "printLine method called ",
+        log.toString());
   }
 
   @Test
@@ -367,13 +369,13 @@ public class PortfolioControllerImplTest {
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.buildPortfolio(mockV, new Scanner(in));
     assertEquals("printLine method called "
-                    + "getPortfolioNames method called "
-                    + "printLine method called "
-                    + "validateTicker method called with AAPL "
-                    + "printLine method called "
-                    + "printLine method called "
-                    + "portBuilder method called with [AAPL], [100.0], port "
-            , log.toString());
+            + "getPortfolioNames method called "
+            + "printLine method called "
+            + "validateTicker method called with AAPL "
+            + "printLine method called "
+            + "printLine method called "
+            + "portBuilder method called with [AAPL], [100.0], port ",
+        log.toString());
   }
 
   //System.out.println(log);
@@ -387,18 +389,18 @@ public class PortfolioControllerImplTest {
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.buildFlexPortfolio(mockV, new Scanner(in));
     assertEquals("printLine method called "
-                    + "getPortfolioNames method called "
-                    + "portFlexBuilder method called with port "
-                    + "printLine method called "
-                    + "printLine method called "
-                    + "validateTicker method called with AAPL "
-                    + "printLine method called "
-                    + "printLine method called "
-                    + "printLine method called "
-                    + "printLine method called "
-                    + "validateTicker method called with AAPL and 01-01-2016 "
-                    + "editFlexPortfolio method called with port, AAPL, 100.0, 01-01-2016 "
-                    + "printLine method called "
-            , log.toString());
+            + "getPortfolioNames method called "
+            + "portFlexBuilder method called with port "
+            + "printLine method called "
+            + "printLine method called "
+            + "validateTicker method called with AAPL "
+            + "printLine method called "
+            + "printLine method called "
+            + "printLine method called "
+            + "printLine method called "
+            + "validateTicker method called with AAPL and 01-01-2016 "
+            + "editFlexPortfolio method called with port, AAPL, 100.0, 01-01-2016 "
+            + "printLine method called ",
+        log.toString());
   }
 }

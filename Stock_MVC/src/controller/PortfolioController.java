@@ -13,7 +13,6 @@ import java.util.Scanner;
  * A controller interface to send the inputs acquired from input controller
  * to further processing and take inputs from users required for internal operations
  * other than selecting from menu.
- *
  * Changes:
  * 1. Removed returnPortfolio() as it was removed in the model.
  * 2. Removed getPortfolioContents() as other methods are sufficient.
@@ -70,7 +69,8 @@ public interface PortfolioController {
    * @param sc the scanner object for the controller to take input
    * @throws IllegalArgumentException if the edit breaks the rules
    */
-  void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException;
+  void editFlexPortfolio(String name, ViewInterface v, Scanner sc)
+      throws IllegalArgumentException, IOException, ParseException;
 
   /**
    * This method prompts the user to select a portfolio from those loaded in the program
@@ -105,7 +105,8 @@ public interface PortfolioController {
    * @throws IOException if there is difficulty reading files
    * @throws ParseException if there is a wrong string trying to be read in as a float
    */
-  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date, controller.API api)
+      throws IOException, ParseException;
 
   /**
    * Gets the cost basis for a portfolio on a given date, via API calls.
@@ -117,7 +118,8 @@ public interface PortfolioController {
    * @throws ParseException if the date is incorrectly entered or not a real date
    * @throws IOException if the API encounters difficulty
    */
-  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
+  public float[] getCostBasis(String name, String date, controller.API api)
+      throws ParseException, IOException;
 
   /**
    * This method calls the method in model to create
@@ -161,7 +163,8 @@ public interface PortfolioController {
    * @param dates the dates to get values for
    * @return the value of the portfolio on those dates
    */
-  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api)
+      throws IOException, ParseException;
 
   /**
    * This method calls the method in model

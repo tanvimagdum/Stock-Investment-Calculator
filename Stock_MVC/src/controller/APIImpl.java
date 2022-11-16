@@ -66,65 +66,6 @@ public class APIImpl implements API {
     }
     return out;
   }
-/*
-  @Override
-  public float[][] getPerformance(ArrayList<String> tickerList, Date[] dates){
-    String apiKey = "4U3NNSG5OHR1CBIG";
-    URL url = null;
-    float[][] out = new float[tickerList.size()][dates.length];
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-
-    for (int i = 0; i  < tickerList.size(); i++) {
-      //api call
-      try {
-        url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol="
-                + tickerList.get(i) + "&apikey=" + apiKey + "&datatype=csv");
-      } catch (MalformedURLException e) {
-        throw new RuntimeException("There was an error retrieving that information from the API.");
-      }
-
-
-      try {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-
-        int j = 0;
-        while (reader.ready()) {
-          boolean read = false;
-          dates[j] = format.parse(dates[j].toString());
-
-          String[] elements = reader.readLine().split(",");
-
-          Date rowDate = null;
-
-          try {
-            rowDate = format.parse(elements[0]);
-          } catch (Exception e) {
-            continue;
-          }
-
-          if (dates[j].compareTo(rowDate) < 1) {
-            out[i][j] = Float.parseFloat(elements[1]);
-            read = true;
-          }
-
-          if (read) {
-            j++;
-          }
-        }
-
-        if (j < dates.length-1) {
-          for (int k = j; k < dates.length; k++) {
-            out[i][k] = 0;
-          }
-        }
-
-      } catch (IOException | ParseException e) {
-        throw new RuntimeException("There was difficulty reading the input stream for " + tickerList.get(i));
-      }
-    }
-    return out;
-  }*/
 
   private boolean validateTicker(String ticker) throws IOException {
     BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
