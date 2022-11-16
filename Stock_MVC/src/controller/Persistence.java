@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.Portfolio;
+import model.FlexPortfolioImpl;
+import model.Stock;
+import model.PortfolioImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,8 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * A specific instance of the persistence interface, focused on read/write to disc.
+ */
 public class Persistence implements PersistenceInterface {
 
+    @Override
     public void saveSimpleCSV(Portfolio thisPortfolio) throws IOException {
         String[] tickers = thisPortfolio.getTickers();
         Float[] counts = thisPortfolio.getCounts();

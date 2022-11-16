@@ -15,9 +15,8 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
- * A class representing a continuous input method
- * which asks user to enter the input pertaining
- * to the menu.
+ * A class representing a continuous input method which asks user to enter the input pertaining to
+ * the menu.
  */
 
 public class InputControllerImpl implements InputController {
@@ -31,20 +30,22 @@ public class InputControllerImpl implements InputController {
   private API api;
 
   /**
-   * The main loop, which facilitates menu navigation and continues until the user
-   * enters the exit condition.
+   * The main loop, which facilitates menu navigation and continues until the user enters the exit
+   * condition.
+   *
    * @param args arguments to the program
    */
   public static void main(String[] args) {
     InputController in = new InputControllerImpl(new ViewImpl(System.out),
-            new PortfolioControllerImpl(new InputStreamReader(System.in), new PortfolioManagerImpl(new Persistence())),
-            new InputStreamReader(System.in), System.out, new APIImpl());
+        new PortfolioControllerImpl(new InputStreamReader(System.in),
+            new PortfolioManagerImpl(new Persistence())),
+        new InputStreamReader(System.in), System.out, new APIImpl());
     in.start();
   }
 
   /**
-   * Construct an Input Controller Implementation object in order
-   * to invoke the continuous input method in the main function.
+   * Construct an Input Controller Implementation object in order to invoke the continuous input
+   * method in the main function.
    *
    * @param view    an object of viewInterface
    * @param portCon an object of portfolioController
@@ -53,7 +54,7 @@ public class InputControllerImpl implements InputController {
    */
 
   public InputControllerImpl(ViewInterface view, PortfolioController portCon,
-                             Readable in, PrintStream out, API api) {
+      Readable in, PrintStream out, API api) {
     this.v = view;
     this.p = portCon;
     this.input = in;
@@ -219,15 +220,15 @@ public class InputControllerImpl implements InputController {
 
           v.printLine("The current commission fee is: $" + p.getCommissionFee());
           v.printLine("If you would like to change the fee, enter a dollar amount ('xx.yy'). "
-                  + "Otherwise, enter anything else.");
+              + "Otherwise, enter anything else.");
           String cf = sc.nextLine();
           try {
             p.setCommissionFee(Float.parseFloat(cf));
           } catch (Exception e) {
             //do nothing
           }
-          String dateString = year+"-"+mon+"-"+day;
-          try{
+          String dateString = year + "-" + mon + "-" + day;
+          try {
             v.printLine("Please wait while the API retrieves that information.");
             v.printLines(costBasisHelper(name, dateString));
           } catch (Exception e) {
@@ -246,7 +247,8 @@ public class InputControllerImpl implements InputController {
           try {
             name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
-            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            v.printLine(
+                "There are either no flexible portfolios yet or the input was out of bounds.");
             sc.nextLine();
             v.showPortfolioScreen();
             break;
@@ -256,7 +258,8 @@ public class InputControllerImpl implements InputController {
           formatter.setLenient(false);
           Date lowerLimit = new Date();
 
-          v.printLine("Note that the date range includes the first date entered up to but not including"
+          v.printLine(
+              "Note that the date range includes the first date entered up to but not including"
                   + " the second date entered");
           v.printLine("Please enter the starting year (4 digits):");
           year = sc.nextLine();
@@ -279,7 +282,6 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
-
           v.printLine("Please enter the ending year(4 digits):");
           year = sc.nextLine();
           v.printLine("Please enter the ending month (2 digits):");
@@ -301,11 +303,11 @@ public class InputControllerImpl implements InputController {
           }
 
           long interval = target2.getTime() - target1.getTime();
-          long minimum = 1000L*60*60*24;
-          long maximum = 1000L*60*60*24*365*20;
+          long minimum = 1000L * 60 * 60 * 24;
+          long maximum = 1000L * 60 * 60 * 24 * 365 * 20;
           if (interval < minimum || interval > maximum) {
             v.printLine("Please enter two dates, chronologically and at least 1 day apart,"
-                    + "but no more than 20 years apart.");
+                + "but no more than 20 years apart.");
             v.showPortfolioScreen();
             break;
           }
@@ -379,20 +381,20 @@ public class InputControllerImpl implements InputController {
       for (int i = 0; i < tickers.length; i++) {
         if (counts[i] > 0) {
           out[i + 1] = "BUY " +
-                  "; Ticker: " + tickers[i] +
-                  "; Count: " + String.format("%.02f", counts[i]) +
-                  "; Date: " + formatter.format(dates[i]);
+              "; Ticker: " + tickers[i] +
+              "; Count: " + String.format("%.02f", counts[i]) +
+              "; Date: " + formatter.format(dates[i]);
         }
         if (counts[i] < 0) {
           out[i + 1] = "SELL" +
-                  "; Ticker: " + tickers[i] +
-                  "; Count: " + String.format("%.02f", Math.abs(counts[i])) +
-                  "; Date: " + formatter.format(dates[i]);
+              "; Ticker: " + tickers[i] +
+              "; Count: " + String.format("%.02f", Math.abs(counts[i])) +
+              "; Date: " + formatter.format(dates[i]);
         }
       }
       return out;
 
-    } catch(Exception e) {
+    } catch (Exception e) {
       String[] tickers = p.getTickers(name);
       Float[] counts = p.getCounts(name);
 
@@ -402,7 +404,7 @@ public class InputControllerImpl implements InputController {
 
       for (int i = 0; i < tickers.length; i++) {
         out[i + 1] = "Ticker: " + tickers[i] +
-                    "; Count: " + String.format("%.02f", counts[i]);
+            "; Count: " + String.format("%.02f", counts[i]);
       }
       return out;
     }
@@ -416,7 +418,7 @@ public class InputControllerImpl implements InputController {
       Date[] startDates = p.getDates(name);
       DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       int j = 0;
-      for (int i = 0; i < startDates.length; i++){
+      for (int i = 0; i < startDates.length; i++) {
         if (startDates[i].compareTo(formatter.parse(date)) < 1) {
           j++;
         }
@@ -444,9 +446,9 @@ public class InputControllerImpl implements InputController {
       for (int i = 0; i < values.length; i++) {
         sum += values[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: $" + String.format("%.02f", values[i])
-                + "; Purchased: " + formatter.format(dates[i])
-                + "; Total Value: $" + String.format("%.02f", values[i]);
+            + "; Value per: $" + String.format("%.02f", values[i])
+            + "; Purchased: " + formatter.format(dates[i])
+            + "; Total Value: $" + String.format("%.02f", values[i]);
 
       }
       out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
@@ -464,8 +466,8 @@ public class InputControllerImpl implements InputController {
         } else {
           sum += values[i] * counts[i];
           out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                  + "; Value per: $" + String.format("%.02f", values[i])
-                  + "; Total Value: $" + String.format("%.02f", values[i] * counts[i]);
+              + "; Value per: $" + String.format("%.02f", values[i])
+              + "; Total Value: $" + String.format("%.02f", values[i] * counts[i]);
         }
       }
       out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
@@ -479,8 +481,8 @@ public class InputControllerImpl implements InputController {
     Date[] startDates = p.getDates(name);
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     int j = 0;
-    for (int i = 0; i < startDates.length; i++){
-      if (startDates[i].compareTo(formatter.parse(date)) < 1 && startCounts[i] > 0 ) {
+    for (int i = 0; i < startDates.length; i++) {
+      if (startDates[i].compareTo(formatter.parse(date)) < 1 && startCounts[i] > 0) {
         j++;
       }
     }
@@ -511,27 +513,27 @@ public class InputControllerImpl implements InputController {
         sum += values[i] * counts[i];
         if (counts[i] > 0) {
           out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                  + "; Price per: $" + String.format("%.02f", values[i])
-                  + "; Purchased: " + formatter.format(dates[i])
-                  + "; Total Cost: $" + String.format("%.02f", values[i] * counts[i]);
+              + "; Price per: $" + String.format("%.02f", values[i])
+              + "; Purchased: " + formatter.format(dates[i])
+              + "; Total Cost: $" + String.format("%.02f", values[i] * counts[i]);
         }
       }
     }
-    out[tickers.length+1] = "Total Spent on Commission Fee: $"
-            + String.format("%.02f",p.getCommissionFee()* startTickers.length);
-    out[tickers.length+2] = "Total Cost Basis of Portfolio: $"
-            + String.format("%.02f",(sum-p.getCommissionFee()* startTickers.length));
+    out[tickers.length + 1] = "Total Spent on Commission Fee: $"
+        + String.format("%.02f", p.getCommissionFee() * startTickers.length);
+    out[tickers.length + 2] = "Total Cost Basis of Portfolio: $"
+        + String.format("%.02f", (sum - p.getCommissionFee() * startTickers.length));
     return out;
   }
 
   private Date[] dateHelper(Date start, Date end) {
-    long day = 1000L*60*60*24;
+    long day = 1000L * 60 * 60 * 24;
     ArrayList<Date> tempDateList = new ArrayList<>();
     Date current = start;
-    if (end.getTime()-start.getTime() < 5*day) {
+    if (end.getTime() - start.getTime() < 5 * day) {
       while (current.compareTo(end) < 0) {
         tempDateList.add(current);
-        current = new Date(current.getTime()+day);
+        current = new Date(current.getTime() + day);
       }
       Date[] out = new Date[tempDateList.size()];
       for (int i = 0; i < tempDateList.size(); i++) {
@@ -541,25 +543,25 @@ public class InputControllerImpl implements InputController {
     }
 
     boolean goodEnough = false;
-    int days = (int) ((end.getTime()-start.getTime())/day);
+    int days = (int) ((end.getTime() - start.getTime()) / day);
     int i = 0;
     int extra = 0;
     while (!goodEnough) {
       extra = 0;
       i++;
-      if (days%i == 0 && days/i < 30 && days/i > 4) {
+      if (days % i == 0 && days / i < 30 && days / i > 4) {
         goodEnough = true;
-      } else if (days%i == 0) {
+      } else if (days % i == 0) {
         int temp = i;
-        while (days/i < 30) {
+        while (days / i < 30) {
           i += temp;
         }
-        if (days/i < 30 && days/i > 4) {
+        if (days / i < 30 && days / i > 4) {
           goodEnough = true;
         }
       } else {
-        if (days/i < 30 && days/i > 4) {
-          extra = days%i;
+        if (days / i < 30 && days / i > 4) {
+          extra = days % i;
           goodEnough = true;
         }
       }
@@ -567,12 +569,11 @@ public class InputControllerImpl implements InputController {
     current = start;
     while (current.before(end)) {
       tempDateList.add(current);
-      current = new Date(current.getTime() + i*day + extra*day);
+      current = new Date(current.getTime() + i * day + extra * day);
       if (extra > 0) {
         extra--;
       }
     }
-
 
     Date[] out = new Date[tempDateList.size()];
     for (i = 0; i < tempDateList.size(); i++) {
@@ -586,7 +587,7 @@ public class InputControllerImpl implements InputController {
     return out;
   }
 
-  private String[] performanceOverTimeHelper(String name, Date[] dates, float[] values){
+  private String[] performanceOverTimeHelper(String name, Date[] dates, float[] values) {
 
     String[] out = new String[dates.length + 2];
 
@@ -603,31 +604,32 @@ public class InputControllerImpl implements InputController {
 
     int base = 1;
 
-    while (min - Math.pow(10,base+1) >= 0) {
+    while (min - Math.pow(10, base + 1) >= 0) {
       base = base + 1;
     }
-    if (base < 2){
+    if (base < 2) {
       base = 0;
     } else {
-      base = (int) Math.pow(10,base);
+      base = (int) Math.pow(10, base);
     }
-    while(min - base*2 > 0) {
+    while (min - base * 2 > 0) {
       base = base * 2;
     }
 
-    float ast = (max-base)/40;
+    float ast = (max - base) / 40;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0]) + " to "
-            + formatter.format(dates[dates.length-1]) + "\n";
+    out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0])
+        + " to "
+        + formatter.format(dates[dates.length - 1]) + "\n";
     for (int i = 0; i < dates.length; i++) {
       int astCount = 1;
-      while (astCount*ast + base <= values[i]) {
-          astCount++;
+      while (astCount * ast + base <= values[i]) {
+        astCount++;
       }
       out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
     }
-    out[dates.length+1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
-            + " above the base of $" + base;
+    out[dates.length + 1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
+        + " above the base of $" + base;
     return out;
   }
 
@@ -642,7 +644,7 @@ public class InputControllerImpl implements InputController {
         case 1:
           //helper method to process input
           try {
-            String name = p.buildPortfolio(v,sc);
+            String name = p.buildPortfolio(v, sc);
             try {
               v.printLines(contentsHelper(name));
               v.printLine("Enter any key to return to the previous menu.");
@@ -650,7 +652,7 @@ public class InputControllerImpl implements InputController {
             } catch (Exception e) {
               //do nothing
             }
-           } catch (IOException e) {
+          } catch (IOException e) {
             v.printLine("There was an error building the simple portfolio. Please try again.");
           }
           v.showBuildScreen();
@@ -659,7 +661,7 @@ public class InputControllerImpl implements InputController {
         case 2:
           //flex.csv build
           try {
-            String name = p.buildFlexPortfolio(v,sc);
+            String name = p.buildFlexPortfolio(v, sc);
             try {
               v.printLines(contentsHelper(name));
               v.printLine("Enter any key to return to the previous menu.");
@@ -678,7 +680,8 @@ public class InputControllerImpl implements InputController {
           try {
             name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
-            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            v.printLine(
+                "There are either no flexible portfolios yet or the input was out of bounds.");
             sc.nextLine();
             v.showBuildScreen();
             break;
@@ -761,7 +764,6 @@ public class InputControllerImpl implements InputController {
 
   private void welcomeScreen(int inputOption) {
 
-
     if (inputOption < 1 || inputOption > 6) {
       v.displayError();
       v.showWelcomeScreen();
@@ -788,7 +790,8 @@ public class InputControllerImpl implements InputController {
           try {
             name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
-            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            v.printLine(
+                "There are either no flexible portfolios yet or the input was out of bounds.");
             sc.nextLine();
             v.showWelcomeScreen();
             break;
