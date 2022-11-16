@@ -166,7 +166,6 @@ public class PortfolioControllerImpl implements PortfolioController {
     v.printLine("Please choose one of the following options:");
     int index = sc.nextInt();
     sc.nextLine();
-
     return portNames[index - 1];
   }
 
@@ -205,8 +204,7 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<Float> floatList = new ArrayList<>();
 
     v.printLine("Please enter the portfolio's name.");
-    name = sc.next();
-    sc.nextLine();
+    name = sc.nextLine();
 
     try {
       String[] existing = getPortfolioNames();
@@ -247,7 +245,7 @@ public class PortfolioControllerImpl implements PortfolioController {
         v.printLine("Warning: the symbol you entered is not recognized.");
         v.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
         String response = sc.next();
-        sc.next();
+        sc.nextLine();
         if (!response.equals("y")) {
           continue;
         }
@@ -285,8 +283,7 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<Date> dateList = new ArrayList<>();
 
     v.printLine("Please enter the portfolio's name.");
-    name = sc.next();
-    sc.nextLine();
+    name = sc.nextLine();
 
     try {
       String[] existing = getPortfolioNames();

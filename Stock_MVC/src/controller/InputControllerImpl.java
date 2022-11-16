@@ -129,12 +129,13 @@ public class InputControllerImpl implements InputController {
           try {
             String name = p.selectPortfolio(v, sc);
             v.printLines(contentsHelper(name));
-            v.printLine("Hit any key to return to the previous menu.");
+            v.printLine("Enter any key to return to the previous menu.");
             sc.nextLine();
             v.showPortfolioScreen();
             break;
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showPortfolioScreen();
             break;
           }
@@ -145,6 +146,7 @@ public class InputControllerImpl implements InputController {
             name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showPortfolioScreen();
             break;
           }
@@ -178,7 +180,7 @@ public class InputControllerImpl implements InputController {
           } catch (Exception e) {
             v.printLine("There was an error attempting to value the portfolio.");
           }
-          v.printLine("Hit any key to return to the previous menu.");
+          v.printLine("Enter any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
           break;
@@ -186,9 +188,10 @@ public class InputControllerImpl implements InputController {
         case 3:
           //cost basis
           try {
-            name = p.selectPortfolio(v, sc);
+            name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showPortfolioScreen();
             break;
           }
@@ -215,7 +218,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
-          v.printLine("The current commission fee is: " + p.getCommissionFee());
+          v.printLine("The current commission fee is: $" + p.getCommissionFee());
           v.printLine("If you would like to change the fee, enter a dollar amount ('xx.yy'). "
                   + "Otherwise, enter anything else.");
           String cf = sc.nextLine();
@@ -234,7 +237,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
 
-          v.printLine("Hit any key to return to the previous menu.");
+          v.printLine("Enter any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
           break;
@@ -245,6 +248,7 @@ public class InputControllerImpl implements InputController {
             name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showPortfolioScreen();
             break;
           }
@@ -253,6 +257,8 @@ public class InputControllerImpl implements InputController {
           formatter.setLenient(false);
           Date lowerLimit = new Date();
 
+          v.printLine("Note that the date range includes the first date entered up to but not including"
+                  + " the second date entered");
           v.printLine("Please enter the starting year (4 digits):");
           year = sc.nextLine();
           v.printLine("Please enter the starting month (2 digits):");
@@ -313,15 +319,20 @@ public class InputControllerImpl implements InputController {
           }
           float[] values;
           try {
+            v.printLine("Please wait while the API retrieves that information.");
             values = p.portfolioPerformance(name, dates, api);
           } catch (Exception e) {
-            v.printLine("There was an error attempting to calculate portfolio's performance.");
+            v.printLine("There was an error attempting to calculate the portfolio's performance.");
             v.showPortfolioScreen();
             break;
           }
-
+          if (values.length == 0) {
+            v.printLine("There was an error attempting to calculate the portfolio's performance.");
+            v.showPortfolioScreen();
+            break;
+          }
           v.printLines(performanceOverTimeHelper(name, dates, values));
-          v.printLine("Hit any key to return to the previous menu.");
+          v.printLine("Enter any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
           break;
@@ -332,13 +343,14 @@ public class InputControllerImpl implements InputController {
             name = p.selectPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showPortfolioScreen();
             break;
           }
 
           String[] valueByHand = p.manualValuation(name, v, sc);
           v.printLines(valueByHand);
-          v.printLine("Hit any key to return to the previous menu.");
+          v.printLine("Enter any key to return to the previous menu.");
           sc.nextLine();
           v.showPortfolioScreen();
           break;
@@ -433,12 +445,12 @@ public class InputControllerImpl implements InputController {
       for (int i = 0; i < values.length; i++) {
         sum += values[i];
         out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                + "; Value per: " + String.format("%.02f", values[i])
+                + "; Value per: $" + String.format("%.02f", values[i])
                 + "; Purchased: " + formatter.format(dates[i])
-                + "; Total Value: " + String.format("%.02f", values[i]);
+                + "; Total Value: $" + String.format("%.02f", values[i]);
 
       }
-      out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
+      out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
       return out;
     } catch (Exception e) {
       String[] tickers = p.getTickers(name);
@@ -453,11 +465,11 @@ public class InputControllerImpl implements InputController {
         } else {
           sum += values[i] * counts[i];
           out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                  + "; Value per: " + String.format("%.02f", values[i])
-                  + "; Total Value: " + String.format("%.02f", values[i] * counts[i]);
+                  + "; Value per: $" + String.format("%.02f", values[i])
+                  + "; Total Value: $" + String.format("%.02f", values[i] * counts[i]);
         }
       }
-      out[tickers.length + 1] = "Total value of portfolio: " + String.format("%.02f", sum);
+      out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
       return out;
     }
   }
@@ -500,24 +512,24 @@ public class InputControllerImpl implements InputController {
         sum += values[i] * counts[i];
         if (counts[i] > 0) {
           out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
-                  + "; Price per: " + String.format("%.02f", values[i])
+                  + "; Price per: $" + String.format("%.02f", values[i])
                   + "; Purchased: " + formatter.format(dates[i])
-                  + "; Total Cost: " + String.format("%.02f", values[i] * counts[i]);
+                  + "; Total Cost: $" + String.format("%.02f", values[i] * counts[i]);
         }
       }
     }
-    out[tickers.length+1] = "Total Spent on Commission Fee: "
+    out[tickers.length+1] = "Total Spent on Commission Fee: $"
             + String.format("%.02f",p.getCommissionFee()* startTickers.length);
-    out[tickers.length+2] = "Total Cost Basis of Portfolio: "
+    out[tickers.length+2] = "Total Cost Basis of Portfolio: $"
             + String.format("%.02f",(sum-p.getCommissionFee()* startTickers.length));
     return out;
   }
 
-  private Date[] dateHelper(Date start, Date end) throws ParseException {
+  private Date[] dateHelper(Date start, Date end) {
     long day = 1000L*60*60*24;
     ArrayList<Date> tempDateList = new ArrayList<>();
     Date current = start;
-    if (end.getTime()-start.getTime() < 4*day) {
+    if (end.getTime()-start.getTime() < 5*day) {
       while (current.compareTo(end) < 0) {
         tempDateList.add(current);
         current = new Date(current.getTime()+day);
@@ -592,17 +604,21 @@ public class InputControllerImpl implements InputController {
 
     int base = 1;
 
-    while (min - base >= 0) {
-      base = base * 10;
+    while (min - Math.pow(10,base+1) >= 0) {
+      base = base + 1;
     }
-    int temp = base;
-    while(min- base > 0) {
-      base = base + temp;
+    if (base < 2){
+      base = 0;
+    } else {
+      base = (int) Math.pow(10,base);
+    }
+    while(min - base*2 > 0) {
+      base = base * 2;
     }
 
-    float ast = (Math.abs(max)-Math.abs(base))/40;
+    float ast = (max-base)/40;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0]) + "to "
+    out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0]) + " to "
             + formatter.format(dates[dates.length-1]) + "\n";
     for (int i = 0; i < dates.length; i++) {
       int astCount = 1;
@@ -612,7 +628,7 @@ public class InputControllerImpl implements InputController {
       out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
     }
     out[dates.length+1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
-            + " above the base of " + String.format("%.02f", base);
+            + " above the base of $" + base;
     return out;
   }
 
@@ -630,7 +646,7 @@ public class InputControllerImpl implements InputController {
             String name = p.buildPortfolio(v,sc);
             try {
               v.printLines(contentsHelper(name));
-              v.printLine("Hit any key to return to the previous menu.");
+              v.printLine("Enter any key to return to the previous menu.");
               sc.nextLine();
             } catch (Exception e) {
               //do nothing
@@ -647,7 +663,7 @@ public class InputControllerImpl implements InputController {
             String name = p.buildFlexPortfolio(v,sc);
             try {
               v.printLines(contentsHelper(name));
-              v.printLine("Hit any key to return to the previous menu.");
+              v.printLine("Enter any key to return to the previous menu.");
               sc.nextLine();
             } catch (Exception e) {
               //do nothing
@@ -664,6 +680,7 @@ public class InputControllerImpl implements InputController {
             name = p.selectFlexPortfolio(v, sc);
           } catch (Exception e) {
             v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            sc.nextLine();
             v.showBuildScreen();
             break;
           }
@@ -676,7 +693,7 @@ public class InputControllerImpl implements InputController {
             break;
           }
           v.printLines(contentsHelper(name));
-          v.printLine("Hit any key to return to the previous menu.");
+          v.printLine("Enter any key to return to the previous menu.");
           sc.nextLine();
           v.showBuildScreen();
           break;
@@ -724,7 +741,7 @@ public class InputControllerImpl implements InputController {
             p.readPortfolioFile(name);
             name = name.substring(0, name.length() - 4);
             v.printLines(contentsHelper(name));
-            v.printLine("Hit any key to return to the previous menu.");
+            v.printLine("Enter any key to return to the previous menu.");
             sc.nextLine();
           } catch (Exception e) {
             v.printLine("The file was either not found, or not in the right format.");
@@ -768,7 +785,15 @@ public class InputControllerImpl implements InputController {
           break;
 
         case 4:
-          String name = p.selectPortfolio(v, sc);
+          String name;
+          try {
+            name = p.selectPortfolio(v, sc);
+          } catch (Exception e) {
+            v.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+            sc.nextLine();
+            v.showWelcomeScreen();
+            break;
+          }
           try {
             p.savePortfolio(name);
             v.printLine("Portfolio saved.");
