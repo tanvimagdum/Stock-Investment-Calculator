@@ -296,10 +296,10 @@ public class InputControllerImpl implements InputController {
           }
 
           long interval = target2.getTime() - target1.getTime();
-          long minimum = 1000L*60*60*24*5;
+          long minimum = 1000L*60*60*24;
           long maximum = 1000L*60*60*24*365*20;
           if (interval < minimum || interval > maximum) {
-            v.printLine("Please enter two dates, chronologically and at least 5 days apart,"
+            v.printLine("Please enter two dates, chronologically and at least 1 day apart,"
                     + "but no more than 20 years apart.");
             v.showPortfolioScreen();
             break;
@@ -514,57 +514,63 @@ public class InputControllerImpl implements InputController {
   }
 
   private Date[] dateHelper(Date start, Date end) throws ParseException {
-      int[] tests = new int[]{1,2,3,4,5,30,90,180,365};
-      float days = (end.getTime() - start.getTime())/(1000*60*60*24);
-      float target = 17;
-      float closest = 10000000;
-      int scale = 0;
-      for (int i = 0; i < tests.length; i++) {
-          float dist = Math.abs((days/tests[i])-target);
-          if (dist < closest) {
-              scale = i;
-              closest = dist;
-          }
+    long day = 1000L*60*60*24;
+    ArrayList<Date> tempDateList = new ArrayList<>();
+    Date current = start;
+    if (end.getTime()-start.getTime() < 4*day) {
+      while (current.compareTo(end) < 0) {
+        tempDateList.add(current);
+        current = new Date(current.getTime()+day);
       }
-      System.out.println("dateHelper--");
-      System.out.println(tests[scale]);
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-      ArrayList<Date> tempDateList = new ArrayList<>();
-      switch (tests[scale]) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-          long interval = tests[scale] * 1000L*60*60*24;
-          Date current = start;
-          System.out.println(formatter.format(current));
-          while (current.compareTo(end) < 0) {
-            tempDateList.add(current);
-            current = new Date(current.getTime() + interval);
-            System.out.println(formatter.format(current));
-          }
-          break;
-        case 30:
-          break;
-        case 90:
-          break;
-        case 180:
-          break;
-        case 365:
-          break;
-        default:
-          break;
-      }
-
       Date[] out = new Date[tempDateList.size()];
       for (int i = 0; i < tempDateList.size(); i++) {
         out[i] = tempDateList.get(i);
       }
+      return out;
+    }
 
-      //out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
-      //        formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
-      //        formatter.parse("2019-01-01")};
+    boolean goodEnough = false;
+    int days = (int) ((end.getTime()-start.getTime())/day);
+    int i = 0;
+    int extra = 0;
+    while (!goodEnough) {
+      extra = 0;
+      i++;
+      if (days%i == 0 && days/i < 30 && days/i > 4) {
+        goodEnough = true;
+      } else if (days%i == 0) {
+        int temp = i;
+        while (days/i < 30) {
+          i += temp;
+        }
+        if (days/i < 30 && days/i > 4) {
+          goodEnough = true;
+        }
+      } else {
+        if (days/i < 30 && days/i > 4) {
+          extra = days%i;
+          goodEnough = true;
+        }
+      }
+    }
+    current = start;
+    while (current.before(end)) {
+      tempDateList.add(current);
+      current = new Date(current.getTime() + i*day + extra*day);
+      if (extra > 0) {
+        extra--;
+      }
+    }
+
+
+    Date[] out = new Date[tempDateList.size()];
+    for (i = 0; i < tempDateList.size(); i++) {
+      out[i] = tempDateList.get(i);
+    }
+
+    //out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
+    //        formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
+    //        formatter.parse("2019-01-01")};
 
     return out;
   }
