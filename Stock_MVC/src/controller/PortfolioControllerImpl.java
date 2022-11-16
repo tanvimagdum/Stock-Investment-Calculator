@@ -254,7 +254,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       }
 
       v.printLine("Please enter the stock count.");
-      count = sc.nextLine();
+      count = sc.next();
+      sc.nextLine();
       try {
         int temp = Integer.parseInt(count);
         if (temp <= 0) {
@@ -284,7 +285,8 @@ public class PortfolioControllerImpl implements PortfolioController {
     ArrayList<Date> dateList = new ArrayList<>();
 
     v.printLine("Please enter the portfolio's name.");
-    name = sc.nextLine();
+    name = sc.next();
+    sc.nextLine();
 
     try {
       String[] existing = getPortfolioNames();
@@ -328,7 +330,8 @@ public class PortfolioControllerImpl implements PortfolioController {
       v.printLine(tickers[i]);
 
       try {
-        value = Float.parseFloat(sc.nextLine());
+        value = Float.parseFloat(sc.next());
+        sc.nextLine();
         if (value < 0) {
           v.printLine("Please be sure to enter a positive number.");
           i--;
