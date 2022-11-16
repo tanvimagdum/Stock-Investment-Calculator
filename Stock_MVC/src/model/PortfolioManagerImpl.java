@@ -220,11 +220,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       if (elements[0].equals(ticker)) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date readDate = format.parse(elements[1]);
-        if (readDate.compareTo(date) < 0) {
-          return true;
-        } else {
-          return false;
-        }
+        return (readDate.compareTo(date) < 0);
       }
       row = reader.readLine();
     }
@@ -311,8 +307,8 @@ public class PortfolioManagerImpl implements PortfolioManager {
       Portfolio flexPort = getPortfolio(name);
       return ((FlexPortfolioImpl) flexPort).getDates();
     } catch (Exception e) {
-      throw new IllegalArgumentException("Portfolio must be a flexible portfolio " +
-          "in order to get dates.");
+      throw new IllegalArgumentException("Portfolio must be a flexible portfolio "
+          + "in order to get dates.");
     }
 
   }

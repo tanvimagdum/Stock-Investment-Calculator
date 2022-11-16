@@ -107,7 +107,6 @@ public class FlexPortfolioImpl implements Portfolio {
     if (sum < count) {
       return false;
     }
-
     return true;
   }
 

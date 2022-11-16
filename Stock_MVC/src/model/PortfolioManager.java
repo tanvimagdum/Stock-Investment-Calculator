@@ -9,7 +9,6 @@ import java.util.Date;
 /**
  * An interface containing methods to perform
  * operations on a portfolio.
- *
  * Changes:
  * 1. Removed returnPortfolio() to retain portfolio access only in model.
  * 2. Removed getPortfolioContents() as other existing methods were sufficient.
@@ -88,7 +87,8 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading in files
    * @throws ParseException if there is an incorrect entry in a file being read
    */
-  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date, controller.API api)
+      throws IOException, ParseException;
 
   /**
    * Checks to see if an edit invalidates the rules of the portfolio and returns a boolean.
@@ -143,7 +143,8 @@ public interface PortfolioManager {
    * @throws ParseException if the date is not given correctly
    * @throws IOException if the API has issues
    */
-  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
+  public float[] getCostBasis(String name, String date, controller.API api)
+      throws ParseException, IOException;
 
   /**
    * Gets the prices for a portfolios stocks based on the dates given, via portfolioValueByDate(),
@@ -153,10 +154,11 @@ public interface PortfolioManager {
    * @param dates the dates we want prices for
    * @param api the object making API calls
    * @return a float array of prices
-   * @throws IOException
-   * @throws ParseException
+   * @throws IOException if the API struggles to receive information
+   * @throws ParseException if the API struggles to read what it receives
    */
-  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api)
+      throws IOException, ParseException;
 
   /**
    * Get the ticker numbers for all stocks in a portfolio.
