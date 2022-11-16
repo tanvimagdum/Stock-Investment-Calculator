@@ -2,6 +2,7 @@ import controller.APIImpl;
 import controller.Persistence;
 import model.*;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,6 +24,26 @@ import static org.junit.Assert.fail;
  */
 
 public class PortfolioManagerImplTest {
+
+  /**
+   * A mock API to be passed to the portfolio manager.
+   */
+  public class MockAPI implements controller.API {
+
+    private StringBuilder log;
+
+    public MockAPI(StringBuilder log) {
+      this.log = log;
+    }
+
+    @Override
+    public float[] getPrices(String[] tickerList, Date date) {
+      log.append("getPrices method called ");
+      float[] mFloat = new float[1];
+      mFloat[0] = (float) 100;
+      return mFloat;
+    }
+  }
   Persistence pers = new Persistence();
 
   @Rule
@@ -45,7 +66,6 @@ public class PortfolioManagerImplTest {
 
     assertEquals(stockList.size(), portManager.getTickers("My Portfolio").length);
     assertEquals("My Portfolio", portManager.getPortfolioNames()[0]);
-    assertEquals("My Portfolio", portManager.getFlexPortfolioNames()[0]);
 
     assertEquals("GOOG", portManager.getTickers("My Portfolio")[0]);
     assertEquals("AAPL", portManager.getTickers("My Portfolio")[1]);
@@ -100,48 +120,50 @@ public class PortfolioManagerImplTest {
   }
 
   @Test
-  public void testGetPortfolioValue() {
-    ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
-    ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00,
-            (float) 11.00, (float) 15.00));
+  public void testGetSimplePortfolioValue() {
+    StringBuilder log = new StringBuilder();
+    controller.API mockA = new MockAPI(log);
+    ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG"));
+    ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00));
 
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
     float[] output = new float[0];
     try {
-      output = portManager.getPortfolioValue("My Portfolio", "2012-05-24", new APIImpl());
+      output = portManager.getPortfolioValue("My Portfolio", "2012-05-24", mockA);
     } catch (IOException e) {
       fail();
     } catch (ParseException e) {
       fail();
     }
-    assertEquals(10, output[0], 0.001);
-    assertEquals(10, output[1], 0.001);
-    assertEquals(10, output[2], 0.001);
-
-    tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
-    floatList = new ArrayList<>(Arrays.asList((float) 10.00,
-            (float) 11.00, (float) 15.00));
-
-    portManager = new PortfolioManagerImpl(pers);
-    portManager.portBuilder(tickerList, floatList, "My Portfolio");
-
-    boolean passed = true;
-
-    try {
-      output = portManager.getPortfolioValue("My Pofolio", "2012-05-24", new APIImpl());
-      passed = false;
-    } catch (Exception e) {
-      passed = true;
-    }
-
-    if (!passed) {
-      fail();
-    }
+    assertEquals(100, output[0], 0.001);
   }
 
   @Test
-  public void testReadWritePortfolio() {
+  public void testGetFlexPortfolioValue() throws ParseException {
+    StringBuilder log = new StringBuilder();
+    controller.API mockA = new MockAPI(log);
+    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+    Date d1 = formatter.parse("01-01-2018");
+    String ticker = "GOOG";
+    Float count = (float) 100;
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
+
+    float[] output = new float[0];
+    try {
+      output = flex.getPortfolioValue("My Portfolio", "2012-05-24", mockA);
+    } catch (IOException e) {
+      fail();
+    } catch (ParseException e) {
+      fail();
+    }
+    assertEquals(100, output[0], 0.001);
+  }
+
+  @Test
+  public void testReadWriteSimplePortfolio() {
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG", "AAPL", "MSFT"));
     ArrayList<Float> floatList = new ArrayList<>(Arrays.asList((float) 10.00,
             (float) 11.00, (float) 14.00));
@@ -200,6 +222,67 @@ public class PortfolioManagerImplTest {
   }
 
   @Test
+  public void testReadWriteFlexPortfolio() throws ParseException {
+    StringBuilder log = new StringBuilder();
+    controller.API mockA = new MockAPI(log);
+    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+    Date d1 = formatter.parse("01-01-2018");
+    String ticker = "GOOG";
+    Float count = (float) 100;
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
+
+    File file = new File("My Portfolio.csv");
+    if (file.exists()) {
+      file.delete();
+    }
+
+    try {
+      flex.savePortfolio("My Portfolio");
+    } catch (Exception e) {
+      fail();
+    }
+
+    PortfolioManager flex2 = new PortfolioManagerImpl(pers);
+    try {
+      flex2.readPortfolioFile("My Portfolio.csv");
+    } catch (Exception e) {
+      fail();
+    }
+
+    assertEquals("GOOG", flex2.getTickers("My Portfolio")[0]);
+    assertEquals((int) 100.00, flex2.getCounts("My Portfolio")[0], 0.0001);
+    assertEquals("01-01-2018", formatter.format(flex2.getDates("My Portfolio")[0]));
+
+
+
+    ticker = "GOOG";
+    count = (float) 100;
+    d1 = formatter.parse("01-01-2018");
+
+    flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
+    file = new File("My Portfolio2.csv");
+    if (file.exists()) {
+      file.delete();
+    }
+
+    boolean passed = false;
+    flex2 = new PortfolioManagerImpl(pers);
+    try {
+      flex2.readPortfolioFile("My Portfolio2.csv");
+    } catch (Exception e) {
+      passed = true;
+    }
+
+    if (!passed) {
+      fail();
+    }
+  }
+
+  @Test
   public void validateTickerTest() throws IOException {
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     boolean trueBool = portManager.validateTicker("GOOG");
@@ -223,6 +306,34 @@ public class PortfolioManagerImplTest {
     if (falseBool) {
       fail();
     }
+  }
+
+  @Test
+  public void testCheckFlexEdit() throws ParseException {
+    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+    Date d1 = formatter.parse("01-01-2018");
+    String ticker = "GOOG";
+    Float count = (float) 100;
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
+
+    Date checkDate = formatter.parse("01-01-2019");
+    boolean res = flex.checkFlexEdit("My Portfolio","GOOG", 200, checkDate);
+    assertEquals(false, res);
+
+    Date checkDate1 = formatter.parse("01-01-2017");
+    boolean res1 = flex.checkFlexEdit("My Portfolio","GOOG", 50, checkDate1);
+    assertEquals(false, res1);
+
+    Date checkDate2 = formatter.parse("01-01-2019");
+    boolean res2 = flex.checkFlexEdit("My Portfolio","GOOG", 50, checkDate2);
+    assertEquals(true, res2);
+
+    Date checkDate3 = formatter.parse("01-01-2017");
+    boolean res3 = flex.checkFlexEdit("My Portfolio","GOOG", 200, checkDate3);
+    assertEquals(false, res3);
+
   }
 
   @Test
@@ -266,4 +377,51 @@ public class PortfolioManagerImplTest {
 
   }
 
+  @Test
+  public void testGetCostBasis() throws ParseException, IOException {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date d1 = formatter.parse("01-01-2018");
+    String name = "My Portfolio";
+    String ticker = "GOOG";
+    Float count = (float) 100;
+    StringBuilder log = new StringBuilder();
+    controller.API mockA = new MockAPI(log);
+
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
+    float[] res = flex.getCostBasis(name, "01-01-2019", mockA);
+
+    assertEquals("getPrices method called ",log.toString());
+    assertEquals((float)100, res[0], 0.00001);
+
+  }
+
+  @Test
+  public void testPortfolioPerformance() throws ParseException, IOException {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date[] d1 = new Date[1];
+    d1[0] = formatter.parse("01-01-2018");
+    String name = "My Portfolio";
+    String ticker = "GOOG";
+    Float count = (float) 100;
+    StringBuilder log = new StringBuilder();
+    controller.API mockA = new MockAPI(log);
+
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.editFlexPortfolio("My Portfolio", ticker, count, d1[0]);
+    float[] res = flex.portfolioPerformance(name, d1, mockA);
+
+    assertEquals("getPrices method called ",log.toString());
+    assertEquals((float)10000, res[0], 0.00001);
+  }
+
+  @Test
+  public void testSetGetCommission() {
+    PortfolioManager flex = new PortfolioManagerImpl(pers);
+    flex.portFlexBuilder("My Portfolio");
+    flex.setCommissionFee((float)100.10);
+    assertEquals((float)100.10, flex.getCommissionFee(), 0.00001);
+  }
 }

@@ -4,12 +4,10 @@ import controller.InputControllerImpl;
 import controller.PortfolioController;
 import org.junit.Test;
 import view.ViewInterface;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -32,13 +30,13 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public String readPortfolioFile(String filename) throws IOException {
+    public String readPortfolioFile(String filename) {
       log.append("readPortfolio method called with " + filename + " ");
       return "";
     }
 
     @Override
-    public void savePortfolio(String filename) throws IOException {
+    public void savePortfolio(String filename) {
       log.append("savePortfolio method called with " + filename + " ");
     }
 
@@ -55,7 +53,7 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException, IOException, ParseException {
+    public void editFlexPortfolio(String name, ViewInterface v, Scanner sc) throws IllegalArgumentException {
       log.append("editFlexPortfolio method called ");
     }
 
@@ -78,49 +76,49 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException {
+    public float[] getCostBasis(String name, String date, controller.API api) {
       return new float[0];
     }
 
     @Override
-    public String buildPortfolio(ViewInterface v, Scanner sc) throws IOException {
+    public String buildPortfolio(ViewInterface v, Scanner sc) {
       log.append("buildPortfolio method called ");
       return null;
     }
 
     @Override
-    public String buildFlexPortfolio(ViewInterface v, Scanner sc) throws IOException {
+    public String buildFlexPortfolio(ViewInterface v, Scanner sc) {
       log.append("buildFlexPortfolio method called ");
       return null;
     }
 
     @Override
     public String[] manualValuation(String name, ViewInterface v, Scanner sc) {
-      log.append("manualValuation method called with " + name);
+      log.append("manualValuation method called with " + name + " ");
       return new String[0];
     }
 
     @Override
     public float[] portfolioPerformance(String name, Date[] dates, controller.API api) {
-      log.append("portfolioPerformance method called with " + name);
+      log.append("portfolioPerformance method called with " + name + " ");
       return new float[0];
     }
 
     @Override
     public String[] getTickers(String name) {
-      log.append("getTickers method called with " + name);
+      log.append("getTickers method called with " + name + " ");
       return new String[0];
     }
 
     @Override
     public Float[] getCounts(String name) {
-      log.append("getCounts method called with " + name);
+      log.append("getCounts method called with " + name + " ");
       return new Float[0];
     }
 
     @Override
     public Date[] getDates(String name) throws IllegalArgumentException {
-      log.append("getDates method called with " + name);
+      log.append("getDates method called with " + name + " ");
       return new Date[0];
     }
 
@@ -169,12 +167,14 @@ public class InputControllerImplTest {
 
     @Override
     public void printLine(String line) {
-      log.append("printLine method called ");
+      log.append("printLine method called with " + line + " ");
     }
 
     @Override
     public void printLines(String[] lines) {
-      log.append("printLines method called ");
+      for (int i = 0; i < lines.length; i++) {
+        log.append("printLines method called with " + lines[i] + " ");
+      }
     }
 
     @Override
@@ -268,13 +268,13 @@ public class InputControllerImplTest {
     input.start();
 
     assertEquals("showWelcomeScreen method called "
-                    + "selectPortfolio method called "
-                    + "savePortfolio method called with null "
-                    + "printLine method called "
-                    + "showWelcomeScreen method called "
-                    + "getPortfolioNames method called "
-                    + "printLine method called "
-                    + "showWelcomeScreen method called ",
+            + "selectPortfolio method called "
+            + "savePortfolio method called with null "
+            + "printLine method called with Portfolio saved. "
+            + "showWelcomeScreen method called "
+            + "getPortfolioNames method called "
+            + "printLine method called with All portfolios saved. "
+            + "showWelcomeScreen method called ",
             log.toString());
   }
 
@@ -298,6 +298,42 @@ public class InputControllerImplTest {
                     + "showWelcomeScreen method called "
                     + "showBuildScreen method called "
                     + "showWelcomeScreen method called ",
+            log.toString());
+  }
+
+  @Test
+  public void testErrors() {
+
+    StringBuilder log = new StringBuilder();
+    PortfolioController mockC = new MockPortfolioController(log);
+    ViewInterface mockV = new MockView(log);
+
+    Readable in = new StringReader("2\n 2\n port\n q\n done\n 4\n 6\n");
+    OutputStream out = new ByteArrayOutputStream();
+
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
+    input.start();
+
+    System.out.println(log);
+
+    assertEquals("showWelcomeScreen method called "
+            + "showBuildScreen method called "
+            + "buildFlexPortfolio method called "
+            + "getTickers method called with null "
+            + "getCounts method called with null "
+            + "getDates method called with null "
+            + "printLines method called with "
+            + "Contents of Flexible Portfolio: null "
+            + "printLine method called with "
+            + "Enter any key to return to the previous menu. "
+            + "showBuildScreen method called "
+            + "printLine method called with "
+            + "Please be sure to enter an integer for menu selection. "
+            + "showBuildScreen method called "
+            + "printLine method called with "
+            + "Please be sure to enter an integer for menu selection. "
+            + "showBuildScreen method called "
+            + "showWelcomeScreen method called ",
             log.toString());
   }
 }

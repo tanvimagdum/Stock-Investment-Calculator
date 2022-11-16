@@ -19,11 +19,12 @@ import static org.junit.Assert.assertEquals;
 public class PortfolioControllerImplTest {
 
   /**
-   * A mock portfolio manager to be passed to the tested input controller.
+   * A mock portfolio manager to be passed to the portfolio controller.
    */
   public class MockPortfolioManager implements PortfolioManager {
 
     private StringBuilder log;
+
     public MockPortfolioManager(StringBuilder log) {
       this.log = log;
     }
@@ -139,7 +140,7 @@ public class PortfolioControllerImplTest {
   }
 
   /**
-   * A mock view to be passed to the input controller for testing purposes.
+   * A mock view to be passed to the portfolio controller for testing purposes.
    */
   public class MockView implements ViewInterface {
 
