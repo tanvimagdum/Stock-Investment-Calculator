@@ -306,7 +306,7 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testEditFlexPortfolio() throws IOException, ParseException {
-    Readable in = new StringReader("b \n AAPL \n 100 \n 2016 \n 01 \n 01 \n done \n");
+    Readable in = new StringReader("b\n AAPL\n 100\n 2016\n 01\n 01\n done\n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);
@@ -328,7 +328,7 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testSelectPortfolio() {
-    Readable in = new StringReader("1 \n");
+    Readable in = new StringReader("1\n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);
@@ -342,7 +342,7 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testSelectFlexPortfolio() {
-    Readable in = new StringReader("1 \n");
+    Readable in = new StringReader("1\n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);
@@ -356,7 +356,7 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testBuildPortfolio() throws IOException {
-    Readable in = new StringReader("port \n AAPL \n 100 \n done \n");
+    Readable in = new StringReader("port\n AAPL\n 100\n done\n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);
@@ -376,7 +376,7 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testBuildFlexPortfolio() throws IOException, ParseException {
-    Readable in = new StringReader("port \n b \n AAPL \n 100 \n 2016 \n 01 \n 01 \n done \n");
+    Readable in = new StringReader("port\n b\n AAPL\n 100\n 2016\n 01\n 01\n done\n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);

@@ -2,11 +2,8 @@ import controller.APIImpl;
 import controller.InputController;
 import controller.InputControllerImpl;
 import controller.PortfolioController;
-
 import org.junit.Test;
-
 import view.ViewInterface;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
