@@ -75,7 +75,7 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading in files
    * @throws ParseException if there is an incorrect entry in a file being read
    */
-  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
 
   /**
    *
@@ -117,9 +117,9 @@ public interface PortfolioManager {
   public void editFlexPortfolio(String name, String ticker, Float count, Date date)
                                 throws IllegalArgumentException;
 
-  public float[] getCostBasis(String name, String date) throws ParseException, IOException;
+  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
 
-  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException;
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
 
   /**
    * Get the ticker numbers for all stocks in a portfolio.

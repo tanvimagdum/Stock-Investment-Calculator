@@ -183,13 +183,13 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
-    return model.getPortfolioValue(name, date);
+  public float[] getPortfolioValue(String name, String date, API api) throws IOException, ParseException {
+    return model.getPortfolioValue(name, date, api);
   }
 
   @Override
-  public float[] getCostBasis(String name, String date) throws ParseException, IOException {
-    return model.getCostBasis(name, date);
+  public float[] getCostBasis(String name, String date, API api) throws ParseException, IOException {
+    return model.getCostBasis(name, date, api);
   }
 
 
@@ -343,8 +343,8 @@ public class PortfolioControllerImpl implements PortfolioController {
 
   //change
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException {
-    return model.portfolioPerformance(name, dates);
+  public float[] portfolioPerformance(String name, Date[] dates, API api) throws IOException, ParseException {
+    return model.portfolioPerformance(name, dates, api);
   }
 
   @Override

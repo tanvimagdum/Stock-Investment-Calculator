@@ -29,6 +29,7 @@ public class InputControllerImpl implements InputController {
   public PortfolioController p;
   private Readable input;
   private Scanner sc;
+  private API api;
 
   /**
    * The main loop, which facilitates menu navigation and continues until the user
@@ -38,7 +39,7 @@ public class InputControllerImpl implements InputController {
   public static void main(String[] args) {
     InputController in = new InputControllerImpl(new ViewImpl(System.out),
             new PortfolioControllerImpl(new InputStreamReader(System.in), new PortfolioManagerImpl(new Persistence())),
-            new InputStreamReader(System.in), System.out);
+            new InputStreamReader(System.in), System.out, new APIImpl());
     in.start();
   }
 
@@ -53,11 +54,12 @@ public class InputControllerImpl implements InputController {
    */
 
   public InputControllerImpl(ViewInterface view, PortfolioController portCon,
-                             Readable in, PrintStream out) {
+                             Readable in, PrintStream out, API api) {
     this.v = view;
     this.p = portCon;
     this.input = in;
     this.sc = new Scanner(input);
+    this.api = api;
   }
 
   @Override
@@ -311,7 +313,7 @@ public class InputControllerImpl implements InputController {
           }
           float[] values;
           try {
-            values = p.portfolioPerformance(name, dates);
+            values = p.portfolioPerformance(name, dates, api);
           } catch (Exception e) {
             v.printLine("There was an error attempting to calculate portfolio's performance.");
             v.showPortfolioScreen();
@@ -424,7 +426,7 @@ public class InputControllerImpl implements InputController {
         l++;
       }
 
-      float[] values = p.getPortfolioValue(name, date);
+      float[] values = p.getPortfolioValue(name, date, api);
       String[] out = new String[tickers.length + 2];
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
@@ -441,7 +443,7 @@ public class InputControllerImpl implements InputController {
     } catch (Exception e) {
       String[] tickers = p.getTickers(name);
       Float[] counts = p.getCounts(name);
-      float[] values = p.getPortfolioValue(name, date);
+      float[] values = p.getPortfolioValue(name, date, api);
       String[] out = new String[tickers.length + 2];
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
@@ -487,7 +489,7 @@ public class InputControllerImpl implements InputController {
       l++;
     }
 
-    float[] values = p.getCostBasis(name, date);
+    float[] values = p.getCostBasis(name, date, api);
     String[] out = new String[tickers.length + 3];
     out[0] = "Cost Basis of Portfolio: " + name + " on " + date;
     float sum = 0;

@@ -1,6 +1,7 @@
 package model;
 
-import controller.PortfolioController;
+import controller.API;
+import controller.APIImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,8 +21,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
   private ArrayList<Portfolio> portfolios = new ArrayList<>();
 
   private Persistence pers;
-  private API api = new APIImpl();
-
   private float commissionFee;
 
   public PortfolioManagerImpl(Persistence pers) {
@@ -129,7 +128,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
+  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException {
     try {
       Portfolio subject = getPortfolio(name);
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -235,7 +234,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException {
     FlexPortfolioImpl subject = (FlexPortfolioImpl) getPortfolio(name);
     String[] startTickers = subject.getTickers();
     Float[] startCounts = subject.getCounts();
@@ -271,11 +270,11 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException {
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException {
     float[] out = new float[dates.length];
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     for (int i = 0; i  < dates.length; i++) {
-      float[] values = getPortfolioValue(name, formatter.format(dates[i]));
+      float[] values = getPortfolioValue(name, formatter.format(dates[i]), api);
       float sum = 0;
       System.out.println("-----");
       for (int j = 0; j < values.length; j++) {

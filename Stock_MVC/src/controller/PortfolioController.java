@@ -98,9 +98,9 @@ public interface PortfolioController {
    * @throws IOException if there is difficulty reading files
    * @throws ParseException if there is a wrong string trying to be read in as a float
    */
-  public float[] getPortfolioValue(String name, String date) throws IOException, ParseException;
+  public float[] getPortfolioValue(String name, String date, controller.API api) throws IOException, ParseException;
 
-  public float[] getCostBasis(String name, String date) throws ParseException, IOException;
+  public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException;
 
   /**
    * This method calls the method in model to create
@@ -142,7 +142,7 @@ public interface PortfolioController {
    * @param dates
    * @return
    */
-  public float[] portfolioPerformance(String name, Date[] dates) throws IOException, ParseException;
+  public float[] portfolioPerformance(String name, Date[] dates, controller.API api) throws IOException, ParseException;
 
   /**
    * This method calls the method in model
