@@ -1,3 +1,4 @@
+import controller.APIImpl;
 import controller.InputController;
 import controller.InputControllerImpl;
 import controller.PortfolioController;
@@ -74,13 +75,13 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public float[] getPortfolioValue(String name, String date) {
+    public float[] getPortfolioValue(String name, String date, controller.API api) {
       log.append("getPortfolioValue method called with " + name + "and" + date + " ");
       return new float[0];
     }
 
     @Override
-    public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+    public float[] getCostBasis(String name, String date, controller.API api) throws ParseException, IOException {
       return new float[0];
     }
 
@@ -103,7 +104,7 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public float[] portfolioPerformance(String name, Date[] dates) {
+    public float[] portfolioPerformance(String name, Date[] dates, controller.API api) {
       log.append("portfolioPerformance method called with " + name);
       return new float[0];
     }
@@ -140,6 +141,7 @@ public class InputControllerImplTest {
   /**
    * A mock view to be passed to the input controller for testing purposes.
    */
+
   public class MockView implements ViewInterface {
 
     private StringBuilder log;
@@ -194,7 +196,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called ", log.toString());
@@ -211,7 +213,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("1 \n 2 \n 6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
@@ -229,7 +231,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("2 \n 4 \n 6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
@@ -247,7 +249,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("3 \n 6 \n 6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
@@ -265,7 +267,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("4 \n 5 \n 6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "
@@ -289,7 +291,7 @@ public class InputControllerImplTest {
     Readable in = new StringReader("1 \n 2 \n 3 \n 6 \n 2 \n 4 \n 6 \n");
     OutputStream out = new ByteArrayOutputStream();
 
-    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out));
+    InputController input = new InputControllerImpl(mockV, mockC, in, new PrintStream(out), new APIImpl());
     input.start();
 
     assertEquals("showWelcomeScreen method called "

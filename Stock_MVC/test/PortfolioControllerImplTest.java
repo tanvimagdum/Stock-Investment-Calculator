@@ -1,22 +1,16 @@
+import controller.APIImpl;
 import controller.PortfolioController;
 import controller.PortfolioControllerImpl;
-import model.Persistence;
 import model.PortfolioManager;
-import model.PortfolioManagerImpl;
 import org.junit.Test;
 import view.ViewInterface;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
-
 import static org.junit.Assert.assertEquals;
-
 
 /**
  * A JUnit test for the portfolio controller implementation.
@@ -35,7 +29,8 @@ public class PortfolioControllerImplTest {
 
     @Override
     public void portBuilder(ArrayList<String> tickerList, ArrayList<Float> floatList, String name) {
-
+      log.append("portBuilder method called with " + tickerList + ", "
+                  + floatList + ", " + name + " ");
     }
 
     @Override
@@ -44,30 +39,30 @@ public class PortfolioControllerImplTest {
     }
 
     @Override
-    public String readPortfolioFile(String filename) throws IOException, ParseException {
+    public String readPortfolioFile(String filename) {
       log.append("readPortfolioFile method called with " + filename + " ");
       return null;
     }
 
     @Override
-    public void savePortfolio(String portfolioName) throws IOException {
+    public void savePortfolio(String portfolioName) {
       log.append("savePortfolio method called with " + portfolioName + " ");
     }
 
     @Override
     public String[] getPortfolioNames() {
       log.append("getPortfolioNames method called ");
-      return new String[0];
+      return new String[1];
     }
 
     @Override
     public String[] getFlexPortfolioNames() {
       log.append("getFlexPortfolioNames method called ");
-      return new String[0];
+      return new String[1];
     }
 
     @Override
-    public float[] getPortfolioValue(String name, String date) throws IOException, ParseException {
+    public float[] getPortfolioValue(String name, String date, controller.API api) {
       log.append("getPortfolioValue method called with " + name + " and " + date + " ");
       return new float[0];
     }
@@ -80,31 +75,32 @@ public class PortfolioControllerImplTest {
     }
 
     @Override
-    public boolean validateTicker(String ticker) throws IOException {
+    public boolean validateTicker(String ticker) {
       log.append("validateTicker method called with " + ticker + " ");
       return true;
     }
 
     @Override
-    public boolean validateTicker(String ticker, Date date) throws IOException, ParseException {
+    public boolean validateTicker(String ticker, Date date) {
       log.append("validateTicker method called with " + ticker + " and " + date + " ");
       return true;
     }
 
     @Override
-    public void editFlexPortfolio(String name, String ticker, Float count, Date date) throws IllegalArgumentException {
+    public void editFlexPortfolio(String name, String ticker, Float count, Date date)
+            throws IllegalArgumentException {
       log.append("editFlexPortfolio method called with " + name + ", " + ticker + ", "
               + count + ", " + date + " ");
     }
 
     @Override
-    public float[] getCostBasis(String name, String date) throws ParseException, IOException {
+    public float[] getCostBasis(String name, String date, controller.API api) {
       log.append("getCostBasis method called with " + name + " and " + date + " ");
       return new float[0];
     }
 
     @Override
-    public float[] portfolioPerformance(String name, Date[] dates) {
+    public float[] portfolioPerformance(String name, Date[] dates, controller.API api) {
       log.append("portfolioPerformance method called with " + name + " ");
       return new float[0];
     }
@@ -233,7 +229,7 @@ public class PortfolioControllerImplTest {
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
-    pc.getPortfolioValue("port", "01-01-2018");
+    pc.getPortfolioValue("port", "01-01-2018", new APIImpl());
     assertEquals("getPortfolioValue method called with port and 01-01-2018 ", log.toString());
   }
 
@@ -243,7 +239,7 @@ public class PortfolioControllerImplTest {
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
-    pc.getCostBasis("port", "01-01-2018");
+    pc.getCostBasis("port", "01-01-2018", new APIImpl());
     assertEquals("getCostBasis method called with port and 01-01-2018 ", log.toString());
   }
 
@@ -254,7 +250,7 @@ public class PortfolioControllerImplTest {
     PortfolioManager mockM = new MockPortfolioManager(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     Date[] dates = new Date[3];
-    pc.portfolioPerformance("port", dates);
+    pc.portfolioPerformance("port", dates, new APIImpl());
     assertEquals("portfolioPerformance method called with port ", log.toString());
   }
 
@@ -310,33 +306,95 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testEditFlexPortfolio() throws IOException, ParseException {
-    Readable in = new StringReader("b\r AAPL\r 100 \n 2016\r 01\r 01\r");
-    //"AAPL 100 2016 01 01"
+    Readable in = new StringReader("b \n AAPL \n 100 \n 2016 \n 01 \n 01 \n done \n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     ViewInterface mockV = new MockView(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
     pc.editFlexPortfolio("port", mockV, new Scanner(in));
-    System.out.println();
-    //System.out.println(log.toString());
-    /*assertEquals("Please choose whether to buy or sell, by entering 'b' or 's'. Alternatively, "
-            + "or enter 'Done' to finish."
-            , log.toString());*/
+    assertEquals("printLine method called "
+            + "printLine method called "
+            + "validateTicker method called with AAPL "
+            + "printLine method called "
+            + "printLine method called "
+            + "printLine method called "
+            + "printLine method called "
+            + "validateTicker method called with AAPL and Fri Jan 01 00:00:00 EST 2016 "
+            + "editFlexPortfolio method called with port, AAPL, 100.0, Fri Jan 01 00:00:00 EST 2016 "
+            + "printLine method called "
+            , log.toString());
 
   }
 
- /* @Test
-  public void testReaPortfolio() throws IOException, ParseException {
-
-    ArrayList<String> str = new ArrayList<>(Arrays.asList("A", "AAPL"));
-    ArrayList<Float> flt = new ArrayList<>(Arrays.asList((float)10.00, (float)12.00));
-
-    Readable in = new StringReader("Port AAPL 10 A 20 Done");
+  @Test
+  public void testSelectPortfolio() {
+    Readable in = new StringReader("1 \n");
     StringBuilder log = new StringBuilder();
-    PortfolioController pc = new PortfolioControllerImpl(in, new MockPortfolioManager(log));
-    pc.readPortfolioFile("port.csv");
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.selectPortfolio(mockV, new Scanner(in));
+    assertEquals("getPortfolioNames method called "
+                    + "printLines method called "
+                    + "printLine method called "
+            , log.toString());
+  }
 
-    assertEquals("port",pc.getPortfolioNames()[0]);
+  @Test
+  public void testSelectFlexPortfolio() {
+    Readable in = new StringReader("1 \n");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.selectFlexPortfolio(mockV, new Scanner(in));
+    assertEquals("getFlexPortfolioNames method called "
+                    + "printLines method called "
+                    + "printLine method called "
+            , log.toString());
+  }
 
-  }*/
+  @Test
+  public void testBuildPortfolio() throws IOException {
+    Readable in = new StringReader("port \n AAPL \n 100 \n done \n");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.buildPortfolio(mockV, new Scanner(in));
+    assertEquals("printLine method called "
+                    + "getPortfolioNames method called "
+                    + "printLine method called "
+                    + "validateTicker method called with AAPL "
+                    + "printLine method called "
+                    + "printLine method called "
+                    + "portBuilder method called with [AAPL], [100.0], port "
+            , log.toString());
+  }
+
+  //System.out.println(log);
+
+  @Test
+  public void testBuildFlexPortfolio() throws IOException, ParseException {
+    Readable in = new StringReader("port \n b \n AAPL \n 100 \n 2016 \n 01 \n 01 \n done \n");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockM = new MockPortfolioManager(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    pc.buildFlexPortfolio(mockV, new Scanner(in));
+    assertEquals("printLine method called "
+                    + "getPortfolioNames method called "
+                    + "portFlexBuilder method called with port "
+                    + "printLine method called "
+                    + "printLine method called "
+                    + "validateTicker method called with AAPL "
+                    + "printLine method called "
+                    + "printLine method called "
+                    + "printLine method called "
+                    + "printLine method called "
+                    + "validateTicker method called with AAPL and Fri Jan 01 00:00:00 EST 2016 "
+                    + "editFlexPortfolio method called with port, AAPL, 100.0, Fri Jan 01 00:00:00 EST 2016 "
+                    + "printLine method called "
+            , log.toString());
+  }
 }

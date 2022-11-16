@@ -1,3 +1,4 @@
+import controller.APIImpl;
 import model.*;
 
 import org.junit.Test;
@@ -73,7 +74,7 @@ public class PortfolioManagerImplTest {
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
     float[] output = new float[0];
     try {
-      output = portManager.getPortfolioValue("My Portfolio", "2012-05-24");
+      output = portManager.getPortfolioValue("My Portfolio", "2012-05-24", new APIImpl());
     } catch (IOException e) {
       fail();
     } catch (ParseException e) {
@@ -93,7 +94,7 @@ public class PortfolioManagerImplTest {
     boolean passed = true;
 
     try {
-      output = portManager.getPortfolioValue("My Pofolio", "2012-05-24");
+      output = portManager.getPortfolioValue("My Pofolio", "2012-05-24", new APIImpl());
       passed = false;
     } catch (Exception e) {
       passed = true;
@@ -183,7 +184,7 @@ public class PortfolioManagerImplTest {
     }
   }
 
-  /*@Test
+  @Test
   public void validateTickerTest() throws IOException {
     PortfolioManager portManager = new PortfolioManagerImpl(pers);
     boolean trueBool = portManager.validateTicker("GOOG");
@@ -194,5 +195,5 @@ public class PortfolioManagerImplTest {
     if (falseBool) {
       fail();
     }
-  }*/
+  }
 }
