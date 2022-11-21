@@ -207,5 +207,13 @@ public interface PortfolioController {
    */
   public void setCommissionFee(float fee);
 
-
+  /**
+   * Allows the controller to add elements to a flex portfolio.
+   *
+   * @param name the name of the portfolio
+   * @param ticker the ticker of the stock being added
+   * @param count the count of the stock being added (negative for sales)
+   * @param date the date of the transaction
+   */
+  public void addToFlex(String name, String ticker, float count, Date date);
 }

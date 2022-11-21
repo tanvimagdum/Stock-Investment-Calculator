@@ -381,4 +381,9 @@ public class PortfolioControllerImpl implements PortfolioController {
     model.setCommissionFee(fee);
   }
 
+  @Override
+  public void addToFlex(String name, String ticker, float count, Date date) {
+    model.editFlexPortfolio(name, ticker, count, date);
+  }
+
 }

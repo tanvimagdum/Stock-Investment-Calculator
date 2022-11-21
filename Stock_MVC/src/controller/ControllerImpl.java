@@ -3,6 +3,7 @@ package controller;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
+import controller.textcoms.DollarCostBuyCommand;
 import controller.textcoms.EditFlexibleCommand;
 import controller.textcoms.LoadCommand;
 import controller.textcoms.ManualValuationCommand;
@@ -13,11 +14,9 @@ import controller.textcoms.SaveCommand;
 import controller.textcoms.ViewContentsCommand;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.lang.ModuleLayer.Controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import javax.naming.ldap.Control;
 import model.PortfolioManagerImpl;
 import view.ViewImpl;
 import view.ViewInterface;
@@ -75,7 +74,10 @@ public class ControllerImpl implements InputController{
 
     if (ui.equals("text")) {
       v.showWelcomeScreen();
+    } else {
+      //do gui stuff
     }
+
     setupMaps();
     TextCommand com;
     Map<String, Map<Integer, TextCommand>> menu;
@@ -124,8 +126,9 @@ public class ControllerImpl implements InputController{
 
     textBuildScreen.put(1, new BuildSimpleCommand());
     textBuildScreen.put(2, new BuildFlexibleCommand());
-    textBuildScreen.put(3, new EditFlexibleCommand());
-    textBuildScreen.put(4, new BackCommand());
+    textBuildScreen.put(4, new EditFlexibleCommand());
+    textBuildScreen.put(5, new DollarCostBuyCommand());
+    textBuildScreen.put(6, new BackCommand());
 
     textViewScreen.put(1, new ViewContentsCommand());
     textViewScreen.put(2, new PortfolioValueCommand());

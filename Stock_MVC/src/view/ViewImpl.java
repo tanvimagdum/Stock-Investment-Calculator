@@ -53,8 +53,10 @@ public class ViewImpl implements ViewInterface {
     out.println("Please enter a choice number" + "\n");
     out.println("1. Begin building a simple portfolio");
     out.println("2. Begin building a flexible portfolio");
-    out.println("3. Edit a flexible portfolio");
-    out.println("4. Go Back");
+    out.println("3. Begin a flexible portfolio with a strategy");
+    out.println("4. Edit a flexible portfolio");
+    out.println("5. Add a fixed cost buy across a flexible portfolio");
+    out.println("6. Go Back");
 
   }
 

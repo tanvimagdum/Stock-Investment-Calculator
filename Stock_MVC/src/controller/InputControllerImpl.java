@@ -167,9 +167,9 @@ public class InputControllerImpl implements InputController {
           v.printLine("Please enter the day (2 digits):");
           day = sc.nextLine();
           try {
-            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
             date.setLenient(false);
-            Date target = date.parse(mon + "/" + day + "/" + year);
+            Date target = date.parse(year + "-" + mon + "-" + day);
             Date upperLimit = new Date();
             if (target.compareTo(upperLimit) > 0) {
               v.printLine("The date entered is out of bounds.");
@@ -210,9 +210,9 @@ public class InputControllerImpl implements InputController {
           v.printLine("Please enter the day (2 digits):");
           day = sc.nextLine();
           try {
-            DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
             date.setLenient(false);
-            Date target = date.parse(mon + "/" + day + "/" + year);
+            Date target = date.parse(year + "-" + mon + "-" + day);
             Date upperLimit = new Date();
             if (target.compareTo(upperLimit) > 0) {
               v.printLine("The date entered is out of bounds.");
@@ -261,9 +261,9 @@ public class InputControllerImpl implements InputController {
             break;
           }
           Date upperLimit = new Date();
-          DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+          DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
           formatter.setLenient(false);
-          Date lowerLimit = new Date();
+          Date lowerLimit;
 
           v.printLine(
               "Note that the date range includes the first date entered up to but not including"
@@ -276,8 +276,8 @@ public class InputControllerImpl implements InputController {
           day = sc.nextLine();
           Date target1 = new Date();
           try {
-            lowerLimit = formatter.parse("01/01/1990");
-            target1 = formatter.parse(mon + "/" + day + "/" + year);
+            lowerLimit = formatter.parse("2000-01-01");
+            target1 = formatter.parse(year + "-" + mon + "-" + day);
             if (target1.compareTo(upperLimit) > 0 || target1.compareTo(lowerLimit) < 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
@@ -297,7 +297,7 @@ public class InputControllerImpl implements InputController {
           day = sc.nextLine();
           Date target2 = new Date();
           try {
-            target2 = formatter.parse(mon + "/" + day + "/" + year);
+            target2 = formatter.parse(year + "-" + mon + "-" + day);
             if (target2.compareTo(upperLimit) > 0 || target1.compareTo(lowerLimit) < 0) {
               v.printLine("The date entered is out of bounds.");
               v.showPortfolioScreen();
