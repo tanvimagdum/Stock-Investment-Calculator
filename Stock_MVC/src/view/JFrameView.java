@@ -89,6 +89,12 @@ public class JFrameView extends JFrame implements ViewInterface {
     saveAllButton.addActionListener(a);
     menuPanel.add(saveAllButton);
 
+    backButton = new JButton("Go Back");
+    backButton.setActionCommand("Back");
+    backButton.addActionListener(a);
+    menuPanel.add(backButton);
+    backButton.setVisible(false);
+
     contentPanel = new JPanel();
     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
     Border paddingContent = BorderFactory.createEmptyBorder(30,0,30,0);
@@ -109,21 +115,18 @@ public class JFrameView extends JFrame implements ViewInterface {
   @Override
   public void showLoadScreen() {
     disableButtons();
-    JLabel loadContent = new JLabel("Load Portfolio Screen");
     content.setText("Load a Portfolio");
   }
 
   @Override
   public void showBuildScreen() {
     disableButtons();
-    JLabel buildContent = new JLabel("Load Portfolio Screen");
     content.setText("Build/Edit a Portfolio");
   }
 
   @Override
   public void showPortfolioScreen() {
     disableButtons();
-    JLabel viewContent = new JLabel("Load Portfolio Screen");
     content.setText("View a Portfolio");
   }
 
@@ -148,10 +151,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     viewButton.setVisible(false);
     saveButton.setVisible(false);
     saveAllButton.setVisible(false);
-    backButton = new JButton("Go Back");
-    backButton.setActionCommand("Back");
-    //backButton.addActionListener();
-    menuPanel.add(backButton);
+    backButton.setVisible(true);
   }
 
   public void enableButtons() {
