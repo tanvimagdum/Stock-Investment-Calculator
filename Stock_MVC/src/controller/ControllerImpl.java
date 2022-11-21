@@ -11,12 +11,14 @@ import controller.textcoms.PortfolioValueCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
 import controller.textcoms.ViewContentsCommand;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.lang.ModuleLayer.Controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import javax.naming.ldap.Control;
+import model.PortfolioManagerImpl;
 import view.ViewImpl;
 import view.ViewInterface;
 
@@ -35,6 +37,16 @@ public class ControllerImpl implements InputController{
   Map<Integer, TextCommand> textLoadScreen = new HashMap<>();
   Map<Integer, TextCommand> textBuildScreen = new HashMap<>();
   Map<Integer, TextCommand> textViewScreen = new HashMap<>();
+
+
+  public static void main(String[] args) {
+    InputController in = new ControllerImpl(new ViewImpl(System.out),
+        new PortfolioControllerImpl(new InputStreamReader(System.in),
+            new PortfolioManagerImpl(new Persistence())),
+        new InputStreamReader(System.in), System.out, new APIImpl());
+    in.start();
+  }
+
 
   public ControllerImpl(ViewInterface view, PortfolioController portCon,
       Readable in, PrintStream out, API api){
