@@ -145,20 +145,20 @@ public class DollarCostBuyCommand implements TextCommand {
     try {
       prices = api.getPrices(tickers, target);
     } catch (Exception e) {
-      v.printLine("There was an error when in the API call. Please try again.");
+      v.printLine("There was an error during the API call. Please try again.");
       v.showBuildScreen();
       return;
     }
     for (int k = 0;  k < prices.length; k++) {
-      v.printLine(String.valueOf(prices[k]));
+      if (prices[k] == 0) {
+        v.printLine("There was an error retrieving prices. Please try again.");
+        v.showBuildScreen();
+        return;
+      }
     }
 
     for (int j = 0; j < tickers.length; j++) {
-      float countBuy = 0;
-      if (prices[j] == 0) {
-        System.out.println("Price was 0.");
-        countBuy = 0;
-      }
+      float countBuy = (value*percentages[j]*0.01f)/prices[j];
       p.addToFlex(name, tickers[j], countBuy, target);
     }
 

@@ -27,7 +27,7 @@ public class PortfolioPerformanceCommand implements TextCommand {
     Date upperLimit = new Date();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     formatter.setLenient(false);
-    Date lowerLimit = new Date();
+    Date lowerLimit;
 
     v.printLine(
         "Note that the date range includes the first date entered up to but not including"
@@ -38,7 +38,7 @@ public class PortfolioPerformanceCommand implements TextCommand {
     String mon = sc.nextLine();
     v.printLine("Please enter the starting day (2 digits):");
     String day = sc.nextLine();
-    Date target1 = new Date();
+    Date target1;
     try {
       lowerLimit = formatter.parse("2000-01-01");
       target1 = formatter.parse(year + "-" + mon + "-" + day);
@@ -59,9 +59,9 @@ public class PortfolioPerformanceCommand implements TextCommand {
     mon = sc.nextLine();
     v.printLine("Please enter the ending day (2 digits):");
     day = sc.nextLine();
-    Date target2 = new Date();
+    Date target2;
     try {
-      target2 = formatter.parse(mon + "/" + day + "/" + year);
+      target2 = formatter.parse(year + "-" + mon + "-" + day);
       if (target2.compareTo(upperLimit) > 0 || target1.compareTo(lowerLimit) < 0) {
         v.printLine("The date entered is out of bounds.");
         v.showPortfolioScreen();

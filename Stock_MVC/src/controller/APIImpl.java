@@ -19,7 +19,6 @@ import java.util.Date;
 public class APIImpl implements API {
   @Override
   public float[] getPrices(String[] tickerList, Date date) throws IOException, ParseException {
-
     String apiKey = "4U3NNSG5OHR1CBIG";
     URL url = null;
     float[] out = new float[tickerList.length];
@@ -30,6 +29,55 @@ public class APIImpl implements API {
       try {
         url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="
                 + tickerList[i] + "&outputsize=full&apikey=" + apiKey + "&datatype=csv");
+      } catch (MalformedURLException e) {
+        throw new RuntimeException("There was an error retrieving that information from the API.");
+      }
+      if (!validateTicker(tickerList[i])) {
+        out[i] = 0;
+        continue;
+      }
+      try {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        String line = reader.readLine();
+
+        while (line != null) {
+          String[] elements = line.split(",");
+
+          Date rowDate = null;
+
+          try {
+            rowDate = format.parse(elements[0]);
+          } catch (Exception e) {
+            line = reader.readLine();
+            continue;
+          }
+
+          if (rowDate.compareTo(date) < 1) {
+            out[i] = Float.parseFloat(elements[5]);
+            break;
+          }
+          line = reader.readLine();
+        }
+
+      } catch (IOException e) {
+        throw new IOException("There was difficulty reading the input stream for " + tickerList[i]);
+      }
+    }
+    return out;
+  }
+
+  @Override
+  public float[] getPricesAfter(String[] tickerList, Date date) throws IOException, ParseException {
+    String apiKey = "4U3NNSG5OHR1CBIG";
+    URL url = null;
+    float[] out = new float[tickerList.length];
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    date = format.parse(format.format(date));
+
+    for (int i = 0; i < tickerList.length; i++) {
+      try {
+        url = new URL("https://alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="
+            + tickerList[i] + "&outputsize=full&apikey=" + apiKey + "&datatype=csv");
       } catch (MalformedURLException e) {
         throw new RuntimeException("There was an error retrieving that information from the API.");
       }
