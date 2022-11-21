@@ -105,7 +105,7 @@ public interface PortfolioController {
    * @throws IOException if there is difficulty reading files
    * @throws ParseException if there is a wrong string trying to be read in as a float
    */
-  public float[] getPortfolioValue(String name, String date, controller.API api)
+  public float[] getPortfolioValue(String name, Date date, controller.API api)
       throws IOException, ParseException;
 
   /**
@@ -118,7 +118,7 @@ public interface PortfolioController {
    * @throws ParseException if the date is incorrectly entered or not a real date
    * @throws IOException if the API encounters difficulty
    */
-  public float[] getCostBasis(String name, String date, controller.API api)
+  public float[] getCostBasis(String name, Date date, controller.API api)
       throws ParseException, IOException;
 
   /**

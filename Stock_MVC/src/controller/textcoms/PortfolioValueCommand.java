@@ -88,7 +88,7 @@ public class PortfolioValueCommand implements TextCommand {
         l++;
       }
 
-      float[] values = p.getPortfolioValue(name, date, api);
+      float[] values = p.getPortfolioValue(name, formatter.parse(date), api);
       String[] out = new String[tickers.length + 2];
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;
@@ -103,9 +103,10 @@ public class PortfolioValueCommand implements TextCommand {
       out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
       return out;
     } catch (Exception e) {
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       String[] tickers = p.getTickers(name);
       Float[] counts = p.getCounts(name);
-      float[] values = p.getPortfolioValue(name, date, api);
+      float[] values = p.getPortfolioValue(name, formatter.parse(date), api);
       String[] out = new String[tickers.length + 2];
       out[0] = "Value of Portfolio: " + name + " on " + date;
       float sum = 0;

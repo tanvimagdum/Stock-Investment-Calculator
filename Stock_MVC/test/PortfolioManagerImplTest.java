@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,6 +122,7 @@ public class PortfolioManagerImplTest {
 
   @Test
   public void testGetSimplePortfolioValue() {
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     StringBuilder log = new StringBuilder();
     controller.API mockA = new MockAPI(log);
     ArrayList<String> tickerList = new ArrayList<>(Arrays.asList("GOOG"));
@@ -130,7 +132,7 @@ public class PortfolioManagerImplTest {
     portManager.portBuilder(tickerList, floatList, "My Portfolio");
     float[] output = new float[0];
     try {
-      output = portManager.getPortfolioValue("My Portfolio", "2012-05-24", mockA);
+      output = portManager.getPortfolioValue("My Portfolio", formatter.parse("2012-05-24"), mockA);
     } catch (IOException e) {
       fail();
     } catch (ParseException e) {
@@ -153,7 +155,7 @@ public class PortfolioManagerImplTest {
 
     float[] output = new float[0];
     try {
-      output = flex.getPortfolioValue("My Portfolio", "2012-05-24", mockA);
+      output = flex.getPortfolioValue("My Portfolio", formatter.parse("2012-05-24"), mockA);
     } catch (IOException e) {
       fail();
     } catch (ParseException e) {
@@ -387,7 +389,7 @@ public class PortfolioManagerImplTest {
     PortfolioManager flex = new PortfolioManagerImpl(pers);
     flex.portFlexBuilder("My Portfolio");
     flex.editFlexPortfolio("My Portfolio", ticker, count, d1);
-    float[] res = flex.getCostBasis(name, "01-01-2019", mockA);
+    float[] res = flex.getCostBasis(name, formatter.parse("01-01-2019"), mockA);
 
     assertEquals("getPrices method called ", log.toString());
     assertEquals((float) 100, res[0], 0.00001);

@@ -99,7 +99,7 @@ public class CostBasisCommand implements TextCommand {
       l++;
     }
 
-    float[] values = p.getCostBasis(name, date, api);
+    float[] values = p.getCostBasis(name, formatter.parse(date), api);
     String[] out = new String[tickers.length + 3];
     out[0] = "Cost Basis of Portfolio: " + name + " on " + date;
     float sum = 0;

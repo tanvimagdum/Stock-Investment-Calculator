@@ -71,13 +71,13 @@ public class InputControllerImplTest {
     }
 
     @Override
-    public float[] getPortfolioValue(String name, String date, controller.API api) {
+    public float[] getPortfolioValue(String name, Date date, controller.API api) {
       log.append("getPortfolioValue method called with " + name + "and" + date + " ");
       return new float[0];
     }
 
     @Override
-    public float[] getCostBasis(String name, String date, controller.API api) {
+    public float[] getCostBasis(String name, Date date, controller.API api) {
       return new float[0];
     }
 

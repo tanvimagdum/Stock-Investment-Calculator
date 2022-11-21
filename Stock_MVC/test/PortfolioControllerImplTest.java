@@ -6,6 +6,7 @@ import org.junit.Test;
 import view.ViewInterface;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class PortfolioControllerImplTest {
     }
 
     @Override
-    public float[] getPortfolioValue(String name, String date, controller.API api) {
+    public float[] getPortfolioValue(String name, Date date, controller.API api) {
       log.append("getPortfolioValue method called with " + name + " and " + date + " ");
       return new float[0];
     }
@@ -100,7 +101,7 @@ public class PortfolioControllerImplTest {
     }
 
     @Override
-    public float[] getCostBasis(String name, String date, controller.API api) {
+    public float[] getCostBasis(String name, Date date, controller.API api) {
       log.append("getCostBasis method called with " + name + " and " + date + " ");
       return new float[0];
     }
@@ -231,21 +232,24 @@ public class PortfolioControllerImplTest {
 
   @Test
   public void testGetPortfolioValue() throws IOException, ParseException {
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Readable in = new StringReader(" ");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
-    pc.getPortfolioValue("port", "01-01-2018", new APIImpl());
+    pc.getPortfolioValue("port", formatter.parse("01-01-2018"), new APIImpl());
     assertEquals("getPortfolioValue method called with port and 01-01-2018 ", log.toString());
   }
 
   @Test
   public void testGetCostBasis() throws ParseException, IOException {
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date d = formatter.parse("01-01-2018");
     Readable in = new StringReader(" ");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockM = new MockPortfolioManager(log);
     PortfolioController pc = new PortfolioControllerImpl(in, mockM);
-    pc.getCostBasis("port", "01-01-2018", new APIImpl());
+    pc.getCostBasis("port", d, new APIImpl());
     assertEquals("getCostBasis method called with port and 01-01-2018 ", log.toString());
   }
 

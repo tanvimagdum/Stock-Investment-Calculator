@@ -133,16 +133,16 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date, controller.API api)
+  public float[] getPortfolioValue(String name, Date target, controller.API api)
       throws IOException, ParseException {
     try {
       Portfolio subject = getPortfolio(name);
-      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-      Date target = format.parse(date);
+      //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      //Date target = format.parse(date);
       String[] startTickers = subject.getTickers();
       Float[] startCounts = subject.getCounts();
       Date[] startDates = ((FlexPortfolioImpl) subject).getDates();
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
       int j = 0;
       for (int i = 0; i < startDates.length; i++) {
         if (startDates[i].compareTo(target) < 1) {
@@ -155,7 +155,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       int k = 0;
       int l = 0;
       while (k < j) {
-        if (startDates[l].compareTo(formatter.parse(date)) < 1) {
+        if (startDates[l].compareTo(target) < 1) {
           tickers[k] = startTickers[l];
           counts[k] = startCounts[l];
           k++;
@@ -173,7 +173,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
       Portfolio subject = getPortfolio(name);
       String[] tickers = subject.getTickers();
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-      Date target = format.parse(date);
+      //Date target = format.parse(date);
 
       float[] values = api.getPrices(tickers, target);
 
@@ -238,14 +238,14 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] getCostBasis(String name, String date, controller.API api)
+  public float[] getCostBasis(String name, Date target, controller.API api)
       throws ParseException, IOException {
     FlexPortfolioImpl subject = (FlexPortfolioImpl) getPortfolio(name);
     String[] startTickers = subject.getTickers();
     Float[] startCounts = subject.getCounts();
     Date[] startDates = subject.getDates();
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date target = formatter.parse(date);
+    //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //Date target = formatter.parse(date);
     int j = 0;
     for (int i = 0; i < startDates.length; i++) {
       if (startDates[i].compareTo(target) < 1 && startCounts[i] > 0) {
@@ -280,7 +280,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     float[] out = new float[dates.length];
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     for (int i = 0; i < dates.length; i++) {
-      float[] values = getPortfolioValue(name, formatter.format(dates[i]), api);
+      float[] values = getPortfolioValue(name, dates[i], api);
       float sum = 0;
       for (int j = 0; j < values.length; j++) {
         sum += values[j];

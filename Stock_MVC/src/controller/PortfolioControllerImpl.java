@@ -184,13 +184,13 @@ public class PortfolioControllerImpl implements PortfolioController {
   }
 
   @Override
-  public float[] getPortfolioValue(String name, String date, API api)
+  public float[] getPortfolioValue(String name, Date date, API api)
       throws IOException, ParseException {
     return model.getPortfolioValue(name, date, api);
   }
 
   @Override
-  public float[] getCostBasis(String name, String date, API api)
+  public float[] getCostBasis(String name, Date date, API api)
       throws ParseException, IOException {
     return model.getCostBasis(name, date, api);
   }
