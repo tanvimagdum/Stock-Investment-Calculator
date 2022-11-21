@@ -114,9 +114,9 @@ public class PortfolioControllerImpl implements PortfolioController {
       sc.nextLine();
       Date target;
       try {
-        DateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         date.setLenient(false);
-        target = date.parse(mon + "/" + day + "/" + year);
+        target = date.parse(year + "-" + mon + "-" + day);
         Date upperLimit = new Date();
         if (target.compareTo(upperLimit) > 0) {
           v.printLine("The date entered is out of bounds.");

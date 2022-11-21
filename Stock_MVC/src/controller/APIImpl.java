@@ -53,6 +53,7 @@ public class APIImpl implements API {
           }
 
           if (rowDate.compareTo(date) < 1) {
+            System.out.println(elements[0]);
             out[i] = Float.parseFloat(elements[5]);
             break;
           }
@@ -89,8 +90,13 @@ public class APIImpl implements API {
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line = reader.readLine();
 
+        String[] previousElements = null;
+
         while (line != null) {
           String[] elements = line.split(",");
+          if (previousElements == null) {
+            previousElements = elements;
+          }
 
           Date rowDate = null;
 
@@ -101,9 +107,15 @@ public class APIImpl implements API {
             continue;
           }
 
-          if (rowDate.compareTo(date) < 1) {
+          if (rowDate.compareTo(date) == 0) {
             out[i] = Float.parseFloat(elements[5]);
             break;
+          } else if (rowDate.compareTo(date) < 0) {
+            System.out.println(previousElements[0]);
+            out[i] = Float.parseFloat(previousElements[5]);
+            break;
+          } else {
+            previousElements = line.split(",");
           }
           line = reader.readLine();
         }

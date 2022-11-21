@@ -143,7 +143,7 @@ public class DollarCostBuyCommand implements TextCommand {
 
     float[] prices;
     try {
-      prices = api.getPrices(tickers, target);
+      prices = api.getPricesAfter(tickers, target);
     } catch (Exception e) {
       v.printLine("There was an error during the API call. Please try again.");
       v.showBuildScreen();
