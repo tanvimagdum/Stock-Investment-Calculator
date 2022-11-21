@@ -28,4 +28,6 @@ public interface Portfolio {
    */
   Float[] getCounts();
 
+  Strategy getStrategy();
+
 }

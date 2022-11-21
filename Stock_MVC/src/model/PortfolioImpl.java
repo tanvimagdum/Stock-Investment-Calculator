@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A class representing the composition
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 public class PortfolioImpl implements Portfolio {
   private final ArrayList<Stock<String, Float>> stockList;
   private final String portfolioName;
+  private final Strategy strat = new DCAStrategy(new ArrayList<Stock>(), 0.02,
+      new Date(), new Date(), 1);
 
   /**
    * This constructor is used by the builder() method to
@@ -81,5 +84,10 @@ public class PortfolioImpl implements Portfolio {
       counts[i] = stockList.get(i).getF();
     }
     return counts;
+  }
+
+  @Override
+  public Strategy getStrategy() {
+    return strat;
   }
 }

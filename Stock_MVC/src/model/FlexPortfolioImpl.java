@@ -11,6 +11,7 @@ public class FlexPortfolioImpl implements Portfolio {
 
   private ArrayList<FlexStock<String, Float, Date>> stockList = new ArrayList<>();
   private final String portfolioName;
+  private Strategy<String, Float, Date, Date, Integer> strat;
 
   /**
    * A constructor for the flexible portfolio. This constructor only takes in a name. The portfolio
@@ -20,6 +21,11 @@ public class FlexPortfolioImpl implements Portfolio {
    */
   public FlexPortfolioImpl(String portfolioName) {
     this.portfolioName = portfolioName;
+  }
+
+  public FlexPortfolioImpl(String portfolioName, Strategy strat) {
+    this.portfolioName = portfolioName;
+    this.strat = strat;
   }
 
 
@@ -59,6 +65,11 @@ public class FlexPortfolioImpl implements Portfolio {
       counts[i] = stockList.get(i).getF();
     }
     return counts;
+  }
+
+  @Override
+  public Strategy getStrategy() {
+    return strat;
   }
 
   /**

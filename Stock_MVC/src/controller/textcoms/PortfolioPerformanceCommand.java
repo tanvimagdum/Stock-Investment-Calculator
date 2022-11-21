@@ -1,22 +1,22 @@
 package controller.textcoms;
 
 import controller.API;
-import controller.PortfolioController;
 import controller.TextCommand;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import model.PortfolioManager;
 import view.ViewInterface;
 
 public class PortfolioPerformanceCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     String name;
     try {
-      name = p.selectFlexPortfolio(v, sc);
+      name = selectFlexPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine(
           "There are either no flexible portfolios yet or the input was out of bounds.");
@@ -214,5 +214,21 @@ public class PortfolioPerformanceCommand implements TextCommand {
     out[dates.length + 1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
         + " above the base of $" + base;
     return out;
+  }
+
+  private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
+    String[] portNames = p.getFlexPortfolioNames();
+    String[] numbered = new String[portNames.length];
+
+    for (int i = 0; i < portNames.length; i++) {
+      numbered[i] = (i + 1) + ". " + portNames[i];
+    }
+
+    v.printLines(numbered);
+    v.printLine("Please choose one of the following options:");
+    int index = sc.nextInt();
+    sc.nextLine();
+
+    return portNames[index - 1];
   }
 }

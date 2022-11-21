@@ -20,6 +20,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import view.JFrameView;
 import view.ViewImpl;
@@ -32,7 +33,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   String currentScreen;
   ViewInterface v;
   JFrameView f;
-  PortfolioController p;
+  PortfolioManager p;
   Scanner sc;
   API api;
   boolean flag = true;
@@ -48,17 +49,16 @@ public class ControllerImpl implements InputController, ActionListener  {
 
   public static void main(String[] args) {
     InputController in = new ControllerImpl(new ViewImpl(System.out),
-        new PortfolioControllerImpl(new InputStreamReader(System.in),
-            new PortfolioManagerImpl(new Persistence())),
+            new PortfolioManagerImpl(new Persistence()),
         new InputStreamReader(System.in), System.out, new APIImpl());
     in.start();
   }
 
 
-  public ControllerImpl(ViewInterface view, PortfolioController portCon,
+  public ControllerImpl(ViewInterface view, PortfolioManager portMan,
       Readable in, PrintStream out, API api) {
     this.v = view;
-    this.p = portCon;
+    this.p = portMan;
     this.sc = new Scanner(in);
     this.api = api;
   }
@@ -176,7 +176,7 @@ public class ControllerImpl implements InputController, ActionListener  {
 
   class BackCommand implements TextCommand {
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "WS";
       v.showWelcomeScreen();
     }
@@ -185,7 +185,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   class LoadScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "LS";
       v.showLoadScreen();
     }
@@ -194,7 +194,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   class BuildScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "BS";
       v.showBuildScreen();
     }
@@ -203,7 +203,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   class ViewScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "PS";
       v.showPortfolioScreen();
     }
@@ -212,7 +212,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   class SaveScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "SS";
       v.showSaveScreen();
     }
@@ -221,7 +221,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   class ExitCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       flag = false;
     }
   }

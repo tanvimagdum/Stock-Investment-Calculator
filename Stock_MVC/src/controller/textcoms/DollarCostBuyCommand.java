@@ -1,7 +1,6 @@
 package controller.textcoms;
 
 import controller.API;
-import controller.PortfolioController;
 import controller.TextCommand;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,15 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import model.PortfolioManager;
 import view.ViewInterface;
 
 public class DollarCostBuyCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     String name;
     try {
-      name = p.selectFlexPortfolio(v, sc);
+      name = selectFlexPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine("There are either no portfolios yet or the input was out of bounds.");
       sc.nextLine();
@@ -159,12 +159,8 @@ public class DollarCostBuyCommand implements TextCommand {
 
     for (int j = 0; j < tickers.length; j++) {
       float countBuy = (value*percentages[j]*0.01f)/prices[j];
-      p.addToFlex(name, tickers[j], countBuy, target);
+      p.editFlexPortfolio(name, tickers[j], countBuy, target);
     }
-
-    System.out.println(p.getTickers(name)[3]);
-    System.out.println(p.getCounts(name)[3]);
-    System.out.println(p.getDates(name)[3]);
 
     v.printLines(contentsHelper(name, p));
     v.printLine("Enter any key to return to the previous menu.");
@@ -172,7 +168,7 @@ public class DollarCostBuyCommand implements TextCommand {
     v.showBuildScreen();
   }
 
-  private String[] contentsHelper(String name, PortfolioController p) {
+  private String[] contentsHelper(String name, PortfolioManager p) {
 
     try {
       String[] tickers = p.getTickers(name);
@@ -230,5 +226,21 @@ public class DollarCostBuyCommand implements TextCommand {
     }
     reader.close();
     return false;
+  }
+
+  private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
+    String[] portNames = p.getFlexPortfolioNames();
+    String[] numbered = new String[portNames.length];
+
+    for (int i = 0; i < portNames.length; i++) {
+      numbered[i] = (i + 1) + ". " + portNames[i];
+    }
+
+    v.printLines(numbered);
+    v.printLine("Please choose one of the following options:");
+    int index = sc.nextInt();
+    sc.nextLine();
+
+    return portNames[index - 1];
   }
 }

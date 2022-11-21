@@ -1,18 +1,18 @@
 package controller.textcoms;
 
 import controller.API;
-import controller.PortfolioController;
 import controller.TextCommand;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import model.PortfolioManager;
 import view.ViewInterface;
 
 public class LoadCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     v.printLine("Please enter the filename.");
     String name = sc.nextLine();
 
@@ -45,7 +45,7 @@ public class LoadCommand implements TextCommand {
     v.showLoadScreen();
   }
 
-  private String[] contentsHelper(String name, PortfolioController p) {
+  private String[] contentsHelper(String name, PortfolioManager p) {
 
     try {
       String[] tickers = p.getTickers(name);

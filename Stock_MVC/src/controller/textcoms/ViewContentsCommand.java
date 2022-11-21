@@ -1,20 +1,20 @@
 package controller.textcoms;
 
 import controller.API;
-import controller.PortfolioController;
 import controller.TextCommand;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import model.PortfolioManager;
 import view.ViewInterface;
 
 public class ViewContentsCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     try {
-      String name = p.selectPortfolio(v, sc);
+      String name = selectPortfolio(v, sc, p);
       v.printLines(contentsHelper(name, p));
       v.printLine("Enter any key to return to the previous menu.");
       sc.nextLine();
@@ -25,7 +25,7 @@ public class ViewContentsCommand implements TextCommand {
       v.showPortfolioScreen();
     }
   }
-  private String[] contentsHelper(String name, PortfolioController p) {
+  private String[] contentsHelper(String name, PortfolioManager p) {
 
     try {
       String[] tickers = p.getTickers(name);
@@ -66,5 +66,20 @@ public class ViewContentsCommand implements TextCommand {
       }
       return out;
     }
+  }
+
+  private String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
+    String[] portNames = p.getPortfolioNames();
+    String[] numbered = new String[portNames.length];
+
+    for (int i = 0; i < portNames.length; i++) {
+      numbered[i] = (i + 1) + ". " + portNames[i];
+    }
+
+    v.printLines(numbered);
+    v.printLine("Please choose one of the following options:");
+    int index = sc.nextInt();
+    sc.nextLine();
+    return portNames[index - 1];
   }
 }
