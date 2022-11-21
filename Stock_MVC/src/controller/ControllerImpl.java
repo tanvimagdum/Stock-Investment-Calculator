@@ -165,12 +165,7 @@ public class ControllerImpl implements InputController, ActionListener  {
         f.showPortfolioScreen();
         break;
       case "Save Button" :
-        /*disableButtons();
-        content.setText("Save a Portfolio");*/
-        break;
-      case "Save All Button" :
-        /*disableButtons();
-        content.setText("Save all Portfolios");*/
+        f.showSaveScreen();
         break;
       case "Back" :
         f.showWelcomeScreen();

@@ -13,7 +13,6 @@ public class JFrameView extends JFrame implements ViewInterface {
   private JPanel menuPanel;
   private JPanel contentPanel;
   private JScrollPane mainScrollPane;
-  private JScrollPane menuScrollPane;
   private JLabel header;
   private JLabel menu;
   private JLabel content;
@@ -21,7 +20,6 @@ public class JFrameView extends JFrame implements ViewInterface {
   private JButton buildButton;
   private JButton viewButton;
   private JButton saveButton;
-  private JButton saveAllButton;
   private JButton backButton;
 
 
@@ -84,11 +82,6 @@ public class JFrameView extends JFrame implements ViewInterface {
     saveButton.addActionListener(a);
     menuPanel.add(saveButton);
 
-    saveAllButton = new JButton("Save All Portfolios");
-    saveAllButton.setActionCommand("Save All Button");
-    saveAllButton.addActionListener(a);
-    menuPanel.add(saveAllButton);
-
     backButton = new JButton("Go Back");
     backButton.setActionCommand("Back");
     backButton.addActionListener(a);
@@ -116,6 +109,12 @@ public class JFrameView extends JFrame implements ViewInterface {
   public void showLoadScreen() {
     disableButtons();
     content.setText("Load a Portfolio");
+    JLabel lblFile = new JLabel("Enter the filename : ");
+    Border padFilelabel = BorderFactory.createEmptyBorder(10,10,10,10);
+    lblFile.setBorder(padFilelabel);
+    contentPanel.add(lblFile);
+    JTextField txtFile = new JTextField();
+    contentPanel.add(txtFile);
   }
 
   @Override
@@ -128,6 +127,12 @@ public class JFrameView extends JFrame implements ViewInterface {
   public void showPortfolioScreen() {
     disableButtons();
     content.setText("View a Portfolio");
+  }
+
+  @Override
+  public void showSaveScreen() {
+    disableButtons();
+    content.setText("Save a Portfolio");
   }
 
   @Override
@@ -150,7 +155,6 @@ public class JFrameView extends JFrame implements ViewInterface {
     buildButton.setVisible(false);
     viewButton.setVisible(false);
     saveButton.setVisible(false);
-    saveAllButton.setVisible(false);
     backButton.setVisible(true);
   }
 
@@ -159,7 +163,6 @@ public class JFrameView extends JFrame implements ViewInterface {
     buildButton.setVisible(true);
     viewButton.setVisible(true);
     saveButton.setVisible(true);
-    saveAllButton.setVisible(true);
     backButton.setVisible(false);
   }
 }
