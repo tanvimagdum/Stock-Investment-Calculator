@@ -1,7 +1,19 @@
 package controller;
 
+import controller.textcoms.BuildFlexibleCommand;
+import controller.textcoms.BuildSimpleCommand;
+import controller.textcoms.CostBasisCommand;
+import controller.textcoms.EditFlexibleCommand;
+import controller.textcoms.LoadCommand;
+import controller.textcoms.ManualValuationCommand;
+import controller.textcoms.PortfolioPerformanceCommand;
+import controller.textcoms.PortfolioValueCommand;
+import controller.textcoms.SaveAllCommand;
+import controller.textcoms.SaveCommand;
+import controller.textcoms.ViewContentsCommand;
 import java.io.PrintStream;
 import java.lang.ModuleLayer.Controller;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import javax.naming.ldap.Control;
@@ -14,19 +26,21 @@ public class ControllerImpl implements InputController{
   ViewInterface v;
   PortfolioController p;
   Scanner sc;
-  Map<String, Map<String, Map>> uiMap;
-  Map<String, Map> textMenus;
-  Map<String, Map> guiMenus;
-  Map<String, TextCommand> textWelcomeScreen;
-  Map<String, TextCommand> textLoadScreen;
-  Map<String, TextCommand> textBuildScreen;
-  Map<String, TextCommand> textViewScreen;
+  API api;
+  boolean flag = true;
+  Map<String, Map<String, Map<Integer, TextCommand>>> uiMap = new HashMap<>();
+  Map<String, Map<Integer, TextCommand>> textMenus = new HashMap<>();
+  Map<String, Map<Integer, TextCommand>> guiMenus = new HashMap<>();
+  Map<Integer, TextCommand> textWelcomeScreen = new HashMap<>();
+  Map<Integer, TextCommand> textLoadScreen = new HashMap<>();
+  Map<Integer, TextCommand> textBuildScreen = new HashMap<>();
+  Map<Integer, TextCommand> textViewScreen = new HashMap<>();
 
   public ControllerImpl(ViewInterface view, PortfolioController portCon,
       Readable in, PrintStream out, API api){
     this.v = view;
     this.p = portCon;
-
+    this.api = api;
   }
 
   /**
@@ -34,32 +48,113 @@ public class ControllerImpl implements InputController{
    */
   @Override
   public void start() {
-    boolean flag = true;
+    currentScreen = "WS";
     boolean uiSelect = true;
     while(uiSelect) {
       v.printLine("Please enter 'text' for a text-based interface. Alternatively, enter 'gui' "
           + "for a graphics interface.");
       String selection = sc.nextLine();
-      if (selection.equals("gui")) {
-        //set view to gui
-        ui = "gui";
+      if (selection.equals("gui") || selection.equals("text")){
+        ui = selection;
         uiSelect = false;
       }
-      if (selection.equals("text")) {
-
-      }
     }
 
-    if (ui.equals("text")) {
-
-    }
+    setupMaps();
+    TextCommand com;
+    Map<String, Map<Integer, TextCommand>> menu;
+    Map<Integer, TextCommand> screen;
+    int input;
     while (flag) {
       if (!flag) {
         break;
       }
-
+      try {
+        input = Integer.parseInt(sc.nextLine());
+      } catch (Exception e) {
+        v.printLine("Please be sure to enter an integer.");
+        continue;
+      }
+      menu = uiMap.get(ui);
+      screen = menu.get(currentScreen);
+      com = screen.getOrDefault(input, null);
 
     }
   }
 
+  private void setupMaps() {
+    uiMap.put("text", textMenus);
+    uiMap.put("gui", guiMenus);
+
+    textMenus.put("WS", textWelcomeScreen);
+    textMenus.put("LS", textLoadScreen);
+    textMenus.put("BS", textBuildScreen);
+    textMenus.put("PS", textViewScreen);
+
+    textWelcomeScreen.put(1, new LoadScreenCommand());
+    textWelcomeScreen.put(2, new BuildScreenCommand());
+    textWelcomeScreen.put(3, new ViewScreenCommand());
+    textWelcomeScreen.put(4, new SaveCommand());
+    textWelcomeScreen.put(5, new SaveAllCommand());
+    textWelcomeScreen.put(6, new ExitCommand());
+
+    textLoadScreen.put(1, new LoadCommand());
+    textLoadScreen.put(2, new BackCommand());
+
+    textBuildScreen.put(1, new BuildSimpleCommand());
+    textBuildScreen.put(2, new BuildFlexibleCommand());
+    textBuildScreen.put(3, new EditFlexibleCommand());
+    textBuildScreen.put(4, new BackCommand());
+
+    textViewScreen.put(1, new ViewContentsCommand());
+    textViewScreen.put(2, new PortfolioValueCommand());
+    textViewScreen.put(3, new CostBasisCommand());
+    textViewScreen.put(4, new PortfolioPerformanceCommand());
+    textViewScreen.put(5, new ManualValuationCommand());
+    textViewScreen.put(6, new BackCommand());
+
+  }
+
+  class BackCommand implements TextCommand {
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      currentScreen = "WS";
+      v.showWelcomeScreen();
+    }
+  }
+
+  class LoadScreenCommand implements TextCommand {
+
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      currentScreen = "LS";
+      v.showLoadScreen();
+    }
+  }
+
+  class BuildScreenCommand implements TextCommand {
+
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      currentScreen = "BS";
+      v.showBuildScreen();
+    }
+  }
+
+  class ViewScreenCommand implements TextCommand {
+
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      currentScreen = "PS";
+      v.showPortfolioScreen();
+    }
+  }
+
+  class ExitCommand implements TextCommand {
+
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      flag = false;
+    }
+  }
 }

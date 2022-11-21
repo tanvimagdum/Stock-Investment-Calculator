@@ -46,6 +46,7 @@ public class ExtensibleController {
       if (in.equalsIgnoreCase("q") || in.equalsIgnoreCase("quit"))
         return;
       Function<Scanner, TracingTurtleCommand> cmd = knownCommands.getOrDefault(in, null);
+      int i = knownCommands.
       if (cmd == null) {
         throw new IllegalArgumentException();
       } else {
