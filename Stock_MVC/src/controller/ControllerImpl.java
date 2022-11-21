@@ -49,9 +49,10 @@ public class ControllerImpl implements InputController{
 
 
   public ControllerImpl(ViewInterface view, PortfolioController portCon,
-      Readable in, PrintStream out, API api){
+      Readable in, PrintStream out, API api) {
     this.v = view;
     this.p = portCon;
+    this.sc = new Scanner(in);
     this.api = api;
   }
 
@@ -72,6 +73,9 @@ public class ControllerImpl implements InputController{
       }
     }
 
+    if (ui.equals("text")) {
+      v.showWelcomeScreen();
+    }
     setupMaps();
     TextCommand com;
     Map<String, Map<Integer, TextCommand>> menu;
@@ -91,6 +95,11 @@ public class ControllerImpl implements InputController{
       screen = menu.get(currentScreen);
       com = screen.getOrDefault(input, null);
 
+      if (com == null) {
+        v.printLine("Please be sure to enter one of the available selections.");
+      } else {
+        com.go(sc, v, p, api);
+      }
     }
   }
 
