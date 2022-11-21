@@ -1,9 +1,11 @@
 package controller;
 
 import model.PortfolioManagerImpl;
+import view.JFrameView;
 import view.ViewImpl;
 import view.ViewInterface;
 
+import javax.swing.*;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -39,7 +41,14 @@ public class InputControllerImpl implements InputController {
         new PortfolioControllerImpl(new InputStreamReader(System.in),
             new PortfolioManagerImpl(new Persistence())),
         new InputStreamReader(System.in), System.out, new APIImpl());
-    in.start();
+    //in.start();
+
+    JFrameView.setDefaultLookAndFeelDecorated(false);
+    JFrameView frame = new JFrameView();
+
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+
   }
 
   /**
