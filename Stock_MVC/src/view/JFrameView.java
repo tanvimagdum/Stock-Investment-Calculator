@@ -6,12 +6,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JFrameView extends JFrame implements ViewInterface {
+public class JFrameView extends JFrame implements ViewInterface, ActionListener {
   private JPanel mainPanel;
   private JPanel headerPanel;
   private JPanel subMainPanel;
   private JPanel menuPanel;
   private JPanel contentPanel;
+  private JPanel contentHeaderPanel;
+  private JPanel subContentPanel;
   private JScrollPane mainScrollPane;
   private JLabel header;
   private JLabel menu;
@@ -21,10 +23,13 @@ public class JFrameView extends JFrame implements ViewInterface {
   private JButton viewButton;
   private JButton saveButton;
   private JButton backButton;
+  private ActionListener actionListner;
+  private String operationalStuff;
 
 
   public JFrameView(ActionListener a) {
     super();
+    this.actionListner = a;
     setTitle("GROW MONEY INVESTMENT PLANNER");
     setSize(1000, 600);
     setLocation(100, 100);
@@ -64,12 +69,12 @@ public class JFrameView extends JFrame implements ViewInterface {
 
     loadButton = new JButton("Load Portfolio");
     loadButton.setActionCommand("Load Button");
-    loadButton.addActionListener(a);
+    loadButton.addActionListener(this.actionListner);
     menuPanel.add(loadButton);
 
     buildButton = new JButton("Build/Edit Portfolio");
     buildButton.setActionCommand("Build Button");
-    buildButton.addActionListener(a);
+    buildButton.addActionListener(this.actionListner);
     menuPanel.add(buildButton);
 
     viewButton = new JButton("View Portfolio");
@@ -79,23 +84,29 @@ public class JFrameView extends JFrame implements ViewInterface {
 
     saveButton = new JButton("Save Portfolio");
     saveButton.setActionCommand("Save Button");
-    saveButton.addActionListener(a);
+    saveButton.addActionListener(this.actionListner);
     menuPanel.add(saveButton);
 
     backButton = new JButton("Go Back");
     backButton.setActionCommand("Back");
-    backButton.addActionListener(a);
+    backButton.addActionListener(this.actionListner);
     menuPanel.add(backButton);
     backButton.setVisible(false);
 
     contentPanel = new JPanel();
     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
-    Border paddingContent = BorderFactory.createEmptyBorder(30,0,30,0);
+    Border paddingContent = BorderFactory.createEmptyBorder(10,0,10,50);
     contentPanel.setBorder(paddingContent);
     subMainPanel.add(contentPanel);
+
+    contentHeaderPanel = new JPanel();
+    contentHeaderPanel.setLayout(new BoxLayout(contentHeaderPanel,FlowLayout.LEFT));
+    Border paddingConHeader = BorderFactory.createEmptyBorder(10, 0, 10, 50);
+    contentHeaderPanel.setBorder(paddingConHeader);
+    contentPanel.add(contentHeaderPanel);
     content = new JLabel("ABOUT US");
     content.setFont(new Font("Calibri", Font.BOLD, 16));
-    contentPanel.add(content);
+    contentHeaderPanel.add(content);
 
   }
 
@@ -103,18 +114,26 @@ public class JFrameView extends JFrame implements ViewInterface {
   public void showWelcomeScreen() {
     enableButtons();
     content.setText("ABOUT US");
+    subContentPanel.setVisible(false);
   }
 
   @Override
   public void showLoadScreen() {
     disableButtons();
     content.setText("Load a Portfolio");
+
+    addSubContentPanel();
     JLabel lblFile = new JLabel("Enter the filename : ");
-    Border padFilelabel = BorderFactory.createEmptyBorder(10,10,10,10);
-    lblFile.setBorder(padFilelabel);
-    contentPanel.add(lblFile);
-    JTextField txtFile = new JTextField();
-    contentPanel.add(txtFile);
+    subContentPanel.add(lblFile);
+    JTextField txtFile = new JTextField(15);
+    txtFile.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtFile);
+
+    JButton uploadButton = new JButton("Upload File");
+    uploadButton.setActionCommand("Upload Portfolio Button");
+    //uploadButton.addActionListener(this.actionListner -> txtFile.getText());
+    subContentPanel.add(uploadButton);
+
   }
 
   @Override
@@ -164,5 +183,21 @@ public class JFrameView extends JFrame implements ViewInterface {
     viewButton.setVisible(true);
     saveButton.setVisible(true);
     backButton.setVisible(false);
+  }
+
+  public void addSubContentPanel() {
+    subContentPanel = new JPanel();
+    subContentPanel.setLayout(new FlowLayout());
+    Border paddingSubCon = BorderFactory.createEmptyBorder(10,0,10,50);
+    subContentPanel.setBorder(paddingSubCon);
+    contentPanel.add(subContentPanel);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case "Upload Portfolio Button" :
+
+    }
   }
 }
