@@ -43,6 +43,7 @@ public class ControllerImpl implements InputController, ActionListener  {
   Map<Integer, TextCommand> textLoadScreen = new HashMap<>();
   Map<Integer, TextCommand> textBuildScreen = new HashMap<>();
   Map<Integer, TextCommand> textViewScreen = new HashMap<>();
+  Map<Integer, TextCommand> textSaveScreen = new HashMap<>();
 
 
   public static void main(String[] args) {
@@ -123,13 +124,13 @@ public class ControllerImpl implements InputController, ActionListener  {
     textMenus.put("LS", textLoadScreen);
     textMenus.put("BS", textBuildScreen);
     textMenus.put("PS", textViewScreen);
+    textMenus.put("SS", textSaveScreen);
 
     textWelcomeScreen.put(1, new LoadScreenCommand());
     textWelcomeScreen.put(2, new BuildScreenCommand());
     textWelcomeScreen.put(3, new ViewScreenCommand());
-    textWelcomeScreen.put(4, new SaveCommand());
-    textWelcomeScreen.put(5, new SaveAllCommand());
-    textWelcomeScreen.put(6, new ExitCommand());
+    textWelcomeScreen.put(4, new SaveScreenCommand());
+    textWelcomeScreen.put(5, new ExitCommand());
 
     textLoadScreen.put(1, new LoadCommand());
     textLoadScreen.put(2, new BackCommand());
@@ -147,6 +148,9 @@ public class ControllerImpl implements InputController, ActionListener  {
     textViewScreen.put(5, new ManualValuationCommand());
     textViewScreen.put(6, new BackCommand());
 
+    textSaveScreen.put(1, new SaveCommand());
+    textSaveScreen.put(2, new SaveAllCommand());
+    textSaveScreen.put(3, new BackCommand());
   }
 
   public void actionPerformed (ActionEvent e) {
@@ -207,6 +211,15 @@ public class ControllerImpl implements InputController, ActionListener  {
     public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
       currentScreen = "PS";
       v.showPortfolioScreen();
+    }
+  }
+
+  class SaveScreenCommand implements TextCommand {
+
+    @Override
+    public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
+      currentScreen = "SS";
+      v.showSaveScreen();
     }
   }
 

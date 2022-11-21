@@ -30,9 +30,8 @@ public class ViewImpl implements ViewInterface {
     out.println("1. Load a portfolio");
     out.println("2. Build/Edit a portfolio");
     out.println("3. View a portfolio");
-    out.println("4. Save a portfolio");
-    out.println("5. Save all portfolios");
-    out.println("6. Exit");
+    out.println("4. Save portfolios");
+    out.println("5. Exit");
 
   }
 
@@ -74,6 +73,13 @@ public class ViewImpl implements ViewInterface {
 
   }
 
+  @Override
+  public void showSaveScreen() {
+    out.println("\n" + "====== Save a portfolio ======" + "\n");
+    out.println("1. Save a specific portfolio");
+    out.println("2. Save all portfolios");
+    out.println("3. Go back");
+  }
   @Override
   public void printLine(String line) {
     out.println(line);

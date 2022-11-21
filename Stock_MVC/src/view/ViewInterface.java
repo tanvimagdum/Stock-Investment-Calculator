@@ -36,6 +36,11 @@ public interface ViewInterface {
   void showPortfolioScreen();
 
   /**
+   * Show the screen to save one or all portfolios.
+   */
+  void showSaveScreen();
+
+  /**
    * A method to display message sent by the controller
    * to the view panel.
    * This method returns nothing.
