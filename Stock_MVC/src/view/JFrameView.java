@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JFrameView extends JFrame implements ViewInterface, ActionListener {
+public class JFrameView extends JFrame implements ViewInterface {
   private JPanel mainPanel;
   private JPanel headerPanel;
   private JPanel subMainPanel;
@@ -25,7 +25,7 @@ public class JFrameView extends JFrame implements ViewInterface, ActionListener 
   private JButton backButton;
 
 
-  public JFrameView() {
+  public JFrameView(ActionListener a) {
     super();
     setTitle("GROW MONEY INVESTMENT PLANNER");
     setSize(1000, 600);
@@ -66,27 +66,27 @@ public class JFrameView extends JFrame implements ViewInterface, ActionListener 
 
     loadButton = new JButton("Load Portfolio");
     loadButton.setActionCommand("Load Button");
-    loadButton.addActionListener(this);
+    loadButton.addActionListener(a);
     menuPanel.add(loadButton);
 
     buildButton = new JButton("Build/Edit Portfolio");
     buildButton.setActionCommand("Build Button");
-    buildButton.addActionListener(this);
+    buildButton.addActionListener(a);
     menuPanel.add(buildButton);
 
     viewButton = new JButton("View Portfolio");
     viewButton.setActionCommand("View Button");
-    viewButton.addActionListener(this);
+    viewButton.addActionListener(a);
     menuPanel.add(viewButton);
 
     saveButton = new JButton("Save Portfolio");
     saveButton.setActionCommand("Save Button");
-    saveButton.addActionListener(this);
+    saveButton.addActionListener(a);
     menuPanel.add(saveButton);
 
     saveAllButton = new JButton("Save All Portfolios");
     saveAllButton.setActionCommand("Save All Button");
-    saveAllButton.addActionListener(this);
+    saveAllButton.addActionListener(a);
     menuPanel.add(saveAllButton);
 
     contentPanel = new JPanel();
@@ -142,32 +142,6 @@ public class JFrameView extends JFrame implements ViewInterface, ActionListener 
 
   }
 
-  public void actionPerformed (ActionEvent e) {
-    switch (e.getActionCommand()) {
-      case "Load Button" :
-        showLoadScreen();
-        break;
-      case "Build Button" :
-        showBuildScreen();
-        break;
-      case "View Button" :
-        showPortfolioScreen();
-        break;
-      case "Save Button" :
-        disableButtons();
-        content.setText("Save a Portfolio");
-        break;
-      case "Save All Button" :
-        disableButtons();
-        content.setText("Save all Portfolios");
-        break;
-      case "Back" :
-        showWelcomeScreen();
-      default :
-        break;
-    }
-  }
-
   public void disableButtons() {
     loadButton.setVisible(false);
     buildButton.setVisible(false);
@@ -176,7 +150,7 @@ public class JFrameView extends JFrame implements ViewInterface, ActionListener 
     saveAllButton.setVisible(false);
     backButton = new JButton("Go Back");
     backButton.setActionCommand("Back");
-    backButton.addActionListener(this);
+    //backButton.addActionListener();
     menuPanel.add(backButton);
   }
 

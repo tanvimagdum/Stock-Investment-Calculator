@@ -44,10 +44,10 @@ public class InputControllerImpl implements InputController {
     //in.start();
 
     JFrameView.setDefaultLookAndFeelDecorated(false);
-    JFrameView frame = new JFrameView();
+    //JFrameView frame = new JFrameView(this);
 
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
+    //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //frame.setVisible(true);
 
   }
 

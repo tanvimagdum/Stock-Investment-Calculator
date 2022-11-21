@@ -12,19 +12,26 @@ import controller.textcoms.PortfolioValueCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
 import controller.textcoms.ViewContentsCommand;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import model.PortfolioManagerImpl;
+import view.JFrameView;
 import view.ViewImpl;
 import view.ViewInterface;
 
-public class ControllerImpl implements InputController{
+import javax.swing.*;
+
+public class ControllerImpl implements InputController, ActionListener  {
   String ui;
   String currentScreen;
   ViewInterface v;
+  JFrameView f;
   PortfolioController p;
   Scanner sc;
   API api;
@@ -75,7 +82,10 @@ public class ControllerImpl implements InputController{
     if (ui.equals("text")) {
       v.showWelcomeScreen();
     } else {
-      //do gui stuff
+      JFrameView.setDefaultLookAndFeelDecorated(false);
+      f = new JFrameView(this);
+      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      f.setVisible(true);
     }
 
     setupMaps();
@@ -139,6 +149,32 @@ public class ControllerImpl implements InputController{
 
   }
 
+  public void actionPerformed (ActionEvent e) {
+    switch (e.getActionCommand()) {
+      case "Load Button" :
+        f.showLoadScreen();
+        break;
+      case "Build Button" :
+        f.showBuildScreen();
+        break;
+      case "View Button" :
+        f.showPortfolioScreen();
+        break;
+      case "Save Button" :
+        /*disableButtons();
+        content.setText("Save a Portfolio");*/
+        break;
+      case "Save All Button" :
+        /*disableButtons();
+        content.setText("Save all Portfolios");*/
+        break;
+      case "Back" :
+        f.showWelcomeScreen();
+      default :
+        break;
+    }
+  }
+
   class BackCommand implements TextCommand {
     @Override
     public void go(Scanner sc, ViewInterface v, PortfolioController p, API api) {
@@ -181,4 +217,5 @@ public class ControllerImpl implements InputController{
       flag = false;
     }
   }
+
 }
