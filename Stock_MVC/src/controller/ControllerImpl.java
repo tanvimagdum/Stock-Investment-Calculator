@@ -16,11 +16,15 @@ import controller.textcoms.ViewContentsCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import model.Portfolio;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import view.JFrameView;
@@ -30,6 +34,8 @@ import view.ViewInterface;
 import javax.swing.*;
 
 public class ControllerImpl implements InputController, ActionListener  {
+
+  //public static final String ELEMENT_TEXT_PROPERTY = "Text";
   String ui;
   String currentScreen;
   ViewInterface v;
@@ -171,6 +177,11 @@ public class ControllerImpl implements InputController, ActionListener  {
         break;
       case "Back" :
         f.showWelcomeScreen();
+        break;
+      case "Upload Button" :
+        String fin = f.getOperationalStuff().toString();
+        System.out.println(fin);
+        break;
       default :
         break;
     }
