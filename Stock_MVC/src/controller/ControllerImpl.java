@@ -38,20 +38,25 @@ public class ControllerImpl implements InputController, ActionListener  {
   //public static final String ELEMENT_TEXT_PROPERTY = "Text";
   String ui;
   String currentScreen;
+  String currentButton;
   ViewInterface v;
   JFrameView f;
   PortfolioManager p;
   Scanner sc;
   API api;
   boolean flag = true;
-  Map<String, Map<String, Map<Integer, TextCommand>>> uiMap = new HashMap<>();
+  Map<String, Map<String, Map<String, GuiCommand>>> uiMap = new HashMap<>();
   Map<String, Map<Integer, TextCommand>> textMenus = new HashMap<>();
-  Map<String, Map<Integer, TextCommand>> guiMenus = new HashMap<>();
+  Map<String, Map<String, GuiCommand>> guiMenus = new HashMap<>();
   Map<Integer, TextCommand> textWelcomeScreen = new HashMap<>();
   Map<Integer, TextCommand> textLoadScreen = new HashMap<>();
   Map<Integer, TextCommand> textBuildScreen = new HashMap<>();
   Map<Integer, TextCommand> textViewScreen = new HashMap<>();
   Map<Integer, TextCommand> textSaveScreen = new HashMap<>();
+
+  Map<String, GuiCommand> guiWelcomeScreen = new HashMap<>();
+
+  Map<String, GuiCommand> guiLoadScreen = new HashMap<>();
 
 
   public static void main(String[] args) {
@@ -98,10 +103,10 @@ public class ControllerImpl implements InputController, ActionListener  {
 
     setupMaps();
     TextCommand com;
-    Map<String, Map<Integer, TextCommand>> menu;
-    Map<Integer, TextCommand> screen;
+    Map<String, Map<String, GuiCommand>> menu;
+    Map<String, GuiCommand> screen;
     int input;
-    while (flag) {
+    /*while (flag) {
       if (!flag) {
         break;
       }
@@ -120,11 +125,11 @@ public class ControllerImpl implements InputController, ActionListener  {
       } else {
         com.go(sc, v, p, api);
       }
-    }
+    }*/
   }
 
   private void setupMaps() {
-    uiMap.put("text", textMenus);
+    //uiMap.put("text", textMenus);
     uiMap.put("gui", guiMenus);
 
     textMenus.put("WS", textWelcomeScreen);
@@ -159,32 +164,64 @@ public class ControllerImpl implements InputController, ActionListener  {
     textSaveScreen.put(1, new SaveCommand());
     textSaveScreen.put(2, new SaveAllCommand());
     textSaveScreen.put(3, new BackCommand());
+
+
+    guiMenus.put("WS", guiWelcomeScreen);
+    guiWelcomeScreen.put("Load Button", new LoadCommandGui());
   }
 
   public void actionPerformed (ActionEvent e) {
+    String action = e.getActionCommand();
+    if (action == "Load Button"){
+      currentScreen = "LS";
+    }
+
     switch (e.getActionCommand()) {
       case "Load Button" :
-        f.showLoadScreen();
+        currentScreen = "LS";
         break;
       case "Build Button" :
-        f.showBuildScreen();
+        currentScreen = "BS";
         break;
       case "View Button" :
-        f.showPortfolioScreen();
+        currentScreen = "PS";
         break;
       case "Save Button" :
-        f.showSaveScreen();
+        currentScreen = "SS";
         break;
       case "Back" :
+        currentScreen = "WS";
         f.showWelcomeScreen();
         break;
       case "Upload Button" :
+        currentButton = "Upload Button";
         String fin = f.getOperationalStuff().toString();
         System.out.println(fin);
+        comGo();
         break;
       default :
         break;
     }
+    currentButton = action;
+    comGo();
+  }
+
+  private void comGo() {
+    Map<String, Map<String, GuiCommand>> menu = uiMap.get(ui);
+    Map<String, GuiCommand> screen = menu.get(currentScreen);
+    GuiCommand com = screen.getOrDefault(currentButton, null);
+
+    if (com == null) {
+      v.printLine("Please be sure to enter one of the available selections.");
+    } else {
+      com.go((JFrameView)v, p, api);
+    }
+  }
+
+  class LoadCommandGui implements GuiCommand {
+     public void go(JFrameView f, PortfolioManager p, API api) {
+       f.showLoadScreen();
+     }
   }
 
   class BackCommand implements TextCommand {
