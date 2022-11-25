@@ -1,14 +1,14 @@
 package controller.guicoms;
 
+import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
 import view.JFrameView;
-import view.ViewInterface;
-/*
+
 public class LoadCommandGui implements GuiCommand {
 
 @Override
-  public void go(JFrameView f, PortfolioManager p) {
+  public void go(JFrameView f, PortfolioManager p, API api) {
     //get name from view
     String name = f.getOperationalStuff().toString();
     //System.out.println(fin);
@@ -43,4 +43,4 @@ public class LoadCommandGui implements GuiCommand {
 
     //code to load file into model
   }
-}*/
+}

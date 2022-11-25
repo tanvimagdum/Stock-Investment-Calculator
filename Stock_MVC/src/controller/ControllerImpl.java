@@ -1,5 +1,6 @@
 package controller;
 
+import controller.guicoms.LoadCommandGui;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
@@ -33,7 +34,7 @@ import view.ViewInterface;
 
 import javax.swing.*;
 
-public class ControllerImpl implements InputController, ActionListener  {
+public class ControllerImpl implements InputController, ActionListener {
 
   //public static final String ELEMENT_TEXT_PROPERTY = "Text";
   String ui;
@@ -45,23 +46,27 @@ public class ControllerImpl implements InputController, ActionListener  {
   Scanner sc;
   API api;
   boolean flag = true;
-  Map<String, Map<String, Map<String, GuiCommand>>> uiMap = new HashMap<>();
-  Map<String, Map<Integer, TextCommand>> textMenus = new HashMap<>();
-  Map<String, Map<String, GuiCommand>> guiMenus = new HashMap<>();
-  Map<Integer, TextCommand> textWelcomeScreen = new HashMap<>();
-  Map<Integer, TextCommand> textLoadScreen = new HashMap<>();
-  Map<Integer, TextCommand> textBuildScreen = new HashMap<>();
-  Map<Integer, TextCommand> textViewScreen = new HashMap<>();
-  Map<Integer, TextCommand> textSaveScreen = new HashMap<>();
+  Map<String, Map<String, Map<String, Command>>> uiMap = new HashMap<>();
 
-  Map<String, GuiCommand> guiWelcomeScreen = new HashMap<>();
+  Map<String, Map<String, Command>> textMenus = new HashMap<>();
+  Map<String, Map<String, Command>> guiMenus = new HashMap<>();
 
-  Map<String, GuiCommand> guiLoadScreen = new HashMap<>();
+  Map<String, Command> textWelcomeScreen = new HashMap<>();
+  Map<String, Command> textLoadScreen = new HashMap<>();
+  Map<String, Command> textBuildScreen = new HashMap<>();
+  Map<String, Command> textViewScreen = new HashMap<>();
+  Map<String, Command> textSaveScreen = new HashMap<>();
+
+  Map<String, Command> guiWelcomeScreen = new HashMap<>();
+  Map<String, Command> guiLoadScreen = new HashMap<>();
+  Map<String, Command> guiBuildScreen = new HashMap<>();
+  Map<String, Command> guiViewScreen = new HashMap<>();
+  Map<String, Command> guiSaveScreen = new HashMap<>();
 
 
   public static void main(String[] args) {
     InputController in = new ControllerImpl(new ViewImpl(System.out),
-            new PortfolioManagerImpl(new Persistence()),
+        new PortfolioManagerImpl(new Persistence()),
         new InputStreamReader(System.in), System.out, new APIImpl());
     in.start();
   }
@@ -82,15 +87,17 @@ public class ControllerImpl implements InputController, ActionListener  {
   public void start() {
     currentScreen = "WS";
     boolean uiSelect = true;
-    while(uiSelect) {
+    while (uiSelect) {
       v.printLine("Please enter 'text' for a text-based interface. Alternatively, enter 'gui' "
           + "for a graphics interface.");
       String selection = sc.nextLine();
-      if (selection.equals("gui") || selection.equals("text")){
+      if (selection.equals("gui") || selection.equals("text")) {
         ui = selection;
         uiSelect = false;
       }
     }
+
+    setupMaps();
 
     if (ui.equals("text")) {
       v.showWelcomeScreen();
@@ -99,19 +106,20 @@ public class ControllerImpl implements InputController, ActionListener  {
       f = new JFrameView(this);
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       f.setVisible(true);
+      return;
     }
 
-    setupMaps();
-    TextCommand com;
-    Map<String, Map<String, GuiCommand>> menu;
-    Map<String, GuiCommand> screen;
-    int input;
-    /*while (flag) {
+    Command com;
+    Map<String, Map<String, Command>> menu;
+    Map<String, Command> screen;
+    String input;
+    while (flag) {
       if (!flag) {
         break;
       }
+      input = sc.nextLine();
       try {
-        input = Integer.parseInt(sc.nextLine());
+        int inputInt = Integer.parseInt(input);
       } catch (Exception e) {
         v.printLine("Please be sure to enter an integer.");
         continue;
@@ -123,13 +131,13 @@ public class ControllerImpl implements InputController, ActionListener  {
       if (com == null) {
         v.printLine("Please be sure to enter one of the available selections.");
       } else {
-        com.go(sc, v, p, api);
+        ((TextCommand) com).go(sc, v, p, api);
       }
-    }*/
+    }
   }
 
   private void setupMaps() {
-    //uiMap.put("text", textMenus);
+    uiMap.put("text", textMenus);
     uiMap.put("gui", guiMenus);
 
     textMenus.put("WS", textWelcomeScreen);
@@ -138,93 +146,150 @@ public class ControllerImpl implements InputController, ActionListener  {
     textMenus.put("PS", textViewScreen);
     textMenus.put("SS", textSaveScreen);
 
-    textWelcomeScreen.put(1, new LoadScreenCommand());
-    textWelcomeScreen.put(2, new BuildScreenCommand());
-    textWelcomeScreen.put(3, new ViewScreenCommand());
-    textWelcomeScreen.put(4, new SaveScreenCommand());
-    textWelcomeScreen.put(5, new ExitCommand());
+    textWelcomeScreen.put("1", new LoadScreenCommand());
+    textWelcomeScreen.put("2", new BuildScreenCommand());
+    textWelcomeScreen.put("3", new ViewScreenCommand());
+    textWelcomeScreen.put("4", new SaveScreenCommand());
+    textWelcomeScreen.put("5", new ExitCommand());
 
-    textLoadScreen.put(1, new LoadCommand());
-    textLoadScreen.put(2, new BackCommand());
+    textLoadScreen.put("1", new LoadCommand());
+    textLoadScreen.put("2", new BackCommand());
 
-    textBuildScreen.put(1, new BuildSimpleCommand());
-    textBuildScreen.put(2, new BuildFlexibleCommand());
-    textBuildScreen.put(3, new StrategyBuildCommand());
-    textBuildScreen.put(4, new EditFlexibleCommand());
-    textBuildScreen.put(5, new DollarCostBuyCommand());
-    textBuildScreen.put(6, new BackCommand());
+    textBuildScreen.put("1", new BuildSimpleCommand());
+    textBuildScreen.put("2", new BuildFlexibleCommand());
+    textBuildScreen.put("3", new StrategyBuildCommand());
+    textBuildScreen.put("4", new EditFlexibleCommand());
+    textBuildScreen.put("5", new DollarCostBuyCommand());
+    textBuildScreen.put("6", new BackCommand());
 
-    textViewScreen.put(1, new ViewContentsCommand());
-    textViewScreen.put(2, new PortfolioValueCommand());
-    textViewScreen.put(3, new CostBasisCommand());
-    textViewScreen.put(4, new PortfolioPerformanceCommand());
-    textViewScreen.put(5, new ManualValuationCommand());
-    textViewScreen.put(6, new BackCommand());
+    textViewScreen.put("1", new ViewContentsCommand());
+    textViewScreen.put("2", new PortfolioValueCommand());
+    textViewScreen.put("3", new CostBasisCommand());
+    textViewScreen.put("4", new PortfolioPerformanceCommand());
+    textViewScreen.put("5", new ManualValuationCommand());
+    textViewScreen.put("6", new BackCommand());
 
-    textSaveScreen.put(1, new SaveCommand());
-    textSaveScreen.put(2, new SaveAllCommand());
-    textSaveScreen.put(3, new BackCommand());
-
+    textSaveScreen.put("1", new SaveCommand());
+    textSaveScreen.put("2", new SaveAllCommand());
+    textSaveScreen.put("3", new BackCommand());
 
     guiMenus.put("WS", guiWelcomeScreen);
-    guiWelcomeScreen.put("Load Button", new LoadCommandGui());
+    guiMenus.put("LS", guiLoadScreen);
+    guiMenus.put("BS", guiBuildScreen);
+    guiMenus.put("PS", guiViewScreen);
+    guiMenus.put("SS", guiSaveScreen);
+
+    guiWelcomeScreen.put("Load Button", new LoadScreenCommandGui());
+    guiWelcomeScreen.put("Build Button", new BuildScreenCommandGui());
+    guiWelcomeScreen.put("View Button", new ViewScreenCommandGui());
+    guiWelcomeScreen.put("Save Button", new SaveScreenCommandGui());
+
+    guiLoadScreen.put("Upload Button", new LoadCommandGui());
+    guiLoadScreen.put("Back Button", new BackCommandGui());
+
+    //guiBuildScreen.put("Button Name", new CommandName());
+
+    //guiViewScreen.put("Button Name", new CommandName());
+
+    //guiSaveScreen.put("Button Name", new CommandName());
   }
 
-  public void actionPerformed (ActionEvent e) {
+  public void actionPerformed(ActionEvent e) {
     String action = e.getActionCommand();
-    if (action == "Load Button"){
-      currentScreen = "LS";
-    }
+    //if (action == "Load Button"){
+    //  currentScreen = "LS";
+    //}
 
-    switch (e.getActionCommand()) {
-      case "Load Button" :
-        currentScreen = "LS";
+    /*switch (e.getActionCommand()) {
+      case "Load Button":
+        //currentScreen = "LS";
         break;
-      case "Build Button" :
+      case "Build Button":
         currentScreen = "BS";
         break;
-      case "View Button" :
+      case "View Button":
         currentScreen = "PS";
         break;
-      case "Save Button" :
+      case "Save Button":
         currentScreen = "SS";
         break;
-      case "Back" :
+      case "Back":
         currentScreen = "WS";
         f.showWelcomeScreen();
         break;
-      case "Upload Button" :
+      case "Upload Button":
         currentButton = "Upload Button";
         String fin = f.getOperationalStuff().toString();
         System.out.println(fin);
         comGo();
         break;
-      default :
+      default:
         break;
-    }
+    }*/
     currentButton = action;
     comGo();
   }
 
   private void comGo() {
-    Map<String, Map<String, GuiCommand>> menu = uiMap.get(ui);
-    Map<String, GuiCommand> screen = menu.get(currentScreen);
-    GuiCommand com = screen.getOrDefault(currentButton, null);
+    Map<String, Map<String, Command>> menu = uiMap.get(ui);
+    System.out.println(menu.getClass().getName());
+    Map<String, Command> screen = menu.get(currentScreen);
+    GuiCommand com = (GuiCommand) screen.getOrDefault(currentButton, null);
 
     if (com == null) {
       v.printLine("Please be sure to enter one of the available selections.");
     } else {
-      com.go((JFrameView)v, p, api);
+      com.go(f, p, api);
     }
   }
 
-  class LoadCommandGui implements GuiCommand {
-     public void go(JFrameView f, PortfolioManager p, API api) {
-       f.showLoadScreen();
-     }
+  class BackCommandGui implements GuiCommand {
+
+    @Override
+    public void go(JFrameView f, PortfolioManager p, API api) {
+      currentScreen = "WS";
+      f.showWelcomeScreen();
+    }
+  }
+
+  class LoadScreenCommandGui implements GuiCommand {
+
+    @Override
+    public void go(JFrameView f, PortfolioManager p, API api) {
+      currentScreen = "LS";
+      f.showLoadScreen();
+    }
+  }
+
+  class BuildScreenCommandGui implements GuiCommand {
+
+    @Override
+    public void go(JFrameView f, PortfolioManager p, API api) {
+      currentScreen = "BS";
+      f.showBuildScreen();
+    }
+  }
+
+  class ViewScreenCommandGui implements GuiCommand {
+
+    @Override
+    public void go(JFrameView f, PortfolioManager p, API api) {
+      currentScreen = "PS";
+      f.showPortfolioScreen();
+    }
+  }
+
+  class SaveScreenCommandGui implements GuiCommand {
+
+    @Override
+    public void go(JFrameView f, PortfolioManager p, API api) {
+      currentScreen = "SS";
+      f.showSaveScreen();
+    }
   }
 
   class BackCommand implements TextCommand {
+
     @Override
     public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "WS";
