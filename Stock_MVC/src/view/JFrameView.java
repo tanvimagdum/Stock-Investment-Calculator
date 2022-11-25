@@ -7,6 +7,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class JFrameView extends JFrame implements ViewInterface {
   private JPanel mainPanel;
@@ -26,7 +27,7 @@ public class JFrameView extends JFrame implements ViewInterface {
   private JButton saveButton;
   private JButton backButton;
   private ActionListener actionListner;
-  private Object opStuff;
+  private ArrayList<Object> opStuff = new ArrayList<>();
 
 
   public JFrameView(ActionListener a) {
@@ -121,6 +122,7 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   @Override
   public void showLoadScreen() {
+    opStuff = new ArrayList<>();
     disableButtons();
     content.setText("Load a Portfolio");
 
@@ -131,17 +133,18 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtFile.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtFile);
 
-    JButton uploadButton = new JButton("Upload File");
-    uploadButton.setActionCommand("Upload Button");
-    uploadButton.addActionListener(this.actionListner);
-    uploadButton.addActionListener(evt -> { opStuff = txtFile.getText();
+    JButton upload= new JButton("Upload File");
+    upload.setActionCommand("Upload Button");
+    upload.addActionListener(this.actionListner);
+    upload.addActionListener(evt -> { opStuff.add(txtFile.getText());
                                             txtFile.setText("");});
-    subContentPanel.add(uploadButton);
+    subContentPanel.add(upload);
 
   }
 
   @Override
   public void showBuildScreen() {
+    opStuff = new ArrayList<>();
     disableButtons();
     content.setText("Build/Edit a Portfolio");
 
@@ -157,35 +160,169 @@ public class JFrameView extends JFrame implements ViewInterface {
     JComboBox<String> options = new JComboBox<>(items);
     subContentPanel.add(options);
 
-    JButton uploadButton = new JButton("Submit");
-    uploadButton.setActionCommand("Upload Button");
-    uploadButton.addActionListener(evt -> { subContentPanel.setVisible(false);
-                                            buildFlexPortScreen(options.getSelectedItem());});
-    uploadButton.addActionListener(this.actionListner);
-    uploadButton.addActionListener(evt -> opStuff = options.getSelectedItem());
-    subContentPanel.add(uploadButton);
+    JButton submit = new JButton("Submit");
+    submit.setActionCommand("Upload Button");
+    submit.addActionListener(evt -> { subContentPanel.setVisible(false);
+                                      switch(options.getSelectedItem().toString()) {
+                                        case "Begin building a flexible portfolio" :
+                                          buildFlexPortScreen();
+                                          break;
+                                        case "Begin a flexible portfolio with a strategy" :
+                                          buildStratScreen();
+                                          break;
+                                        case "Edit a flexible portfolio":
+                                          editFlexPortScreen();
+                                          break;
+                                        case "Add a fixed cost buy across a flexible portfolio" :
+                                          fixedCostBuyScreen();
+                                          break;
+                                        default :
+                                          JOptionPane.showMessageDialog(subContentPanel,
+                                                  "Please select one option");
+                                          subContentPanel.setVisible(true);
+                                          break;
+                                      }});
+    submit.addActionListener(this.actionListner);
+    submit.addActionListener(evt -> opStuff.add(options.getSelectedItem()));
+    subContentPanel.add(submit);
   }
 
-  private void buildFlexPortScreen(Object item) {
+  private void buildFlexPortScreen() {
+    opStuff = new ArrayList<>();
     addSubContentPanel();
-    JLabel lblPortName = new JLabel("Enter portfolio name: ");
+    JLabel lblPortName = new JLabel("Enter portfolio name : ");
     subContentPanel.add(lblPortName);
     JTextField txtPortName = new JTextField(15);
     txtPortName.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtPortName);
-    JLabel lblBuySell = new JLabel("Choose whether to buy or sell the stock :");
+
+    JLabel lblBuySell = new JLabel("Buy Or Sell this stock? :");
     subContentPanel.add(lblBuySell);
+    String[] items = new String[2];
+    items[0] = "Buy Stock";
+    items[1] = "Sell Stock";
+    JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
 
-    JRadioButton[] radioBuySell = new JRadioButton[2];
-    ButtonGroup rGroup1 = new ButtonGroup();
+    JLabel lblTicker = new JLabel("Enter the Ticker : ");
+    subContentPanel.add(lblTicker);
+    JTextField txtTicker = new JTextField(15);
+    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtTicker);
 
-    radioBuySell[0] = new JRadioButton("Buy Stock");
-    radioBuySell[1] = new JRadioButton("Sell Stock");
+    JLabel lblStocks = new JLabel("Enter the Stock Count : ");
+    subContentPanel.add(lblStocks);
+    JTextField txtStocks = new JTextField(15);
+    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtStocks);
 
-    rGroup1.add(radioBuySell[0]);
-    rGroup1.add(radioBuySell[1]);
+    JLabel lblDate = new JLabel("Enter the Date : ");
+    subContentPanel.add(lblDate);
+    JTextField txtYear= new JTextField(4);
+    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtYear);
+    JTextField txtMon= new JTextField(2);
+    txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtMon);
+    JTextField txtDay= new JTextField(2);
+    txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtDay);
 
+    subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
+    subContentPanel.add(new JLabel( "alternatively, 'Done' to finish building portfolio."));
+    JButton addStock = new JButton("Add Stock");
+    addStock.setActionCommand("Upload Button");
+    addStock.addActionListener(this.actionListner);
+    addStock.addActionListener(evt -> { opStuff.add(txtPortName.getText());
+                                        opStuff.add(options.getSelectedItem());
+                                        opStuff.add(txtTicker.getText());
+                                        opStuff.add(txtStocks.getText());
+                                        opStuff.add(txtYear.getText());
+                                        opStuff.add(txtMon.getText());
+                                        opStuff.add(txtDay.getText());
+                                        txtTicker.setText("");
+                                        txtStocks.setText("");
+                                        txtYear.setText("");
+                                        txtMon.setText("");
+                                        txtDay.setText("");
+                                      });
+    subContentPanel.add(addStock);
 
+    JButton done = new JButton("Done");
+    done.setActionCommand("Upload Button");
+    done.addActionListener(this.actionListner);
+    subContentPanel.add(done);
+
+  }
+
+  private void buildStratScreen() {
+
+  }
+
+  private void editFlexPortScreen() {
+
+    //combobox of list of portfolios
+
+    JLabel lblBuySell = new JLabel("Buy Or Sell this stock? :");
+    subContentPanel.add(lblBuySell);
+    String[] items = new String[2];
+    items[0] = "Buy Stock";
+    items[1] = "Sell Stock";
+    JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
+
+    JLabel lblTicker = new JLabel("Enter the Ticker : ");
+    subContentPanel.add(lblTicker);
+    JTextField txtTicker = new JTextField(15);
+    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtTicker);
+
+    JLabel lblStocks = new JLabel("Enter the Stock Count : ");
+    subContentPanel.add(lblStocks);
+    JTextField txtStocks = new JTextField(15);
+    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtStocks);
+
+    JLabel lblDate = new JLabel("Enter the Date : ");
+    subContentPanel.add(lblDate);
+    JTextField txtYear= new JTextField(4);
+    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtYear);
+    JTextField txtMon= new JTextField(2);
+    txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtMon);
+    JTextField txtDay= new JTextField(2);
+    txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtDay);
+
+    subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
+    subContentPanel.add(new JLabel( "alternatively, 'Done' to finish building portfolio."));
+    JButton addStock = new JButton("Add Stock");
+    addStock.setActionCommand("Upload Button");
+    addStock.addActionListener(this.actionListner);
+    addStock.addActionListener(evt -> {
+      opStuff.add(options.getSelectedItem());
+      opStuff.add(txtTicker.getText());
+      opStuff.add(txtStocks.getText());
+      opStuff.add(txtYear.getText());
+      opStuff.add(txtMon.getText());
+      opStuff.add(txtDay.getText());
+      txtTicker.setText("");
+      txtStocks.setText("");
+      txtYear.setText("");
+      txtMon.setText("");
+      txtDay.setText("");
+    });
+    subContentPanel.add(addStock);
+
+    JButton done = new JButton("Done");
+    done.setActionCommand("Upload Button");
+    done.addActionListener(this.actionListner);
+    subContentPanel.add(done);
+
+  }
+
+  private void fixedCostBuyScreen() {
 
   }
 
@@ -203,12 +340,14 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   @Override
   public void printLine(String line) {
-
+    JOptionPane.showMessageDialog(subContentPanel, line);
   }
 
   @Override
   public void printLines(String[] lines) {
-
+    for (int i = 0; i < lines.length; i++) {
+      JOptionPane.showMessageDialog(subContentPanel, lines);
+    }
   }
 
   @Override
@@ -234,14 +373,13 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   private void addSubContentPanel() {
     subContentPanel = new JPanel();
-    subContentPanel.setLayout(new FlowLayout());
+    subContentPanel.setLayout(new FlowLayout(10,5,5));
     Border paddingSubCon = BorderFactory.createEmptyBorder(0,0,10,50);
     subContentPanel.setBorder(paddingSubCon);
     contentPanel.add(subContentPanel);
   }
 
-  public Object getOperationalStuff() {
-    System.out.println("in oper stuff");
+  public ArrayList<Object> getOperationalStuff() {
     return opStuff;
   }
 
