@@ -75,7 +75,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
     }
 
     return filename.substring(0, filename.length() - 4);
-
   }
 
   @Override
@@ -319,6 +318,13 @@ public class PortfolioManagerImpl implements PortfolioManager {
   @Override
   public void setCommissionFee(float cf) {
     this.commissionFee = cf;
+  }
+
+  @Override
+  public void addStrategy(String portfolioName, ArrayList<Stock<String, Float>> list, Date start,
+      Date end, int frequency) {
+    Strategy newStrat = new DCAStrategy(list, start, end, frequency);
+    getPortfolio(portfolioName).addStrategy(newStrat);
   }
 
 }

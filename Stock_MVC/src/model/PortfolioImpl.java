@@ -12,8 +12,7 @@ import java.util.Date;
 public class PortfolioImpl implements Portfolio {
   private final ArrayList<Stock<String, Float>> stockList;
   private final String portfolioName;
-  private final Strategy strat = new DCAStrategy(new ArrayList<Stock>(), 0.02,
-      new Date(), new Date(), 1);
+  private ArrayList<Strategy> strat;
 
   /**
    * This constructor is used by the builder() method to
@@ -87,7 +86,12 @@ public class PortfolioImpl implements Portfolio {
   }
 
   @Override
-  public Strategy getStrategy() {
+  public ArrayList<Strategy> getStrategies() {
     return strat;
+  }
+
+  @Override
+  public void addStrategy(Strategy strategy) {
+    strat.add(strategy);
   }
 }

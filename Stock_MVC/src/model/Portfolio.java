@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.ArrayList;
+
 /**
  * A portfolio interface to define the structure of a portfolio.
  * Changes:
@@ -28,6 +30,18 @@ public interface Portfolio {
    */
   Float[] getCounts();
 
-  Strategy getStrategy();
+  /**
+   * Get the list of strategies held by this portfolio.
+   *
+   * @return the ArrayList of strategy
+   */
+  ArrayList<Strategy> getStrategies();
+
+  /**
+   * Add a strategy to a portfolio.
+   *
+   * @param strategy the strategy being added
+   */
+  void addStrategy(Strategy strategy);
 
 }

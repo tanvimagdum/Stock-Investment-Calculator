@@ -19,6 +19,6 @@ public class SaveAllCommand implements TextCommand {
     } catch (Exception e) {
       v.printLine("Unable to successfully save all portfolios.");
     }
-    v.showWelcomeScreen();
+    v.showSaveScreen();
   }
 }
