@@ -54,8 +54,9 @@ public class ViewImpl implements ViewInterface {
     out.println("2. Begin building a flexible portfolio");
     out.println("3. Begin a flexible portfolio with a strategy");
     out.println("4. Edit a flexible portfolio");
-    out.println("5. Add a fixed cost buy across a flexible portfolio");
-    out.println("6. Go Back");
+    out.println("5. Add a strategy to a flexible portfolio");
+    out.println("6. Add a fixed cost buy across a flexible portfolio");
+    out.println("7. Go Back");
 
   }
 
