@@ -175,10 +175,18 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(txtPortName);
     JLabel lblBuySell = new JLabel("Choose whether to buy or sell the stock :");
     subContentPanel.add(lblBuySell);
-    JRadioButton txtBuy = new JRadioButton("Buy Stock");
-    subContentPanel.add(txtBuy);
-    JRadioButton txtSell = new JRadioButton("Sell Stock");
-    subContentPanel.add(txtSell);
+
+    JRadioButton[] radioBuySell = new JRadioButton[2];
+    ButtonGroup rGroup1 = new ButtonGroup();
+
+    radioBuySell[0] = new JRadioButton("Buy Stock");
+    radioBuySell[1] = new JRadioButton("Sell Stock");
+
+    rGroup1.add(radioBuySell[0]);
+    rGroup1.add(radioBuySell[1]);
+
+
+
   }
 
   @Override
