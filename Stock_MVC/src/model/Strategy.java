@@ -1,14 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * An interface to describe the general properties of an investment strategy.
  */
-public interface Strategy<A,B,C,D,E> {
-  ArrayList<Stock<A,B>> getList();
-  B getB();
-  C getC();
-  D getD();
-  E getE();
+public interface Strategy {
+  ArrayList<Stock<String, Float>> getList();
+  Float getAmount();
+  Date getStartDate();
+  Date getEndDate();
+  int getFrequency();
 }

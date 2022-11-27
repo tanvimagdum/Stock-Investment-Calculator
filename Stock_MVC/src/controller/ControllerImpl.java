@@ -14,6 +14,7 @@ import controller.textcoms.PortfolioValueCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
 import controller.textcoms.StrategyBuildCommand;
+import controller.textcoms.StrategyCommand;
 import controller.textcoms.ViewContentsCommand;
 
 import java.awt.event.ActionEvent;
@@ -160,8 +161,9 @@ public class ControllerImpl implements InputController, ActionListener {
     textBuildScreen.put("2", new BuildFlexibleCommand());
     textBuildScreen.put("3", new StrategyBuildCommand());
     textBuildScreen.put("4", new EditFlexibleCommand());
-    textBuildScreen.put("5", new DollarCostBuyCommand());
-    textBuildScreen.put("6", new BackCommand());
+    textBuildScreen.put("5", new StrategyCommand());
+    textBuildScreen.put("6", new DollarCostBuyCommand());
+    textBuildScreen.put("7", new BackCommand());
 
     textViewScreen.put("1", new ViewContentsCommand());
     textViewScreen.put("2", new PortfolioValueCommand());

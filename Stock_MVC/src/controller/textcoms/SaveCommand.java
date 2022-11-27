@@ -18,7 +18,7 @@ public class SaveCommand implements TextCommand {
       v.printLine(
           "There are either no flexible portfolios yet or the input was out of bounds.");
       sc.nextLine();
-      v.showWelcomeScreen();
+      v.showSaveScreen();
       return;
     }
     try {
@@ -27,7 +27,7 @@ public class SaveCommand implements TextCommand {
     } catch (IOException e) {
       v.printLine("Saving failed.");
     }
-    v.showWelcomeScreen();
+    v.showSaveScreen();
   }
 
   private String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {

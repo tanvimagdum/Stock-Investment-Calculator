@@ -199,6 +199,18 @@ public interface PortfolioManager {
    */
   public void setCommissionFee(float fee);
 
+  /**
+   * Allows a strategy to be added to a portfolio.
+   *
+   * @param portfolioName the portfolio receiving the strategy
+   * @param list the list of stocks being invested, with counts = ($amount)*(% for given stock)
+   * @param start the starting date of the strategy
+   * @param end the ending date of the strategy, 2100-01-01 represents "no end date"
+   * @param frequency the interval in days between purchases of these stocks
+   */
+  public void addStrategy(String portfolioName, ArrayList<Stock<String, Float>> list, Date start,
+      Date end, int frequency);
+
 }
 
 
