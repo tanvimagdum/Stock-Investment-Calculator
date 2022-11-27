@@ -5,12 +5,17 @@ import controller.GuiCommand;
 import model.PortfolioManager;
 import view.JFrameView;
 
+import java.util.ArrayList;
+
 public class LoadCommandGui implements GuiCommand {
 
-@Override
+  @Override
   public void go(JFrameView f, PortfolioManager p, API api) {
+
     //get name from view
-    String name = f.getOperationalStuff().toString();
+    Object[] o = f.getOperationalStuff();
+    String name = o[0].toString();
+
     //System.out.println(fin);
 
     try {
@@ -18,7 +23,7 @@ public class LoadCommandGui implements GuiCommand {
       String[] existing = p.getPortfolioNames();
       for (int i = 0; i < existing.length; i++) {
         if (existing[i].equals(name.substring(0, name.length() - 4))) {
-          //v.printLine("A portfolio with that name already exists. Please try again.");
+          f.printLine("A portfolio with that name already exists. Please try again.");
           problem = true;
         }
       }
@@ -37,7 +42,7 @@ public class LoadCommandGui implements GuiCommand {
       //v.printLine("Enter any key to return to the previous menu.");
       //sc.nextLine();
     } catch (Exception e) {
-      //v.printLine("The file was either not found, or not in the right format.");
+      f.printLine("The file was either not found, or not in the right format.");
     }
     //v.showLoadScreen();
 

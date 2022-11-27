@@ -27,7 +27,8 @@ public class JFrameView extends JFrame implements ViewInterface {
   private JButton saveButton;
   private JButton backButton;
   private ActionListener actionListner;
-  private ArrayList<Object> opStuff = new ArrayList<>();
+  private Object[] opStuff = new Object[10];
+  private String portfolioName = "";
 
 
   public JFrameView(ActionListener a) {
@@ -122,7 +123,7 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   @Override
   public void showLoadScreen() {
-    opStuff = new ArrayList<>();
+    opStuff = new Object[1];
     disableButtons();
     content.setText("Load a Portfolio");
 
@@ -134,9 +135,9 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(txtFile);
 
     JButton upload= new JButton("Upload File");
-    upload.setActionCommand("Upload Button");
+    upload.setActionCommand("Upload Port");
     upload.addActionListener(this.actionListner);
-    upload.addActionListener(evt -> { opStuff.add(txtFile.getText());
+    upload.addActionListener(evt -> { opStuff[0] = txtFile.getText();
                                             txtFile.setText("");});
     subContentPanel.add(upload);
 
@@ -144,7 +145,6 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   @Override
   public void showBuildScreen() {
-    opStuff = new ArrayList<>();
     disableButtons();
     content.setText("Build/Edit a Portfolio");
 
@@ -161,7 +161,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(options);
 
     JButton submit = new JButton("Submit");
-    submit.setActionCommand("Upload Button");
+    submit.setActionCommand("Build Flex Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
                                       switch(options.getSelectedItem().toString()) {
                                         case "Begin building a flexible portfolio" :
@@ -182,20 +182,30 @@ public class JFrameView extends JFrame implements ViewInterface {
                                           subContentPanel.setVisible(true);
                                           break;
                                       }});
-    submit.addActionListener(this.actionListner);
-    submit.addActionListener(evt -> opStuff.add(options.getSelectedItem()));
+    //submit.addActionListener(this.actionListner);
+    //submit.addActionListener(evt -> opStuff.add(options.getSelectedItem()));
     subContentPanel.add(submit);
   }
 
   private void buildFlexPortScreen() {
-    opStuff = new ArrayList<>();
     addSubContentPanel();
     JLabel lblPortName = new JLabel("Enter portfolio name : ");
     subContentPanel.add(lblPortName);
     JTextField txtPortName = new JTextField(15);
     txtPortName.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtPortName);
+    JButton portName = new JButton("Set Portfolio Name");
+    portName.setActionCommand("Set Portfolio Name");
+    portName.addActionListener(evt -> { portfolioName = txtPortName.getText();
+                                        subContentPanel.setVisible(false);
+                                        addStocks();
+                                      });
+    subContentPanel.add(portName);
+  }
 
+  private void addStocks() {
+    opStuff = new Object[6];
+    addSubContentPanel();
     JLabel lblBuySell = new JLabel("Buy Or Sell this stock? :");
     subContentPanel.add(lblBuySell);
     String[] items = new String[2];
@@ -231,28 +241,28 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
     subContentPanel.add(new JLabel( "alternatively, 'Done' to finish building portfolio."));
     JButton addStock = new JButton("Add Stock");
-    addStock.setActionCommand("Upload Button");
+    addStock.setActionCommand("Add Stock");
+    addStock.addActionListener(evt -> opStuff = new Object[6]);
     addStock.addActionListener(this.actionListner);
-    addStock.addActionListener(evt -> { opStuff.add(txtPortName.getText());
-                                        opStuff.add(options.getSelectedItem());
-                                        opStuff.add(txtTicker.getText());
-                                        opStuff.add(txtStocks.getText());
-                                        opStuff.add(txtYear.getText());
-                                        opStuff.add(txtMon.getText());
-                                        opStuff.add(txtDay.getText());
-                                        txtTicker.setText("");
-                                        txtStocks.setText("");
-                                        txtYear.setText("");
-                                        txtMon.setText("");
-                                        txtDay.setText("");
-                                      });
+    addStock.addActionListener(evt -> {
+      opStuff[0] = options.getSelectedItem();
+      opStuff[1] = txtTicker.getText();
+      opStuff[2] = txtStocks.getText();
+      opStuff[3] = txtYear.getText();
+      opStuff[4] = txtMon.getText();
+      opStuff[5] = txtDay.getText();
+      txtTicker.setText("");
+      txtStocks.setText("");
+      txtYear.setText("");
+      txtMon.setText("");
+      txtDay.setText("");
+    });
     subContentPanel.add(addStock);
 
     JButton done = new JButton("Done");
-    done.setActionCommand("Upload Button");
+    done.setActionCommand("Done build");
     done.addActionListener(this.actionListner);
     subContentPanel.add(done);
-
   }
 
   private void buildStratScreen() {
@@ -263,62 +273,6 @@ public class JFrameView extends JFrame implements ViewInterface {
 
     //combobox of list of portfolios
 
-    JLabel lblBuySell = new JLabel("Buy Or Sell this stock? :");
-    subContentPanel.add(lblBuySell);
-    String[] items = new String[2];
-    items[0] = "Buy Stock";
-    items[1] = "Sell Stock";
-    JComboBox<String> options = new JComboBox<>(items);
-    subContentPanel.add(options);
-
-    JLabel lblTicker = new JLabel("Enter the Ticker : ");
-    subContentPanel.add(lblTicker);
-    JTextField txtTicker = new JTextField(15);
-    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtTicker);
-
-    JLabel lblStocks = new JLabel("Enter the Stock Count : ");
-    subContentPanel.add(lblStocks);
-    JTextField txtStocks = new JTextField(15);
-    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtStocks);
-
-    JLabel lblDate = new JLabel("Enter the Date : ");
-    subContentPanel.add(lblDate);
-    JTextField txtYear= new JTextField(4);
-    txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtYear);
-    JTextField txtMon= new JTextField(2);
-    txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtMon);
-    JTextField txtDay= new JTextField(2);
-    txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtDay);
-
-    subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
-    subContentPanel.add(new JLabel( "alternatively, 'Done' to finish building portfolio."));
-    JButton addStock = new JButton("Add Stock");
-    addStock.setActionCommand("Upload Button");
-    addStock.addActionListener(this.actionListner);
-    addStock.addActionListener(evt -> {
-      opStuff.add(options.getSelectedItem());
-      opStuff.add(txtTicker.getText());
-      opStuff.add(txtStocks.getText());
-      opStuff.add(txtYear.getText());
-      opStuff.add(txtMon.getText());
-      opStuff.add(txtDay.getText());
-      txtTicker.setText("");
-      txtStocks.setText("");
-      txtYear.setText("");
-      txtMon.setText("");
-      txtDay.setText("");
-    });
-    subContentPanel.add(addStock);
-
-    JButton done = new JButton("Done");
-    done.setActionCommand("Upload Button");
-    done.addActionListener(this.actionListner);
-    subContentPanel.add(done);
 
   }
 
@@ -355,6 +309,15 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   }
 
+  public String printWarning(String line) {
+    int a = JOptionPane.showConfirmDialog(subContentPanel, line);
+    if (a == JOptionPane.YES_OPTION) {
+      return "y";
+    }
+    else {
+      return "n";
+    }
+  }
   private void disableButtons() {
     loadButton.setVisible(false);
     buildButton.setVisible(false);
@@ -379,8 +342,12 @@ public class JFrameView extends JFrame implements ViewInterface {
     contentPanel.add(subContentPanel);
   }
 
-  public ArrayList<Object> getOperationalStuff() {
+  public Object[] getOperationalStuff() {
     return opStuff;
+  }
+
+  public String getPortfolioName() {
+    return portfolioName;
   }
 
 }

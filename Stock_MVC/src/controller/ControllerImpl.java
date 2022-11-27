@@ -1,5 +1,6 @@
 package controller;
 
+import controller.guicoms.BuildFlexibleCommandGui;
 import controller.guicoms.LoadCommandGui;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
@@ -184,8 +185,10 @@ public class ControllerImpl implements InputController, ActionListener {
     guiWelcomeScreen.put("View Button", new ViewScreenCommandGui());
     guiWelcomeScreen.put("Save Button", new SaveScreenCommandGui());
 
-    guiLoadScreen.put("Upload Button", new LoadCommandGui());
+    guiLoadScreen.put("Upload Port", new LoadCommandGui());
     guiLoadScreen.put("Back Button", new BackCommandGui());
+
+    guiBuildScreen.put("Add Stock", new BuildFlexibleCommandGui());
 
     //guiBuildScreen.put("Button Name", new CommandName());
 
