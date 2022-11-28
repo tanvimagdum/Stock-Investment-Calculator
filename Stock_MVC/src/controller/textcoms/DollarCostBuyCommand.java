@@ -2,11 +2,7 @@ package controller.textcoms;
 
 import controller.API;
 import controller.TextCommand;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,7 +85,7 @@ public class DollarCostBuyCommand implements TextCommand {
 
     try{
       for (int i = 0; i < tickers.length; i++) {
-        boolean valid = validateTicker(tickers[i], target);
+        boolean valid = p.validateTicker(tickers[i], target);
         if (!valid) {
           v.printLine("There is a stock in this portfolio which is not available to buy on the"
               + " given date.\nPlease choose a date on which all stocks in the portfolio are "
@@ -209,23 +205,6 @@ public class DollarCostBuyCommand implements TextCommand {
       }
       return out;
     }
-  }
-
-  private boolean validateTicker(String ticker, Date date) throws IOException, ParseException {
-    BufferedReader reader = new BufferedReader(new FileReader("./Full Ticker List.csv"));
-    String row = reader.readLine();
-
-    while (row != null) {
-      String[] elements = row.split(",");
-      if (elements[0].equals(ticker)) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date readDate = format.parse(elements[1]);
-        return (readDate.compareTo(date) < 0);
-      }
-      row = reader.readLine();
-    }
-    reader.close();
-    return false;
   }
 
   private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {

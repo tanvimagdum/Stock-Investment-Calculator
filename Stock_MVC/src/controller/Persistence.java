@@ -199,7 +199,7 @@ public class Persistence implements PersistenceInterface {
 
     reader.close();
 
-    if (dateList.isEmpty()) {
+    if (dateList.isEmpty() && !tickerList.isEmpty()) {
       ArrayList<Stock<String, Float>> finalList = new ArrayList<>();
       for (int i = 0; i < tickerList.size(); i++) {
         finalList.add(new Stock<>(tickerList.get(i), floatList.get(i)));
@@ -207,7 +207,7 @@ public class Persistence implements PersistenceInterface {
       PortfolioImpl newPort = PortfolioImpl.builder().build(finalList, name);
       for (int i = 0; i < strategyCount; i++) {
         ArrayList<Stock<String, Float>> list = new ArrayList<>();
-        for (int j = 0; j < list.size(); j++) {
+        for (int j = 0; j < strategyTickers.get(i).size(); j++) {
           list.add(new Stock<>(strategyTickers.get(i).get(j), strategyCounts.get(i).get(j)));
         }
         Strategy strat = new DCAStrategy(list, startDates.get(i),

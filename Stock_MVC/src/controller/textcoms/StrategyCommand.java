@@ -14,5 +14,6 @@ public class StrategyCommand implements TextCommand {
     //user creates strategy
     //strategy is added to portfolio
     //strategy is applied to portfolio
+
   }
 }

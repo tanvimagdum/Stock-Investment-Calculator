@@ -23,12 +23,6 @@ public class FlexPortfolioImpl implements Portfolio {
     this.portfolioName = portfolioName;
   }
 
-  public FlexPortfolioImpl(String portfolioName, Strategy strat) {
-    this.portfolioName = portfolioName;
-    this.strat.add(strat);
-  }
-
-
   /**
    * Get the name of portfolio.
    *
@@ -74,6 +68,8 @@ public class FlexPortfolioImpl implements Portfolio {
 
   @Override
   public void addStrategy(Strategy strategy) {
+    System.out.println("Got here too");
+
     this.strat.add(strategy);
   }
 
