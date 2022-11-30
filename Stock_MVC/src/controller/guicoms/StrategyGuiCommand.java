@@ -68,7 +68,6 @@ public class StrategyGuiCommand implements GuiCommand {
     p.addStrategy(name, list, start, end, frequency);
     p.updateFromStrategy(name, api);
     //SHOW RESULTS
-    String[] tickers;
-    Object[] sendToView = new String[0];
+    new ViewContentsGuiCommand().go(f, p, api);
   }
 }
