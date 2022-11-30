@@ -105,7 +105,18 @@ public class BuildFlexibleCommandGui implements GuiCommand {
 
     p.portFlexBuilder(name);
     f.printLine("Portfolio name set successfully!");
-    f.setCurrScreen("Add Stock");
+    String getCurrScreen = f.getCurrScreen();
+    switch (getCurrScreen) {
+      case "Build Portfolio" :
+        f.setCurrScreen("Add Stock");
+        break;
+      case "Build Strategy" :
+        f.setCurrScreen("Add Strategy");
+        break;
+      default :
+        break;
+    }
+
     //System.out.println(name + " in build");
     return name;
   }

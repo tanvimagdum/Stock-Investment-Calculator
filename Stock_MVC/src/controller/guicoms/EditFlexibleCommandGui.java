@@ -19,6 +19,7 @@ public class EditFlexibleCommandGui implements GuiCommand {
       name = f.getPortfolioName();
     } catch (Exception e) {
       f.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+      f.setCurrScreen("Error");
       return;
     }
     try {
@@ -26,6 +27,7 @@ public class EditFlexibleCommandGui implements GuiCommand {
       editFlexPortfolio(name, f, p);
     } catch (Exception e) {
       f.printLine("There was difficulty editing the portfolio. Please try again.");
+      f.setCurrScreen("Error");
       return;
     }
     //f.printLines(contentsHelper(name, p));

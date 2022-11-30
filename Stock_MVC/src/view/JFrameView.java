@@ -170,10 +170,8 @@ public class JFrameView extends JFrame implements ViewInterface {
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
                                       switch(currScreen) {
                                         case "Build Portfolio" :
-                                          buildFlexPortScreen();
-                                          break;
                                         case "Build Strategy" :
-                                          buildStratScreen();
+                                          setFlexNameScreen();
                                           break;
                                         case "Edit Portfolio":
                                           editFlexPortScreen();
@@ -193,7 +191,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(submit);
   }
 
-  private void buildFlexPortScreen() {
+  private void setFlexNameScreen() {
     addSubContentPanel();
     JLabel lblPortName = new JLabel("Enter portfolio name : ");
     subContentPanel.add(lblPortName);
@@ -209,6 +207,10 @@ public class JFrameView extends JFrame implements ViewInterface {
                                             break;
                                           case "Add Stock" :
                                             addStocks();
+                                            break;
+                                          case "Add Strategy" :
+                                            addStrategy();
+                                            break;
                                         }
                                       });
     portName.addActionListener(this.actionListner);
@@ -279,7 +281,53 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(done);
   }
 
-  private void buildStratScreen() {
+  private void addStrategy() {
+    opStuff = new Object[6];
+    addSubContentPanel();
+
+    JLabel lblAmount = new JLabel("Enter Dollar Amount : ");
+    subContentPanel.add(lblAmount);
+    JTextField txtAmount = new JTextField(10);
+    txtAmount.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtAmount);
+
+    JLabel lblFreq = new JLabel("No. of days between buys : ");
+    subContentPanel.add(lblFreq);
+    JTextField txtFreq = new JTextField(10);
+    txtFreq.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtFreq);
+
+    JLabel lblStartDate = new JLabel("Enter the Start Date : ");
+    subContentPanel.add(lblStartDate);
+    JTextField txtStartYear = new JTextField(4);
+    txtStartYear.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtStartYear);
+    JTextField txtStartMon = new JTextField(2);
+    txtStartMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtStartMon);
+    JTextField txtStartDay = new JTextField(2);
+    txtStartDay.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtStartDay);
+
+    JLabel lblEndDate = new JLabel("Enter the End Date : ");
+    subContentPanel.add(lblEndDate);
+    JTextField txtEndYear = new JTextField(4);
+    txtEndYear.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtEndYear);
+    JTextField txtEndMon = new JTextField(2);
+    txtEndMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtEndMon);
+    JTextField txtEndDay = new JTextField(2);
+    txtEndDay.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtEndDay);
+
+    //
+    JLabel lblTicker = new JLabel("Enter the Ticker : ");
+    subContentPanel.add(lblTicker);
+    JTextField txtTicker = new JTextField(15);
+    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtTicker);
+
 
   }
 
@@ -395,7 +443,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     currScreen = str;
   }
 
-  private String getCurrScreen() {
+  public String getCurrScreen() {
     return currScreen;
   }
 }

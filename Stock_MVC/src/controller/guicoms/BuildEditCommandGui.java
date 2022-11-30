@@ -21,12 +21,12 @@ public class BuildEditCommandGui implements GuiCommand {
       case "Edit a flexible portfolio" :
         try {
           selectFlexPortfolio(f, p);
+          f.setCurrScreen("Edit Portfolio");
         } catch (Exception e) {
           //System.out.println(e.getMessage());
           f.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
           f.setCurrScreen("Error");
         }
-        f.setCurrScreen("Edit Portfolio");
         break;
       case "Add a fixed cost buy across a flexible portfolio" :
         f.setCurrScreen("Dollar Cost");
