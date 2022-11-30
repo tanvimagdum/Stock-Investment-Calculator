@@ -317,7 +317,10 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public void setCommissionFee(float cf) {
+  public void setCommissionFee(float cf) throws IllegalArgumentException {
+    if (cf < 0) {
+      throw new IllegalArgumentException();
+    }
     this.commissionFee = cf;
   }
 

@@ -51,10 +51,19 @@ public class CostBasisCommand implements TextCommand {
     v.printLine("If you would like to change the fee, enter a dollar amount ('xx.yy'). "
         + "Otherwise, enter anything else.");
     String cf = sc.nextLine();
+    float comFee;
     try {
-      p.setCommissionFee(Float.parseFloat(cf));
+      comFee = Float.parseFloat(cf);
+      if (comFee < 0) {
+        v.printLine("The commission fee must be greater than or equal to 0.");
+        v.showPortfolioScreen();
+        return;
+      }
+      p.setCommissionFee(comFee);
     } catch (Exception e) {
-      //do nothing
+      v.printLine("There was an error editing the commission fee. Please try again.");
+      v.showPortfolioScreen();
+      return;
     }
     String dateString = year + "-" + mon + "-" + day;
     try {

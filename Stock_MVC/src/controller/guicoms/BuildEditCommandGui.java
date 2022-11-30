@@ -24,7 +24,8 @@ public class BuildEditCommandGui implements GuiCommand {
           f.setCurrScreen("Edit Portfolio");
         } catch (Exception e) {
           //System.out.println(e.getMessage());
-          f.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+          f.printLine("There are either no flexible portfolios "
+              + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
         }
         break;

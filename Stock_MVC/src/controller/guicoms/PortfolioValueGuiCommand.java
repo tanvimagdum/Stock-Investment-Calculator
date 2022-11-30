@@ -35,7 +35,8 @@ public class PortfolioValueGuiCommand implements GuiCommand {
     }
 
     try {
-      p.getPortfolioValue(name, target, api);
+      float value = p.getPortfolioValue(name, target, api);
+      //SHOW RESULTS
     } catch (IOException | ParseException e) {
       throw new RuntimeException(e);
     }

@@ -63,5 +63,6 @@ public class StrategyGuiCommand implements GuiCommand {
     }
     p.addStrategy(name, list, start, end, frequency);
     p.updateFromStrategy(name, api);
+    //SHOW RESULTS
   }
 }
