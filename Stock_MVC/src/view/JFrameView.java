@@ -431,6 +431,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     });
     addShare.addActionListener(this.actionListner);
     addShare.addActionListener(evt -> {
+      addShare.setFocusable(true);
       int sLen = staticInfo.length;
       opStuff = new Object[sLen + 2];
       for(int i = 0 ; i < sLen; i++) {
@@ -441,7 +442,6 @@ public class JFrameView extends JFrame implements ViewInterface {
       opStuff[sLen + 1] = txtShare.getText();
       SList.add(txtShare.getText());
     });
-    addShare.setFocusable(true);
     subTCFrame.add(addShare);
 
   }
