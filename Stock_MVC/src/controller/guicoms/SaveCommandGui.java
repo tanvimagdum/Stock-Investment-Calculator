@@ -32,11 +32,7 @@ public class SaveCommandGui implements GuiCommand {
     String[] portNames = p.getFlexPortfolioNames();
     //System.out.println(portNames[0] + " in selectflex");
 
-    ArrayList<Object> portArray = new ArrayList<>();
-    for(int i = 0; i < portNames.length; i++) {
-      portArray.add(portNames[i]);
-    }
-    f.setConStuff(portArray);
+    f.setConStuff(portNames);
     //System.out.println("setConStuff set");
   }
 }

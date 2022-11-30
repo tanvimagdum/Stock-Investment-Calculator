@@ -30,7 +30,7 @@ public class JFrameView extends JFrame implements ViewInterface {
   private ActionListener actionListner;
   private Object[] opStuff = new Object[10];
   private String portfolioName = "";
-  private ArrayList<Object> conStuff = new ArrayList<>();
+  private Object[] conStuff = new Object[10];
   private String currScreen;
 
 
@@ -451,15 +451,12 @@ public class JFrameView extends JFrame implements ViewInterface {
     JLabel lblPortName = new JLabel("Select a portfolio to edit : ");
     subContentPanel.add(lblPortName);
 
-    ArrayList<String> itemArray = new ArrayList<>();
-    ArrayList<Object> o = getConStuff();
-    for (int i = 0; i < o.size(); i++) {
-      itemArray.add(o.get(i).toString());
+    Object[] o = getConStuff();
+    String[] item = new String[o.length];
+    for (int i = 0; i < o.length; i++) {
+      item[i] = o[i].toString();
     }
-    String[] item = new String[itemArray.size()];
-    for (int i = 0; i < itemArray.size(); i++) {
-      item[i] = itemArray.get(i);
-    }
+
     JComboBox<String> portNames = new JComboBox<>(item);
     subContentPanel.add(portNames);
     JButton portName = new JButton("Get Portfolio");
@@ -546,11 +543,11 @@ public class JFrameView extends JFrame implements ViewInterface {
     return portfolioName;
   }
 
-  public void setConStuff(ArrayList<Object> o) {
+  public void setConStuff(Object[] o) {
     conStuff = o;
   }
 
-  private ArrayList<Object> getConStuff() {
+  private Object[] getConStuff() {
     return conStuff;
   }
 
