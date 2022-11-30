@@ -68,7 +68,7 @@ public class PortfolioValueGuiCommand implements GuiCommand {
     Object[] out = new Object[tickers.length * 4 + 2];
     out[0] = formatter.format(target);
     float sum = 0;
-    int j = 0;
+    j = 0;
     for (int i = 0; i < values.length; i += 4) {
       sum += values[j];
       out[i + 1] = tickers[j];

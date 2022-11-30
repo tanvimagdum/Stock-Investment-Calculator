@@ -1,7 +1,9 @@
+import controller.API;
 import controller.APIImpl;
 import controller.PortfolioController;
 import controller.PortfolioControllerImpl;
 import model.PortfolioManager;
+import model.Stock;
 import org.junit.Test;
 import view.ViewInterface;
 import java.io.IOException;
@@ -140,6 +142,18 @@ public class PortfolioControllerImplTest {
     public void setCommissionFee(float fee) {
       log.append(String.format("setCommissionFee method called with %.2f", fee) + " ");
     }
+
+    @Override
+    public void addStrategy(String portfolioName, ArrayList<Stock<String, Float>> list, Date start,
+        Date end, int frequency) {
+
+    }
+
+    @Override
+    public void updateFromStrategy(String portfolioName, API api)
+        throws IOException, ParseException {
+
+    }
   }
 
   /**
@@ -171,6 +185,11 @@ public class PortfolioControllerImplTest {
     @Override
     public void showPortfolioScreen() {
       log.append("showPortfolioScreen method called ");
+    }
+
+    @Override
+    public void showSaveScreen() {
+
     }
 
     @Override
