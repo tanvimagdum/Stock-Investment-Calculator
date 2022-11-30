@@ -29,7 +29,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
    *
    * @param pers the persistence object
    */
-  public PortfolioManagerImpl(Persistence pers) {
+  public PortfolioManagerImpl(PersistenceInterface pers) {
     this.pers = pers;
   }
 
