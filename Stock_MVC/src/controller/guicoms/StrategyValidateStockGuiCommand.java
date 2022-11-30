@@ -27,6 +27,7 @@ public class StrategyValidateStockGuiCommand implements GuiCommand {
       f.printLine("This is a bug an should never be possible. "
           + "The date should have previously been validated.");
       f.setCurrScreen("Error");
+      return;
     }
     try {
       if (!p.validateTicker(ticker, start)) {
@@ -36,7 +37,8 @@ public class StrategyValidateStockGuiCommand implements GuiCommand {
       f.printLine("That ticker was either not recognized or was not available by the given"
           + " starting date.");
       f.setCurrScreen("Error");
+      return;
     }
-
+    f.setCurrScreen("Validated");
   }
 }

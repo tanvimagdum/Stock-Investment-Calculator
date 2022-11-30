@@ -38,7 +38,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     super();
     this.actionListner = a;
     setTitle("GROW MONEY INVESTMENT PLANNER");
-    setSize(1000, 600);
+    setSize(1000, 800);
     setLocation(100, 100);
 
     mainPanel = new JPanel();
@@ -335,7 +335,7 @@ public class JFrameView extends JFrame implements ViewInterface {
           subContentPanel.setVisible(true);
           break;
         case "Proceed" :
-          addTickerCount(opStuff);
+          addTickerCountFrame(opStuff);
           break;
         default :
           break;
@@ -363,33 +363,73 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(proceed);
   }
 
-  private void addTickerCount(Object[] op) {
-    Object[] staticInfo = op;
+  private void addTickerCountFrame(Object[] op) {
+    //Object[] staticInfo = op;
     addSubContentPanel();
     ArrayList<Object> tickerList = new ArrayList<>();
+    ArrayList<Object> shareList = new ArrayList<>();
 
-    JLabel lblTicker = new JLabel("Enter the Ticker : ");
-    subContentPanel.add(lblTicker);
+    JPanel tickerCountFrame = new JPanel();
+    tickerCountFrame.setLayout(new BoxLayout(tickerCountFrame, BoxLayout.Y_AXIS));
+    Border paddingTCFrame = BorderFactory.createEmptyBorder(0,0,0,0);
+    tickerCountFrame.setBorder(paddingTCFrame);
+    JScrollPane tickerCountScroll = new JScrollPane(tickerCountFrame);
+    tickerCountScroll.setHorizontalScrollBar(null);
+    tickerCountScroll.setPreferredSize(new Dimension(400, 300));
+    subContentPanel.add(tickerCountScroll);
+
+    addTickerCount(op, tickerList, shareList, tickerCountFrame);
+    /*JButton doneBuild = new JButton("Done");
+    doneBuild.setActionCommand("Done build strategy");
+    doneBuild.addActionListener(this.actionListner);
+    subContentPanel.add(doneBuild);*/
+  }
+
+  private void addTickerCount(Object[] op, ArrayList<Object> tickerList,
+                              ArrayList<Object> shareList, JPanel tickerCountFrame) {
+    Object[] staticInfo = op;
+    ArrayList<Object> TList = tickerList;
+    ArrayList<Object> SList = shareList;
+
+    JPanel subTCFrame = new JPanel();
+    subTCFrame.setLayout(new FlowLayout());
+    Border paddingSubTCFrame = BorderFactory.createEmptyBorder(0,0,0,0);
+    subTCFrame.setBorder(paddingSubTCFrame);
+    tickerCountFrame.add(subTCFrame);
+
+    JLabel lblTicker = new JLabel("Ticker : ");
+    subTCFrame.add(lblTicker);
     JTextField txtTicker = new JTextField(7);
     txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtTicker);
+    subTCFrame.add(txtTicker);
 
-    JLabel lblShare = new JLabel("Enter the Percentage Share : ");
-    subContentPanel.add(lblShare);
+    JLabel lblShare = new JLabel("Share : ");
+    subTCFrame.add(lblShare);
     JTextField txtShare = new JTextField(7);
     txtShare.setFont(new Font("Calibri", Font.PLAIN, 12));
-    subContentPanel.add(txtShare);
+    subTCFrame.add(txtShare);
 
-    subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
-    subContentPanel.add(new JLabel( "alternatively, 'Done' to finish adding tickers."));
+    //subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
+    //subContentPanel.add(new JLabel( "alternatively, 'Done' to finish adding tickers."));
 
     JButton addShare = new JButton("Add Share");
     addShare.setActionCommand("Add New Share to Strategy");
-    addShare.addActionListener(this.actionListner);
     addShare.addActionListener(evt -> {
-      txtTicker.setText("");
-      txtShare.setText("");
+      switch(currScreen) {
+        case "Error" :
+          txtTicker.setText("");
+          txtShare.setText("");
+          TList.remove(TList.size() - 1);
+          SList.remove(SList.size() - 1);
+          break;
+        case "Validated" :
+          addShare.setVisible(false);
+          txtTicker.setEditable(false);
+          txtShare.setEditable(false);
+          addTickerCount(staticInfo, TList, SList, tickerCountFrame);
+      }
     });
+    addShare.addActionListener(this.actionListner);
     addShare.addActionListener(evt -> {
       int sLen = staticInfo.length;
       opStuff = new Object[sLen + 2];
@@ -397,14 +437,12 @@ public class JFrameView extends JFrame implements ViewInterface {
         opStuff[i] = staticInfo[i];
       }
       opStuff[sLen] = txtTicker.getText();
+      TList.add(txtTicker.getText());
       opStuff[sLen + 1] = txtShare.getText();
+      SList.add(txtShare.getText());
     });
-    subContentPanel.add(addShare);
-
-    JButton doneBuild = new JButton("Done");
-    doneBuild.setActionCommand("Done build strategy");
-    doneBuild.addActionListener(this.actionListner);
-    subContentPanel.add(doneBuild);
+    addShare.setFocusable(true);
+    subTCFrame.add(addShare);
 
   }
 
