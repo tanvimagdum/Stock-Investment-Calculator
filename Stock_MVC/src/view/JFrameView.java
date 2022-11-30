@@ -7,6 +7,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class JFrameView extends JFrame implements ViewInterface {
@@ -29,6 +30,8 @@ public class JFrameView extends JFrame implements ViewInterface {
   private ActionListener actionListner;
   private Object[] opStuff = new Object[10];
   private String portfolioName = "";
+  private ArrayList<Object> conStuff = new ArrayList<>();
+  private String currScreen;
 
 
   public JFrameView(ActionListener a) {
@@ -92,7 +95,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     menuPanel.add(saveButton);
 
     backButton = new JButton("Go Back");
-    backButton.setActionCommand("Back");
+    backButton.setActionCommand("Back Button");
     backButton.addActionListener(this.actionListner);
     menuPanel.add(backButton);
     backButton.setVisible(false);
@@ -145,6 +148,7 @@ public class JFrameView extends JFrame implements ViewInterface {
 
   @Override
   public void showBuildScreen() {
+    opStuff = new Object[1];
     disableButtons();
     content.setText("Build/Edit a Portfolio");
 
@@ -161,29 +165,31 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(options);
 
     JButton submit = new JButton("Submit");
-    submit.setActionCommand("Build Flex Port");
+    submit.setActionCommand("Build/Edit Port");
+    //submit.setActionCommand("Edit Flex Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
-                                      switch(options.getSelectedItem().toString()) {
-                                        case "Begin building a flexible portfolio" :
+                                      switch(currScreen) {
+                                        case "Build Portfolio" :
                                           buildFlexPortScreen();
                                           break;
-                                        case "Begin a flexible portfolio with a strategy" :
+                                        case "Build Strategy" :
                                           buildStratScreen();
                                           break;
-                                        case "Edit a flexible portfolio":
+                                        case "Edit Portfolio":
                                           editFlexPortScreen();
                                           break;
-                                        case "Add a fixed cost buy across a flexible portfolio" :
+                                        case "Dollar Cost" :
                                           fixedCostBuyScreen();
                                           break;
+                                        case "Error" :
+                                          subContentPanel.setVisible(true);
+                                          break;
                                         default :
-                                          JOptionPane.showMessageDialog(subContentPanel,
-                                                  "Please select one option");
                                           subContentPanel.setVisible(true);
                                           break;
                                       }});
-    //submit.addActionListener(this.actionListner);
-    //submit.addActionListener(evt -> opStuff.add(options.getSelectedItem()));
+    submit.addActionListener(this.actionListner);
+    submit.addActionListener(evt -> opStuff[0] = options.getSelectedItem());
     subContentPanel.add(submit);
   }
 
@@ -196,10 +202,17 @@ public class JFrameView extends JFrame implements ViewInterface {
     subContentPanel.add(txtPortName);
     JButton portName = new JButton("Set Portfolio Name");
     portName.setActionCommand("Set Portfolio Name");
-    portName.addActionListener(evt -> { portfolioName = txtPortName.getText();
-                                        subContentPanel.setVisible(false);
-                                        addStocks();
+    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+                                        switch(currScreen) {
+                                          case "Error" :
+                                            subContentPanel.setVisible(true);
+                                            break;
+                                          case "Add Stock" :
+                                            addStocks();
+                                        }
                                       });
+    portName.addActionListener(this.actionListner);
+    portName.addActionListener(evt -> portfolioName = txtPortName.getText());
     subContentPanel.add(portName);
   }
 
@@ -261,7 +274,8 @@ public class JFrameView extends JFrame implements ViewInterface {
 
     JButton done = new JButton("Done");
     done.setActionCommand("Done build");
-    done.addActionListener(this.actionListner);
+    //done.addActionListener(this.actionListner);
+    //done.addActionListener();
     subContentPanel.add(done);
   }
 
@@ -270,10 +284,29 @@ public class JFrameView extends JFrame implements ViewInterface {
   }
 
   private void editFlexPortScreen() {
+    addSubContentPanel();
+    JLabel lblPortName = new JLabel("Select a portfolio to edit : ");
+    subContentPanel.add(lblPortName);
 
-    //combobox of list of portfolios
-
-
+    ArrayList<String> itemArray = new ArrayList<>();
+    ArrayList<Object> o = getConStuff();
+    for (int i = 0; i < o.size(); i++) {
+      itemArray.add(o.get(i).toString());
+    }
+    String[] item = new String[itemArray.size()];
+    for (int i = 0; i < itemArray.size(); i++) {
+      item[i] = itemArray.get(i);
+    }
+    JComboBox<String> portNames = new JComboBox<>(item);
+    subContentPanel.add(portNames);
+    JButton portName = new JButton("Get Portfolio");
+    portName.setActionCommand("Get Portfolio Name");
+    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+      addStocks();
+    });
+    //portName.addActionListener(this.actionListner);
+    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    subContentPanel.add(portName);
   }
 
   private void fixedCostBuyScreen() {
@@ -350,4 +383,19 @@ public class JFrameView extends JFrame implements ViewInterface {
     return portfolioName;
   }
 
+  public void setConStuff(ArrayList<Object> o) {
+    conStuff = o;
+  }
+
+  private ArrayList<Object> getConStuff() {
+    return conStuff;
+  }
+
+  public void setCurrScreen(String str) {
+    currScreen = str;
+  }
+
+  private String getCurrScreen() {
+    return currScreen;
+  }
 }

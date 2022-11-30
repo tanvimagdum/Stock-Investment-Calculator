@@ -16,8 +16,6 @@ public class LoadCommandGui implements GuiCommand {
     Object[] o = f.getOperationalStuff();
     String name = o[0].toString();
 
-    //System.out.println(fin);
-
     try {
       boolean problem = false;
       String[] existing = p.getPortfolioNames();
@@ -28,7 +26,6 @@ public class LoadCommandGui implements GuiCommand {
         }
       }
       if (problem) {
-        //v.showLoadScreen();
         return;
       }
     } catch (Exception e) {
@@ -37,15 +34,12 @@ public class LoadCommandGui implements GuiCommand {
 
     try {
       p.readPortfolioFile(name);
-      name = name.substring(0, name.length() - 4);
+      f.printLine("The file was uploaded successfully!");
+      //name = name.substring(0, name.length() - 4);
       //v.printLines(contentsHelper(name, p));
-      //v.printLine("Enter any key to return to the previous menu.");
-      //sc.nextLine();
     } catch (Exception e) {
       f.printLine("The file was either not found, or not in the right format.");
     }
-    //v.showLoadScreen();
 
-    //code to load file into model
   }
 }

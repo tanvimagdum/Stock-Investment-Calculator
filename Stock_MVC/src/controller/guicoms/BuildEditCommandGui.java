@@ -1,0 +1,51 @@
+package controller.guicoms;
+
+import controller.API;
+import controller.GuiCommand;
+import model.PortfolioManager;
+import view.JFrameView;
+
+import java.util.ArrayList;
+
+public class BuildEditCommandGui implements GuiCommand {
+  @Override
+  public void go(JFrameView f, PortfolioManager p, API api) {
+    Object[] o = f.getOperationalStuff();
+    switch(o[0].toString()) {
+      case "Begin building a flexible portfolio" :
+        f.setCurrScreen("Build Portfolio");
+        break;
+      case "Begin a flexible portfolio with a strategy"  :
+        f.setCurrScreen("Build Strategy");
+        break;
+      case "Edit a flexible portfolio" :
+        try {
+          selectFlexPortfolio(f, p);
+        } catch (Exception e) {
+          //System.out.println(e.getMessage());
+          f.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
+          f.setCurrScreen("Error");
+        }
+        f.setCurrScreen("Edit Portfolio");
+        break;
+      case "Add a fixed cost buy across a flexible portfolio" :
+        f.setCurrScreen("Dollar Cost");
+        break;
+      default :
+        f.printLine("Please select one option");
+        break;
+    }
+  }
+
+  private void selectFlexPortfolio(JFrameView f, PortfolioManager p) {
+    String[] portNames = p.getFlexPortfolioNames();
+    //System.out.println(portNames[0] + " in selectflex");
+
+    ArrayList<Object> portArray = new ArrayList<>();
+    for(int i = 0; i < portNames.length; i++) {
+      portArray.add(portNames[i]);
+    }
+    f.setConStuff(portArray);
+    //System.out.println("setConStuff set");
+  }
+}

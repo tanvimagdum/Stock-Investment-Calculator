@@ -1,7 +1,6 @@
 package controller;
 
-import controller.guicoms.BuildFlexibleCommandGui;
-import controller.guicoms.LoadCommandGui;
+import controller.guicoms.*;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
@@ -190,7 +189,15 @@ public class ControllerImpl implements InputController, ActionListener {
     guiLoadScreen.put("Upload Port", new LoadCommandGui());
     guiLoadScreen.put("Back Button", new BackCommandGui());
 
-    guiBuildScreen.put("Add Stock", new BuildFlexibleCommandGui());
+    guiBuildScreen.put("Build/Edit Port", new BuildEditCommandGui());
+    guiBuildScreen.put("Back Button", new BackCommandGui());
+
+    guiBuildScreen.put("Set Portfolio Name", new BuildFlexibleCommandGui());
+    guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
+    //guiBuildScreen.put("Done", new EditFlexibleCommandGui());
+
+    guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
+
 
     //guiBuildScreen.put("Button Name", new CommandName());
 
@@ -237,7 +244,7 @@ public class ControllerImpl implements InputController, ActionListener {
 
   private void comGo() {
     Map<String, Map<String, Command>> menu = uiMap.get(ui);
-    System.out.println(menu.getClass().getName());
+    //System.out.println(menu.getClass().getName());
     Map<String, Command> screen = menu.get(currentScreen);
     GuiCommand com = (GuiCommand) screen.getOrDefault(currentButton, null);
 
