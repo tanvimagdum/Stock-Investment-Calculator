@@ -18,20 +18,7 @@ import java.util.Scanner;
 public class StrategyBuildGuiCommand implements GuiCommand {
   @Override
   public void go(JFrameView f, PortfolioManager p, API api) {
-    String name = null;
-    try {
-      name = f.getPortfolioName();
-    } catch (Exception e) {
-      f.printLine("There are either no flexible portfolios yet or the input was out of bounds.");
-      return;
-    }
-    try {
-      //f.printLines(contentsHelper(name, p));
-      editStrategy(name, f, p);
-    } catch (Exception e) {
-      f.printLine("There was difficulty editing the strategy. Please try again.");
-      return;
-    }
+
   }
 
   public void editStrategy(String name, JFrameView f, PortfolioManager p)
