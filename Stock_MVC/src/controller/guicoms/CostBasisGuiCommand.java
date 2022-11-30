@@ -95,13 +95,15 @@ public class CostBasisGuiCommand implements GuiCommand {
     Object[] sendToView = new Object[3 + 4 * tickers.length];
     sendToView[0] = formatter.format(target);
     float sum = 0;
+    j = 0;
     for (int i = 0; i < sendToView.length - 3; i += 4) {
-      sum += values[i] * counts[i];
-      if (counts[i] > 0) {
-        sendToView[i + 1] = tickers[i];
-        sendToView[i + 2] = String.valueOf(counts[i]);
-        sendToView[i + 3] = formatter.format(dates[i]);
-        sendToView[i + 4] = String.valueOf(values[i]);
+      sum += values[j] * counts[j];
+      if (counts[j] > 0) {
+        sendToView[i + 1] = tickers[j];
+        sendToView[i + 2] = String.format("%.02f",counts[j]);
+        sendToView[i + 3] = formatter.format(dates[j]);
+        sendToView[i + 4] = String.format("%.02f", values[j]);
+        j++;
       }
     }
     sendToView[sendToView.length - 2] = String.format("%.02f", p.getCommissionFee() * comTracker);
