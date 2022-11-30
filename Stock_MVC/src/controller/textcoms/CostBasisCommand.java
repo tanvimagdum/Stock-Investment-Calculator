@@ -86,10 +86,14 @@ public class CostBasisCommand implements TextCommand {
     Float[] startCounts = p.getCounts(name);
     Date[] startDates = p.getDates(name);
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    int comTracker = 0;
     int j = 0;
     for (int i = 0; i < startDates.length; i++) {
       if (startDates[i].compareTo(formatter.parse(date)) < 1 && startCounts[i] > 0) {
         j++;
+        comTracker++;
+      } else if (startDates[i].compareTo(formatter.parse(date)) < 1) {
+        comTracker++;
       }
     }
     String[] tickers = new String[j];
@@ -126,9 +130,9 @@ public class CostBasisCommand implements TextCommand {
       }
     }
     out[tickers.length + 1] = "Total Spent on Commission Fee: $"
-        + String.format("%.02f", p.getCommissionFee() * startTickers.length);
+        + String.format("%.02f", p.getCommissionFee() * comTracker);
     out[tickers.length + 2] = "Total Cost Basis of Portfolio: $"
-        + String.format("%.02f", (sum - p.getCommissionFee() * startTickers.length));
+        + String.format("%.02f", (sum - p.getCommissionFee() * comTracker));
     return out;
   }
 

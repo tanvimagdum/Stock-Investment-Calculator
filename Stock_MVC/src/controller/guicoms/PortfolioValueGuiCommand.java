@@ -21,7 +21,7 @@ public class PortfolioValueGuiCommand implements GuiCommand {
     String day = o[2].toString();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date upperLimit = new Date();
-    upperLimit = new Date(upperLimit.getTime()-1000L*60*60*24);
+    upperLimit = new Date(upperLimit.getTime() - 1000L * 60 * 60 * 24);
     Date target = null;
     try {
       target = formatter.parse(year + "-" + month + "-" + day);
@@ -34,11 +34,49 @@ public class PortfolioValueGuiCommand implements GuiCommand {
       return;
     }
 
+    String[] startTickers = p.getTickers(name);
+    Float[] startCounts = p.getCounts(name);
+    Date[] startDates = p.getDates(name);
+    int j = 0;
+    for (int i = 0; i < startDates.length; i++) {
+      if (startDates[i].compareTo(target) < 1) {
+        j++;
+      }
+    }
+    String[] tickers = new String[j];
+    Float[] counts = new Float[j];
+    Date[] dates = new Date[j];
+
+    int k = 0;
+    int l = 0;
+    while (k < j) {
+      if (startDates[l].compareTo(target) < 1) {
+        tickers[k] = startTickers[l];
+        counts[k] = startCounts[l];
+        dates[k] = startDates[l];
+        k++;
+      }
+      l++;
+    }
+
+    float[] values;
     try {
-      float value = p.getPortfolioValue(name, target, api);
-      //SHOW RESULTS
+      values = p.getPortfolioValue(name, target, api);
     } catch (IOException | ParseException e) {
       throw new RuntimeException(e);
     }
+    Object[] out = new Object[tickers.length * 4 + 2];
+    out[0] = formatter.format(target);
+    float sum = 0;
+    for (int i = 0; i < values.length; i += 4) {
+      sum += values[i];
+      out[i + 1] = tickers[i];
+      out[i + 2] = counts[i];
+      out[i + 3] = dates[i];
+      out[i + 4] = values[i];
+    }
+    out[out.length - 1] = String.format("%.02f", sum);
+    f.setConStuff(out);
+
   }
 }
