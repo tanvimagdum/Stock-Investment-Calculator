@@ -39,7 +39,7 @@ public class StrategyGuiCommand implements GuiCommand {
     String day2 = o[7].toString();
     Date start = formatter.parse(year1 + "-" + month1 + "-" + day1);
     Date end = formatter.parse(year2 + "-" + month2 + "-" + day2);
-    ArrayList<String> tickers = new ArrayList<>();
+    ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Stock<String, Float>> list = new ArrayList<>();
 
     if (o.length <= 8) {
@@ -49,8 +49,12 @@ public class StrategyGuiCommand implements GuiCommand {
 
     float[] percentages = new float[(o.length - 8)];
     float sum = 0;
+    int j = 0;
     for (int i = 0; i < (o.length - 8) / 2; i += 2) {
-      sum += Float.parseFloat(o[i+9].toString());
+      Float percent = Float.parseFloat(o[i+9].toString());
+      tickerList.add(o[i+8].toString());
+      percentages[j] = percent;
+      sum += percent;
     }
 
     if (Math.abs(100 - sum) > 0.1) {
@@ -58,11 +62,13 @@ public class StrategyGuiCommand implements GuiCommand {
       return;
     }
 
-    for (int j = 0; j < tickers.size(); j++) {
-      list.add(new Stock(tickers.get(j), amount * percentages[j] * 0.01));
+    for (j = 0; j < tickerList.size(); j++) {
+      list.add(new Stock(tickerList.get(j), amount * percentages[j] * 0.01));
     }
     p.addStrategy(name, list, start, end, frequency);
     p.updateFromStrategy(name, api);
     //SHOW RESULTS
+    String[] tickers;
+    Object[] sendToView = new String[0];
   }
 }

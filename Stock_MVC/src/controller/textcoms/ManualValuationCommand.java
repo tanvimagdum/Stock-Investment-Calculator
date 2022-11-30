@@ -15,7 +15,6 @@ public class ManualValuationCommand implements TextCommand {
       name = selectPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine("There are either no portfolios yet or the input was out of bounds.");
-      sc.nextLine();
       v.showPortfolioScreen();
       return;
     }
@@ -64,7 +63,7 @@ public class ManualValuationCommand implements TextCommand {
   private String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
     String[] portNames = p.getPortfolioNames();
     String[] numbered = new String[portNames.length];
-
+    System.out.println("Here");
     for (int i = 0; i < portNames.length; i++) {
       numbered[i] = (i + 1) + ". " + portNames[i];
     }

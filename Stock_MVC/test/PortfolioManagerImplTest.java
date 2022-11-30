@@ -44,6 +44,12 @@ public class PortfolioManagerImplTest {
       mFloat[0] = (float) 100;
       return mFloat;
     }
+
+    @Override
+    public float[] getPricesAfter(String[] tickerList, Date date)
+        throws IOException, ParseException {
+      return new float[0];
+    }
   }
 
   Persistence pers = new Persistence();

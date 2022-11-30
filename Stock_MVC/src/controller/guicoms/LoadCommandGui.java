@@ -41,5 +41,6 @@ public class LoadCommandGui implements GuiCommand {
       f.printLine("The file was either not found, or not in the right format.");
     }
 
+    new ViewContentsGuiCommand().go(f, p, api);
   }
 }

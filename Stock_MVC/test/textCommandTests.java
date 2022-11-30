@@ -1,18 +1,20 @@
 import static org.junit.Assert.assertEquals;
 
-import PortfolioControllerImplTest.MockPortfolioManager;
 import controller.API;
-import controller.Persistence;
 import controller.PersistenceInterface;
-import controller.PortfolioController;
-import controller.PortfolioControllerImpl;
+import controller.TextCommand;
 import controller.textcoms.BuildSimpleCommand;
+import controller.textcoms.LoadCommand;
+import controller.textcoms.ManualValuationCommand;
+import controller.textcoms.SaveAllCommand;
+import controller.textcoms.SaveCommand;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import model.FlexPortfolioImpl;
 import model.Portfolio;
 import model.PortfolioManager;
@@ -248,7 +250,7 @@ public class textCommandTests {
 
     @Override
     public Portfolio loadCSV(String filename) throws IOException, ParseException {
-      log.append("loadCSV method called ");
+      log.append("loadCSV method called with " + filename + " ");
       return new FlexPortfolioImpl("dummy");
     }
   }
@@ -256,76 +258,120 @@ public class textCommandTests {
   //TESTS
 
   @Test
-  public void buildSimpleCommand() {
+  public void buildSimpleCommandTest() {
 
   }
 
   @Test
-  public void buildFlexibleCommand() {
+  public void buildFlexibleCommandTest() {
 
   }
 
   @Test
-  public void strategyBuildCommand() {
+  public void strategyBuildCommandTest() {
 
   }
 
   @Test
-  public void editFlexibleCommand() {
+  public void editFlexibleCommandTest() {
 
   }
 
   @Test
-  public void strategyCommand() {
+  public void strategyCommandTest() {
 
   }
 
   @Test
-  public void dollarCostBuyCommand() {
+  public void dollarCostBuyCommandTest() {
 
   }
 
   @Test
-  public void viewContentsCommand() {
+  public void viewContentsCommandTest() {
 
   }
 
   @Test
-  public void portfolioValueCommand() {
+  public void portfolioValueCommandTest() {
 
   }
 
   @Test
-  public void costBasisCommand() {
+  public void costBasisCommandTest() {
 
   }
 
   @Test
-  public void portfolioPerformanceCommand() {
+  public void portfolioPerformanceCommandTest() {
 
   }
 
   @Test
-  public void manualValuationCommand() {
-
+  public void manualValuationCommandTest() {
+    Readable in = new StringReader(" ");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    TextCommand manualC = new ManualValuationCommand();
+    manualC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called showSaveScreen method called ", log.toString());
   }
 
   @Test
-  public void saveCommand() {
+  public void saveCommandTest() {
     Readable in = new StringReader(" ");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockP = new PortfolioManagerImpl(new MockPersistence(log));
-    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
-    assertEquals("readPortfolioFile method called with port.csv ", log.toString());
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    TextCommand saveC = new SaveCommand();
+    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called showSaveScreen method called ", log.toString());
+
+    mockP.portFlexBuilder("dummy");
+    in = new StringReader("2\n ");
+    log.delete(0, log.toString().length());
+
+    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLines method called printLine method called "
+        +"printLine method called showSaveScreen method called ", log.toString());
+
+    in = new StringReader("1\n");
+    log.delete(0, log.toString().length());
+
+    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLines method called printLine method called "
+        + "saveFlexCSV method called printLine method called "
+        + "showSaveScreen method called ", log.toString());
   }
 
   @Test
-  public void saveAllCommand() {
+  public void saveAllCommandTest() {
+    Readable in = new StringReader(" ");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    TextCommand saveC = new SaveAllCommand();
+    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("getPortfolioNames method called savePortfolio method "
+        + "called with null printLine method called "
+        + "showSaveScreen method called ", log.toString());
 
   }
 
   @Test
-  public void loadCommand() {
-
+  public void loadCommandTest() {
+    Readable in = new StringReader("flex.csv");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new PortfolioManagerImpl(new MockPersistence(log));
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    TextCommand loadC = new LoadCommand();
+    loadC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called loadCSV method called with flex.csv "
+        + "printLine method called showLoadScreen method called ", log.toString());
   }
 }
