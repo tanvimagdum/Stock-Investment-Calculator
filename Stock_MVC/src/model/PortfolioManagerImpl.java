@@ -3,10 +3,10 @@ package model;
 import controller.API;
 import controller.Persistence;
 
+import controller.PersistenceInterface;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   private ArrayList<Portfolio> portfolios = new ArrayList<>();
 
-  private Persistence pers;
+  private PersistenceInterface pers;
   private float commissionFee;
 
   /**

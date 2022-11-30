@@ -132,6 +132,11 @@ public class InputControllerImplTest {
     public void setCommissionFee(float fee) {
       //does nothing
     }
+
+    @Override
+    public void addToFlex(String name, String ticker, float count, Date date) {
+
+    }
   }
 
   /**
@@ -164,6 +169,11 @@ public class InputControllerImplTest {
     @Override
     public void showPortfolioScreen() {
       log.append("showPortfolioScreen method called ");
+    }
+
+    @Override
+    public void showSaveScreen() {
+
     }
 
     @Override

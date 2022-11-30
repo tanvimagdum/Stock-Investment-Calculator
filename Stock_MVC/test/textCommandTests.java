@@ -1,11 +1,22 @@
+import static org.junit.Assert.assertEquals;
+
+import PortfolioControllerImplTest.MockPortfolioManager;
 import controller.API;
+import controller.Persistence;
+import controller.PersistenceInterface;
+import controller.PortfolioController;
+import controller.PortfolioControllerImpl;
 import controller.textcoms.BuildSimpleCommand;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import model.FlexPortfolioImpl;
+import model.Portfolio;
 import model.PortfolioManager;
+import model.PortfolioManagerImpl;
 import model.Stock;
 import org.junit.Test;
 import view.ViewInterface;
@@ -218,11 +229,31 @@ public class textCommandTests {
     }
   }
 
-  //TESTS
-  @Test
-  public void loadCommand() {
+  public class MockPersistence implements PersistenceInterface {
+    private StringBuilder log;
 
+    public MockPersistence(StringBuilder log) {
+      this.log = log;
+    }
+
+    @Override
+    public void saveSimpleCSV(Portfolio simplePort) throws IOException {
+      log.append("saveSimpleCSV method called ");
+    }
+
+    @Override
+    public void saveFlexCSV(Portfolio flexPort) throws IOException {
+      log.append("saveFlexCSV method called ");
+    }
+
+    @Override
+    public Portfolio loadCSV(String filename) throws IOException, ParseException {
+      log.append("loadCSV method called ");
+      return new FlexPortfolioImpl("dummy");
+    }
   }
+
+  //TESTS
 
   @Test
   public void buildSimpleCommand() {
@@ -260,5 +291,41 @@ public class textCommandTests {
   }
 
   @Test
-  public void
+  public void portfolioValueCommand() {
+
+  }
+
+  @Test
+  public void costBasisCommand() {
+
+  }
+
+  @Test
+  public void portfolioPerformanceCommand() {
+
+  }
+
+  @Test
+  public void manualValuationCommand() {
+
+  }
+
+  @Test
+  public void saveCommand() {
+    Readable in = new StringReader(" ");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new PortfolioManagerImpl(new MockPersistence(log));
+    PortfolioController pc = new PortfolioControllerImpl(in, mockM);
+    assertEquals("readPortfolioFile method called with port.csv ", log.toString());
+  }
+
+  @Test
+  public void saveAllCommand() {
+
+  }
+
+  @Test
+  public void loadCommand() {
+
+  }
 }
