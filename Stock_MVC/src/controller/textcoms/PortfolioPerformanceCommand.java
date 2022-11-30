@@ -125,6 +125,8 @@ public class PortfolioPerformanceCommand implements TextCommand {
       return out;
     }
 
+    Date fakeEnd = new Date(end.getTime() - day); //a day earlier
+
     boolean goodEnough = false;
     int days = (int) ((end.getTime() - start.getTime()) / day);
     int i = 0;
@@ -134,14 +136,6 @@ public class PortfolioPerformanceCommand implements TextCommand {
       i++;
       if (days % i == 0 && days / i < 30 && days / i > 4) {
         goodEnough = true;
-      } else if (days % i == 0) {
-        int temp = i;
-        while (days / i < 30) {
-          i += temp;
-        }
-        if (days / i < 30 && days / i > 4) {
-          goodEnough = true;
-        }
       } else {
         if (days / i < 30 && days / i > 4) {
           extra = days % i;
@@ -152,7 +146,11 @@ public class PortfolioPerformanceCommand implements TextCommand {
     current = start;
     while (current.before(end)) {
       tempDateList.add(current);
-      current = new Date(current.getTime() + i * day + extra * day);
+      int extraDay = 0; //we want to apportion our extra days between target dates
+      if (extra > 0) {
+        extraDay = 1;
+      }
+      current = new Date(current.getTime() + i * day + extraDay * day);
       if (extra > 0) {
         extra--;
       }
@@ -162,10 +160,6 @@ public class PortfolioPerformanceCommand implements TextCommand {
     for (i = 0; i < tempDateList.size(); i++) {
       out[i] = tempDateList.get(i);
     }
-
-    //out = new Date[]{formatter.parse("2015-01-01"), formatter.parse("2016-01-01"),
-    //        formatter.parse("2017-01-01"), formatter.parse("2018-01-01"),
-    //        formatter.parse("2019-01-01")};
 
     return out;
   }
@@ -203,11 +197,14 @@ public class PortfolioPerformanceCommand implements TextCommand {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0])
         + " to "
-        + formatter.format(dates[dates.length - 1]) + "\n";
+        + formatter.format(new Date(dates[dates.length - 1].getTime()
+        +1000L*60*60*24)) + "\n"; //we add a day, since the array's last date was a day before
     for (int i = 0; i < dates.length; i++) {
       int astCount = 1;
-      while (astCount * ast + base <= values[i]) {
-        astCount++;
+      if (values[i] > 0) {
+        while (astCount * ast + base <= values[i]) {
+          astCount++;
+        }
       }
       out[i + 1] = formatter.format(dates[i]) + ": " + "*".repeat(astCount);
     }

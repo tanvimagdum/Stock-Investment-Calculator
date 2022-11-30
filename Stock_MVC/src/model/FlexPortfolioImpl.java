@@ -68,8 +68,6 @@ public class FlexPortfolioImpl implements Portfolio {
 
   @Override
   public void addStrategy(Strategy strategy) {
-    System.out.println("Got here too");
-
     this.strat.add(strategy);
   }
 

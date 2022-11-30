@@ -24,6 +24,7 @@ public class APIImpl implements API {
     float[] out = new float[tickerList.length];
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     date = format.parse(format.format(date));
+    System.out.println(format.format(date));
 
     for (int i = 0; i < tickerList.length; i++) {
       try {
@@ -53,7 +54,6 @@ public class APIImpl implements API {
           }
 
           if (rowDate.compareTo(date) < 1) {
-            System.out.println(elements[0]);
             out[i] = Float.parseFloat(elements[5]);
             break;
           }
@@ -74,6 +74,7 @@ public class APIImpl implements API {
     float[] out = new float[tickerList.length];
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     date = format.parse(format.format(date));
+    System.out.println(format.format(date));
 
     for (int i = 0; i < tickerList.length; i++) {
       try {
@@ -111,7 +112,6 @@ public class APIImpl implements API {
             out[i] = Float.parseFloat(elements[5]);
             break;
           } else if (rowDate.compareTo(date) < 0) {
-            System.out.println(previousElements[0]);
             out[i] = Float.parseFloat(previousElements[5]);
             break;
           } else {

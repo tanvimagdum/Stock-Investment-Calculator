@@ -2,8 +2,6 @@ package controller.textcoms;
 
 import controller.API;
 import controller.TextCommand;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,22 +14,17 @@ import model.Stock;
 import view.ViewInterface;
 
 public class StrategyBuildCommand implements TextCommand {
-
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
-    //get flex portfolio name
-    //create flex portfolio
-    //create stocklist
-    //create strategy
     try {
-      String name = buildFlexPortfolio(v, sc, p);
+      buildFlexPortfolio(v, sc, p, api);
     } catch (IOException | ParseException e) {
       v.printLine("There was an error building the flexible portfolio. Please try again.");
     }
     v.showBuildScreen();
   }
 
-  private String buildFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p)
+  private String buildFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p, API api)
       throws IOException, ParseException {
     String name;
 
@@ -66,11 +59,11 @@ public class StrategyBuildCommand implements TextCommand {
     }
 
     p.portFlexBuilder(name);
-    editStrategy(name, v, sc, p);
+    editStrategy(name, v, sc, p, api);
     return name;
   }
 
-  public void editStrategy(String name, ViewInterface v, Scanner sc, PortfolioManager p)
+  public void editStrategy(String name, ViewInterface v, Scanner sc, PortfolioManager p, API api)
       throws IllegalArgumentException, IOException, ParseException {
 
     boolean amountFlag = true;
@@ -111,6 +104,7 @@ public class StrategyBuildCommand implements TextCommand {
 
 
     Date upperLimit = new Date();
+    upperLimit = new Date(upperLimit.getTime()-(1000L*60*60*24)); //yesterday
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     formatter.setLenient(false);
     Date target1 = null;
@@ -163,7 +157,7 @@ public class StrategyBuildCommand implements TextCommand {
     long minimum = 1000L * 60 * 60 * 24;
     if (interval < minimum) {
       v.printLine("Please enter two dates, chronologically and at least 1 day apart.");
-      v.showPortfolioScreen();
+      v.showBuildScreen();
       return;
     }
 
@@ -198,7 +192,8 @@ public class StrategyBuildCommand implements TextCommand {
     }
 
     if (tickers.size() < 1) {
-      v.showPortfolioScreen();
+      v.printLine("This is an empty portfolio and cannot have a strategy added.");
+      v.showBuildScreen();
       return;
     }
 
@@ -212,7 +207,8 @@ public class StrategyBuildCommand implements TextCommand {
     }
     v.printLine("Next, please enter a set of values that add to 100.");
     while (i < tickers.size()) {
-      v.printLine("There is currently room for " + String.format("%.02f",100-sum) + "%");
+      v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "% "
+          + "among " + (tickers.size()-i) + " tickers left.");
       v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
           + tickers.get(i));
 
@@ -239,14 +235,62 @@ public class StrategyBuildCommand implements TextCommand {
     }
 
     v.printLines(contentsStrategyHelper(tickers, percentages, amount));
-    v.printLine("Enter any key to return to the previous menu.");
+    v.printLine("Enter any key to return to continue.");
     sc.nextLine();
-    v.showBuildScreen();
+
     for (int j = 0; j < tickers.size(); j++) {
-      list.add(new Stock(tickers.get(j), amount * percentages[j] * 0.01));
+      list.add(new Stock<String, Float>(tickers.get(j), amount * percentages[j] * 0.01f));
     }
     p.addStrategy(name, list, target1, target2, frequency);
-    //p.strategyUpdate(name);
+    v.printLine("Please wait while the system interacts with the API.");
+    p.updateFromStrategy(name, api);
+
+    v.printLines(contentsHelper(name, p));
+    v.printLine("Enter any key to return to the previous menu.");
+    sc.nextLine();
+  }
+
+  private String[] contentsHelper(String name, PortfolioManager p) {
+
+    try {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+      Date[] dates = p.getDates(name);
+
+      String[] out = new String[tickers.length + 1];
+
+      out[0] = "Contents of Flexible Portfolio: " + name;
+      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+      for (int i = 0; i < tickers.length; i++) {
+        if (counts[i] > 0) {
+          out[i + 1] = "BUY "
+              + "; Ticker: " + tickers[i]
+              + "; Count: " + String.format("%.02f", counts[i])
+              + "; Date: " + formatter.format(dates[i]);
+        }
+        if (counts[i] < 0) {
+          out[i + 1] = "SELL"
+              + "; Ticker: " + tickers[i]
+              + "; Count: " + String.format("%.02f", Math.abs(counts[i]))
+              + "; Date: " + formatter.format(dates[i]);
+        }
+      }
+      return out;
+
+    } catch (Exception e) {
+      String[] tickers = p.getTickers(name);
+      Float[] counts = p.getCounts(name);
+
+      String[] out = new String[tickers.length + 1];
+
+      out[0] = "Contents of Simple Portfolio: " + name;
+
+      for (int i = 0; i < tickers.length; i++) {
+        out[i + 1] = "Ticker: " + tickers[i]
+            + "; Count: " + String.format("%.02f", counts[i]);
+      }
+      return out;
+    }
   }
 
   private String[] contentsStrategyHelper(ArrayList<String> tickers, float[] counts, float amount) {

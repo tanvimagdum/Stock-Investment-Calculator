@@ -1,5 +1,6 @@
 package model;
 
+import controller.API;
 import controller.Persistence;
 
 import java.io.BufferedReader;
@@ -272,10 +273,10 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   @Override
-  public float[] portfolioPerformance(String name, Date[] dates, controller.API api)
+  public float[] portfolioPerformance(String name, Date[] dates, API api)
       throws IOException, ParseException {
     float[] out = new float[dates.length];
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
     for (int i = 0; i < dates.length; i++) {
       float[] values = getPortfolioValue(name, dates[i], api);
       float sum = 0;
@@ -325,6 +326,59 @@ public class PortfolioManagerImpl implements PortfolioManager {
       Date end, int frequency) {
     Strategy newStrat = new DCAStrategy(list, start, end, frequency);
     getPortfolio(portfolioName).addStrategy(newStrat);
+  }
+
+  @Override
+  public void updateFromStrategy(String portfolioName, API api) throws IOException, ParseException {
+    ArrayList<Strategy> stratList = getPortfolio(portfolioName).getStrategies();
+    Strategy strat = stratList.get(stratList.size() - 1);
+    ArrayList<Stock<String, Float>> list = strat.getList();
+    String[] tickers = new String[list.size()];
+    Float[] percentages = new Float[list.size()];
+    float amount = 0;
+    for (int i = 0; i < list.size(); i++) {
+      tickers[i] = list.get(i).getS();
+      percentages[i] = list.get(i).getF();
+      amount += percentages[i];
+    }
+    int freq = strat.getFrequency();
+    Date start = strat.getStartDate();
+    Date end = strat.getEndDate();
+    long interval = freq * 1000L * 60 * 60 * 24;
+
+
+    ArrayList<String> tickerBuys = new ArrayList<>();
+    ArrayList<Float> countBuys = new ArrayList<>();
+    ArrayList<Date> dateBuys = new ArrayList<>();
+
+
+    Date upperLimit = new Date();
+    upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24)); //yesterday
+
+    Date current = start;
+    while (current.before(upperLimit) && current.before(end)) {
+      float[] prices;
+
+      prices = api.getPricesAfter(tickers, current);
+
+      for (int k = 0; k < prices.length; k++) {
+        if (prices[k] == 0) {
+          throw new IOException();
+        }
+      }
+      for (int j = 0; j < tickers.length; j++) {
+        float countBuy = (percentages[j])/prices[j];
+        tickerBuys.add(tickers[j]);
+        countBuys.add(countBuy);
+        dateBuys.add(current);
+      }
+
+      current = new Date(current.getTime() + interval);
+    }
+
+    for (int i = 0; i < tickerBuys.size(); i++) {
+      editFlexPortfolio(portfolioName, tickerBuys.get(i), countBuys.get(i), dateBuys.get(i));
+    }
   }
 
 }

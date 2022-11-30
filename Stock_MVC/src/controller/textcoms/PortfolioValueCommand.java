@@ -94,7 +94,7 @@ public class PortfolioValueCommand implements TextCommand {
       float sum = 0;
       for (int i = 0; i < values.length; i++) {
         sum += values[i];
-        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+        out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i])
             + "; Value per: $" + String.format("%.02f", values[i])
             + "; Purchased: " + formatter.format(dates[i])
             + "; Total Value: $" + String.format("%.02f", values[i]);
@@ -115,7 +115,7 @@ public class PortfolioValueCommand implements TextCommand {
           out[i + 1] = "No information found for symbol: " + tickers[i];
         } else {
           sum += values[i] * counts[i];
-          out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + counts[i]
+          out[i + 1] = "Ticker: " + tickers[i] + "; Count: " + String.format("%.02f", counts[i])
               + "; Value per: $" + String.format("%.02f", values[i])
               + "; Total Value: $" + String.format("%.02f", values[i] * counts[i]);
         }

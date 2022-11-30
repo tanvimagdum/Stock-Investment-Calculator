@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import controller.API;
 
 /**
  * An interface containing methods to perform
@@ -87,7 +88,7 @@ public interface PortfolioManager {
    * @throws IOException if there is difficulty reading in files
    * @throws ParseException if there is an incorrect entry in a file being read
    */
-  public float[] getPortfolioValue(String name, Date date, controller.API api)
+  public float[] getPortfolioValue(String name, Date date, API api)
       throws IOException, ParseException;
 
   /**
@@ -143,7 +144,7 @@ public interface PortfolioManager {
    * @throws ParseException if the date is not given correctly
    * @throws IOException if the API has issues
    */
-  public float[] getCostBasis(String name, Date date, controller.API api)
+  public float[] getCostBasis(String name, Date date, API api)
       throws ParseException, IOException;
 
   /**
@@ -157,7 +158,7 @@ public interface PortfolioManager {
    * @throws IOException if the API struggles to receive information
    * @throws ParseException if the API struggles to read what it receives
    */
-  public float[] portfolioPerformance(String name, Date[] dates, controller.API api)
+  public float[] portfolioPerformance(String name, Date[] dates, API api)
       throws IOException, ParseException;
 
   /**
@@ -210,6 +211,14 @@ public interface PortfolioManager {
    */
   public void addStrategy(String portfolioName, ArrayList<Stock<String, Float>> list, Date start,
       Date end, int frequency);
+
+  /**
+   * Updates a portfolio using its last given strategy. If there is no strategy in the portfolio,
+   * nothing happens.
+   *
+   * @param portfolioName the portfolio to update
+   */
+  public void updateFromStrategy(String portfolioName, API api) throws IOException, ParseException;
 
 }
 
