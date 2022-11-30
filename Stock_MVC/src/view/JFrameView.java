@@ -211,6 +211,8 @@ public class JFrameView extends JFrame implements ViewInterface {
                                           case "Add Strategy" :
                                             addStrategy();
                                             break;
+                                          default :
+                                            break;
                                         }
                                       });
     portName.addActionListener(this.actionListner);
@@ -277,16 +279,15 @@ public class JFrameView extends JFrame implements ViewInterface {
     });
     subContentPanel.add(addStock);
 
-    JButton done = new JButton("Done");
-    done.setActionCommand("Done build");
+    JButton doneBuild = new JButton("Done");
+    doneBuild.setActionCommand("Done build");
     //done.addActionListener(this.actionListner);
     //done.addActionListener();
-    subContentPanel.add(done);
+    subContentPanel.add(doneBuild);
   }
 
   private void addStrategy() {
     opStuff = new Object[8];
-    Object[] staticInfo = new Object[8];
     addSubContentPanel();
 
     JLabel lblAmount = new JLabel("Enter Dollar Amount : ");
@@ -325,10 +326,23 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtEndDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtEndDay);
 
-    JButton addStock = new JButton("Proceed");
-    addStock.setActionCommand("Add Static Info for Strategy");
-    //addStock.addActionListener();
-    addStock.addActionListener(evt -> {
+    JButton proceed = new JButton("Proceed");
+    proceed.setActionCommand("Add Static Info for Strategy");
+    proceed.addActionListener(evt -> {
+      subContentPanel.setVisible(false);
+      switch(currScreen) {
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        case "Proceed" :
+          addTickerCount(opStuff);
+          break;
+        default :
+          break;
+      }
+    });
+    proceed.addActionListener(this.actionListner);
+    proceed.addActionListener(evt -> {
       opStuff[0] = txtAmount.getText();
       opStuff[1] = txtFreq.getText();
       opStuff[2] = txtStartYear.getText();
@@ -337,17 +351,60 @@ public class JFrameView extends JFrame implements ViewInterface {
       opStuff[5] = txtEndYear.getText();
       opStuff[6] = txtEndMon.getText();
       opStuff[7] = txtEndDay.getText();
+      txtAmount.setText("");
+      txtFreq.setText("");
+      txtStartYear.setText("");
+      txtStartMon.setText("");
+      txtStartDay.setText("");
+      txtEndYear.setText("");
+      txtEndMon.setText("");
+      txtEndDay.setText("");
     });
-
+    subContentPanel.add(proceed);
   }
 
-  private void addTickers() {
+  private void addTickerCount(Object[] op) {
+    Object[] staticInfo = op;
+    addSubContentPanel();
+    ArrayList<Object> tickerList = new ArrayList<>();
 
     JLabel lblTicker = new JLabel("Enter the Ticker : ");
     subContentPanel.add(lblTicker);
-    JTextField txtTicker = new JTextField(15);
+    JTextField txtTicker = new JTextField(7);
     txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtTicker);
+
+    JLabel lblShare = new JLabel("Enter the Percentage Share : ");
+    subContentPanel.add(lblShare);
+    JTextField txtShare = new JTextField(7);
+    txtShare.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtShare);
+
+    subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
+    subContentPanel.add(new JLabel( "alternatively, 'Done' to finish adding tickers."));
+
+    JButton addShare = new JButton("Add Share");
+    addShare.setActionCommand("Add New Share to Strategy");
+    addShare.addActionListener(this.actionListner);
+    addShare.addActionListener(evt -> {
+      txtTicker.setText("");
+      txtShare.setText("");
+    });
+    addShare.addActionListener(evt -> {
+      int sLen = staticInfo.length;
+      opStuff = new Object[sLen + 2];
+      for(int i = 0 ; i < sLen; i++) {
+        opStuff[i] = staticInfo[i];
+      }
+      opStuff[sLen] = txtTicker.getText();
+      opStuff[sLen + 1] = txtShare.getText();
+    });
+    subContentPanel.add(addShare);
+
+    JButton doneBuild = new JButton("Done");
+    doneBuild.setActionCommand("Done build strategy");
+    doneBuild.addActionListener(this.actionListner);
+    subContentPanel.add(doneBuild);
 
   }
 

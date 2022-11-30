@@ -33,6 +33,7 @@ public class BuildEditCommandGui implements GuiCommand {
         break;
       default :
         f.printLine("Please select one option");
+        f.setCurrScreen("Error");
         break;
     }
   }

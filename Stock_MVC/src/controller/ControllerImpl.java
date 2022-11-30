@@ -18,12 +18,15 @@ import controller.textcoms.ViewContentsCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import model.Portfolio;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import view.JFrameView;
@@ -195,7 +198,7 @@ public class ControllerImpl implements InputController, ActionListener {
 
     guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
 
-    guiBuildScreen.put("Add Strategy", new StrategyGuiCommand());
+    guiBuildScreen.put("Add Strategy", new StrategyBuildGuiCommand());
 
 
     //guiBuildScreen.put("Button Name", new CommandName());

@@ -35,6 +35,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       }
     } catch (Exception e) {
       f.printLine("The amount entered was not a dollar amount greater than or equal to $1.");
+      f.setCurrScreen("Error");
       return;
     }
 
@@ -45,6 +46,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       }
     } catch (Exception e) {
       f.printLine("The interval entered was not at least 1 day.");
+      f.setCurrScreen("Error");
       return;
     }
 
@@ -52,18 +54,21 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       startingDate = formatter.parse(year1 + "-" + month1 + "-" + day1);
     } catch (Exception e) {
       f.printLine("The starting date entered was invalid.");
+      f.setCurrScreen("Error");
       return;
     }
     try {
       endingDate = formatter.parse(year2 + "-" + month2 + "-" + day2);
     } catch (Exception e) {
       f.printLine("The ending date entered was invalid.");
+      f.setCurrScreen("Error");
       return;
     }
     if (!startingDate.before(endingDate)) {
       f.printLine("Please be sure the dates entered are chronological.");
+      f.setCurrScreen("Error");
       return;
     }
-
+    f.setCurrScreen("Proceed");
   }
 }
