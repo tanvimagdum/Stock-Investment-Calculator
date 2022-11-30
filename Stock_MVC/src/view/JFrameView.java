@@ -32,7 +32,7 @@ public class JFrameView extends JFrame implements ViewInterface {
   private String portfolioName = "";
   private Object[] conStuff = new Object[10];
   private String currScreen;
-
+  private ArrayList<Object> TSList = new ArrayList<>();
 
   public JFrameView(ActionListener a) {
     super();
@@ -364,10 +364,8 @@ public class JFrameView extends JFrame implements ViewInterface {
   }
 
   private void addTickerCountFrame(Object[] op) {
-    //Object[] staticInfo = op;
     addSubContentPanel();
-    ArrayList<Object> tickerShareList = new ArrayList<>();
-
+    TSList = new ArrayList<>();
     JPanel tickerCountFrame = new JPanel();
     tickerCountFrame.setLayout(new BoxLayout(tickerCountFrame, BoxLayout.Y_AXIS));
     Border paddingTCFrame = BorderFactory.createEmptyBorder(0,0,0,0);
@@ -394,20 +392,43 @@ public class JFrameView extends JFrame implements ViewInterface {
     disContent.setFont(new Font("Calibri", Font.BOLD, 16));
     displayHeader.add(disContent);
 
-    tickerShareList = addTickerCount(op, tickerShareList, tickerCountFrame, displayContentPanel);
+    addTickerCount(op, tickerCountFrame, displayContentPanel);
 
     JButton doneBuild = new JButton("Done");
     doneBuild.setActionCommand("Done build strategy");
+    doneBuild.addActionListener(evt -> {
+      TSList = new ArrayList<>();
+      switch(currScreen) {
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        case "Done build" :
+          subContentPanel.setVisible(false);
+          break;
+        default :
+          break;
+    }});
     doneBuild.addActionListener(this.actionListner);
+    doneBuild.addActionListener(evt -> {
+      Object[] staticInfo = op;
+      int opStuffLen = op.length + TSList.size();
+      opStuff = new Object[opStuffLen];
+      for(int i = 0; i < op.length; i++) {
+        opStuff[i] = op[i];
+      }
+      for (int i = 0; i < TSList.size(); i++) {
+        opStuff[i + op.length] = TSList.get(i);
+        System.out.println(opStuff[i+op.length]);
+      }
+    });
     subContentPanel.add(doneBuild);
 
 
   }
 
-  private ArrayList<Object> addTickerCount(Object[] op, ArrayList<Object> tickerShareList, JPanel tickerCountFrame,
+  private void addTickerCount(Object[] op, JPanel tickerCountFrame,
                                            JPanel displayContentPanel) {
     Object[] staticInfo = op;
-    ArrayList<Object> TSList = tickerShareList;
 
     JPanel subTCFrame = new JPanel();
     subTCFrame.setLayout(new FlowLayout());
@@ -444,17 +465,17 @@ public class JFrameView extends JFrame implements ViewInterface {
         case "Error" :
           txtTicker.setText("");
           txtShare.setText("");
-          TSList.remove(TSList.size() - 1);
-          TSList.remove(TSList.size() - 2);
           break;
         case "Validated" :
           subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
                   + ", Share : " + txtShare.getText()));
+          TSList.add(txtTicker.getText());
+          TSList.add(txtShare.getText());
           subDisplay.setVisible(true);
           addShare.setVisible(false);
           txtTicker.setEditable(false);
           txtShare.setEditable(false);
-          addTickerCount(staticInfo, TSList, tickerCountFrame, displayContentPanel);
+          addTickerCount(staticInfo, tickerCountFrame, displayContentPanel);
       }
     });
     addShare.addActionListener(this.actionListner);
@@ -466,12 +487,9 @@ public class JFrameView extends JFrame implements ViewInterface {
       }
       opStuff[sLen] = txtTicker.getText();
       opStuff[sLen + 1] = txtShare.getText();
-      TSList.add(txtTicker.getText());
-      TSList.add(txtShare.getText());
     });
     subTCFrame.add(addShare);
 
-    return TSList;
   }
 
   private void editFlexPortScreen() {
