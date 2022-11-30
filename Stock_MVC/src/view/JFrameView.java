@@ -241,14 +241,17 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtStocks);
 
-    JLabel lblDate = new JLabel("Enter the Date : ");
+    JLabel lblDate = new JLabel("Enter the Date (YYYY-MM-DD) : ");
     subContentPanel.add(lblDate);
+    JLabel lblSlash = new JLabel("/");
     JTextField txtYear= new JTextField(4);
     txtStocks.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtYear);
     JTextField txtMon= new JTextField(2);
     txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    //subContentPanel.add(lblSlash);
     subContentPanel.add(txtMon);
+    //subContentPanel.add(lblSlash);
     JTextField txtDay= new JTextField(2);
     txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtDay);
@@ -282,7 +285,8 @@ public class JFrameView extends JFrame implements ViewInterface {
   }
 
   private void addStrategy() {
-    opStuff = new Object[6];
+    opStuff = new Object[8];
+    Object[] staticInfo = new Object[8];
     addSubContentPanel();
 
     JLabel lblAmount = new JLabel("Enter Dollar Amount : ");
@@ -297,7 +301,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtFreq.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtFreq);
 
-    JLabel lblStartDate = new JLabel("Enter the Start Date : ");
+    JLabel lblStartDate = new JLabel("Start Date (YYYY-MM-DD) : ");
     subContentPanel.add(lblStartDate);
     JTextField txtStartYear = new JTextField(4);
     txtStartYear.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -309,7 +313,7 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtStartDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtStartDay);
 
-    JLabel lblEndDate = new JLabel("Enter the End Date : ");
+    JLabel lblEndDate = new JLabel("End Date (YYYY-MM-DD) : ");
     subContentPanel.add(lblEndDate);
     JTextField txtEndYear = new JTextField(4);
     txtEndYear.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -321,13 +325,29 @@ public class JFrameView extends JFrame implements ViewInterface {
     txtEndDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtEndDay);
 
-    //
+    JButton addStock = new JButton("Proceed");
+    addStock.setActionCommand("Add Static Info for Strategy");
+    //addStock.addActionListener();
+    addStock.addActionListener(evt -> {
+      opStuff[0] = txtAmount.getText();
+      opStuff[1] = txtFreq.getText();
+      opStuff[2] = txtStartYear.getText();
+      opStuff[3] = txtStartMon.getText();
+      opStuff[4] = txtStartDay.getText();
+      opStuff[5] = txtEndYear.getText();
+      opStuff[6] = txtEndMon.getText();
+      opStuff[7] = txtEndDay.getText();
+    });
+
+  }
+
+  private void addTickers() {
+
     JLabel lblTicker = new JLabel("Enter the Ticker : ");
     subContentPanel.add(lblTicker);
     JTextField txtTicker = new JTextField(15);
     txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtTicker);
-
 
   }
 
