@@ -202,7 +202,8 @@ public class PortfolioPerformanceCommand implements TextCommand {
     out[0] = "Contents of Flexible Portfolio: \"" + name + "\" from " + formatter.format(dates[0])
         + " to "
         + formatter.format(new Date(dates[dates.length - 1].getTime()
-        +1000L*60*60*24)) + "\n"; //we add a day, since the array's last date was a day before
+        + 1000L * 60 * 60 * 24))
+        + "\n"; //we add a day, since the array's last date was a day before
     for (int i = 0; i < dates.length; i++) {
       int astCount = 1;
       if (values[i] > 0) {

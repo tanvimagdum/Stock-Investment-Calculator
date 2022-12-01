@@ -17,6 +17,7 @@ import view.ViewInterface;
  * A TextCommand to build a portfolio with a strategy.
  */
 public class StrategyBuildCommand implements TextCommand {
+
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     try {
@@ -78,7 +79,7 @@ public class StrategyBuildCommand implements TextCommand {
     ArrayList<String> tickers = new ArrayList<>();
     ArrayList<Stock<String, Float>> list = new ArrayList<>();
 
-    while(amountFlag) {
+    while (amountFlag) {
       v.printLine("Please enter a positive, non-zero dollar amount to buy each period (xx.yy).");
       try {
         amount = Float.parseFloat(sc.nextLine());
@@ -91,8 +92,7 @@ public class StrategyBuildCommand implements TextCommand {
       }
     }
 
-
-    while(frequencyFlag) {
+    while (frequencyFlag) {
       v.printLine("Please enter a positive, integer number of days between buys.");
       try {
         frequency = Integer.parseInt(sc.nextLine());
@@ -106,7 +106,7 @@ public class StrategyBuildCommand implements TextCommand {
     }
 
     Date upperLimit = new Date();
-    upperLimit = new Date(upperLimit.getTime()-(1000L*60*60*24)); //yesterday
+    upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24)); //yesterday
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     formatter.setLenient(false);
     Date target1 = null;
@@ -209,7 +209,7 @@ public class StrategyBuildCommand implements TextCommand {
     v.printLine("Next, please enter a set of values that add to 100.");
     while (i < tickers.size()) {
       v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "% "
-          + "among " + (tickers.size()-i) + " tickers left.");
+          + "among " + (tickers.size() - i) + " tickers left.");
       v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
           + tickers.get(i));
 
@@ -229,7 +229,7 @@ public class StrategyBuildCommand implements TextCommand {
       i++;
     }
 
-    if (Math.abs(100-sum) > 0.1) {
+    if (Math.abs(100 - sum) > 0.1) {
       v.printLine("The given apportioning does not add up to 100%. Please try again.");
       v.showBuildScreen();
       return;

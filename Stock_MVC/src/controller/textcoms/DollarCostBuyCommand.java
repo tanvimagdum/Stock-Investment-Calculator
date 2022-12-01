@@ -60,7 +60,7 @@ public class DollarCostBuyCommand implements TextCommand {
       date.setLenient(false);
       target = date.parse(year + "-" + mon + "-" + day);
       Date upperLimit = new Date();
-      upperLimit = new Date(upperLimit.getTime()-(1000L*60*60*24));
+      upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24));
       Date lowerLimit = date.parse("2000-01-01");
       if (target.compareTo(upperLimit) > -1 || target.before(lowerLimit)) {
         v.printLine("The date entered is out of bounds (2000-01-01 to yesterday). "
@@ -87,7 +87,7 @@ public class DollarCostBuyCommand implements TextCommand {
       tickers[i] = tempTickers.get(i);
     }
 
-    try{
+    try {
       for (int i = 0; i < tickers.length; i++) {
         boolean valid = p.validateTicker(tickers[i], target);
         if (!valid) {
@@ -113,7 +113,7 @@ public class DollarCostBuyCommand implements TextCommand {
     v.printLines(tickers);
     v.printLine("Next, please enter a set of values that add to 100.");
     while (i < tickers.length) {
-      v.printLine("There is currently room for " + String.format("%.02f",100-sum) + "%");
+      v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "%");
       v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
           + tickers[i]);
 
@@ -138,7 +138,7 @@ public class DollarCostBuyCommand implements TextCommand {
       i++;
     }
 
-    if (Math.abs(100-sum) > 0.1) {
+    if (Math.abs(100 - sum) > 0.1) {
       v.printLine("The given apportioning does not add up to 100%. Please try again.");
       v.showBuildScreen();
       return;
@@ -152,7 +152,7 @@ public class DollarCostBuyCommand implements TextCommand {
       v.showBuildScreen();
       return;
     }
-    for (int k = 0;  k < prices.length; k++) {
+    for (int k = 0; k < prices.length; k++) {
       if (prices[k] == 0) {
         v.printLine("There was an error retrieving prices. Please try again.");
         v.showBuildScreen();
@@ -161,7 +161,7 @@ public class DollarCostBuyCommand implements TextCommand {
     }
 
     for (int j = 0; j < tickers.length; j++) {
-      float countBuy = (value*percentages[j]*0.01f)/prices[j];
+      float countBuy = (value * percentages[j] * 0.01f) / prices[j];
       p.editFlexPortfolio(name, tickers[j], countBuy, target);
     }
 

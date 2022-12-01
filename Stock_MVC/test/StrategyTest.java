@@ -10,6 +10,9 @@ import model.Stock;
 import model.Strategy;
 import org.junit.Test;
 
+/**
+ * A JUnit test class for the strategy interface's implementation.
+ */
 public class StrategyTest {
 
   public Strategy setup() throws ParseException {

@@ -32,13 +32,23 @@ import model.Stock;
 import org.junit.Test;
 import view.ViewInterface;
 
+/**
+ * A JUnit test class for the controller's text commands.
+ */
 public class textCommandTests {
 
-
+  /**
+   * A mock model.
+   */
   public class MockPortfolioManager implements PortfolioManager {
 
     private StringBuilder log;
 
+    /**
+     * A constructor for the mock model.
+     *
+     * @param log a stringbuilder for logging
+     */
     public MockPortfolioManager(StringBuilder log) {
       this.log = log;
     }
@@ -173,6 +183,11 @@ public class textCommandTests {
 
     private StringBuilder log;
 
+    /**
+     * A constructor for the mock view.
+     *
+     * @param log a stringbuilder for logging
+     */
     public MockView(StringBuilder log) {
       this.log = log;
     }
@@ -218,10 +233,18 @@ public class textCommandTests {
     }
   }
 
+  /**
+   * A mock API for testing.
+   */
   public class MockAPI implements API {
 
     private StringBuilder log;
 
+    /**
+     * A constructor for the mock API.
+     *
+     * @param log a stringbuilder for logging
+     */
     public MockAPI(StringBuilder log) {
       this.log = log;
     }
@@ -237,16 +260,25 @@ public class textCommandTests {
         throws IOException, ParseException {
       log.append("getPricesAfter method called ");
       float[] out = new float[tickerList.length];
-      for (int i = 0 ; i < tickerList.length; i++) {
+      for (int i = 0; i < tickerList.length; i++) {
         out[i] = 1;
       }
       return out;
     }
   }
 
+  /**
+   * A mock class for the persistence object.
+   */
   public class MockPersistence implements PersistenceInterface {
+
     private StringBuilder log;
 
+    /**
+     * A constructor for the mock persistence object.
+     *
+     * @param log a stringbuilder for logging
+     */
     public MockPersistence(StringBuilder log) {
       this.log = log;
     }
@@ -779,7 +811,7 @@ public class textCommandTests {
 
     saveC.go(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called "
-        +"printLine method called showSaveScreen method called ", log.toString());
+        + "printLine method called showSaveScreen method called ", log.toString());
 
     in = new StringReader("1\n");
     log.delete(0, log.toString().length());

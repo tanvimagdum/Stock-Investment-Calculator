@@ -91,7 +91,7 @@ public class StrategyCommand implements TextCommand {
     }
 
     Date upperLimit = new Date();
-    upperLimit = new Date(upperLimit.getTime()-(1000L*60*60*24)); //yesterday
+    upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24)); //yesterday
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     formatter.setLenient(false);
     Date target1 = null;
@@ -168,7 +168,7 @@ public class StrategyCommand implements TextCommand {
     v.printLine("Next, please enter a set of values that add to 100.");
     while (i < tickers.size()) {
       v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "% "
-          + "among " + (tickers.size()-i) + " tickers left.");
+          + "among " + (tickers.size() - i) + " tickers left.");
       v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
           + tickers.get(i));
 

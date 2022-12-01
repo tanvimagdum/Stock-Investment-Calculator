@@ -44,7 +44,8 @@ public class HelpingCommittee {
     return portNames[index - 1];
   }
 
-  protected String[] contentsStrategyHelper(ArrayList<String> tickers, float[] counts, float amount) {
+  protected String[] contentsStrategyHelper(ArrayList<String> tickers, float[] counts,
+      float amount) {
 
     String[] out = new String[tickers.size() + 1];
 
