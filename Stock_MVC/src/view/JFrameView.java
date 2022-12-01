@@ -154,12 +154,16 @@ public class JFrameView extends JFrame implements GuiInterface {
     });
     portButton.addActionListener(this.actionListner);
     portButton.addActionListener(evt -> {
-      portfolioName = txtFile.getText();
-      portfolioName = portfolioName.substring(0, portfolioName.length() - 4);
+      try {
+        portfolioName = txtFile.getText();
+        portfolioName = portfolioName.substring(0, portfolioName.length() - 4);
+      }
+      catch(Exception e) {
+
+      }
       txtFile.setText("");
     });
     subContentPanel.add(portButton);
-
   }
 
   @Override
@@ -229,7 +233,7 @@ public class JFrameView extends JFrame implements GuiInterface {
       switch (currScreen) {
         case "Error" :
           subContentPanel.setVisible(true);
-          portName.setText("");
+          txtPortName.setText("");
           currScreen = tempCurrScreen;
           break;
         case "Add Stock" :

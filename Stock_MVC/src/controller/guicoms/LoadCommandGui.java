@@ -12,6 +12,11 @@ public class LoadCommandGui implements GuiCommand {
 
     //get name from view
     String name = f.getPortfolioName();
+    if (name.equals("")) {
+      f.printLine("Please enter filename.");
+      f.setCurrScreen("Error");
+      return;
+    }
 
     try {
       boolean problem = false;
@@ -34,7 +39,6 @@ public class LoadCommandGui implements GuiCommand {
       p.readPortfolioFile(name + ".csv");
       //f.printLine("The file was uploaded successfully!");
       new ViewContentsGuiCommand().goDoStuff(f, p, api);
-      //v.printLines(contentsHelper(name, p));
     } catch (Exception e) {
       f.printLine("The file was either not found, or not in the right format.");
       f.setCurrScreen("Error");

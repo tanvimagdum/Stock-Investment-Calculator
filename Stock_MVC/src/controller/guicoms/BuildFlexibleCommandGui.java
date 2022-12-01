@@ -17,11 +17,6 @@ public class BuildFlexibleCommandGui implements GuiCommand {
 
     try {
       String name = buildFlexPortfolio(f, p);
-      try {
-        //f.printLines(contentsHelper(name, p));
-      } catch (Exception e) {
-        //do nothing
-      }
     } catch (IOException | ParseException e) {
       f.printLine("There was an error building the flexible portfolio. Please try again.");
       f.setCurrScreen("Error");
@@ -33,6 +28,12 @@ public class BuildFlexibleCommandGui implements GuiCommand {
 
     //get data from view
     String name = f.getPortfolioName();
+
+    if (name.equals("")) {
+      f.printLine("The entered name is not valid. Please try again.");
+      f.setCurrScreen("Error");
+      return name;
+    }
 
     try {
       String[] existing = p.getPortfolioNames();
