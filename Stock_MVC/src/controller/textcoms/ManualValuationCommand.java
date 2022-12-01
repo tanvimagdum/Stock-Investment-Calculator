@@ -63,7 +63,7 @@ public class ManualValuationCommand implements TextCommand {
   private String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
     String[] portNames = p.getPortfolioNames();
     String[] numbered = new String[portNames.length];
-    System.out.println("Here");
+
     for (int i = 0; i < portNames.length; i++) {
       numbered[i] = (i + 1) + ". " + portNames[i];
     }

@@ -101,8 +101,6 @@ public class DollarCostBuyCommand implements TextCommand {
       return;
     }
 
-
-
     float[] percentages = new float[tickers.length];
     float sum = 0;
     int i = 0;
@@ -119,11 +117,16 @@ public class DollarCostBuyCommand implements TextCommand {
       try {
         float per = Float.parseFloat(percent);
         percentages[i] = per;
+        if (per < 0) {
+          throw new IllegalArgumentException();
+        }
         sum += per;
+
         if (sum - 100 > 0.1) {
           sum -= per;
           throw new IllegalArgumentException();
         }
+
       } catch (Exception e) {
         v.printLine("Please be sure to enter a number less than or equal to what remains.");
         continue;
