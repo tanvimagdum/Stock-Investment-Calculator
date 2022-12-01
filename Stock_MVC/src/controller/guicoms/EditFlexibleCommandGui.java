@@ -26,18 +26,17 @@ public class EditFlexibleCommandGui implements GuiCommand {
       return;
     }
     try {
-      //f.printLines(contentsHelper(name, p));
       editFlexPortfolio(name, f, p);
     } catch (Exception e) {
       f.printLine("There was difficulty editing the portfolio. Please try again.");
       f.setCurrScreen("Error");
       return;
     }
-    //f.printLines(contentsHelper(name, p));
   }
 
   private void editFlexPortfolio(String name, GuiInterface f, PortfolioManager p)
       throws IllegalArgumentException, IOException, ParseException {
+
     //get data from view
     Object[] o = f.getOperationalStuff();
 
@@ -45,17 +44,16 @@ public class EditFlexibleCommandGui implements GuiCommand {
     String count;
 
     String bs = o[0].toString();
-    //System.out.println(bs);
-    if (bs.equalsIgnoreCase("done")) {
-      //break;
-    }
 
     ticker = o[1].toString();
+    if (ticker.equals("")) {
+      f.printLine("Please enter a ticker.");
+      return;
+    }
     boolean dateCheck = true;
     if (!p.validateTicker(ticker)) {
       String response = f.printWarning("Warning: the symbol you entered is not recognized. " +
           "Click 'YES' to continue with this symbol. Else click 'No'");
-      //f.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
       if (!response.equals("y")) {
         return;
       } else {
@@ -64,6 +62,10 @@ public class EditFlexibleCommandGui implements GuiCommand {
     }
 
     count = o[2].toString();
+    if (count.equals("")) {
+      f.printLine("Please enter a stock count.");
+      return;
+    }
     try {
       int temp = Integer.parseInt(count);
       if (temp <= 0) {
@@ -78,7 +80,6 @@ public class EditFlexibleCommandGui implements GuiCommand {
     String year = o[3].toString();
     String mon = o[4].toString();
     String day = o[5].toString();
-    //System.out.println(year + " " + mon + " " + day);
     Date target = null;
     try {
       DateFormat date = new SimpleDateFormat("yyyy-MM-dd");

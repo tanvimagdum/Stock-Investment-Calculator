@@ -40,7 +40,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
         throw new IllegalArgumentException();
       }
     } catch (Exception e) {
-      f.printLine("The amount entered was not a dollar amount greater than or equal to $1.");
+      f.printLine("The amount entered was blank or, not a dollar amount greater than or equal to $1.");
       f.setCurrScreen("Error");
       return;
     }
@@ -51,7 +51,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
         throw new IllegalArgumentException();
       }
     } catch (Exception e) {
-      f.printLine("The interval entered was not at least 1 day.");
+      f.printLine("The interval must be least 1 day.");
       f.setCurrScreen("Error");
       return;
     }
@@ -59,7 +59,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
     try {
       startingDate = formatter.parse(year1 + "-" + month1 + "-" + day1);
     } catch (Exception e) {
-      f.printLine("The starting date entered was invalid.");
+      f.printLine("The starting date entered was blank or invalid.");
       f.setCurrScreen("Error");
       return;
     }

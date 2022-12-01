@@ -21,7 +21,8 @@ public class StrategyValidateStockGuiCommand implements GuiCommand {
     String year = o[2].toString();
     String month = o[3].toString();
     String day = o[4].toString();
-    String ticker = o[o.length-2].toString();
+    String ticker = o[o.length - 2].toString();
+    String count = o[o.length - 1].toString();
     try {
       start = formatter.parse(year + "-" + month + "-" + day);
     } catch (Exception e) {
@@ -35,8 +36,17 @@ public class StrategyValidateStockGuiCommand implements GuiCommand {
         throw new RuntimeException();
       }
     } catch (Exception e) {
-      f.printLine("That ticker was either not recognized or was not available by the given"
+      f.printLine("That ticker was either blank or not recognized or was not available by the given"
           + " starting date.");
+      f.setCurrScreen("Error");
+      return;
+    }
+
+    try {
+      float percent = Float.parseFloat(count);
+    }
+    catch (Exception e) {
+      f.printLine("The entered count was blank or less than 0.");
       f.setCurrScreen("Error");
       return;
     }
