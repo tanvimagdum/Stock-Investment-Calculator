@@ -368,7 +368,7 @@ public class GuiCommandTests {
     PortfolioManager mockP = new MockPortfolioManager(log);
     API mockA = new MockAPI(log);
     GuiCommand cmd = new DollarCostBuyGuiCommand();
-    Object[] o = new Object[8];
+    Object[] o = new Object[6];
     o[0] = "1000";
     o[1] = "2019";
     o[2] = "01";
@@ -379,6 +379,9 @@ public class GuiCommandTests {
     cmd.goDoStuff(gui, mockP, mockA);
     assertEquals("", log.toString());
     log.delete(0, log.toString().length());
+
+    //bad percentage
+
 
     //bad math
     o = new Object[8];

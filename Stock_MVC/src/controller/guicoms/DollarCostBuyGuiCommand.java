@@ -45,6 +45,7 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
     float sum = 0;
     int j = 0;
     for (int i = 0; i < (o.length - 4); i += 2) {
+      System.out.println("Null: " + o[i+5].toString());
       float percent;
       try {
         percent = Float.parseFloat(o[i + 5].toString());
