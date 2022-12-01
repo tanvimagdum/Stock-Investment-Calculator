@@ -29,6 +29,7 @@ import java.util.Scanner;
 import model.Portfolio;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
+import view.GuiInterface;
 import view.JFrameView;
 import view.ViewImpl;
 import view.ViewInterface;
@@ -258,7 +259,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BackCommandGui implements GuiCommand {
 
     @Override
-    public void go(JFrameView f, PortfolioManager p, API api) {
+    public void go(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "WS";
       f.showWelcomeScreen();
     }
@@ -267,7 +268,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class LoadScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(JFrameView f, PortfolioManager p, API api) {
+    public void go(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "LS";
       f.showLoadScreen();
     }
@@ -276,7 +277,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BuildScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(JFrameView f, PortfolioManager p, API api) {
+    public void go(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "BS";
       f.showBuildScreen();
     }
@@ -285,7 +286,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class ViewScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(JFrameView f, PortfolioManager p, API api) {
+    public void go(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "PS";
       f.showPortfolioScreen();
     }
@@ -294,7 +295,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class SaveScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(JFrameView f, PortfolioManager p, API api) {
+    public void go(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "SS";
       f.showSaveScreen();
     }

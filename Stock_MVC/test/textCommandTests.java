@@ -11,6 +11,7 @@ import controller.textcoms.LoadCommand;
 import controller.textcoms.ManualValuationCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
+import controller.textcoms.StrategyBuildCommand;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -307,7 +308,15 @@ public class textCommandTests {
 
   @Test
   public void strategyBuildCommandTest() {
-
+    Readable in = new StringReader("dummy\n 1000\n 60\n 2016\n 01\n 01\n "
+        + "2020\n 01\n 01\n GOOG\n done\n 100\n \n \n");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    TextCommand sbC = new StrategyBuildCommand();
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
