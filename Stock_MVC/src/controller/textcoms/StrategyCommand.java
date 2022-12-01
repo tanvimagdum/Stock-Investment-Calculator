@@ -26,6 +26,7 @@ public class StrategyCommand implements TextCommand {
       v.showBuildScreen();
       return;
     }
+
     try {
       editStrategy(name, v, sc, p, api);
     } catch (Exception e) {

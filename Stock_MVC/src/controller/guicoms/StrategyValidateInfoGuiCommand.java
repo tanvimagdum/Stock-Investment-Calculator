@@ -58,12 +58,20 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       f.setCurrScreen("Error");
       return;
     }
-    try {
-      endingDate = formatter.parse(year2 + "-" + month2 + "-" + day2);
-    } catch (Exception e) {
-      f.printLine("The ending date entered was invalid.");
-      f.setCurrScreen("Error");
-      return;
+    if (year2.equals("") || year2.equals(null)) {
+      try {
+        endingDate = formatter.parse("2100-01-01");
+      } catch (ParseException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      try {
+        endingDate = formatter.parse(year2 + "-" + month2 + "-" + day2);
+      } catch (Exception e) {
+        f.printLine("The ending date entered was invalid.");
+        f.setCurrScreen("Error");
+        return;
+      }
     }
     if (!startingDate.before(endingDate)) {
       f.printLine("Please be sure the dates entered are chronological.");

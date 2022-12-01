@@ -39,7 +39,12 @@ public class StrategyGuiCommand implements GuiCommand {
     String month2 = o[6].toString();
     String day2 = o[7].toString();
     Date start = formatter.parse(year1 + "-" + month1 + "-" + day1);
-    Date end = formatter.parse(year2 + "-" + month2 + "-" + day2);
+    Date end;
+    if (year2.equals("") || year2.equals(null)) {
+      end = formatter.parse("2100-01-01");
+    } else {
+      end = formatter.parse(year2 + "-" + month2 + "-" + day2);
+    }
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Stock<String, Float>> list = new ArrayList<>();
 
