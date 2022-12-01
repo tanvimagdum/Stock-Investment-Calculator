@@ -30,7 +30,6 @@ public class Persistence implements PersistenceInterface {
     String[] tickers = thisPortfolio.getTickers();
     Float[] counts = thisPortfolio.getCounts();
     String portfolioName = thisPortfolio.getPortfolioName();
-
     try {
       Files.deleteIfExists(Path.of("./" + portfolioName + ".csv"));
     } catch (Exception e) {
@@ -45,6 +44,7 @@ public class Persistence implements PersistenceInterface {
       writer.append("\n");
     }
     ArrayList<Strategy> strategies = thisPortfolio.getStrategies();
+
     if (strategies.size() > 0) {
       for (int i = 0; i < strategies.size(); i++) {
         writer.append("Strategy");

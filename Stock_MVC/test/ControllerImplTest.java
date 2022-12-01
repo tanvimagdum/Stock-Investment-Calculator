@@ -322,4 +322,27 @@ public class ControllerImplTest {
         + "method called with dummy printLines method called printLine method called "
         + "showBuildScreen method called showWelcomeScreen method called ", log.toString());
   }
+
+  @Test
+  public void buildFlexTest() {
+    Readable in = new StringReader("text\n2\n2\ndummy\nb\nGOOG\n10\n2016\n01\n01\n"
+        + "done\nk\n7\n5\n");
+    StringBuilder log = new StringBuilder();
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    InputController con = new ControllerImpl(mockV, mockP, in, System.out, mockA);
+    con.start();
+    assertEquals("printLine method called showWelcomeScreen method called "
+        + "showBuildScreen method called printLine method called getPortfolioNames method"
+        + " called portFlexBuilder method called with dummy printLine method called printLine "
+        + "method called validateTicker method called with GOOG printLine method called "
+        + "printLine method called printLine method called printLine method called "
+        + "validateTicker method called with GOOG and 01-01-2016 editFlexPortfolio "
+        + "method called with dummy, GOOG, 10.0, 01-01-2016 printLine method called "
+        + "getTickers method called with dummy getCounts method called with dummy "
+        + "getDates method called with dummy printLines method called printLine method "
+        + "called showBuildScreen method called showWelcomeScreen method called ", log.toString());
+  }
+
 }

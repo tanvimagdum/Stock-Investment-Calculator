@@ -128,7 +128,6 @@ public class ControllerImpl implements InputController, ActionListener {
         break;
       }
       input = sc.nextLine();
-      System.out.println(input);
       try {
         int inputInt = Integer.parseInt(input);
       } catch (Exception e) {

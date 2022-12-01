@@ -136,7 +136,7 @@ public class CostBasisCommand implements TextCommand {
     out[tickers.length + 1] = "Total Spent on Commission Fee: $"
         + String.format("%.02f", p.getCommissionFee() * comTracker);
     out[tickers.length + 2] = "Total Cost Basis of Portfolio: $"
-        + String.format("%.02f", (sum - p.getCommissionFee() * comTracker));
+        + String.format("%.02f", (sum + p.getCommissionFee() * comTracker));
     return out;
   }
 }

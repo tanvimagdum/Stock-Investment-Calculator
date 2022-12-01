@@ -12,7 +12,7 @@ import java.util.Date;
 public class PortfolioImpl implements Portfolio {
   private final ArrayList<Stock<String, Float>> stockList;
   private final String portfolioName;
-  private ArrayList<Strategy> strat;
+  private ArrayList<Strategy> strat = new ArrayList<>();
 
   /**
    * This constructor is used by the builder() method to
