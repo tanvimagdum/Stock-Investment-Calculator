@@ -48,6 +48,7 @@ public class PortfolioManagerImplTest {
     @Override
     public float[] getPricesAfter(String[] tickerList, Date date)
         throws IOException, ParseException {
+      log.append("getPrices")
       return new float[0];
     }
   }
@@ -429,4 +430,22 @@ public class PortfolioManagerImplTest {
     flex.setCommissionFee((float) 100.10);
     assertEquals((float) 100.10, flex.getCommissionFee(), 0.00001);
   }
+
+  @Test
+  public void savingStrategyTest() {
+
+  }
+
+  @Test
+  public void loadingStrategyTest() {
+
+  }
+
+  @Test
+  public void settingStrategyTest() {
+
+  }
+
+  @Test
+  public void
 }

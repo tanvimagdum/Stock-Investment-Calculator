@@ -1,0 +1,23 @@
+package controller.guicoms;
+
+import controller.API;
+import controller.GuiCommand;
+import java.io.IOException;
+import model.PortfolioManager;
+import view.GuiInterface;
+
+/**
+ * A GuiCommand to save whatever portfolio is relevant to the GUI.
+ */
+public class SaveGuiCommand implements GuiCommand {
+
+  @Override
+  public void go(GuiInterface f, PortfolioManager p, API api) {
+    String name = f.getPortfolioName();
+    try {
+      p.savePortfolio(name);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

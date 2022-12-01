@@ -9,10 +9,12 @@ import model.FlexPortfolioImpl;
 import model.Portfolio;
 import model.PortfolioManager;
 import model.Stock;
+import org.junit.Test;
 import view.GuiInterface;
 import view.ViewInterface;
 
 public class GuiCommandTests {
+
   /**
    * A mock model.
    */
@@ -171,7 +173,7 @@ public class GuiCommandTests {
     @Override
     public String printWarning(String line) {
       log.append("printWarning called with " + line + " ");
-      return "";
+      return null;
     }
 
     @Override
@@ -193,52 +195,53 @@ public class GuiCommandTests {
 
     @Override
     public void setCurrScreen(String str) {
-
+      log.append("setCurrScreen called ");
     }
 
     @Override
     public String getCurrScreen() {
+      log.append("getCurrScreen called ");
       return null;
     }
 
     @Override
     public void showWelcomeScreen() {
-
+      log.append("showWelcomeScreen called ");
     }
 
     @Override
     public void showLoadScreen() {
-
+      log.append("showLoadScreen called ");
     }
 
     @Override
     public void showBuildScreen() {
-
+      log.append("showBuildScreen called ");
     }
 
     @Override
     public void showPortfolioScreen() {
-
+      log.append("showPortfolioScreen called ");
     }
 
     @Override
     public void showSaveScreen() {
-
+      log.append("showSaveScreen called ");
     }
 
     @Override
     public void printLine(String line) {
-
+      log.append("printLine called ");
     }
 
     @Override
     public void printLines(String[] lines) {
-
+      log.append("printLines called ");
     }
 
     @Override
     public void displayError() {
-
+      log.append("displayError called ");
     }
   }
 
@@ -308,4 +311,78 @@ public class GuiCommandTests {
       return new FlexPortfolioImpl("dummy");
     }
   }
+
+  //TESTS
+
+  @Test
+  public void buildEditCommandTest() {
+
+  }
+
+  @Test
+  public void buildFlexibleCommandTest() {
+
+  }
+
+  @Test
+  public void costBasisCommandTest() {
+
+  }
+
+  @Test
+  public void dollarCostBuyCommandTest() {
+
+  }
+
+  @Test
+  public void dollarCostStartCommandTest() {
+
+  }
+
+  @Test
+  public void editFlexibleCommandTest() {
+
+  }
+
+  @Test
+  public void loadCommandTest() {
+
+  }
+
+  @Test
+  public void portfolioValueCommandTest(){
+
+  }
+
+  @Test
+  public void saveCommandTest() {
+
+  }
+
+  @Test
+  public void strategyCommandTest() {
+
+  }
+
+  @Test
+  public void strategyValidateInfoCommandTest() {
+
+  }
+
+  @Test
+  public void strategyValidateStockCommandTest() {
+
+  }
+
+  @Test
+  public void viewCommandGuiTest() {
+
+  }
+
+  @Test
+  public void viewContentsCommandTest() {
+
+  }
+
+
 }
