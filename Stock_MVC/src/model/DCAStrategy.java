@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DCAStrategy implements Strategy{
+public class DCAStrategy implements Strategy {
+
   float amount;
   Date startDate;
   Date endDate;
@@ -11,15 +12,15 @@ public class DCAStrategy implements Strategy{
   ArrayList<Stock<String, Float>> list = new ArrayList<>();
 
   public DCAStrategy(ArrayList<Stock<String, Float>> lst, Date sd, Date ed, int freq) {
-   this.list = lst;
-   float amt = 0;
-   for (int i = 0; i < lst.size(); i++) {
-     amt += lst.get(i).getF();
-   }
-   this.amount = amt;
-   this.startDate = sd;
-   this.endDate = ed;
-   this.frequency = freq;
+    this.list = lst;
+    float amt = 0;
+    for (int i = 0; i < lst.size(); i++) {
+      amt += lst.get(i).getF();
+    }
+    this.amount = amt;
+    this.startDate = sd;
+    this.endDate = ed;
+    this.frequency = freq;
   }
 
   @Override

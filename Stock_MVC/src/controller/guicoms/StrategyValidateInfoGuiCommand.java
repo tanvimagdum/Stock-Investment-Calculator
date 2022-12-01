@@ -5,6 +5,7 @@ import controller.GuiCommand;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
@@ -80,7 +81,17 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
     }
     String name = f.getPortfolioName();
     String[] tickers = p.getTickers(name);
-    f.setConStuff(tickers);
+    ArrayList<String> uniques = new ArrayList<>();
+    for (String ticker: tickers) {
+      if (!uniques.contains(ticker)) {
+        uniques.add(ticker);
+      }
+    }
+    String[] uniqueTickers = new String[uniques.size()];
+    for (int i =0; i < uniques.size(); i++) {
+      uniqueTickers[i] = uniques.get(i);
+    }
+    f.setConStuff(uniqueTickers);
     f.setCurrScreen("Proceed");
   }
 }
