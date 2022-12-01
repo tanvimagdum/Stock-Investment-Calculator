@@ -131,11 +131,11 @@ public class JFrameView extends JFrame implements GuiInterface {
     portButton.setActionCommand("Upload Port");
     portButton.addActionListener(evt -> {
       switch (currScreen) {
-        case "Error" -> {
+        case "Error" :
           subContentPanel.setVisible(true);
           txtFile.setText("");
-        }
-        case "Show Contents" -> {
+          break;
+        case "Show Contents" :
           subContentPanel.setVisible(false);
           String[] columnNames = {"Ticker", "Count", "Date"};
           Object[][] data = new Object[getConStuff().length / 3][3];
@@ -147,9 +147,9 @@ public class JFrameView extends JFrame implements GuiInterface {
             j++;
           }
           showContents(data, columnNames);
-        }
-        default -> {
-        }
+          break;
+        default :
+          break;
       }
     });
     portButton.addActionListener(this.actionListner);
@@ -185,12 +185,25 @@ public class JFrameView extends JFrame implements GuiInterface {
     submit.setActionCommand("Build/Edit Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Build Portfolio", "Build Strategy" -> setFlexNameScreen();
-        case "Edit Portfolio" -> editFlexPortScreen();
-        case "Edit Strategy" -> editStrategyScreen();
-        case "Dollar Cost" -> fixedCostBuyScreen();
-        case "Error" -> subContentPanel.setVisible(true);
-        default -> subContentPanel.setVisible(true);
+        case "Build Portfolio" :
+        case "Build Strategy" :
+          setFlexNameScreen();
+          break;
+        case "Edit Portfolio" :
+          editFlexPortScreen();
+          break;
+        case "Edit Strategy" :
+          editStrategyScreen();
+          break;
+        case "Dollar Cost" :
+          fixedCostBuyScreen();
+          break;
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          subContentPanel.setVisible(true);
+          break;
       }
     });
     submit.addActionListener(this.actionListner);
@@ -214,15 +227,19 @@ public class JFrameView extends JFrame implements GuiInterface {
     portName.setActionCommand("Set Portfolio Name");
     portName.addActionListener(evt -> { subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Error" -> {
+        case "Error" :
           subContentPanel.setVisible(true);
           portName.setText("");
           currScreen = tempCurrScreen;
-        }
-        case "Add Stock" -> addStocks();
-        case "Add Strategy" -> addStrategy();
-        default -> {
-        }
+          break;
+        case "Add Stock" :
+          addStocks();
+          break;
+        case "Add Strategy" :
+          addStrategy();
+          break;
+        default :
+          break;
       }
     });
     portName.addActionListener(this.actionListner);
@@ -397,10 +414,15 @@ public class JFrameView extends JFrame implements GuiInterface {
     proceed.addActionListener(evt -> {
       subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Error" -> subContentPanel.setVisible(true);
-        case "Proceed Build", "Proceed Edit" -> addTickerCountFrame(opStuff, currScreen);
-        default -> {
-        }
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        case "Proceed Build" :
+        case "Proceed Edit" :
+          addTickerCountFrame(opStuff, currScreen);
+          break;
+        default :
+          break;
       }
     });
     proceed.addActionListener(this.actionListner);
@@ -470,11 +492,11 @@ public class JFrameView extends JFrame implements GuiInterface {
     doneBuild.addActionListener(evt -> {
       TSList = new ArrayList<>();
       switch (currScreen) {
-        case "Error" -> {
+        case "Error" :
           subContentPanel.setVisible(false);
           addTickerCountFrame(op, tempCurrScreen);
-        }
-        case "Show Contents" -> {
+          break;
+        case "Show Contents" :
           subContentPanel.setVisible(false);
           subContentPanel.setVisible(false);
           String[] columnNames = {"Ticker", "Share Count", "Date"};
@@ -487,9 +509,9 @@ public class JFrameView extends JFrame implements GuiInterface {
             j++;
           }
           showContents(data, columnNames);
-        }
-        default -> {
-        }
+          break;
+        default :
+          break;
       }
     });
     doneBuild.addActionListener(this.actionListner);
@@ -542,8 +564,10 @@ public class JFrameView extends JFrame implements GuiInterface {
     addShare.setActionCommand("Add New Share to Strategy");
     addShare.addActionListener(evt -> {
       switch (currScreen) {
-        case "Error" -> txtShare.setText("");
-        case "Validated" -> {
+        case "Error" :
+          txtShare.setText("");
+          break;
+        case "Validated" :
           subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
                   + ", Share : " + txtShare.getText()));
           TSList.add(txtTicker.getText());
@@ -553,9 +577,9 @@ public class JFrameView extends JFrame implements GuiInterface {
           txtTicker.setEditable(false);
           txtShare.setEditable(false);
           addTickerCount(staticInfo, tickerCountFrame, displayContentPanel);
-        }
-        default -> {
-        }
+          break;
+        default :
+          break;
       }
     });
     addShare.addActionListener(this.actionListner);
@@ -608,8 +632,10 @@ public class JFrameView extends JFrame implements GuiInterface {
     addShare.setActionCommand("Add New Share to Strategy");
     addShare.addActionListener(evt -> {
       switch (currScreen) {
-        case "Error" -> txtShare.setText("");
-        case "Validated" -> {
+        case "Error" :
+          txtShare.setText("");
+          break;
+        case "Validated" :
           subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
                   + ", Share : " + txtShare.getText()));
           TSList.add(txtTicker.getText());
@@ -622,9 +648,9 @@ public class JFrameView extends JFrame implements GuiInterface {
           if (iter < conStuff.length) {
             addCount(staticInfo, tickerCountFrame, displayContentPanel);
           }
-        }
-        default -> {
-        }
+          break;
+        default :
+          break;
       }
     });
     addShare.addActionListener(this.actionListner);
@@ -693,10 +719,14 @@ public class JFrameView extends JFrame implements GuiInterface {
     proceed.addActionListener(evt -> {
       subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Error" -> subContentPanel.setVisible(true);
-        case "Proceed Build", "Proceed Edit" -> addTickerCountFrame(opStuff, currScreen);
-        default -> {
-        }
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        case "Proceed Build", "Proceed Edit" :
+          addTickerCountFrame(opStuff, currScreen);
+          break;
+        default :
+          break;
       }
     });
     proceed.addActionListener(this.actionListner);
@@ -742,11 +772,21 @@ public class JFrameView extends JFrame implements GuiInterface {
     submit.setActionCommand("View Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Show Contents" -> showPortContentScreen();
-        case "Show Value" -> showPortValueScreen();
-        case "Show Cost Basis" -> showCostBasisScreen();
-        case "Error" -> subContentPanel.setVisible(true);
-        default -> subContentPanel.setVisible(true);
+        case "Show Contents" :
+          showPortContentScreen();
+          break;
+        case "Show Value" :
+          showPortValueScreen();
+          break;
+        case "Show Cost Basis" :
+          showCostBasisScreen();
+          break;
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          subContentPanel.setVisible(true);
+          break;
       }
     });
     submit.addActionListener(this.actionListner);
@@ -960,10 +1000,15 @@ public class JFrameView extends JFrame implements GuiInterface {
     submit.setActionCommand("Save Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
       switch (currScreen) {
-        case "Save Portfolio" -> savePortfolio();
-        case "Save All Portfolios", "Error" -> subContentPanel.setVisible(true);
-        default -> {
-        }
+        case "Save Portfolio" :
+          savePortfolio();
+          break;
+        case "Save All Portfolios" :
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          break;
       }
     });
     submit.addActionListener(this.actionListner);
