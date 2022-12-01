@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class JFrameView extends JFrame implements GuiInterface {
   private JPanel mainPanel;
@@ -29,6 +30,7 @@ public class JFrameView extends JFrame implements GuiInterface {
   private Object[] conStuff = new Object[10];
   private String currScreen;
   private ArrayList<Object> TSList = new ArrayList<>();
+  private int iter = 0;
 
   public JFrameView(ActionListener a) {
     super();
@@ -360,7 +362,12 @@ public class JFrameView extends JFrame implements GuiInterface {
 
   //adding Strategy for flexible portfolio
   private void addStrategy() {
-    content.setText("Build Portfolio with Strategy");
+    if (currScreen.equals("Edit Strategy")) {
+      content.setText("Edit Portfolio with Strategy");
+    }
+    else {
+      content.setText("Build Portfolio with Strategy");
+    }
     opStuff = new Object[8];
     addSubContentPanel();
 
@@ -411,8 +418,9 @@ public class JFrameView extends JFrame implements GuiInterface {
         case "Error" :
           subContentPanel.setVisible(true);
           break;
-        case "Proceed" :
-          addTickerCountFrame(opStuff);
+        case "Proceed Build" :
+        case "Proceed Edit" :
+          addTickerCountFrame(opStuff, currScreen);
           break;
         default :
           break;
@@ -440,8 +448,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     subContentPanel.add(proceed);
   }
 
-  //adding scrollable entry screen for tickers and shares in Strategy
-  private void addTickerCountFrame(Object[] op) {
+  //add scrollable entry screen for adding tickers and shares in Strategy
+  private void addTickerCountFrame(Object[] op, String CS) {
+    String tempCurrScreen = CS;
     content.setText("Build Portfolio with Strategy");
     addSubContentPanel();
     TSList = new ArrayList<>();
@@ -471,16 +480,22 @@ public class JFrameView extends JFrame implements GuiInterface {
     disContent.setFont(new Font("Calibri", Font.BOLD, 16));
     displayHeader.add(disContent);
 
-    addTickerCount(op, tickerCountFrame, displayContentPanel);
+    if (currScreen.equals("Proceed Build")) {
+      addTickerCount(op, tickerCountFrame, displayContentPanel);
+    }
+    if (currScreen.equals("Proceed Edit")) {
+      iter = 0;
+      addCount(op, tickerCountFrame, displayContentPanel);
+    }
 
-    JButton doneBuild = new JButton("Done");
+    JButton doneBuild = new JButton("Update Strategy");
     doneBuild.setActionCommand("Done build strategy");
     doneBuild.addActionListener(evt -> {
       TSList = new ArrayList<>();
       switch(currScreen) {
         case "Error" :
           subContentPanel.setVisible(false);
-          addTickerCountFrame(op);
+          addTickerCountFrame(op, tempCurrScreen);
           break;
         case "Show Contents" :
           subContentPanel.setVisible(false);
@@ -515,7 +530,7 @@ public class JFrameView extends JFrame implements GuiInterface {
     subContentPanel.add(doneBuild);
   }
 
-  //adding tickers and shares continuously in Strategy
+  //add tickers and shares continuously in Strategy while building
   private void addTickerCount(Object[] op, JPanel tickerCountFrame,
                                            JPanel displayContentPanel) {
     Object[] staticInfo = op;
@@ -545,15 +560,11 @@ public class JFrameView extends JFrame implements GuiInterface {
     txtShare.setFont(new Font("Calibri", Font.PLAIN, 12));
     subTCFrame.add(txtShare);
 
-    //subContentPanel.add(new JLabel("Please click 'Add Stock' to add stocks or "));
-    //subContentPanel.add(new JLabel( "alternatively, 'Done' to finish adding tickers."));
-
     JButton addShare = new JButton("Add Share");
     addShare.setActionCommand("Add New Share to Strategy");
     addShare.addActionListener(evt -> {
       switch(currScreen) {
         case "Error" :
-          txtTicker.setText("");
           txtShare.setText("");
           break;
         case "Validated" :
@@ -580,6 +591,75 @@ public class JFrameView extends JFrame implements GuiInterface {
     });
     subTCFrame.add(addShare);
 
+  }
+
+  //add shares continuously in Strategy while editing
+  private void addCount(Object[] op, JPanel tickerCountFrame,
+                              JPanel displayContentPanel) {
+    Object[] staticInfo = op;
+
+    JPanel subTCFrame = new JPanel();
+    subTCFrame.setLayout(new FlowLayout());
+    Border paddingSubTCFrame = BorderFactory.createEmptyBorder(0,0,0,0);
+    subTCFrame.setBorder(paddingSubTCFrame);
+    tickerCountFrame.add(subTCFrame);
+
+    JPanel subDisplay = new JPanel();
+    subDisplay.setLayout(new FlowLayout());
+    Border paddingSubDisplay = BorderFactory.createEmptyBorder(10,10,10,10);
+    subDisplay.setBorder(paddingSubDisplay);
+    displayContentPanel.add(subDisplay);
+    subDisplay.setVisible(false);
+
+    JLabel lblTicker = new JLabel("Ticker : ");
+    subTCFrame.add(lblTicker);
+    JTextField txtTicker = new JTextField(7);
+    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
+    txtTicker.setText(conStuff[iter].toString());
+    txtTicker.setEditable(false);
+    subTCFrame.add(txtTicker);
+
+    JLabel lblShare = new JLabel("Share : ");
+    subTCFrame.add(lblShare);
+    JTextField txtShare = new JTextField(7);
+    txtShare.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subTCFrame.add(txtShare);
+
+    JButton addShare = new JButton("Add Share");
+    addShare.setActionCommand("Add New Share to Strategy");
+    addShare.addActionListener(evt -> {
+      switch(currScreen) {
+        case "Error" :
+          txtShare.setText("");
+          break;
+        case "Validated" :
+          subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
+                  + ", Share : " + txtShare.getText()));
+          TSList.add(txtTicker.getText());
+          TSList.add(txtShare.getText());
+          subDisplay.setVisible(true);
+          addShare.setVisible(false);
+          txtTicker.setEditable(false);
+          txtShare.setEditable(false);
+          iter++;
+          if (iter < conStuff.length) {
+            addCount(staticInfo, tickerCountFrame, displayContentPanel);
+          }
+          break;
+      }
+    });
+    addShare.addActionListener(this.actionListner);
+    addShare.addActionListener(evt -> {
+      int sLen = staticInfo.length;
+      opStuff = new Object[sLen + 2];
+      for(int i = 0 ; i < sLen; i++) {
+        opStuff[i] = staticInfo[i];
+      }
+      opStuff[sLen] = txtTicker.getText();
+      opStuff[sLen + 1] = txtShare.getText();
+    });
+
+    subTCFrame.add(addShare);
   }
 
   //calculating fixed cost buy for a flexible portfolio

@@ -20,7 +20,6 @@ public class ViewContentsGuiCommand implements GuiCommand {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Object[] sendToView = new String[tickers.length * 3];
 
-    f.printLine("Please wait while API is loading the information...");
     int j = 0;
     for (int i = 0; i < sendToView.length; i += 3) {
       sendToView[i] = tickers[j];
