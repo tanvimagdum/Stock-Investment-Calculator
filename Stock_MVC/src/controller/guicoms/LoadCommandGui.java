@@ -5,6 +5,10 @@ import controller.GuiCommand;
 import model.PortfolioManager;
 import view.GuiInterface;
 
+/**
+ * A GuiCommand to read in a file, given a filename, from some location determined by the
+ * persistence class.
+ */
 public class LoadCommandGui implements GuiCommand {
 
   @Override
