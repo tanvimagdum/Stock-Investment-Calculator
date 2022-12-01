@@ -11,13 +11,17 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to get the cost basis of a portfolio.
+ */
 public class CostBasisCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    HelpingCommittee helper = new HelpingCommittee();
     String name;
     try {
-      name = selectFlexPortfolio(v, sc, p);
+      name = helper.selectFlexPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine("There are either no portfolios yet or the input was out of bounds.");
       sc.nextLine();
@@ -134,21 +138,5 @@ public class CostBasisCommand implements TextCommand {
     out[tickers.length + 2] = "Total Cost Basis of Portfolio: $"
         + String.format("%.02f", (sum - p.getCommissionFee() * comTracker));
     return out;
-  }
-
-  private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
-    String[] portNames = p.getFlexPortfolioNames();
-    String[] numbered = new String[portNames.length];
-
-    for (int i = 0; i < portNames.length; i++) {
-      numbered[i] = (i + 1) + ". " + portNames[i];
-    }
-
-    v.printLines(numbered);
-    v.printLine("Please choose one of the following options:");
-    int index = sc.nextInt();
-    sc.nextLine();
-
-    return portNames[index - 1];
   }
 }

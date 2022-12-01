@@ -11,13 +11,17 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to edit a flexible portfolio.
+ */
 public class EditFlexibleCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    HelpingCommittee helper = new HelpingCommittee();
     String name = null;
     try {
-      name = selectFlexPortfolio(v, sc, p);
+      name = helper.selectFlexPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine(
           "There are either no flexible portfolios yet or the input was out of bounds.");
@@ -26,59 +30,17 @@ public class EditFlexibleCommand implements TextCommand {
       return;
     }
     try {
-      v.printLines(contentsHelper(name, p));
+      v.printLines(helper.contentsHelper(name, p));
       editFlexPortfolio(name, v, sc, p);
     } catch (Exception e) {
       v.printLine("There was difficulty editing the portfolio. Please try again.");
       v.showBuildScreen();
       return;
     }
-    v.printLines(contentsHelper(name, p));
+    v.printLines(helper.contentsHelper(name, p));
     v.printLine("Enter any key to return to the previous menu.");
     sc.nextLine();
     v.showBuildScreen();
-  }
-  private String[] contentsHelper(String name, PortfolioManager p) {
-
-    try {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-      Date[] dates = p.getDates(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Flexible Portfolio: " + name;
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-      for (int i = 0; i < tickers.length; i++) {
-        if (counts[i] > 0) {
-          out[i + 1] = "BUY "
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", counts[i])
-              + "; Date: " + formatter.format(dates[i]);
-        }
-        if (counts[i] < 0) {
-          out[i + 1] = "SELL"
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", Math.abs(counts[i]))
-              + "; Date: " + formatter.format(dates[i]);
-        }
-      }
-      return out;
-
-    } catch (Exception e) {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Simple Portfolio: " + name;
-
-      for (int i = 0; i < tickers.length; i++) {
-        out[i + 1] = "Ticker: " + tickers[i]
-            + "; Count: " + String.format("%.02f", counts[i]);
-      }
-      return out;
-    }
   }
 
   private void editFlexPortfolio(String name, ViewInterface v, Scanner sc, PortfolioManager p)
@@ -178,20 +140,5 @@ public class EditFlexibleCommand implements TextCommand {
         p.editFlexPortfolio(name, ticker, -1 * Float.parseFloat(count), target);
       }
     }
-  }
-  private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
-    String[] portNames = p.getFlexPortfolioNames();
-    String[] numbered = new String[portNames.length];
-
-    for (int i = 0; i < portNames.length; i++) {
-      numbered[i] = (i + 1) + ". " + portNames[i];
-    }
-
-    v.printLines(numbered);
-    v.printLine("Please choose one of the following options:");
-    int index = sc.nextInt();
-    sc.nextLine();
-
-    return portNames[index - 1];
   }
 }

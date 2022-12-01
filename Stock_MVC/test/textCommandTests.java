@@ -9,6 +9,7 @@ import controller.textcoms.DollarCostBuyCommand;
 import controller.textcoms.EditFlexibleCommand;
 import controller.textcoms.LoadCommand;
 import controller.textcoms.ManualValuationCommand;
+import controller.textcoms.PortfolioPerformanceCommand;
 import controller.textcoms.PortfolioValueCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
@@ -731,7 +732,19 @@ public class textCommandTests {
 
   @Test
   public void portfolioPerformanceCommandTest() {
-
+    Readable in = new StringReader("1\n 2020\n 01\n 01\n 2021\n 01\n 01\n \n");
+    StringBuilder log = new StringBuilder();
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    TextCommand vcC = new PortfolioPerformanceCommand();
+    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("getFlexPortfolioNames method called printLines method called printLine"
+        + " method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called portfolioPerformance method "
+        + "called with null printLine method called showPortfolioScreen "
+        + "method called ", log.toString());
   }
 
   @Test

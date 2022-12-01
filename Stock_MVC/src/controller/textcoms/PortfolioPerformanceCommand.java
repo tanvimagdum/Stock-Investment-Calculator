@@ -14,9 +14,10 @@ public class PortfolioPerformanceCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    HelpingCommittee helper = new HelpingCommittee();
     String name;
     try {
-      name = selectFlexPortfolio(v, sc, p);
+      name = helper.selectFlexPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine(
           "There are either no flexible portfolios yet or the input was out of bounds.");

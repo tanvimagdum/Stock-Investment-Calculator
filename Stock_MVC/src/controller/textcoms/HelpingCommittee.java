@@ -8,6 +8,9 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A class storing multiple protected helper methods that get reused by TextCommands.
+ */
 public class HelpingCommittee {
 
   protected String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {

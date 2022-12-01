@@ -78,6 +78,9 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       f.setCurrScreen("Error");
       return;
     }
+    String name = f.getPortfolioName();
+    String[] tickers = p.getTickers(name);
+    f.setConStuff(tickers);
     f.setCurrScreen("Proceed");
   }
 }

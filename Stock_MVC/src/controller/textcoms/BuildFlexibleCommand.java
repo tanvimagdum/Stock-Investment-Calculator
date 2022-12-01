@@ -1,7 +1,6 @@
 package controller.textcoms;
 
 import controller.API;
-import controller.PortfolioController;
 import controller.TextCommand;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -13,14 +12,18 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to build a new flexible portfolio.
+ */
 public class BuildFlexibleCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    HelpingCommittee helper = new HelpingCommittee();
     try {
       String name = buildFlexPortfolio(v, sc, p);
       try {
-        v.printLines(contentsHelper(name, p));
+        v.printLines(helper.contentsHelper(name, p));
         v.printLine("Enter any key to return to the previous menu.");
         sc.nextLine();
       } catch (Exception e) {
@@ -30,49 +33,6 @@ public class BuildFlexibleCommand implements TextCommand {
       v.printLine("There was an error building the flexible portfolio. Please try again.");
     }
     v.showBuildScreen();
-  }
-
-  private String[] contentsHelper(String name, PortfolioManager p) {
-
-    try {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-      Date[] dates = p.getDates(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Flexible Portfolio: " + name;
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-      for (int i = 0; i < tickers.length; i++) {
-        if (counts[i] > 0) {
-          out[i + 1] = "BUY "
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", counts[i])
-              + "; Date: " + formatter.format(dates[i]);
-        }
-        if (counts[i] < 0) {
-          out[i + 1] = "SELL"
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", Math.abs(counts[i]))
-              + "; Date: " + formatter.format(dates[i]);
-        }
-      }
-      return out;
-
-    } catch (Exception e) {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Simple Portfolio: " + name;
-
-      for (int i = 0; i < tickers.length; i++) {
-        out[i + 1] = "Ticker: " + tickers[i]
-            + "; Count: " + String.format("%.02f", counts[i]);
-      }
-      return out;
-    }
   }
 
   private String buildFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p)
@@ -114,7 +74,7 @@ public class BuildFlexibleCommand implements TextCommand {
     return name;
   }
 
-  public void editFlexPortfolio(String name, ViewInterface v, Scanner sc, PortfolioManager p)
+  private void editFlexPortfolio(String name, ViewInterface v, Scanner sc, PortfolioManager p)
       throws IllegalArgumentException, IOException, ParseException {
     while (true) {
       String ticker;
