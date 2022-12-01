@@ -18,7 +18,6 @@ public class ViewCommandGui implements GuiCommand {
           selectFlexPortfolio(f, p);
           f.setCurrScreen("Show Contents");
         } catch (Exception e) {
-          //System.out.println(e.getMessage());
           f.printLine("There are either no flexible portfolios "
                   + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
@@ -29,14 +28,20 @@ public class ViewCommandGui implements GuiCommand {
           selectFlexPortfolio(f, p);
           f.setCurrScreen("Show Value");
         } catch (Exception e) {
-          //System.out.println(e.getMessage());
           f.printLine("There are either no flexible portfolios "
                   + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
         }
         break;
       case "View cost basis of a portfolio on a certain date" :
-        f.setCurrScreen("Show Cost Basis");
+        try {
+          selectFlexPortfolio(f, p);
+          f.setCurrScreen("Show Cost Basis");
+        } catch (Exception e) {
+          f.printLine("There are either no flexible portfolios "
+                  + "yet or the input was out of bounds.");
+          f.setCurrScreen("Error");
+        }
         break;
       default :
         f.printLine("Please select one option");
@@ -47,9 +52,6 @@ public class ViewCommandGui implements GuiCommand {
 
   private void selectFlexPortfolio(GuiInterface f, PortfolioManager p) {
     String[] portNames = p.getFlexPortfolioNames();
-    //System.out.println(portNames[0] + " in selectflex");
-
     f.setConStuff(portNames);
-    //System.out.println("setConStuff set");
   }
 }

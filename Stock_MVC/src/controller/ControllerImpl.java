@@ -210,6 +210,7 @@ public class ControllerImpl implements InputController, ActionListener {
     guiViewScreen.put("Back Button", new BackCommandGui());
     guiViewScreen.put("Show Portfolio Contents", new ViewContentsGuiCommand());
     guiViewScreen.put("Show Portfolio Value", new PortfolioValueGuiCommand());
+    guiViewScreen.put("Show Cost Basis", new CostBasisGuiCommand());
 
     guiSaveScreen.put("Save Port", new SaveCommandGui());
     guiSaveScreen.put("Save a specific portfolio", new SaveGuiCommand());

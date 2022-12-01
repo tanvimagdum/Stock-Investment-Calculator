@@ -132,9 +132,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     txtFile.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtFile);
 
-    JButton upload= new JButton("Upload File");
-    upload.setActionCommand("Upload Port");
-    upload.addActionListener(evt -> {
+    JButton portButton= new JButton("Upload File");
+    portButton.setActionCommand("Upload Port");
+    portButton.addActionListener(evt -> {
       switch (currScreen) {
         case "Error" :
           subContentPanel.setVisible(true);
@@ -154,13 +154,13 @@ public class JFrameView extends JFrame implements GuiInterface {
           showContents(data, columnNames);
       }
     });
-    upload.addActionListener(this.actionListner);
-    upload.addActionListener(evt -> {
+    portButton.addActionListener(this.actionListner);
+    portButton.addActionListener(evt -> {
       portfolioName = txtFile.getText();
       portfolioName = portfolioName.substring(0, portfolioName.length() - 4);
       txtFile.setText("");
     });
-    subContentPanel.add(upload);
+    subContentPanel.add(portButton);
 
   }
 
@@ -217,11 +217,13 @@ public class JFrameView extends JFrame implements GuiInterface {
     content.setText("Build Portfolio");
     String tempCurrScreen = currScreen;
     addSubContentPanel();
+
     JLabel lblPortName = new JLabel("Enter portfolio name : ");
     subContentPanel.add(lblPortName);
     JTextField txtPortName = new JTextField(15);
     txtPortName.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtPortName);
+
     JButton portName = new JButton("Set Portfolio Name");
     portName.setActionCommand("Set Portfolio Name");
     portName.addActionListener(evt -> { subContentPanel.setVisible(false);
@@ -250,48 +252,49 @@ public class JFrameView extends JFrame implements GuiInterface {
   private void editFlexPortScreen() {
     content.setText("Edit Portfolio");
     addSubContentPanel();
+
     JLabel lblPortName = new JLabel("Select a portfolio to edit : ");
     subContentPanel.add(lblPortName);
-
     Object[] o = getConStuff();
     String[] item = new String[o.length];
     for (int i = 0; i < o.length; i++) {
       item[i] = o[i].toString();
     }
-
     JComboBox<String> portNames = new JComboBox<>(item);
     subContentPanel.add(portNames);
-    JButton portName = new JButton("Get Portfolio");
-    portName.setActionCommand("Get Portfolio Name");
-    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+
+    JButton portButton = new JButton("Get Portfolio");
+    portButton.setActionCommand("Get Portfolio Name");
+    portButton.addActionListener(evt -> { subContentPanel.setVisible(false);
       addStocks();
     });
-    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
-    subContentPanel.add(portName);
+    portButton.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    subContentPanel.add(portButton);
   }
 
   //editing strategy
   private void editStrategyScreen() {
     content.setText("Edit Strategy");
     addSubContentPanel();
+
     JLabel lblPortName = new JLabel("Select a portfolio to edit strategy : ");
     subContentPanel.add(lblPortName);
-
     Object[] o = getConStuff();
     String[] item = new String[o.length];
     for (int i = 0; i < o.length; i++) {
       item[i] = o[i].toString();
     }
-
     JComboBox<String> portNames = new JComboBox<>(item);
     subContentPanel.add(portNames);
-    JButton portName = new JButton("Get Portfolio");
-    portName.setActionCommand("Get Portfolio Name");
-    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+
+    JButton portButton = new JButton("Get Portfolio");
+    portButton.setActionCommand("Get Portfolio Name");
+    portButton.addActionListener(evt -> { subContentPanel.setVisible(false);
+      currScreen = "Edit Strategy";
       addStrategy();
     });
-    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
-    subContentPanel.add(portName);
+    portButton.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    subContentPanel.add(portButton);
   }
 
   //adding Stocks for flexible portfolio
@@ -510,8 +513,6 @@ public class JFrameView extends JFrame implements GuiInterface {
       }
     });
     subContentPanel.add(doneBuild);
-
-
   }
 
   //adding tickers and shares continuously in Strategy
@@ -641,9 +642,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     JComboBox<String> portNames = new JComboBox<>(item);
     subContentPanel.add(portNames);
 
-    JButton portName = new JButton("Get Portfolio");
-    portName.setActionCommand("Show Portfolio Contents");
-    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+    JButton portButton = new JButton("Get Portfolio");
+    portButton.setActionCommand("Show Portfolio Contents");
+    portButton.addActionListener(evt -> { subContentPanel.setVisible(false);
       String[] columnNames = {"Ticker", "Count", "Date"};
       Object[][] data = new Object[getConStuff().length / 3][3];
       int j = 0;
@@ -655,9 +656,9 @@ public class JFrameView extends JFrame implements GuiInterface {
       }
       showContents(data, columnNames);
     });
-    portName.addActionListener(this.actionListner);
-    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
-    subContentPanel.add(portName);
+    portButton.addActionListener(this.actionListner);
+    portButton.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    subContentPanel.add(portButton);
   }
 
   private void showPortValueScreen() {
@@ -685,9 +686,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtDay);
 
-    JButton portName = new JButton("Get Portfolio Value");
-    portName.setActionCommand("Show Portfolio Value");
-    portName.addActionListener(evt -> {
+    JButton portButton = new JButton("Get Portfolio Value");
+    portButton.setActionCommand("Show Portfolio Value");
+    portButton.addActionListener(evt -> {
       switch(currScreen) {
         case "Error" :
           subContentPanel.setVisible(true);
@@ -715,8 +716,8 @@ public class JFrameView extends JFrame implements GuiInterface {
                  + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
       }
     });
-    portName.addActionListener(this.actionListner);
-    portName.addActionListener(evt -> {
+    portButton.addActionListener(this.actionListner);
+    portButton.addActionListener(evt -> {
       portfolioName = portNames.getSelectedItem().toString();
       opStuff = new Object[3];
       opStuff[0] = txtYear.getText();
@@ -726,10 +727,87 @@ public class JFrameView extends JFrame implements GuiInterface {
       txtMon.setText("");
       txtDay.setText("");
     });
-    subContentPanel.add(portName);
+    subContentPanel.add(portButton);
   }
 
   private void showCostBasisScreen() {
+    addSubContentPanel();
+
+    JLabel lblPortName = new JLabel("Select a portfolio : ");
+    subContentPanel.add(lblPortName);
+    Object[] o = getConStuff();
+    String[] item = new String[o.length];
+    for (int i = 0; i < o.length; i++) {
+      item[i] = o[i].toString();
+    }
+    JComboBox<String> portNames = new JComboBox<>(item);
+    subContentPanel.add(portNames);
+
+    JLabel lblDate = new JLabel("Enter Date (YYYY-MM-DD) : ");
+    subContentPanel.add(lblDate);
+    JTextField txtYear = new JTextField(4);
+    txtYear.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtYear);
+    JTextField txtMon = new JTextField(2);
+    txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtMon);
+    JTextField txtDay = new JTextField(2);
+    txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtDay);
+
+    JLabel lblCommission = new JLabel("Enter a Commission Fee (ex. xx.yy $) : ");
+    subContentPanel.add(lblCommission);
+    JTextField txtCommission = new JTextField(4);
+    txtCommission.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subContentPanel.add(txtCommission);
+
+    JButton portButton = new JButton("Get Cost Basis");
+    portButton.setActionCommand("Show Cost Basis");
+    portButton.addActionListener(evt -> {
+      switch(currScreen) {
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        case "Cost Basis" :
+          subContentPanel.setVisible(false);
+          Object[] out = new Object[getConStuff().length - 3];
+          int j = 1;
+          for (int i = 0; i < out.length; i++) {
+            out[i] = getConStuff()[j];
+            j++;
+          }
+          String[] columnNames = {"Ticker", "Count", "Date", "Cost"};
+          Object[][] data = new Object[out.length / 4][4];
+          j = 0;
+          for (int i = 0; i < out.length; i = i + 4) {
+            data[j][0] = out[i];
+            data[j][1] = out[i + 1];
+            data[j][2] = out[i + 2];
+            data[j][3] = out[i + 3];
+            j++;
+          }
+          showContents(data, columnNames);
+          subContentPanel.add(new JLabel("        Total Cost Basis of Portfolio on "
+                  + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
+          subContentPanel.add(new JLabel("        Total Amount Spent on Commission Fee is "
+                  + getConStuff()[getConStuff().length - 2] + "$"));
+      }
+    });
+    portButton.addActionListener(this.actionListner);
+    portButton.addActionListener(evt -> {
+      portfolioName = portNames.getSelectedItem().toString();
+      opStuff = new Object[4];
+      opStuff[0] = txtYear.getText();
+      opStuff[1] = txtMon.getText();
+      opStuff[2] = txtDay.getText();
+      opStuff[3] = txtCommission.getText();
+      txtYear.setText("");
+      txtMon.setText("");
+      txtDay.setText("");
+      txtCommission.setText("");
+    });
+    subContentPanel.add(portButton);
+
 
   }
 
