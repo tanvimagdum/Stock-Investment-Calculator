@@ -25,7 +25,15 @@ public class ViewCommandGui implements GuiCommand {
         }
         break;
       case "View value of a portfolio on a certain date"  :
-        f.setCurrScreen("Show Value");
+        try {
+          selectFlexPortfolio(f, p);
+          f.setCurrScreen("Show Value");
+        } catch (Exception e) {
+          //System.out.println(e.getMessage());
+          f.printLine("There are either no flexible portfolios "
+                  + "yet or the input was out of bounds.");
+          f.setCurrScreen("Error");
+        }
         break;
       case "View cost basis of a portfolio on a certain date" :
         f.setCurrScreen("Show Cost Basis");

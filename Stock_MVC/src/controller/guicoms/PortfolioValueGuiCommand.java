@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
 public class PortfolioValueGuiCommand implements GuiCommand {
 
@@ -76,7 +75,7 @@ public class PortfolioValueGuiCommand implements GuiCommand {
       sum += values[j];
       out[i + 1] = tickers[j];
       out[i + 2] = counts[j];
-      out[i + 3] = dates[j];
+      out[i + 3] = formatter.format(dates[j]);
       out[i + 4] = values[j];
       j++;
     }

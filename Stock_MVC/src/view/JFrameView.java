@@ -691,27 +691,43 @@ public class JFrameView extends JFrame implements GuiInterface {
       switch(currScreen) {
         case "Error" :
           subContentPanel.setVisible(true);
-          txtYear.setText("");
-          txtMon.setText("");
-          txtDay.setText("");
           break;
         case "Value Extracted" :
           subContentPanel.setVisible(false);
+          Object[] out = new Object[getConStuff().length - 2];
+          int j = 1;
+          for (int i = 0; i < out.length; i++) {
+            System.out.println(getConStuff()[j]);
+            out[i] = getConStuff()[j];
+            System.out.println(out[i]);
+            j++;
+          }
           String[] columnNames = {"Ticker", "Count", "Date", "Value"};
-          Object[][] data = new Object[getConStuff().length / 4][4];
-          int j = 0;
-          for (int i = 0; i < getConStuff().length; i = i + 4) {
-            data[j][0] = getConStuff()[i];
-            data[j][1] = getConStuff()[i + 1];
-            data[j][2] = getConStuff()[i + 2];
-            data[j][3] = getConStuff()[i + 3];
+          Object[][] data = new Object[out.length / 4][4];
+          j = 0;
+          for (int i = 0; i < out.length; i = i + 4) {
+            data[j][0] = out[i];
+            data[j][1] = out[i + 1];
+            data[j][2] = out[i + 2];
+            data[j][3] = out[i + 3];
             j++;
           }
           showContents(data, columnNames);
+          subContentPanel.add(new JLabel("Total Value of Portfolio on "
+                 + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
       }
     });
     portName.addActionListener(this.actionListner);
-    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    portName.addActionListener(evt -> {
+      portfolioName = portNames.getSelectedItem().toString();
+      opStuff = new Object[3];
+      opStuff[0] = txtYear.getText();
+      opStuff[1] = txtMon.getText();
+      opStuff[2] = txtDay.getText();
+      txtYear.setText("");
+      txtMon.setText("");
+      txtDay.setText("");
+    });
     subContentPanel.add(portName);
   }
 
