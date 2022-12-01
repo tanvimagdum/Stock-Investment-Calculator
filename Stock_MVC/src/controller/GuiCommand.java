@@ -15,5 +15,5 @@ public interface GuiCommand extends Command {
    * @param p the model talking to the controller
    * @param api the class the handles making calls to an API
    */
-  void go(GuiInterface f, PortfolioManager p, API api);
+  void goDoStuff(GuiInterface f, PortfolioManager p, API api);
 }

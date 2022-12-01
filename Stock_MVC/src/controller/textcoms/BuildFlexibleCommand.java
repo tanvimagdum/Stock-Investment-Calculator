@@ -18,7 +18,7 @@ import view.ViewInterface;
 public class BuildFlexibleCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+  public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     HelpingCommittee helper = new HelpingCommittee();
     try {
       String name = buildFlexPortfolio(v, sc, p);

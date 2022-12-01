@@ -19,7 +19,7 @@ import view.ViewInterface;
 public class StrategyBuildCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+  public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
     try {
       buildFlexPortfolio(v, sc, p, api);
     } catch (IOException | ParseException e) {

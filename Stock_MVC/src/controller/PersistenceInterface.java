@@ -7,7 +7,6 @@ import java.text.ParseException;
 
 /**
  * This interface describes a persistence object to broaden possible forms of persistence. Changes:
- * 1. Moved to controller package to better match its IO responsibilities.
  */
 public interface PersistenceInterface {
 

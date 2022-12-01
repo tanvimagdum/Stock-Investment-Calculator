@@ -12,7 +12,7 @@ import view.GuiInterface;
 public class SaveAllGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     try {
       String[] names = p.getPortfolioNames();
       for (int i = 0; i < names.length; i++) {

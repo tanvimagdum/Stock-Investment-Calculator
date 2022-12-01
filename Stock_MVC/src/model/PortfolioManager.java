@@ -8,21 +8,7 @@ import java.util.Date;
 import controller.API;
 
 /**
- * An interface containing methods to perform
- * operations on a portfolio.
- * Changes:
- * 1. Removed returnPortfolio() to retain portfolio access only in model.
- * 2. Removed getPortfolioContents() as other existing methods were sufficient.
- * 3. readPortfolio() and buildPortfolio() return the portfolio names for convenience.
- * 4. Constructor now takes a persistence object, saving and loading use this object.
- *    This ensures persistence can be chosen by the user or the controller.
- * 5. getPortfolioValue() now only returns the prices, rather than formatted String arrays.
- *    This ensures that only raw data is passed from model to controller.
- * 6. Removed getPortfolioValueLatest() as it was limited and is supplanted with API calls.
- * 7. Added getFlexPortfolioNames() to distinguish only flexible portfolios from
- *    getPortfolioNames().
- * 8. getCostBasis(), portfolioPerformance(), and getPortfolioValue() now take API as arguments
- *    to maintain IO responsibility in the controller.
+ * An interface containing methods to perform operations on a portfolio.
  */
 public interface PortfolioManager {
 

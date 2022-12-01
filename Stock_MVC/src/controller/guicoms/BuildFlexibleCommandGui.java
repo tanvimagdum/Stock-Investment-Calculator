@@ -14,7 +14,7 @@ import java.util.Date;
 public class BuildFlexibleCommandGui implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
 
     try {
       String name = buildFlexPortfolio(f, p);

@@ -17,5 +17,5 @@ public interface TextCommand extends Command {
    * @param p the model speaking with the controller
    * @param api the class handling calls to an API
    */
-  void go(Scanner sc, ViewInterface v, PortfolioManager p, API api);
+  void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api);
 }

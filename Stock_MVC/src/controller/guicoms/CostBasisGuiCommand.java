@@ -15,7 +15,7 @@ import view.JFrameView;
 public class CostBasisGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     Object[] o = f.getOperationalStuff();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

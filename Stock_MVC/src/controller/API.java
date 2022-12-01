@@ -6,9 +6,6 @@ import java.util.Date;
 
 /**
  * An interface that represents methods to retrieve, validate information using API.
- * Changes:
- * 1. Made validateTickers private, moved the public version to the model.
- * 2. Moved API from the model to the controller to match IO responsibilities.
  */
 
 public interface API {

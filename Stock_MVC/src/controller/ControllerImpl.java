@@ -141,7 +141,7 @@ public class ControllerImpl implements InputController, ActionListener {
       if (com == null) {
         v.printLine("Please be sure to enter one of the available selections.");
       } else {
-        ((TextCommand) com).go(sc, v, p, api);
+        ((TextCommand) com).goDoStuff(sc, v, p, api);
       }
     }
   }
@@ -241,7 +241,7 @@ public class ControllerImpl implements InputController, ActionListener {
     if (com == null) {
       v.printLine("Please be sure to enter one of the available selections.");
     } else {
-      com.go(f, p, api);
+      com.goDoStuff(f, p, api);
     }
   }
 
@@ -251,7 +251,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BackCommandGui implements GuiCommand {
 
     @Override
-    public void go(GuiInterface f, PortfolioManager p, API api) {
+    public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "WS";
       f.showWelcomeScreen();
     }
@@ -263,7 +263,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class LoadScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(GuiInterface f, PortfolioManager p, API api) {
+    public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "LS";
       f.showLoadScreen();
     }
@@ -275,7 +275,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BuildScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(GuiInterface f, PortfolioManager p, API api) {
+    public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "BS";
       f.showBuildScreen();
     }
@@ -287,7 +287,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class ViewScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(GuiInterface f, PortfolioManager p, API api) {
+    public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "PS";
       f.showPortfolioScreen();
     }
@@ -299,7 +299,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class SaveScreenCommandGui implements GuiCommand {
 
     @Override
-    public void go(GuiInterface f, PortfolioManager p, API api) {
+    public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
       currentScreen = "SS";
       f.showSaveScreen();
     }
@@ -311,7 +311,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BackCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "WS";
       v.showWelcomeScreen();
     }
@@ -323,7 +323,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class LoadScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "LS";
       v.showLoadScreen();
     }
@@ -335,7 +335,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class BuildScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "BS";
       v.showBuildScreen();
     }
@@ -347,7 +347,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class ViewScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "PS";
       v.showPortfolioScreen();
     }
@@ -359,7 +359,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class SaveScreenCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       currentScreen = "SS";
       v.showSaveScreen();
     }
@@ -371,7 +371,7 @@ public class ControllerImpl implements InputController, ActionListener {
   class ExitCommand implements TextCommand {
 
     @Override
-    public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
       flag = false;
     }
   }

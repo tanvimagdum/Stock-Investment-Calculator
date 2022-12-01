@@ -12,7 +12,7 @@ import view.ViewInterface;
 public class SaveAllCommand implements TextCommand {
 
   @Override
-  public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+  public void goDoStuff(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
 
     try {
       String[] names = p.getPortfolioNames();

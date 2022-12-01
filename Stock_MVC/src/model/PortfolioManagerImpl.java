@@ -1,7 +1,6 @@
 package model;
 
 import controller.API;
-import controller.Persistence;
 
 import controller.PersistenceInterface;
 import java.io.BufferedReader;
@@ -349,11 +348,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
     Date end = strat.getEndDate();
     long interval = freq * 1000L * 60 * 60 * 24;
 
-
     ArrayList<String> tickerBuys = new ArrayList<>();
     ArrayList<Float> countBuys = new ArrayList<>();
     ArrayList<Date> dateBuys = new ArrayList<>();
-
 
     Date upperLimit = new Date();
     upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24)); //yesterday
@@ -370,7 +367,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
         }
       }
       for (int j = 0; j < tickers.length; j++) {
-        float countBuy = (percentages[j])/prices[j];
+        float countBuy = (percentages[j]) / prices[j];
         tickerBuys.add(tickers[j]);
         countBuys.add(countBuy);
         dateBuys.add(current);

@@ -14,7 +14,7 @@ import view.GuiInterface;
 public class DollarCostStartCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
     String amountString = o[0].toString();
     String year1 = o[1].toString();

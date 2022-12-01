@@ -310,7 +310,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand simpleC = new BuildSimpleCommand();
-    simpleC.go(new Scanner(in), mockV, mockP, mockA);
+    simpleC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called "
         + "printLine method called validateTicker method called with GOOG "
         + "printLine method called printLine method called "
@@ -329,7 +329,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand flexC = new BuildFlexibleCommand();
-    flexC.go(new Scanner(in), mockV, mockP, mockA);
+    flexC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called "
         + "portFlexBuilder method called with dummy printLine method called "
         + "printLine method called validateTicker method called with GOOG "
@@ -352,7 +352,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand sbC = new StrategyBuildCommand();
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called "
         + "portFlexBuilder method called with dummy printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
@@ -370,7 +370,7 @@ public class TextCommandTests {
     in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
         + "done\n GOOG\n done\n 100\n \n \n");
     log.delete(0, log.toString().length());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called "
         + "portFlexBuilder method called with dummy printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
@@ -388,7 +388,7 @@ public class TextCommandTests {
     in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
         + "done\n GOOG\n done\n 90\n \n \n");
     log.delete(0, log.toString().length());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called "
         + "portFlexBuilder method called with dummy printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
@@ -403,7 +403,7 @@ public class TextCommandTests {
     in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
         + "done\n GO  G\n done\n 90\n \n \n");
     log.delete(0, log.toString().length());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called getPortfolioNames method called portFlexBuilder "
         + "method called with dummy printLine method called printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
@@ -424,7 +424,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand flexC = new EditFlexibleCommand();
-    flexC.go(new Scanner(in), mockV, mockP, mockA);
+    flexC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getFlexPortfolioNames method called printLines method called "
         + "printLine method called getTickers method called with null "
         + "getCounts method called with null getDates method called with null "
@@ -451,7 +451,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand sbC = new StrategyCommand();
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLine method called printLine "
@@ -478,7 +478,7 @@ public class TextCommandTests {
     mockP = new PortfolioManagerImpl(new MockPersistence(log));
     mockP.portFlexBuilder("dummy");
     mockP.editFlexPortfolio("dummy", "GOOG", 10f, new Date());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLine method called printLine "
@@ -511,7 +511,7 @@ public class TextCommandTests {
     mockP = new PortfolioManagerImpl(new MockPersistence(log));
     mockP.portFlexBuilder("dummy");
     mockP.editFlexPortfolio("dummy", "GOOG", 10f, new Date());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
@@ -527,7 +527,7 @@ public class TextCommandTests {
     mockP = new PortfolioManagerImpl(new MockPersistence(log));
     mockP.portFlexBuilder("dummy");
     mockP.editFlexPortfolio("dummy", "GOG", 10f, new Date());
-    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    sbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLine method called "
@@ -560,7 +560,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand dcbC = new DollarCostBuyCommand();
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLines method called printLine method called "
@@ -579,7 +579,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 202k\n 01\n 01\n \n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called "
         + "printLine method called printLine method called "
@@ -596,7 +596,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 2023\n 01\n 01\n \n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method "
         + "called printLine method called showBuildScreen method called ", log.toString());
@@ -612,7 +612,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 1999\n 01\n 01\n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method "
         + "called printLine method called showBuildScreen method called ", log.toString());
@@ -628,7 +628,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 2010\n 01\n 01\n \n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called showBuildScreen method called ", log.toString());
@@ -644,7 +644,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 2016\n 01\n 01\n k\n 100\n \n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLines method called printLine method called "
@@ -664,7 +664,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 2016\n 01\n 01\n -25\n 100\n \n");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLines method called printLine method called "
@@ -684,7 +684,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n 1000\n 2016\n 01\n 01\n 50\n ");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called "
         + "printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLines method called "
@@ -702,7 +702,7 @@ public class TextCommandTests {
     }
     log.delete(0, log.toString().length());
     in = new StringReader("1\n -1000\n 2016\n 01\n 01\n ");
-    dcbC.go(new Scanner(in), mockV, mockP, mockA);
+    dcbC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
         + "called printLine method called showBuildScreen method called ", log.toString());
   }
@@ -723,7 +723,7 @@ public class TextCommandTests {
       throw new RuntimeException(e);
     }
     TextCommand vcC = new ViewContentsCommand();
-    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    vcC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine "
         + "method called printLines method called printLine method "
         + "called showPortfolioScreen method called ", log.toString());
@@ -737,7 +737,7 @@ public class TextCommandTests {
     ViewInterface mockV = new MockView(log);
     PortfolioManager mockP = new MockPortfolioManager(log);
     TextCommand vcC = new PortfolioValueCommand();
-    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    vcC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getPortfolioNames method called printLines method called printLine "
         + "method called printLine method called printLine method called printLine method "
         + "called printLine method called getTickers method called with null getCounts method "
@@ -754,7 +754,7 @@ public class TextCommandTests {
     ViewInterface mockV = new MockView(log);
     PortfolioManager mockP = new MockPortfolioManager(log);
     TextCommand vcC = new PortfolioValueCommand();
-    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    vcC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getPortfolioNames method called printLines method called printLine "
         + "method called printLine method called printLine method called printLine method "
         + "called printLine method called getTickers method called with null getCounts method "
@@ -771,7 +771,7 @@ public class TextCommandTests {
     ViewInterface mockV = new MockView(log);
     PortfolioManager mockP = new MockPortfolioManager(log);
     TextCommand vcC = new PortfolioPerformanceCommand();
-    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    vcC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getFlexPortfolioNames method called printLines method called printLine"
         + " method called printLine method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
@@ -788,7 +788,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand manualC = new ManualValuationCommand();
-    manualC.go(new Scanner(in), mockV, mockP, mockA);
+    manualC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getPortfolioNames method called printLines method called "
         + "printLine method called getTickers method called with null "
         + "getCounts method called with null printLine method called printLines method called "
@@ -803,21 +803,21 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand saveC = new SaveCommand();
-    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    saveC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called showSaveScreen method called ", log.toString());
 
     mockP.portFlexBuilder("dummy");
     in = new StringReader("2\n ");
     log.delete(0, log.toString().length());
 
-    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    saveC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called "
         + "printLine method called showSaveScreen method called ", log.toString());
 
     in = new StringReader("1\n");
     log.delete(0, log.toString().length());
 
-    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    saveC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called "
         + "saveFlexCSV method called printLine method called "
         + "showSaveScreen method called ", log.toString());
@@ -831,7 +831,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand saveC = new SaveAllCommand();
-    saveC.go(new Scanner(in), mockV, mockP, mockA);
+    saveC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("getPortfolioNames method called savePortfolio method "
         + "called with null printLine method called "
         + "showSaveScreen method called ", log.toString());
@@ -846,7 +846,7 @@ public class TextCommandTests {
     API mockA = new MockAPI(log);
     ViewInterface mockV = new MockView(log);
     TextCommand loadC = new LoadCommand();
-    loadC.go(new Scanner(in), mockV, mockP, mockA);
+    loadC.goDoStuff(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLine method called loadCSV method called with flex.csv "
         + "printLine method called showLoadScreen method called ", log.toString());
   }

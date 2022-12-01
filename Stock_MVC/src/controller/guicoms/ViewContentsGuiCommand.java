@@ -12,7 +12,7 @@ import view.JFrameView;
 public class ViewContentsGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     String[] tickers = p.getTickers(name);
     Float[] counts = p.getCounts(name);

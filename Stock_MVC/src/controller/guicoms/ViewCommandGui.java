@@ -10,7 +10,7 @@ import view.JFrameView;
 public class ViewCommandGui implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
     switch(o[0].toString()) {
       case "View contents of a portfolio" :

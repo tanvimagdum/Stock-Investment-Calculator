@@ -14,7 +14,7 @@ import view.JFrameView;
 public class StrategyValidateStockGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date start = null;

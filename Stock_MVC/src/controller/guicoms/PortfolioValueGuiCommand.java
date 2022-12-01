@@ -13,7 +13,7 @@ import view.GuiInterface;
 public class PortfolioValueGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     Object[] o = f.getOperationalStuff();
     String year = o[0].toString();

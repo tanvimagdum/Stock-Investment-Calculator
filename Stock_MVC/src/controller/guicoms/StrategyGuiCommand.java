@@ -15,7 +15,7 @@ import java.util.Date;
 public class StrategyGuiCommand implements GuiCommand {
 
   @Override
-  public void go(GuiInterface f, PortfolioManager p, API api) {
+  public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     try {
       editStrategy(f.getPortfolioName(), f, p, api);
     } catch (IOException | ParseException e) {
@@ -76,6 +76,6 @@ public class StrategyGuiCommand implements GuiCommand {
     p.addStrategy(name, list, start, end, frequency);
     p.updateFromStrategy(name, api);
     //SHOW RESULTS
-    new ViewContentsGuiCommand().go(f, p, api);
+    new ViewContentsGuiCommand().goDoStuff(f, p, api);
   }
 }

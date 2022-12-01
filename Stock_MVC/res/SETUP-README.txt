@@ -5,11 +5,18 @@ Running the program from the JAR file --
 
 2. While in that directory enter this command -: java -jar Stock_MVC.jar
 
-3. If the program runs successfully the user will see the ' Welcome to 'GROW MONEY'! ' screen.
+3. Enter 'text' into the console to use the text ui. Enter 'gui' to use the GUI.
 
-4. The program will exit when option '6' is selected from the main menu.
+4. At this point you should see the welcome screen for either of the ui's.
 
-Instructions to purchase 3 companies stock on 3 different dates and view the value and cost basis on 2 different dates:
+5. If using the text ui, the program will exit when option '6' is selected from the main menu.
+   If using the GUI, the program will exit when the window is closed.
+
+
+
+
+
+Old: Instructions to purchase 3 companies stock on 3 different dates and view the value and cost basis on 2 different dates:
 
 1. User will see ' Welcome to 'GROW MONEY'! ' screen after running the JAR file.
 
