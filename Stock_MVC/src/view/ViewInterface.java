@@ -56,10 +56,4 @@ public interface ViewInterface {
    */
   void printLines(String[] lines);
 
-  /**
-   * A method to display error message on view panel.
-   * This method returns nothing.
-   */
-  void displayError();
-
 }

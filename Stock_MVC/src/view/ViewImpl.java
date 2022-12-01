@@ -92,10 +92,4 @@ public class ViewImpl implements ViewInterface {
       out.println(lines[i]);
     }
   }
-
-  @Override
-  public void displayError() {
-    out.println("Please re-enter a choice number from the given list");
-  }
-
 }
