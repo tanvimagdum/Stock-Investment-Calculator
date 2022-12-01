@@ -32,7 +32,7 @@ public class BuildEditCommandGui implements GuiCommand {
         break;
       case "Add a strategy to a flexible portfolio" :
         try {
-          selectFlexPortfolio(f, p);
+          selectNonEmptyFlexPortfolio(f, p);
           f.setCurrScreen("Edit Strategy");
         } catch (Exception e) {
           //System.out.println(e.getMessage());
@@ -42,6 +42,14 @@ public class BuildEditCommandGui implements GuiCommand {
         }
         break;
       case "Add a fixed cost buy across a flexible portfolio" :
+        try {
+          selectNonEmptyFlexPortfolio(f ,p);
+          //f.setCurrScreen();
+        } catch (Exception e) {
+          f.printLine("There are either no flexible portfolios "
+              + "yet or the input was out of bounds.");
+          f.setCurrScreen("Error");
+        }
         f.setCurrScreen("Dollar Cost");
         break;
       default :
