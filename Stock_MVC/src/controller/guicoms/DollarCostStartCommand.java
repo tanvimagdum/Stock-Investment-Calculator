@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
 public class DollarCostStartCommand implements GuiCommand {
 
@@ -25,7 +24,7 @@ public class DollarCostStartCommand implements GuiCommand {
     Date startingDate = new Date();
     float amount;
 
-    try{
+    try {
       amount = Float.parseFloat(amountString);
       if (amount < 1) {
         throw new IllegalArgumentException();
@@ -36,7 +35,7 @@ public class DollarCostStartCommand implements GuiCommand {
       return;
     }
 
-    try{
+    try {
       startingDate = formatter.parse(year1 + "-" + month1 + "-" + day1);
     } catch (Exception e) {
       f.printLine("The starting date entered was invalid.");
@@ -44,7 +43,7 @@ public class DollarCostStartCommand implements GuiCommand {
       return;
     }
 
-    Date upperLimit = new Date((new Date()).getTime()-1000L*60*60*24);
+    Date upperLimit = new Date((new Date()).getTime() - 1000L * 60 * 60 * 24);
     Date lowerLimit;
     try {
       lowerLimit = formatter.parse("2000-01-01");
@@ -62,16 +61,16 @@ public class DollarCostStartCommand implements GuiCommand {
     String name = f.getPortfolioName();
     String[] tickers = p.getTickers(name);
     ArrayList<String> uniques = new ArrayList<>();
-    for (String ticker: tickers) {
+    for (String ticker : tickers) {
       if (!uniques.contains(ticker)) {
         uniques.add(ticker);
       }
     }
     String[] uniqueTickers = new String[uniques.size()];
-    for (int i =0; i < uniques.size(); i++) {
+    for (int i = 0; i < uniques.size(); i++) {
       uniqueTickers[i] = uniques.get(i);
       try {
-        if (!p.validateTicker(uniqueTickers[i])){
+        if (!p.validateTicker(uniqueTickers[i])) {
           f.printLine("There is a stock in this portfolio which was not available on the "
               + "chosen date. Please choose a new date and try again.");
           f.setCurrScreen("Error");
@@ -83,7 +82,6 @@ public class DollarCostStartCommand implements GuiCommand {
         return;
       }
     }
-
 
     f.setConStuff(uniqueTickers);
     f.setCurrScreen("Proceed");

@@ -45,8 +45,8 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
     float sum = 0;
     int j = 0;
     for (int i = 0; i < (o.length - 4); i += 2) {
-      Float percent = Float.parseFloat(o[i+9].toString());
-      tickerList.add(o[i+8].toString());
+      Float percent = Float.parseFloat(o[i + 9].toString());
+      tickerList.add(o[i + 8].toString());
       percentages[j] = percent;
       sum += percent;
       j++;

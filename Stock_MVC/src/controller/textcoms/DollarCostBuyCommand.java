@@ -24,7 +24,7 @@ public class DollarCostBuyCommand implements TextCommand {
     } catch (Exception e) {
       v.printLine("There are either no portfolios yet or the input was out of bounds.");
       sc.nextLine();
-      v.showPortfolioScreen();
+      v.showBuildScreen();
       return;
     }
 

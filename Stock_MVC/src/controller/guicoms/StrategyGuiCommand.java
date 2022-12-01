@@ -5,8 +5,6 @@ import controller.GuiCommand;
 import model.PortfolioManager;
 import model.Stock;
 import view.GuiInterface;
-import view.JFrameView;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,8 +56,8 @@ public class StrategyGuiCommand implements GuiCommand {
     float sum = 0;
     int j = 0;
     for (int i = 0; i < (o.length - 8); i += 2) {
-      Float percent = Float.parseFloat(o[i+9].toString());
-      tickerList.add(o[i+8].toString());
+      Float percent = Float.parseFloat(o[i + 9].toString());
+      tickerList.add(o[i + 8].toString());
       percentages[j] = percent;
       sum += percent;
       j++;
