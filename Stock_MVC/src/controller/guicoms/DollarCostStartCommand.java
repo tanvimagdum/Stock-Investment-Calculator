@@ -84,6 +84,6 @@ public class DollarCostStartCommand implements GuiCommand {
     }
 
     f.setConStuff(uniqueTickers);
-    f.setCurrScreen("Proceed");
+    f.setCurrScreen("Proceed Dollar Cost");
   }
 }

@@ -2,6 +2,8 @@ package controller.guicoms;
 
 import controller.API;
 import controller.GuiCommand;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -85,6 +87,19 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       f.setCurrScreen("Proceed Build");
     }
     else {
+      for(int i = 0; i < tickers.length; i++) {
+        try {
+          if(!p.validateTicker(tickers[i], startingDate)){
+            f.printLine("The date entered was earlier than the tickers in the portfolio allow.");
+            f.setCurrScreen("Error");
+            return;
+          }
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        } catch (ParseException e) {
+          throw new RuntimeException(e);
+        }
+      }
       f.setCurrScreen("Proceed Edit");
     }
     ArrayList<String> uniques = new ArrayList<>();

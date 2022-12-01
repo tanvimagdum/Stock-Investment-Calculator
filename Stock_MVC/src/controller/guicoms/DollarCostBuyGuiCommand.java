@@ -78,9 +78,12 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
       }
     }
 
+    f.printLine("Please wait while API is loading the information...");
     for (j = 0; j < tickers.length; j++) {
       float countBuy = (amount * percentages[j] * 0.01f) / prices[j];
       p.editFlexPortfolio(name, tickers[j], countBuy, target);
     }
+
+    new ViewContentsGuiCommand().goDoStuff(f, p, api);
   }
 }

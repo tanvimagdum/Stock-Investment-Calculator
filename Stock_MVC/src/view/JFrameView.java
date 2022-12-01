@@ -450,7 +450,6 @@ public class JFrameView extends JFrame implements GuiInterface {
   //add scrollable entry screen for adding tickers and shares in Strategy
   private void addTickerCountFrame(Object[] op, String CS) {
     String tempCurrScreen = CS;
-    content.setText("Build Portfolio with Strategy");
     addSubContentPanel();
     TSList = new ArrayList<>();
     JPanel tickerCountFrame = new JPanel();
@@ -479,16 +478,24 @@ public class JFrameView extends JFrame implements GuiInterface {
     disContent.setFont(new Font("Calibri", Font.BOLD, 16));
     displayHeader.add(disContent);
 
+    JButton doneBuild = new JButton("Update Strategy");
+
     if (currScreen.equals("Proceed Build")) {
       addTickerCount(op, tickerCountFrame, displayContentPanel);
+      doneBuild.setActionCommand("Done build strategy");
     }
     if (currScreen.equals("Proceed Edit")) {
       iter = 0;
       addCount(op, tickerCountFrame, displayContentPanel);
+      doneBuild.setActionCommand("Done build strategy");
+    }
+    if(currScreen.equals("Proceed Dollar Cost")) {
+      //doneBuild.setVisible(false);
+      iter = 0;
+      addDCCount(op, tickerCountFrame, displayContentPanel);
+      doneBuild.setActionCommand("Done Dollar Cost");
     }
 
-    JButton doneBuild = new JButton("Update Strategy");
-    doneBuild.setActionCommand("Done build strategy");
     doneBuild.addActionListener(evt -> {
       TSList = new ArrayList<>();
       switch (currScreen) {
@@ -693,7 +700,7 @@ public class JFrameView extends JFrame implements GuiInterface {
   }
 
   private void addDollarCost() {
-    opStuff = new Object[8];
+    opStuff = new Object[4];
     addSubContentPanel();
 
     JLabel lblAmount = new JLabel("Enter Dollar Amount : ");
@@ -722,8 +729,7 @@ public class JFrameView extends JFrame implements GuiInterface {
         case "Error" :
           subContentPanel.setVisible(true);
           break;
-        case "Proceed Build" :
-        case "Proceed Edit" :
+        case "Proceed Dollar Cost" :
           addTickerCountFrame(opStuff, currScreen);
           break;
         default :
@@ -731,25 +737,79 @@ public class JFrameView extends JFrame implements GuiInterface {
       }
     });
     proceed.addActionListener(this.actionListner);
-    /*proceed.addActionListener(evt -> {
+    proceed.addActionListener(evt -> {
       opStuff[0] = txtAmount.getText();
-      opStuff[1] = txtFreq.getText();
-      opStuff[2] = txtStartYear.getText();
-      opStuff[3] = txtStartMon.getText();
-      opStuff[4] = txtStartDay.getText();
-      opStuff[5] = txtEndYear.getText();
-      opStuff[6] = txtEndMon.getText();
-      opStuff[7] = txtEndDay.getText();
+      opStuff[1] = txtYear.getText();
+      opStuff[2] = txtMon.getText();
+      opStuff[3] = txtDay.getText();
       txtAmount.setText("");
-      txtFreq.setText("");
-      txtStartYear.setText("");
-      txtStartMon.setText("");
-      txtStartDay.setText("");
-      txtEndYear.setText("");
-      txtEndMon.setText("");
-      txtEndDay.setText("");
-    });*/
+      txtYear.setText("");
+      txtMon.setText("");
+      txtDay.setText("");
+    });
     subContentPanel.add(proceed);
+  }
+
+  //add shares continuously in Dollar-Cost Averaging
+  private void addDCCount(Object[] op, JPanel tickerCountFrame,
+                        JPanel displayContentPanel) {
+    Object[] staticInfo = op;
+
+    JPanel subTCFrame = new JPanel();
+    subTCFrame.setLayout(new FlowLayout());
+    Border paddingSubTCFrame = BorderFactory.createEmptyBorder(0,0,0,0);
+    subTCFrame.setBorder(paddingSubTCFrame);
+    tickerCountFrame.add(subTCFrame);
+
+    JPanel subDisplay = new JPanel();
+    subDisplay.setLayout(new FlowLayout());
+    Border paddingSubDisplay = BorderFactory.createEmptyBorder(10,10,10,10);
+    subDisplay.setBorder(paddingSubDisplay);
+    displayContentPanel.add(subDisplay);
+    subDisplay.setVisible(false);
+
+    JLabel lblTicker = new JLabel("Ticker : ");
+    subTCFrame.add(lblTicker);
+    JTextField txtTicker = new JTextField(7);
+    txtTicker.setFont(new Font("Calibri", Font.PLAIN, 12));
+    txtTicker.setText(conStuff[iter].toString());
+    txtTicker.setEditable(false);
+    subTCFrame.add(txtTicker);
+
+    JLabel lblShare = new JLabel("Share : ");
+    subTCFrame.add(lblShare);
+    JTextField txtShare = new JTextField(7);
+    txtShare.setFont(new Font("Calibri", Font.PLAIN, 12));
+    subTCFrame.add(txtShare);
+
+    JButton addDCShare = new JButton("Add Share");
+    addDCShare.setActionCommand("Add New Share to Dollar Cost");
+    addDCShare.addActionListener(evt -> {
+      subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
+                  + ", Share : " + txtShare.getText()));
+      TSList.add(txtTicker.getText());
+      TSList.add(txtShare.getText());
+      subDisplay.setVisible(true);
+      addDCShare.setVisible(false);
+      txtTicker.setEditable(false);
+      txtShare.setEditable(false);
+      iter++;
+      if (iter < conStuff.length) {
+        addDCCount(staticInfo, tickerCountFrame, displayContentPanel);
+      }
+    });
+    addDCShare.addActionListener(this.actionListner);
+    addDCShare.addActionListener(evt -> {
+      int sLen = staticInfo.length;
+      opStuff = new Object[sLen + 2];
+      for(int i = 0 ; i < sLen; i++) {
+        opStuff[i] = staticInfo[i];
+      }
+      opStuff[sLen] = txtTicker.getText();
+      opStuff[sLen + 1] = txtShare.getText();
+    });
+
+    subTCFrame.add(addDCShare);
   }
 
   @Override
