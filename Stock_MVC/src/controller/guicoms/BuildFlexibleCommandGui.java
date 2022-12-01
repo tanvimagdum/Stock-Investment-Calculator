@@ -29,49 +29,6 @@ public class BuildFlexibleCommandGui implements GuiCommand {
     }
   }
 
-  private String[] contentsHelper(String name, PortfolioManager p) {
-
-    try {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-      Date[] dates = p.getDates(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Flexible Portfolio: " + name;
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-      for (int i = 0; i < tickers.length; i++) {
-        if (counts[i] > 0) {
-          out[i + 1] = "BUY "
-                  + "; Ticker: " + tickers[i]
-                  + "; Count: " + String.format("%.02f", counts[i])
-                  + "; Date: " + formatter.format(dates[i]);
-        }
-        if (counts[i] < 0) {
-          out[i + 1] = "SELL"
-                  + "; Ticker: " + tickers[i]
-                  + "; Count: " + String.format("%.02f", Math.abs(counts[i]))
-                  + "; Date: " + formatter.format(dates[i]);
-        }
-      }
-      return out;
-
-    } catch (Exception e) {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Simple Portfolio: " + name;
-
-      for (int i = 0; i < tickers.length; i++) {
-        out[i + 1] = "Ticker: " + tickers[i]
-                + "; Count: " + String.format("%.02f", counts[i]);
-      }
-      return out;
-    }
-  }
-
   private String buildFlexPortfolio(GuiInterface f, PortfolioManager p)
           throws IOException, ParseException {
 

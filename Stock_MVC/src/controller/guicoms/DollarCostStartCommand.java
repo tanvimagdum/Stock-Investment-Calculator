@@ -70,13 +70,13 @@ public class DollarCostStartCommand implements GuiCommand {
     for (int i = 0; i < uniques.size(); i++) {
       uniqueTickers[i] = uniques.get(i);
       try {
-        if (!p.validateTicker(uniqueTickers[i])) {
+        if (!p.validateTicker(uniqueTickers[i], startingDate)) {
           f.printLine("There is a stock in this portfolio which was not available on the "
               + "chosen date. Please choose a new date and try again.");
           f.setCurrScreen("Error");
           return;
         }
-      } catch (IOException e) {
+      } catch (Exception e) {
         f.printLine("There was an error reading the ticker list. Please try again.");
         f.setCurrScreen("Error");
         return;
