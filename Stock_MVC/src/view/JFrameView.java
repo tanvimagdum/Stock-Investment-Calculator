@@ -722,7 +722,8 @@ public class JFrameView extends JFrame implements GuiInterface {
         case "Error" :
           subContentPanel.setVisible(true);
           break;
-        case "Proceed Build", "Proceed Edit" :
+        case "Proceed Build" :
+        case "Proceed Edit" :
           addTickerCountFrame(opStuff, currScreen);
           break;
         default :
