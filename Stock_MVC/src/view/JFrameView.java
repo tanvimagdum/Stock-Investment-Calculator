@@ -135,8 +135,10 @@ public class JFrameView extends JFrame implements GuiInterface {
     JButton upload= new JButton("Upload File");
     upload.setActionCommand("Upload Port");
     upload.addActionListener(this.actionListner);
-    upload.addActionListener(evt -> { portfolioName = txtFile.getText();
-                                            txtFile.setText("");});
+    upload.addActionListener(evt -> {
+      portfolioName = txtFile.getText().substring(0, portfolioName.length() - 4);
+      txtFile.setText("");
+    });
     subContentPanel.add(upload);
 
   }
@@ -191,6 +193,7 @@ public class JFrameView extends JFrame implements GuiInterface {
 
   //setting portfolio name while building portfolio/strategy
   private void setFlexNameScreen() {
+    String tempCurrScreen = currScreen;
     addSubContentPanel();
     JLabel lblPortName = new JLabel("Enter portfolio name : ");
     subContentPanel.add(lblPortName);
@@ -203,6 +206,8 @@ public class JFrameView extends JFrame implements GuiInterface {
                                         switch(currScreen) {
                                           case "Error" :
                                             subContentPanel.setVisible(true);
+                                            portName.setText("");
+                                            currScreen = tempCurrScreen;
                                             break;
                                           case "Add Stock" :
                                             addStocks();
@@ -545,8 +550,67 @@ public class JFrameView extends JFrame implements GuiInterface {
 
   @Override
   public void showPortfolioScreen() {
+    opStuff = new Object[1];
     disableButtons();
     content.setText("View a Portfolio");
+
+    addSubContentPanel();
+    JLabel selectOption = new JLabel("Please select one of the options- ");
+    subContentPanel.add(selectOption);
+    String[] items = new String[4];
+    items[0] = "Select Option";
+    items[1] = "View contents of a portfolio";
+    items[2] = "View value of a portfolio on a certain date";
+    items[3] = "View cost basis of a portfolio on a certain date";
+    JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
+
+    JButton submit = new JButton("Submit");
+    submit.setActionCommand("View Port");
+    submit.addActionListener(evt -> { subContentPanel.setVisible(false);
+      switch(currScreen) {
+        case "Show Contents" :
+
+          break;
+        case "Show Value" :
+
+          break;
+        case "Show Cost Basis" :
+
+          break;
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          subContentPanel.setVisible(true);
+          break;
+      }});
+    submit.addActionListener(this.actionListner);
+    submit.addActionListener(evt -> opStuff[0] = options.getSelectedItem());
+    subContentPanel.add(submit);
+  }
+
+  private void showPortContentScreen() {
+    addSubContentPanel();
+    JLabel lblPortName = new JLabel("Select a portfolio to edit : ");
+    subContentPanel.add(lblPortName);
+
+    Object[] o = getConStuff();
+    String[] item = new String[o.length];
+    for (int i = 0; i < o.length; i++) {
+      item[i] = o[i].toString();
+    }
+
+    JComboBox<String> portNames = new JComboBox<>(item);
+    subContentPanel.add(portNames);
+    JButton portName = new JButton("Get Portfolio");
+    portName.setActionCommand("Show Portfolio Contents");
+    portName.addActionListener(evt -> { subContentPanel.setVisible(false);
+      showContents(conStuff);
+    });
+    portName.addActionListener(this.actionListner);
+    portName.addActionListener(evt -> portfolioName = portNames.getSelectedItem().toString());
+    subContentPanel.add(portName);
   }
 
   @Override
