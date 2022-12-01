@@ -135,14 +135,17 @@ public class StrategyBuildCommand implements TextCommand {
       v.printLine("Please enter the ending year(4 digits) "
           + "or enter 'done' if the strategy will be ongoing:");
       String year = sc.nextLine();
+      System.out.println(year);
       if (year.equalsIgnoreCase("done")) {
         target2 = formatter.parse("2100-01-01");
         break;
       }
       v.printLine("Please enter the ending month (2 digits):");
       String mon = sc.nextLine();
+      System.out.println(mon);
       v.printLine("Please enter the ending day (2 digits):");
       String day = sc.nextLine();
+      System.out.println(day);
       try {
         target2 = formatter.parse(year + "-" + mon + "-" + day);
         if (target2.compareTo(target1) < 1) {

@@ -532,6 +532,7 @@ public class TextCommandTests {
         + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLine method called "
         + "showBuildScreen method called showBuildScreen method called ", log.toString());
+
   }
 
   @Test

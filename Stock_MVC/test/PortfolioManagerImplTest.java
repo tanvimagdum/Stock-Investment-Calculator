@@ -1,9 +1,16 @@
+import controller.API;
 import controller.Persistence;
+import controller.PersistenceInterface;
+import java.io.StringReader;
+import model.DCAStrategy;
+import model.FlexPortfolioImpl;
+import model.Portfolio;
 import model.Stock;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import model.FlexStock;
 
+import model.Strategy;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -48,8 +55,43 @@ public class PortfolioManagerImplTest {
     @Override
     public float[] getPricesAfter(String[] tickerList, Date date)
         throws IOException, ParseException {
-      log.append("getPrices")
-      return new float[0];
+      log.append("getPricesAfter called ");
+      float[] mFloat = new float[1];
+      mFloat[0] = (float) 100;
+      return mFloat;
+    }
+  }
+
+  /**
+   * A mock class for the persistence object.
+   */
+  public class MockPersistence implements PersistenceInterface {
+
+    private StringBuilder log;
+
+    /**
+     * A constructor for the mock persistence object.
+     *
+     * @param log a stringbuilder for logging
+     */
+    public MockPersistence(StringBuilder log) {
+      this.log = log;
+    }
+
+    @Override
+    public void saveSimpleCSV(Portfolio simplePort) throws IOException {
+      log.append("saveSimpleCSV method called ");
+    }
+
+    @Override
+    public void saveFlexCSV(Portfolio flexPort) throws IOException {
+      log.append("saveFlexCSV method called ");
+    }
+
+    @Override
+    public Portfolio loadCSV(String filename) throws IOException, ParseException {
+      log.append("loadCSV method called with " + filename + " ");
+      return new FlexPortfolioImpl("dummy");
     }
   }
 
@@ -432,20 +474,38 @@ public class PortfolioManagerImplTest {
   }
 
   @Test
-  public void savingStrategyTest() {
+  public void strategyTest() throws ParseException {
+    Readable in = new StringReader("1\n \n");
+    StringBuilder log = new StringBuilder();
+    API mockA = new MockAPI(log);
+    PortfolioManager p = new PortfolioManagerImpl(pers);
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    p.portFlexBuilder("dummyTest");
+    p.editFlexPortfolio("dummyTest", "AAPL", 10f,
+        formatter.parse("2016-01-01"));
+
+    Date s = formatter.parse("2016-01-01");
+    Date e = formatter.parse("2017-01-01");
+    ArrayList<Stock<String, Float>> list = new ArrayList<>();
+    list.add(new Stock<>("AAPL", 100f));
+    Strategy strat = new DCAStrategy(list, s, e, 60);
+
+    try {
+      p.savePortfolio("dummyTest");
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+    p = new PortfolioManagerImpl(pers);
+    try {
+      p.readPortfolioFile("dummyTest.csv");
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+
+    assertEquals("AAPL", p.getTickers("dummyTest")[0]);
+    assertEquals(10, p.getCounts("dummyTest")[0], 0.01);
+    assertEquals("2016-01-01", formatter.format(p.getDates("dummyTest")[0]));
 
   }
-
-  @Test
-  public void loadingStrategyTest() {
-
-  }
-
-  @Test
-  public void settingStrategyTest() {
-
-  }
-
-  @Test
-  public void
 }
