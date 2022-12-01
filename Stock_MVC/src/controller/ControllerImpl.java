@@ -1,6 +1,19 @@
 package controller;
 
-import controller.guicoms.*;
+import controller.guicoms.BuildEditCommandGui;
+import controller.guicoms.BuildFlexibleCommandGui;
+import controller.guicoms.CostBasisGuiCommand;
+import controller.guicoms.DollarCostBuyGuiCommand;
+import controller.guicoms.DollarCostStartCommand;
+import controller.guicoms.EditFlexibleCommandGui;
+import controller.guicoms.LoadCommandGui;
+import controller.guicoms.PortfolioValueGuiCommand;
+import controller.guicoms.SaveCommandGui;
+import controller.guicoms.StrategyGuiCommand;
+import controller.guicoms.StrategyValidateInfoGuiCommand;
+import controller.guicoms.StrategyValidateStockGuiCommand;
+import controller.guicoms.ViewCommandGui;
+import controller.guicoms.ViewContentsGuiCommand;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
@@ -18,15 +31,12 @@ import controller.textcoms.ViewContentsCommand;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import model.Portfolio;
 import model.PortfolioManager;
 import model.PortfolioManagerImpl;
 import view.GuiInterface;
@@ -34,38 +44,40 @@ import view.JFrameView;
 import view.ViewImpl;
 import view.ViewInterface;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class ControllerImpl implements InputController, ActionListener {
+  private String ui;
+  private String currentScreen;
+  private String currentButton;
+  private ViewInterface v;
+  private JFrameView f;
+  private PortfolioManager p;
+  private Scanner sc;
+  private API api;
+  private boolean flag = true;
+  private Map<String, Map<String, Map<String, Command>>> uiMap = new HashMap<>();
 
-  //public static final String ELEMENT_TEXT_PROPERTY = "Text";
-  String ui;
-  String currentScreen;
-  String currentButton;
-  ViewInterface v;
-  JFrameView f;
-  PortfolioManager p;
-  Scanner sc;
-  API api;
-  boolean flag = true;
-  Map<String, Map<String, Map<String, Command>>> uiMap = new HashMap<>();
+  private Map<String, Map<String, Command>> textMenus = new HashMap<>();
+  private Map<String, Map<String, Command>> guiMenus = new HashMap<>();
 
-  Map<String, Map<String, Command>> textMenus = new HashMap<>();
-  Map<String, Map<String, Command>> guiMenus = new HashMap<>();
+  private Map<String, Command> textWelcomeScreen = new HashMap<>();
+  private Map<String, Command> textLoadScreen = new HashMap<>();
+  private Map<String, Command> textBuildScreen = new HashMap<>();
+  private Map<String, Command> textViewScreen = new HashMap<>();
+  private Map<String, Command> textSaveScreen = new HashMap<>();
 
-  Map<String, Command> textWelcomeScreen = new HashMap<>();
-  Map<String, Command> textLoadScreen = new HashMap<>();
-  Map<String, Command> textBuildScreen = new HashMap<>();
-  Map<String, Command> textViewScreen = new HashMap<>();
-  Map<String, Command> textSaveScreen = new HashMap<>();
+  private Map<String, Command> guiWelcomeScreen = new HashMap<>();
+  private Map<String, Command> guiLoadScreen = new HashMap<>();
+  private Map<String, Command> guiBuildScreen = new HashMap<>();
+  private Map<String, Command> guiViewScreen = new HashMap<>();
+  private Map<String, Command> guiSaveScreen = new HashMap<>();
 
-  Map<String, Command> guiWelcomeScreen = new HashMap<>();
-  Map<String, Command> guiLoadScreen = new HashMap<>();
-  Map<String, Command> guiBuildScreen = new HashMap<>();
-  Map<String, Command> guiViewScreen = new HashMap<>();
-  Map<String, Command> guiSaveScreen = new HashMap<>();
-
-
+  /**
+   * The main method of the program which begins the controller and its functions.
+   *
+   * @param args main method stuff
+   */
   public static void main(String[] args) {
     InputController in = new ControllerImpl(new ViewImpl(System.out),
         new PortfolioManagerImpl(new Persistence()),
@@ -74,6 +86,15 @@ public class ControllerImpl implements InputController, ActionListener {
   }
 
 
+  /**
+   * A constructor for the controller.
+   *
+   * @param view    the view
+   * @param portMan the model
+   * @param in      the inputstream
+   * @param out     the outputstream
+   * @param api     the class making API calls
+   */
   public ControllerImpl(ViewInterface view, PortfolioManager portMan,
       Readable in, PrintStream out, API api) {
     this.v = view;
@@ -203,7 +224,6 @@ public class ControllerImpl implements InputController, ActionListener {
     guiViewScreen.put("Show Portfolio Contents", new ViewContentsGuiCommand());
     guiViewScreen.put("Show Portfolio Value", new PortfolioValueGuiCommand());
 
-
     //guiBuildScreen.put("Button Name", new CommandName());
 
     //guiViewScreen.put("Button Name", new CommandName());
@@ -211,38 +231,13 @@ public class ControllerImpl implements InputController, ActionListener {
     //guiSaveScreen.put("Button Name", new CommandName());
   }
 
+  /**
+   * A method to listen to the gui for actions indicating the need for a new command.
+   *
+   * @param e the event to be processed
+   */
   public void actionPerformed(ActionEvent e) {
     String action = e.getActionCommand();
-    //if (action == "Load Button"){
-    //  currentScreen = "LS";
-    //}
-
-    /*switch (e.getActionCommand()) {
-      case "Load Button":
-        //currentScreen = "LS";
-        break;
-      case "Build Button":
-        currentScreen = "BS";
-        break;
-      case "View Button":
-        currentScreen = "PS";
-        break;
-      case "Save Button":
-        currentScreen = "SS";
-        break;
-      case "Back":
-        currentScreen = "WS";
-        f.showWelcomeScreen();
-        break;
-      case "Upload Button":
-        currentButton = "Upload Button";
-        String fin = f.getOperationalStuff().toString();
-        System.out.println(fin);
-        comGo();
-        break;
-      default:
-        break;
-    }*/
     currentButton = action;
     comGo();
   }
@@ -260,6 +255,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A GuiCommand to take the user back to the starting screen.
+   */
   class BackCommandGui implements GuiCommand {
 
     @Override
@@ -269,6 +267,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A GuiCommand to take the user to the load screen.
+   */
   class LoadScreenCommandGui implements GuiCommand {
 
     @Override
@@ -278,6 +279,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A GuiCommand to take the user to the build/edit screen.
+   */
   class BuildScreenCommandGui implements GuiCommand {
 
     @Override
@@ -287,6 +291,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A GuiCommand to take the user to the portfolio viewing screen.
+   */
   class ViewScreenCommandGui implements GuiCommand {
 
     @Override
@@ -296,6 +303,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A GuiCommand to take the user to the save screen.
+   */
   class SaveScreenCommandGui implements GuiCommand {
 
     @Override
@@ -305,6 +315,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to take the user back to the welcome screen.
+   */
   class BackCommand implements TextCommand {
 
     @Override
@@ -314,6 +327,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to take the user to the load screen.
+   */
   class LoadScreenCommand implements TextCommand {
 
     @Override
@@ -323,6 +339,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to take the user to the build/edit screen.
+   */
   class BuildScreenCommand implements TextCommand {
 
     @Override
@@ -332,6 +351,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to take the user to the portfolio viewing screen.
+   */
   class ViewScreenCommand implements TextCommand {
 
     @Override
@@ -341,6 +363,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to take the user to the save screen.
+   */
   class SaveScreenCommand implements TextCommand {
 
     @Override
@@ -350,6 +375,9 @@ public class ControllerImpl implements InputController, ActionListener {
     }
   }
 
+  /**
+   * A TextCommand to exit the program.
+   */
   class ExitCommand implements TextCommand {
 
     @Override
