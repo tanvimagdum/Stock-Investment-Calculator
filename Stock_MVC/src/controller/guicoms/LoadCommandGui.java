@@ -33,7 +33,7 @@ public class LoadCommandGui implements GuiCommand {
     }
 
     try {
-      p.readPortfolioFile(name);
+      p.readPortfolioFile(name + ".csv");
       f.printLine("The file was uploaded successfully!");
       //name = name.substring(0, name.length() - 4);
       //v.printLines(contentsHelper(name, p));

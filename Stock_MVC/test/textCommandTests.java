@@ -308,7 +308,7 @@ public class textCommandTests {
 
   @Test
   public void strategyBuildCommandTest() {
-    Readable in = new StringReader("dummy\n 1000\n 60\n 2016\n 01\n 01\n "
+    Readable in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n "
         + "2020\n 01\n 01\n GOOG\n done\n 100\n \n \n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockP = new MockPortfolioManager(log);
@@ -316,7 +316,65 @@ public class textCommandTests {
     ViewInterface mockV = new MockView(log);
     TextCommand sbC = new StrategyBuildCommand();
     sbC.go(new Scanner(in), mockV, mockP, mockA);
-    assertEquals("", log.toString());
+    assertEquals("printLine method called getPortfolioNames method called "
+        + "portFlexBuilder method called with dummy printLine method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called validateTicker method called with GOOG validateTicker "
+        + "method called with GOOG and 01-01-2016 printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called printLines "
+        + "method called printLine method called addStrategy method called printLine method "
+        + "called updateFromStrategy method called getTickers method called with dummy "
+        + "getCounts method called with dummy getDates method called with dummy printLines "
+        + "method called printLine method called showBuildScreen method called ", log.toString());
+
+    in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
+        + "done\n GOOG\n done\n 100\n \n \n");
+    log.delete(0, log.toString().length());
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called getPortfolioNames method called "
+        + "portFlexBuilder method called with dummy printLine method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called validateTicker method "
+        + "called with GOOG validateTicker method called with GOOG and 01-01-2016 printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLines method called printLine method called "
+        + "addStrategy method called printLine method called updateFromStrategy method "
+        + "called getTickers method called with dummy getCounts method called with dummy "
+        + "getDates method called with dummy printLines method called printLine method "
+        + "called showBuildScreen method called ", log.toString());
+
+    //bad percentage
+    in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
+        + "done\n GOOG\n done\n 90\n \n \n");
+    log.delete(0, log.toString().length());
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called getPortfolioNames method called "
+        + "portFlexBuilder method called with dummy printLine method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called validateTicker method "
+        + "called with GOOG validateTicker method called with GOOG and 01-01-2016 printLine "
+        + "method called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called printLine "
+        + "method called printLine method called showBuildScreen method called "
+        + "showBuildScreen method called ", log.toString());
+
+    in = new StringReader("dummy\n 1000\n60\n 2016\n 01\n 01\n"
+        + "done\n GO  G\n done\n 90\n \n \n");
+    log.delete(0, log.toString().length());
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLine method called getPortfolioNames method called "
+        + "portFlexBuilder method called with dummy printLine method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called validateTicker method "
+        + "called with GOOG validateTicker method called with GOOG and 01-01-2016 printLine "
+        + "method called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called printLine "
+        + "method called printLine method called showBuildScreen method called "
+        + "showBuildScreen method called ", log.toString());
+
   }
 
   @Test
