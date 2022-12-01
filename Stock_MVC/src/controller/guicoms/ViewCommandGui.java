@@ -37,7 +37,7 @@ public class ViewCommandGui implements GuiCommand {
     }
   }
 
-  private void selectFlexPortfolio(JFrameView f, PortfolioManager p) {
+  private void selectFlexPortfolio(GuiInterface f, PortfolioManager p) {
     String[] portNames = p.getFlexPortfolioNames();
     //System.out.println(portNames[0] + " in selectflex");
 

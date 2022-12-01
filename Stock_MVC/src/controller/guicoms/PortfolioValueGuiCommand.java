@@ -28,10 +28,12 @@ public class PortfolioValueGuiCommand implements GuiCommand {
       target = formatter.parse(year + "-" + month + "-" + day);
       if (!target.before(upperLimit)) {
         f.printLine("The date entered does not have information available. Please try again.");
+        f.setCurrScreen("Error");
         return;
       }
     } catch (ParseException e) {
       f.printLine("The date entered is invalid. Please try again.");
+      f.setCurrScreen("Error");
       return;
     }
 
@@ -80,6 +82,7 @@ public class PortfolioValueGuiCommand implements GuiCommand {
     }
     out[out.length - 1] = String.format("%.02f", sum);
     f.setConStuff(out);
+    f.setCurrScreen("Value Extracted");
 
   }
 }

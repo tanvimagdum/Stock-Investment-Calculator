@@ -50,7 +50,6 @@ public class PortfolioManagerImpl implements PortfolioManager {
   }
 
   private Portfolio getPortfolio(String name) {
-    System.out.println(name);
     int size = portfolios.size();
 
     for (int i = 0; i < size; i++) {

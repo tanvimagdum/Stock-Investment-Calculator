@@ -20,8 +20,9 @@ public class LoadCommandGui implements GuiCommand {
       boolean problem = false;
       String[] existing = p.getPortfolioNames();
       for (int i = 0; i < existing.length; i++) {
-        if (existing[i].equals(name.substring(0, name.length() - 4))) {
+        if (existing[i].equals(name)) {
           f.printLine("A portfolio with that name already exists. Please try again.");
+          f.setCurrScreen("Error");
           problem = true;
         }
       }
@@ -34,13 +35,13 @@ public class LoadCommandGui implements GuiCommand {
 
     try {
       p.readPortfolioFile(name + ".csv");
-      f.printLine("The file was uploaded successfully!");
-      //name = name.substring(0, name.length() - 4);
+      //f.printLine("The file was uploaded successfully!");
+      new ViewContentsGuiCommand().go(f, p, api);
       //v.printLines(contentsHelper(name, p));
     } catch (Exception e) {
       f.printLine("The file was either not found, or not in the right format.");
+      f.setCurrScreen("Error");
+      return;
     }
-
-    new ViewContentsGuiCommand().go(f, p, api);
   }
 }

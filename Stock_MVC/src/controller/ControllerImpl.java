@@ -192,7 +192,6 @@ public class ControllerImpl implements InputController, ActionListener {
 
     guiBuildScreen.put("Build/Edit Port", new BuildEditCommandGui());
     guiBuildScreen.put("Back Button", new BackCommandGui());
-
     guiBuildScreen.put("Set Portfolio Name", new BuildFlexibleCommandGui());
     guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
     guiBuildScreen.put("Add Static Info for Strategy", new StrategyValidateInfoGuiCommand());
@@ -200,7 +199,10 @@ public class ControllerImpl implements InputController, ActionListener {
     guiBuildScreen.put("Done build strategy", new StrategyGuiCommand());
 
     guiViewScreen.put("View Port", new ViewCommandGui());
+    guiViewScreen.put("Back Button", new BackCommandGui());
     guiViewScreen.put("Show Portfolio Contents", new ViewContentsGuiCommand());
+    guiViewScreen.put("Show Portfolio Value", new PortfolioValueGuiCommand());
+
 
     //guiBuildScreen.put("Button Name", new CommandName());
 
