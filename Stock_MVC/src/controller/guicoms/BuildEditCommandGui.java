@@ -24,7 +24,6 @@ public class BuildEditCommandGui implements GuiCommand {
           selectFlexPortfolio(f, p);
           f.setCurrScreen("Edit Portfolio");
         } catch (Exception e) {
-          //System.out.println(e.getMessage());
           f.printLine("There are either no flexible portfolios "
               + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
@@ -35,7 +34,6 @@ public class BuildEditCommandGui implements GuiCommand {
           selectNonEmptyFlexPortfolio(f, p);
           f.setCurrScreen("Edit Strategy");
         } catch (Exception e) {
-          //System.out.println(e.getMessage());
           f.printLine("There are either no flexible portfolios "
                   + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
@@ -44,13 +42,12 @@ public class BuildEditCommandGui implements GuiCommand {
       case "Add a fixed cost buy across a flexible portfolio" :
         try {
           selectNonEmptyFlexPortfolio(f ,p);
-          //f.setCurrScreen();
+          f.setCurrScreen("Dollar Cost");
         } catch (Exception e) {
           f.printLine("There are either no flexible portfolios "
               + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
         }
-        f.setCurrScreen("Dollar Cost");
         break;
       default :
         f.printLine("Please select one option");
