@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class StrategyTest {
 
-  public Strategy setup() throws ParseException {
+  private Strategy setup() throws ParseException {
     ArrayList<Stock<String, Float>> list = new ArrayList<>();
     list.add(new Stock<>("GOOG", 400f));
     list.add(new Stock<>("AAPL", 600f));

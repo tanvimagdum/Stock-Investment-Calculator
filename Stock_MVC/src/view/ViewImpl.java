@@ -3,9 +3,8 @@ package view;
 import java.io.PrintStream;
 
 /**
- * A class to represent the contents
- * of the user interface including the
- * menu, error messages and help texts.
+ * A class to represent the contents of the user interface including the menu, error messages and
+ * help texts.
  */
 public class ViewImpl implements ViewInterface {
 
@@ -24,8 +23,8 @@ public class ViewImpl implements ViewInterface {
   public void showWelcomeScreen() {
 
     out.println("\n" + "================================="
-            + "\n" + "    Welcome to 'GROW MONEY'!" + "\n"
-            + "=================================" + "\n");
+        + "\n" + "    Welcome to 'GROW MONEY'!" + "\n"
+        + "=================================" + "\n");
     out.println("Please enter a choice number" + "\n");
     out.println("1. Load a portfolio");
     out.println("2. Build/Edit a portfolio");
@@ -81,6 +80,7 @@ public class ViewImpl implements ViewInterface {
     out.println("2. Save all portfolios");
     out.println("3. Go back");
   }
+
   @Override
   public void printLine(String line) {
     out.println(line);

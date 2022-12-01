@@ -67,7 +67,7 @@ public class StrategyBuildCommand implements TextCommand {
     return name;
   }
 
-  public void editStrategy(String name, ViewInterface v, Scanner sc, PortfolioManager p, API api)
+  private void editStrategy(String name, ViewInterface v, Scanner sc, PortfolioManager p, API api)
       throws IllegalArgumentException, IOException, ParseException {
     HelpingCommittee helper = new HelpingCommittee();
     boolean amountFlag = true;

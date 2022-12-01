@@ -1,6 +1,20 @@
 package controller;
 
-import controller.guicoms.*;
+import controller.guicoms.BuildEditCommandGui;
+import controller.guicoms.BuildFlexibleCommandGui;
+import controller.guicoms.CostBasisGuiCommand;
+import controller.guicoms.DollarCostBuyGuiCommand;
+import controller.guicoms.DollarCostStartCommand;
+import controller.guicoms.EditFlexibleCommandGui;
+import controller.guicoms.LoadCommandGui;
+import controller.guicoms.PortfolioValueGuiCommand;
+import controller.guicoms.SaveCommandGui;
+import controller.guicoms.SaveGuiCommand;
+import controller.guicoms.StrategyGuiCommand;
+import controller.guicoms.StrategyValidateInfoGuiCommand;
+import controller.guicoms.StrategyValidateStockGuiCommand;
+import controller.guicoms.ViewCommandGui;
+import controller.guicoms.ViewContentsGuiCommand;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
@@ -33,6 +47,9 @@ import view.ViewInterface;
 
 import javax.swing.JFrame;
 
+/**
+ * The controller for the program. It also contains Java's dictated main method.
+ */
 public class ControllerImpl implements InputController, ActionListener {
   private String ui;
   private String currentScreen;
@@ -216,11 +233,6 @@ public class ControllerImpl implements InputController, ActionListener {
     guiSaveScreen.put("Save a specific portfolio", new SaveGuiCommand());
     guiSaveScreen.put("Back Button", new BackCommandGui());
 
-    //guiBuildScreen.put("Button Name", new CommandName());
-
-    //guiViewScreen.put("Button Name", new CommandName());
-
-    //guiSaveScreen.put("Button Name", new CommandName());
   }
 
   /**

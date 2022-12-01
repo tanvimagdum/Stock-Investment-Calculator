@@ -30,7 +30,7 @@ public class ManualValuationCommand implements TextCommand {
     v.showPortfolioScreen();
   }
 
-  public String[] manualValuation(String name, ViewInterface v, Scanner sc, PortfolioManager p) {
+  private String[] manualValuation(String name, ViewInterface v, Scanner sc, PortfolioManager p) {
     String[] tickers = p.getTickers(name);
     Float[] counts = p.getCounts(name);
     String[] out = new String[tickers.length + 2];
