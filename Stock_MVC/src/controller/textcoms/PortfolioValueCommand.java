@@ -11,13 +11,17 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to see the value of a portfolio on a given date.
+ */
 public class PortfolioValueCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
+    HelpingCommittee helper = new HelpingCommittee();
     String name;
     try {
-      name = selectPortfolio(v, sc, p);
+      name = helper.selectPortfolio(v, sc, p);
     } catch (Exception e) {
       v.printLine("There are either no portfolios yet or the input was out of bounds.");
       sc.nextLine();
@@ -123,20 +127,5 @@ public class PortfolioValueCommand implements TextCommand {
       out[tickers.length + 1] = "Total value of portfolio: $" + String.format("%.02f", sum);
       return out;
     }
-  }
-
-  private String selectPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
-    String[] portNames = p.getPortfolioNames();
-    String[] numbered = new String[portNames.length];
-
-    for (int i = 0; i < portNames.length; i++) {
-      numbered[i] = (i + 1) + ". " + portNames[i];
-    }
-
-    v.printLines(numbered);
-    v.printLine("Please choose one of the following options:");
-    int index = sc.nextInt();
-    sc.nextLine();
-    return portNames[index - 1];
   }
 }

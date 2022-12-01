@@ -6,6 +6,9 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to save all portfolios currently in the model.
+ */
 public class SaveAllCommand implements TextCommand {
 
   @Override

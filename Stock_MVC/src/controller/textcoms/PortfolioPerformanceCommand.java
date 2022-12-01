@@ -10,6 +10,9 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to view a portfolio's performance in a given timeframe.
+ */
 public class PortfolioPerformanceCommand implements TextCommand {
 
   @Override
@@ -212,21 +215,5 @@ public class PortfolioPerformanceCommand implements TextCommand {
     out[dates.length + 1] = "\nOne * represents up to: $" + String.format("%.02f", ast)
         + " above the base of $" + base;
     return out;
-  }
-
-  private String selectFlexPortfolio(ViewInterface v, Scanner sc, PortfolioManager p) {
-    String[] portNames = p.getFlexPortfolioNames();
-    String[] numbered = new String[portNames.length];
-
-    for (int i = 0; i < portNames.length; i++) {
-      numbered[i] = (i + 1) + ". " + portNames[i];
-    }
-
-    v.printLines(numbered);
-    v.printLine("Please choose one of the following options:");
-    int index = sc.nextInt();
-    sc.nextLine();
-
-    return portNames[index - 1];
   }
 }

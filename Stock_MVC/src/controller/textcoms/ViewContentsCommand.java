@@ -6,6 +6,9 @@ import java.util.Scanner;
 import model.PortfolioManager;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to view the contents of a portfolio.
+ */
 public class ViewContentsCommand implements TextCommand {
 
   @Override

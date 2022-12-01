@@ -13,6 +13,9 @@ import model.PortfolioManager;
 import model.Stock;
 import view.ViewInterface;
 
+/**
+ * A TextCommand to build a portfolio with a strategy.
+ */
 public class StrategyBuildCommand implements TextCommand {
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
@@ -65,7 +68,7 @@ public class StrategyBuildCommand implements TextCommand {
 
   public void editStrategy(String name, ViewInterface v, Scanner sc, PortfolioManager p, API api)
       throws IllegalArgumentException, IOException, ParseException {
-
+    HelpingCommittee helper = new HelpingCommittee();
     boolean amountFlag = true;
     boolean frequencyFlag = true;
     boolean startDateFlag = true;
@@ -232,7 +235,7 @@ public class StrategyBuildCommand implements TextCommand {
       return;
     }
 
-    v.printLines(contentsStrategyHelper(tickers, percentages, amount));
+    v.printLines(helper.contentsStrategyHelper(tickers, percentages, amount));
     v.printLine("Enter any key to return to continue.");
     sc.nextLine();
 
@@ -243,63 +246,8 @@ public class StrategyBuildCommand implements TextCommand {
     v.printLine("Please wait while the system interacts with the API.");
     p.updateFromStrategy(name, api);
 
-    v.printLines(contentsHelper(name, p));
+    v.printLines(helper.contentsHelper(name, p));
     v.printLine("Enter any key to return to the previous menu.");
     sc.nextLine();
-  }
-
-  private String[] contentsHelper(String name, PortfolioManager p) {
-
-    try {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-      Date[] dates = p.getDates(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Flexible Portfolio: " + name;
-      DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-      for (int i = 0; i < tickers.length; i++) {
-        if (counts[i] > 0) {
-          out[i + 1] = "BUY "
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", counts[i])
-              + "; Date: " + formatter.format(dates[i]);
-        }
-        if (counts[i] < 0) {
-          out[i + 1] = "SELL"
-              + "; Ticker: " + tickers[i]
-              + "; Count: " + String.format("%.02f", Math.abs(counts[i]))
-              + "; Date: " + formatter.format(dates[i]);
-        }
-      }
-      return out;
-
-    } catch (Exception e) {
-      String[] tickers = p.getTickers(name);
-      Float[] counts = p.getCounts(name);
-
-      String[] out = new String[tickers.length + 1];
-
-      out[0] = "Contents of Simple Portfolio: " + name;
-
-      for (int i = 0; i < tickers.length; i++) {
-        out[i + 1] = "Ticker: " + tickers[i]
-            + "; Count: " + String.format("%.02f", counts[i]);
-      }
-      return out;
-    }
-  }
-
-  private String[] contentsStrategyHelper(ArrayList<String> tickers, float[] counts, float amount) {
-
-    String[] out = new String[tickers.size() + 1];
-
-    out[0] = "Contents of Strategy:";
-    for (int i = 0; i < tickers.size(); i++) {
-      out[i + 1] = "Ticker: " + tickers.get(i)
-          + "; Share: " + String.format("%.0f", counts[i]) + "%";
-    }
-    return out;
   }
 }
