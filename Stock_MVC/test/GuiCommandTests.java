@@ -355,11 +355,6 @@ public class GuiCommandTests {
   }
 
   @Test
-  public void saveCommandTest() {
-
-  }
-
-  @Test
   public void strategyCommandTest() {
 
   }
@@ -384,5 +379,13 @@ public class GuiCommandTests {
 
   }
 
+  @Test
+  public void saveCommandTest() {
 
+  }
+
+  @Test
+  public void saveAllCommandTest() {
+
+  }
 }
