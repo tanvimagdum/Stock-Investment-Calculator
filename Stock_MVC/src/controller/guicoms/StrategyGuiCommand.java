@@ -25,7 +25,7 @@ public class StrategyGuiCommand implements GuiCommand {
     }
   }
 
-  private void editStrategy(String name, JFrameView f, PortfolioManager p, API api)
+  private void editStrategy(String name, GuiInterface f, PortfolioManager p, API api)
       throws IllegalArgumentException, IOException, ParseException {
 
     Object[] o = f.getOperationalStuff();

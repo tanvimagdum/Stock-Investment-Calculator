@@ -72,7 +72,7 @@ public class BuildFlexibleCommandGui implements GuiCommand {
     }
   }
 
-  private String buildFlexPortfolio(JFrameView f, PortfolioManager p)
+  private String buildFlexPortfolio(GuiInterface f, PortfolioManager p)
           throws IOException, ParseException {
 
     //get data from view

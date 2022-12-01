@@ -77,7 +77,7 @@ public class EditFlexibleCommandGui implements GuiCommand {
     }
   }
 
-  private void editFlexPortfolio(String name, JFrameView f, PortfolioManager p)
+  private void editFlexPortfolio(String name, GuiInterface f, PortfolioManager p)
           throws IllegalArgumentException, IOException, ParseException {
     //get data from view
     Object[] o = f.getOperationalStuff();
