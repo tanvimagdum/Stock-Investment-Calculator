@@ -697,9 +697,7 @@ public class JFrameView extends JFrame implements GuiInterface {
           Object[] out = new Object[getConStuff().length - 2];
           int j = 1;
           for (int i = 0; i < out.length; i++) {
-            System.out.println(getConStuff()[j]);
             out[i] = getConStuff()[j];
-            System.out.println(out[i]);
             j++;
           }
           String[] columnNames = {"Ticker", "Count", "Date", "Value"};
@@ -713,7 +711,7 @@ public class JFrameView extends JFrame implements GuiInterface {
             j++;
           }
           showContents(data, columnNames);
-          subContentPanel.add(new JLabel("Total Value of Portfolio on "
+          subContentPanel.add(new JLabel("          Total Value of Portfolio on "
                  + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
       }
     });
@@ -737,8 +735,40 @@ public class JFrameView extends JFrame implements GuiInterface {
 
   @Override
   public void showSaveScreen() {
+    opStuff = new Object[1];
     disableButtons();
     content.setText("Save a Portfolio");
+
+    addSubContentPanel();
+    JLabel selectOption = new JLabel("Please select one of the options- ");
+    subContentPanel.add(selectOption);
+    String[] items = new String[3];
+    items[0] = "Select Option";
+    items[1] = "Save a specific portfolio";
+    items[2] = "Save all portfolios";
+    JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
+
+    JButton submit = new JButton("Submit");
+    submit.setActionCommand("Save Port");
+    submit.addActionListener(evt -> { subContentPanel.setVisible(false);
+      switch(currScreen) {
+        case "Show Contents" :
+          showPortContentScreen();
+          break;
+        case "Show Value" :
+          showPortValueScreen();
+          break;
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          subContentPanel.setVisible(true);
+          break;
+      }});
+    submit.addActionListener(this.actionListner);
+    submit.addActionListener(evt -> opStuff[0] = options.getSelectedItem());
+    subContentPanel.add(submit);
   }
 
   //display validation errors given by the controller
@@ -824,6 +854,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     JTable contentTable = new JTable(data, columnNames);
     JScrollPane subDisplayScroll = new JScrollPane(contentTable);
     contentTable.setFillsViewportHeight(true);
+    contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+    contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
+    contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
     contentTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 13));
     subDisplay.add(subDisplayScroll);
 

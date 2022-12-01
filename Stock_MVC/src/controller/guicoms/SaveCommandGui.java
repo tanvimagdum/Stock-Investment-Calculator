@@ -14,7 +14,15 @@ public class SaveCommandGui implements GuiCommand {
     Object[] o = f.getOperationalStuff();
     switch(o[0].toString()) {
       case "Save a specific portfolio" :
-
+        try {
+          selectFlexPortfolio(f, p);
+          f.setCurrScreen("Save Portfolio");
+        } catch (Exception e) {
+          f.printLine(
+                  "There are either no flexible portfolios yet or the input was out of bounds.");
+          f.setCurrScreen("Error");
+          return;
+        }
         break;
       case "Save all portfolios"  :
 
@@ -26,7 +34,7 @@ public class SaveCommandGui implements GuiCommand {
     }
   }
 
-  private void selectFlexPortfolio(JFrameView f, PortfolioManager p) {
+  private void selectFlexPortfolio(GuiInterface f, PortfolioManager p) {
     String[] portNames = p.getFlexPortfolioNames();
     //System.out.println(portNames[0] + " in selectflex");
 
