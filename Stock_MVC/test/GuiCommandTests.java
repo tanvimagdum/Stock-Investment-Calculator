@@ -5,6 +5,7 @@ import controller.GuiCommand;
 import controller.PersistenceInterface;
 import controller.guicoms.BuildFlexibleCommandGui;
 import controller.guicoms.CostBasisGuiCommand;
+import controller.guicoms.DollarCostBuyGuiCommand;
 import controller.guicoms.EditFlexibleCommandGui;
 import controller.guicoms.LoadCommandGui;
 import controller.guicoms.PortfolioValueGuiCommand;
@@ -366,19 +367,30 @@ public class GuiCommandTests {
     GuiInterface gui = new MockGui(log);
     PortfolioManager mockP = new MockPortfolioManager(log);
     API mockA = new MockAPI(log);
-    GuiCommand cmd = new SaveCommandGui();
+    GuiCommand cmd = new DollarCostBuyGuiCommand();
     Object[] o = new Object[8];
-    o[0] = "Buy Stock";
-    o[1] = "GOOG";
-    o[2] = "100";
-    o[3] = "2019";
-    o[4] = "01";
-    o[5] = "01";
+    o[0] = "1000";
+    o[1] = "2019";
+    o[2] = "01";
+    o[3] = "01";
+    o[4] = "GOOG";
+    o[5] = "100";
     gui.setConStuff(o);
     cmd.goDoStuff(gui, mockP, mockA);
     assertEquals("", log.toString());
+    log.delete(0, log.toString().length());
 
     //bad math
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "2019";
+    o[2] = "01";
+    o[3] = "01";
+    o[4] = "GOOG";
+    o[5] = "100";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test

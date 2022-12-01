@@ -45,7 +45,14 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
     float sum = 0;
     int j = 0;
     for (int i = 0; i < (o.length - 4); i += 2) {
-      Float percent = Float.parseFloat(o[i + 5].toString());
+      float percent;
+      try {
+        percent = Float.parseFloat(o[i + 5].toString());
+      } catch (Exception e) {
+        f.printLine("One of the percentages entered was invalid. Please try again.");
+        f.setCurrScreen("Error");
+        return;
+      }
       tickerList.add(o[i + 4].toString());
       percentages[j] = percent;
       sum += percent;
