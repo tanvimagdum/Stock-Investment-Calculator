@@ -753,17 +753,14 @@ public class JFrameView extends JFrame implements GuiInterface {
     submit.setActionCommand("Save Port");
     submit.addActionListener(evt -> { subContentPanel.setVisible(false);
       switch(currScreen) {
-        case "Show Contents" :
-          showPortContentScreen();
+        case "Save Portfolio" :
+          savePortfolio();
           break;
-        case "Show Value" :
-          showPortValueScreen();
-          break;
+        case "Save All Portfolios" :
         case "Error" :
           subContentPanel.setVisible(true);
           break;
         default :
-          subContentPanel.setVisible(true);
           break;
       }});
     submit.addActionListener(this.actionListner);
@@ -771,6 +768,24 @@ public class JFrameView extends JFrame implements GuiInterface {
     subContentPanel.add(submit);
   }
 
+  private void savePortfolio() {
+    addSubContentPanel();
+
+    JLabel lblPortName = new JLabel("Select a portfolio : ");
+    subContentPanel.add(lblPortName);
+    Object[] o = getConStuff();
+    String[] item = new String[o.length];
+    for (int i = 0; i < o.length; i++) {
+      item[i] = o[i].toString();
+    }
+    JComboBox<String> portNames = new JComboBox<>(item);
+    subContentPanel.add(portNames);
+
+    JButton portButton = new JButton("Save Portfolio");
+    portButton.setActionCommand("Save a specific portfolio");
+    portButton.addActionListener(this.actionListner);
+    subContentPanel.add(portButton);
+  }
   //display validation errors given by the controller
   @Override
   public void printLine(String line) {

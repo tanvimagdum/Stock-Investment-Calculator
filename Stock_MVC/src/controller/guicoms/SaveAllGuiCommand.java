@@ -13,13 +13,14 @@ public class SaveAllGuiCommand implements GuiCommand {
 
   @Override
   public void go(GuiInterface f, PortfolioManager p, API api) {
-    String[] names = p.getPortfolioNames();
-    for (String name: names) {
-      try {
-        p.savePortfolio(name);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+    try {
+      String[] names = p.getPortfolioNames();
+      for (int i = 0; i < names.length; i++) {
+        p.savePortfolio(names[i]);
       }
+      f.printLine("All portfolios saved.");
+    } catch (Exception e) {
+      f.printLine("Unable to successfully save all portfolios.");
     }
   }
 }

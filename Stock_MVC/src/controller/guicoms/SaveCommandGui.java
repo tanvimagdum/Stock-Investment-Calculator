@@ -25,7 +25,8 @@ public class SaveCommandGui implements GuiCommand {
         }
         break;
       case "Save all portfolios"  :
-
+        new SaveAllGuiCommand().go(f, p, api);
+        f.setCurrScreen("Save All Portfolios");
         break;
       default :
         f.printLine("Please select one option");
