@@ -194,10 +194,6 @@ public class ControllerImpl implements InputController, ActionListener {
 
     guiBuildScreen.put("Set Portfolio Name", new BuildFlexibleCommandGui());
     guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
-    //guiBuildScreen.put("Done", new EditFlexibleCommandGui());
-
-    guiBuildScreen.put("Add Stock", new EditFlexibleCommandGui());
-
     guiBuildScreen.put("Add Static Info for Strategy", new StrategyValidateInfoGuiCommand());
     guiBuildScreen.put("Add New Share to Strategy", new StrategyValidateStockGuiCommand());
     guiBuildScreen.put("Done build strategy", new StrategyGuiCommand());

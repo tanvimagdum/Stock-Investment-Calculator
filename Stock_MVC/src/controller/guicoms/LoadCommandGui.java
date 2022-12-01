@@ -13,8 +13,7 @@ public class LoadCommandGui implements GuiCommand {
   public void go(JFrameView f, PortfolioManager p, API api) {
 
     //get name from view
-    Object[] o = f.getOperationalStuff();
-    String name = o[0].toString();
+    String name = f.getPortfolioName();
 
     try {
       boolean problem = false;

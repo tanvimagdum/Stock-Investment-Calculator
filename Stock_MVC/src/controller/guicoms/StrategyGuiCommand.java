@@ -44,26 +44,30 @@ public class StrategyGuiCommand implements GuiCommand {
 
     if (o.length <= 8) {
       f.printLine("A strategy cannot be applied without specified stocks, please try again.");
+      f.setCurrScreen("Error");
       return;
     }
 
     float[] percentages = new float[(o.length - 8)];
     float sum = 0;
     int j = 0;
-    for (int i = 0; i < (o.length - 8) / 2; i += 2) {
+    for (int i = 0; i < (o.length - 8); i += 2) {
       Float percent = Float.parseFloat(o[i+9].toString());
       tickerList.add(o[i+8].toString());
       percentages[j] = percent;
       sum += percent;
+      j++;
     }
 
     if (Math.abs(100 - sum) > 0.1) {
       f.printLine("The given apportioning does not add up to 100%. Please try again.");
+      f.setCurrScreen("Error");
       return;
     }
 
+    f.printLine("Please wait while API is loading the information...");
     for (j = 0; j < tickerList.size(); j++) {
-      list.add(new Stock(tickerList.get(j), amount * percentages[j] * 0.01));
+      list.add(new Stock(tickerList.get(j), amount * percentages[j] * 0.01f));
     }
     p.addStrategy(name, list, start, end, frequency);
     p.updateFromStrategy(name, api);
