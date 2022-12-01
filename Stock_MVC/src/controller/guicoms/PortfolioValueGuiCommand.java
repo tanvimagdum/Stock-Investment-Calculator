@@ -71,12 +71,12 @@ public class PortfolioValueGuiCommand implements GuiCommand {
     out[0] = formatter.format(target);
     float sum = 0;
     j = 0;
-    for (int i = 0; i < values.length; i += 4) {
+    for (int i = 1; i < out.length - 2; i += 4) {
       sum += values[j];
-      out[i + 1] = tickers[j];
-      out[i + 2] = counts[j];
-      out[i + 3] = formatter.format(dates[j]);
-      out[i + 4] = values[j];
+      out[i] = tickers[j];
+      out[i + 1] = counts[j];
+      out[i + 2] = formatter.format(dates[j]);
+      out[i + 3] = values[j];
       j++;
     }
     out[out.length - 1] = String.format("%.02f", sum);

@@ -91,8 +91,8 @@ public class ControllerImpl implements InputController, ActionListener {
    *
    * @param view    the view
    * @param portMan the model
-   * @param in      the inputstream
-   * @param out     the outputstream
+   * @param in      the input stream
+   * @param out     the output stream
    * @param api     the class making API calls
    */
   public ControllerImpl(ViewInterface view, PortfolioManager portMan,
@@ -244,7 +244,6 @@ public class ControllerImpl implements InputController, ActionListener {
 
   private void comGo() {
     Map<String, Map<String, Command>> menu = uiMap.get(ui);
-    //System.out.println(menu.getClass().getName());
     Map<String, Command> screen = menu.get(currentScreen);
     GuiCommand com = (GuiCommand) screen.getOrDefault(currentButton, null);
 

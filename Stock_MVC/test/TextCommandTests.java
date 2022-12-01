@@ -35,7 +35,7 @@ import view.ViewInterface;
 /**
  * A JUnit test class for the controller's text commands.
  */
-public class textCommandTests {
+public class TextCommandTests {
 
   /**
    * A mock model.
