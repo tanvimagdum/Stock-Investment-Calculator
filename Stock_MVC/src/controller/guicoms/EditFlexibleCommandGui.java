@@ -3,6 +3,7 @@ package controller.guicoms;
 import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -13,7 +14,7 @@ import java.util.Date;
 public class EditFlexibleCommandGui implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     String name = null;
     try {
       name = f.getPortfolioName();

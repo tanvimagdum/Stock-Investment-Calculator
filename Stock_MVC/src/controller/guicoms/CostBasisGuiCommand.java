@@ -9,12 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public class CostBasisGuiCommand implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     Object[] o = f.getOperationalStuff();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

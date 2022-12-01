@@ -8,12 +8,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public class StrategyValidateStockGuiCommand implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date start = null;

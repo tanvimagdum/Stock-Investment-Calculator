@@ -8,12 +8,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public class PortfolioValueGuiCommand implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     Object[] o = f.getOperationalStuff();
     String year = o[0].toString();

@@ -4,6 +4,7 @@ import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
 import model.Stock;
+import view.GuiInterface;
 import view.JFrameView;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class StrategyGuiCommand implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     try {
       editStrategy(f.getPortfolioName(), f, p, api);
     } catch (IOException | ParseException e) {

@@ -4,12 +4,13 @@ import controller.API;
 import controller.GuiCommand;
 import java.util.ArrayList;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public class SaveCommandGui implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
     switch(o[0].toString()) {
       case "Save a specific portfolio" :

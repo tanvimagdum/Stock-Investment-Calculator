@@ -6,12 +6,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public class ViewContentsGuiCommand implements GuiCommand {
 
   @Override
-  public void go(JFrameView f, PortfolioManager p, API api) {
+  public void go(GuiInterface f, PortfolioManager p, API api) {
     String name = f.getPortfolioName();
     String[] tickers = p.getTickers(name);
     Float[] counts = p.getCounts(name);

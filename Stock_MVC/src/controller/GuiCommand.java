@@ -1,8 +1,9 @@
 package controller;
 
 import model.PortfolioManager;
+import view.GuiInterface;
 import view.JFrameView;
 
 public interface GuiCommand extends Command {
-  void go(JFrameView f, PortfolioManager p, API api);
+  void go(GuiInterface f, PortfolioManager p, API api);
 }
