@@ -53,10 +53,21 @@ public class BuildEditCommandGui implements GuiCommand {
 
   private void selectFlexPortfolio(GuiInterface f, PortfolioManager p) {
     String[] portNames = p.getFlexPortfolioNames();
-    //System.out.println(portNames[0] + " in selectflex");
-
-    //ArrayList<Object> portArray = new ArrayList<>();
     f.setConStuff(portNames);
-    //System.out.println("setConStuff set");
+  }
+
+  private void selectNonEmptyFlexPortfolio(GuiInterface f, PortfolioManager p) {
+    String[] portNames = p.getFlexPortfolioNames();
+    ArrayList<String> finalList = new ArrayList<>();
+    for (String name : portNames) {
+      if (p.getTickers(name).length > 0) {
+        finalList.add(name);
+      }
+    }
+    String[] finalNames = new String[finalList.size()];
+    for (int i = 0; i < finalNames.length; i++) {
+      finalNames[i] = finalList.get(i);
+    }
+    f.setConStuff(finalNames);
   }
 }

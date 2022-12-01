@@ -9,10 +9,12 @@ import controller.textcoms.DollarCostBuyCommand;
 import controller.textcoms.EditFlexibleCommand;
 import controller.textcoms.LoadCommand;
 import controller.textcoms.ManualValuationCommand;
+import controller.textcoms.PortfolioValueCommand;
 import controller.textcoms.SaveAllCommand;
 import controller.textcoms.SaveCommand;
 import controller.textcoms.StrategyBuildCommand;
 import controller.textcoms.StrategyCommand;
+import controller.textcoms.ViewContentsCommand;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -406,9 +408,9 @@ public class textCommandTests {
 
   @Test
   public void strategyCommandTest() {
-//regular
+    //regular
     Readable in = new StringReader("1\n 1000\n60\n 2016\n 01\n 01\n "
-        + "2020\n 01\n 01\n GOOG\n done\n 100\n \n \n");
+        + "2020\n 01\n 01\n done\n 100\n \n \n");
     StringBuilder log = new StringBuilder();
     PortfolioManager mockP = new PortfolioManagerImpl(new MockPersistence(log));
     mockP.portFlexBuilder("dummy");
@@ -418,44 +420,85 @@ public class textCommandTests {
     TextCommand sbC = new StrategyCommand();
     sbC.go(new Scanner(in), mockV, mockP, mockA);
     assertEquals("printLines method called printLine method called printLine method "
-        + "called printLine method called printLine method called printLine method called"
-        + " printLine method called printLine method called printLine method called printLine "
-        + "method called printLine method called printLine method called printLine method called "
+        + "called printLine method called printLine method called printLine method called "
         + "printLine method called printLine method called printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
-        + "called printLine method called printLines method called printLine method called "
-        + "printLine method called getPricesAfter method called getPricesAfter method called "
-        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
-        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLines method called "
+        + "printLine method called printLine method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter "
         + "method called getPricesAfter method called getPricesAfter method called "
         + "getPricesAfter method called getPricesAfter method called getPricesAfter "
         + "method called getPricesAfter method called getPricesAfter method called "
         + "getPricesAfter method called getPricesAfter method called getPricesAfter "
         + "method called getPricesAfter method called getPricesAfter method called "
-        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
-        + "called getPricesAfter method called getPricesAfter method called printLines "
-        + "method called printLine method called showBuildScreen method called ", log.toString());
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called printLines method called "
+        + "printLine method called showBuildScreen method called ", log.toString());
 
     //no end date
     in = new StringReader("1\n 1000\n60\n 2016\n 01\n 01\n"
-        + "done\n GOOG\n done\n 100\n \n \n");
+        + "done\n done\n 100\n \n \n");
     log.delete(0, log.toString().length());
     mockP = new PortfolioManagerImpl(new MockPersistence(log));
     mockP.portFlexBuilder("dummy");
     mockP.editFlexPortfolio("dummy", "GOOG", 10f, new Date());
     sbC.go(new Scanner(in), mockV, mockP, mockA);
-    assertEquals("printLine method called getPortfolioNames method called "
-        + "portFlexBuilder method called with dummy printLine method called printLine "
-        + "method called printLine method called printLine method called printLine method "
-        + "called printLine method called printLine method called validateTicker method "
-        + "called with GOOG validateTicker method called with GOOG and 01-01-2016 printLine "
+    assertEquals("printLines method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called printLine "
         + "method called printLine method called printLine method called printLine method "
         + "called printLine method called printLine method called printLine method called "
-        + "printLine method called printLines method called printLine method called "
-        + "addStrategy method called printLine method called updateFromStrategy method "
-        + "called getTickers method called with dummy getCounts method called with dummy "
-        + "getDates method called with dummy printLines method called printLine method "
-        + "called showBuildScreen method called ", log.toString());
+        + "printLines method called printLine method called printLine method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called getPricesAfter method called getPricesAfter method called getPricesAfter "
+        + "method called getPricesAfter method called getPricesAfter method called "
+        + "getPricesAfter method called getPricesAfter method called getPricesAfter method "
+        + "called printLines method called printLine method called "
+        + "showBuildScreen method called ", log.toString());
+
+    //bad percentage
+    in = new StringReader("1\n 1000\n60\n 2016\n 01\n 01\n"
+        + "done\n done\n 90\n \n \n");
+    log.delete(0, log.toString().length());
+    mockP = new PortfolioManagerImpl(new MockPersistence(log));
+    mockP.portFlexBuilder("dummy");
+    mockP.editFlexPortfolio("dummy", "GOOG", 10f, new Date());
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLines method called printLine method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called printLine "
+        + "method called printLine method called showBuildScreen method called "
+        + "showBuildScreen method called ", log.toString());
+
+    //bad ticker
+    in = new StringReader("1\n 1000\n60\n 2016\n 01\n 01\n"
+        + "done\n done\n 100\n \n \n");
+    log.delete(0, log.toString().length());
+    mockP = new PortfolioManagerImpl(new MockPersistence(log));
+    mockP.portFlexBuilder("dummy");
+    mockP.editFlexPortfolio("dummy", "GOG", 10f, new Date());
+    sbC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLines method called printLine method called printLine method "
+        + "called printLine method called printLine method called printLine method called "
+        + "printLine method called printLine method called printLine method called "
+        + "showBuildScreen method called showBuildScreen method called ", log.toString());
   }
 
   @Test
@@ -632,17 +675,58 @@ public class textCommandTests {
 
   @Test
   public void viewContentsCommandTest() {
-
+    Readable in = new StringReader("1\n \n");
+    StringBuilder log = new StringBuilder();
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioManager mockP = new PortfolioManagerImpl(new MockPersistence(log));
+    mockP.portFlexBuilder("dummy");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    try {
+      mockP.editFlexPortfolio("dummy", "GOOG", 100f,
+          formatter.parse("2016-01-01"));
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
+    TextCommand vcC = new ViewContentsCommand();
+    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("printLines method called printLine "
+        + "method called printLines method called printLine method "
+        + "called showPortfolioScreen method called ", log.toString());
   }
 
   @Test
   public void portfolioValueCommandTest() {
-
+    Readable in = new StringReader("1\n 2020\n 01\n 01\n \n");
+    StringBuilder log = new StringBuilder();
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    TextCommand vcC = new PortfolioValueCommand();
+    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("getPortfolioNames method called printLines method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called getTickers method called with null getCounts method "
+        + "called with null getDates method called with null getPortfolioValue method "
+        + "called with null and Wed Jan 01 00:00:00 EST 2020 printLines method called "
+        + "printLine method called showPortfolioScreen method called ", log.toString());
   }
 
   @Test
   public void costBasisCommandTest() {
-
+    Readable in = new StringReader("1\n 2020\n 01\n 01\n 0\n");
+    StringBuilder log = new StringBuilder();
+    API mockA = new MockAPI(log);
+    ViewInterface mockV = new MockView(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    TextCommand vcC = new PortfolioValueCommand();
+    vcC.go(new Scanner(in), mockV, mockP, mockA);
+    assertEquals("getPortfolioNames method called printLines method called printLine "
+        + "method called printLine method called printLine method called printLine method "
+        + "called printLine method called getTickers method called with null getCounts method "
+        + "called with null getDates method called with null getPortfolioValue method "
+        + "called with null and Wed Jan 01 00:00:00 EST 2020 printLines method called "
+        + "printLine method called showPortfolioScreen method called ", log.toString());
   }
 
   @Test
