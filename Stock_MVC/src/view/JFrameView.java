@@ -1,12 +1,27 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Objects;
 
+/**
+ * An implementation of the GuiInterface which acts as a view in MVC.
+ */
 public class JFrameView extends JFrame implements GuiInterface {
 
   private JPanel contentPanel;
@@ -22,9 +37,14 @@ public class JFrameView extends JFrame implements GuiInterface {
   private String portfolioName = "";
   private Object[] conStuff = new Object[10];
   private String currScreen;
-  private ArrayList<Object> TSList = new ArrayList<>();
+  private ArrayList<Object> tSList = new ArrayList<>();
   private int iter = 0;
 
+  /**
+   * A constructor for the JFrameView class.
+   *
+   * @param a the action listener receiving info about buttons pressed, etc.
+   */
   public JFrameView(ActionListener a) {
     super();
     this.actionListner = a;
@@ -158,7 +178,7 @@ public class JFrameView extends JFrame implements GuiInterface {
         portfolioName = txtFile.getText();
         portfolioName = portfolioName.substring(0, portfolioName.length() - 4);
       } catch (Exception e) {
-
+        //we do nothing
       }
       txtFile.setText("");
     });
@@ -454,10 +474,10 @@ public class JFrameView extends JFrame implements GuiInterface {
   }
 
   //add scrollable entry screen for adding tickers and shares in Strategy
-  private void addTickerCountFrame(Object[] op, String CS) {
-    String tempCurrScreen = CS;
+  private void addTickerCountFrame(Object[] op, String cS) {
+    String tempCurrScreen = cS;
     addSubContentPanel();
-    TSList = new ArrayList<>();
+    tSList = new ArrayList<>();
     JPanel tickerCountFrame = new JPanel();
     tickerCountFrame.setLayout(new BoxLayout(tickerCountFrame, BoxLayout.Y_AXIS));
     Border paddingTCFrame = BorderFactory.createEmptyBorder(0, 0, 0, 0);
@@ -503,7 +523,7 @@ public class JFrameView extends JFrame implements GuiInterface {
     }
 
     doneBuild.addActionListener(evt -> {
-      TSList = new ArrayList<>();
+      tSList = new ArrayList<>();
       switch (currScreen) {
         case "Error":
           subContentPanel.setVisible(false);
@@ -530,13 +550,13 @@ public class JFrameView extends JFrame implements GuiInterface {
     doneBuild.addActionListener(this.actionListner);
     doneBuild.addActionListener(evt -> {
       Object[] staticInfo = op;
-      int opStuffLen = op.length + TSList.size();
+      int opStuffLen = op.length + tSList.size();
       opStuff = new Object[opStuffLen];
       for (int i = 0; i < op.length; i++) {
         opStuff[i] = op[i];
       }
-      for (int i = 0; i < TSList.size(); i++) {
-        opStuff[i + op.length] = TSList.get(i);
+      for (int i = 0; i < tSList.size(); i++) {
+        opStuff[i + op.length] = tSList.get(i);
         System.out.println(opStuff[i + op.length]);
       }
     });
@@ -583,8 +603,8 @@ public class JFrameView extends JFrame implements GuiInterface {
         case "Validated":
           subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
               + ", Share : " + txtShare.getText()));
-          TSList.add(txtTicker.getText());
-          TSList.add(txtShare.getText());
+          tSList.add(txtTicker.getText());
+          tSList.add(txtShare.getText());
           subDisplay.setVisible(true);
           addShare.setVisible(false);
           txtTicker.setEditable(false);
@@ -651,8 +671,8 @@ public class JFrameView extends JFrame implements GuiInterface {
         case "Validated":
           subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
               + ", Share : " + txtShare.getText()));
-          TSList.add(txtTicker.getText());
-          TSList.add(txtShare.getText());
+          tSList.add(txtTicker.getText());
+          tSList.add(txtShare.getText());
           subDisplay.setVisible(true);
           addShare.setVisible(false);
           txtTicker.setEditable(false);
@@ -794,8 +814,8 @@ public class JFrameView extends JFrame implements GuiInterface {
     addDCShare.addActionListener(evt -> {
       subDisplay.add(new JLabel("Ticker : " + txtTicker.getText()
           + ", Share : " + txtShare.getText()));
-      TSList.add(txtTicker.getText());
-      TSList.add(txtShare.getText());
+      tSList.add(txtTicker.getText());
+      tSList.add(txtShare.getText());
       subDisplay.setVisible(true);
       addDCShare.setVisible(false);
       txtTicker.setEditable(false);
@@ -949,6 +969,7 @@ public class JFrameView extends JFrame implements GuiInterface {
           showContents(data, columnNames);
           subContentPanel.add(new JLabel("          Total Value of Portfolio on "
               + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
+          break;
         default:
           break;
       }
@@ -1028,6 +1049,7 @@ public class JFrameView extends JFrame implements GuiInterface {
               + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
           subContentPanel.add(new JLabel("        Total Amount Spent on Commission Fee is "
               + getConStuff()[getConStuff().length - 2] + "$"));
+          break;
         default:
           break;
       }
