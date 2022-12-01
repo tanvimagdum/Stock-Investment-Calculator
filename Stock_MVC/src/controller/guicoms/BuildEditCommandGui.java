@@ -4,22 +4,25 @@ import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
 import java.util.ArrayList;
 
+/**
+ * A GuiCommand to determine the right action on the build edit screen.
+ */
 public class BuildEditCommandGui implements GuiCommand {
+
   @Override
   public void goDoStuff(GuiInterface f, PortfolioManager p, API api) {
     Object[] o = f.getOperationalStuff();
-    switch(o[0].toString()) {
-      case "Begin building a flexible portfolio" :
+    switch (o[0].toString()) {
+      case "Begin building a flexible portfolio":
         f.setCurrScreen("Build Portfolio");
         break;
-      case "Begin a flexible portfolio with a strategy"  :
+      case "Begin a flexible portfolio with a strategy":
         f.setCurrScreen("Build Strategy");
         break;
-      case "Edit a flexible portfolio" :
+      case "Edit a flexible portfolio":
         try {
           selectFlexPortfolio(f, p);
           f.setCurrScreen("Edit Portfolio");
@@ -29,19 +32,19 @@ public class BuildEditCommandGui implements GuiCommand {
           f.setCurrScreen("Error");
         }
         break;
-      case "Add a strategy to a flexible portfolio" :
+      case "Add a strategy to a flexible portfolio":
         try {
           selectNonEmptyFlexPortfolio(f, p);
           f.setCurrScreen("Edit Strategy");
         } catch (Exception e) {
           f.printLine("There are either no flexible portfolios "
-                  + "yet or the input was out of bounds.");
+              + "yet or the input was out of bounds.");
           f.setCurrScreen("Error");
         }
         break;
-      case "Add a fixed cost buy across a flexible portfolio" :
+      case "Add a fixed cost buy across a flexible portfolio":
         try {
-          selectNonEmptyFlexPortfolio(f ,p);
+          selectNonEmptyFlexPortfolio(f, p);
           f.setCurrScreen("Dollar Cost");
         } catch (Exception e) {
           f.printLine("There are either no flexible portfolios "
@@ -49,7 +52,7 @@ public class BuildEditCommandGui implements GuiCommand {
           f.setCurrScreen("Error");
         }
         break;
-      default :
+      default:
         f.printLine("Please select one option");
         f.setCurrScreen("Error");
         break;

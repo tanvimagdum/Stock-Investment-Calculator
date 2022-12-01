@@ -4,13 +4,15 @@ import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A GuiCommand to edit a flexible portfolio.
+ */
 public class EditFlexibleCommandGui implements GuiCommand {
 
   @Override
@@ -35,7 +37,7 @@ public class EditFlexibleCommandGui implements GuiCommand {
   }
 
   private void editFlexPortfolio(String name, GuiInterface f, PortfolioManager p)
-          throws IllegalArgumentException, IOException, ParseException {
+      throws IllegalArgumentException, IOException, ParseException {
     //get data from view
     Object[] o = f.getOperationalStuff();
 
@@ -52,7 +54,7 @@ public class EditFlexibleCommandGui implements GuiCommand {
     boolean dateCheck = true;
     if (!p.validateTicker(ticker)) {
       String response = f.printWarning("Warning: the symbol you entered is not recognized. " +
-              "Click 'YES' to continue with this symbol. Else click 'No'");
+          "Click 'YES' to continue with this symbol. Else click 'No'");
       //f.printLine("Enter 'y' to continue with this symbol. Enter anything else to try again.");
       if (!response.equals("y")) {
         return;

@@ -2,7 +2,6 @@ package controller.guicoms;
 
 import controller.API;
 import controller.GuiCommand;
-import java.io.IOException;
 import model.PortfolioManager;
 import view.GuiInterface;
 

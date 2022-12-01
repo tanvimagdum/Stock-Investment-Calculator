@@ -2,7 +2,6 @@ package controller.guicoms;
 
 import controller.API;
 import controller.GuiCommand;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +10,9 @@ import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
 
+/**
+ * A GuiCommand to validate the starting information for a dollar cost buy.
+ */
 public class DollarCostStartCommand implements GuiCommand {
 
   @Override

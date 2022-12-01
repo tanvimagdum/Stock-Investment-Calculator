@@ -11,6 +11,9 @@ import model.PortfolioManager;
 import model.Stock;
 import view.GuiInterface;
 
+/**
+ * A GuiCommand to finish a dollar cost buy.
+ */
 public class DollarCostBuyGuiCommand implements GuiCommand {
 
   @Override

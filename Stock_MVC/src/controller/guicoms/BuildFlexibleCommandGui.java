@@ -4,13 +4,12 @@ import controller.API;
 import controller.GuiCommand;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+/**
+ * A GuiCommand to build a flexible portfolio.
+ */
 public class BuildFlexibleCommandGui implements GuiCommand {
 
   @Override
@@ -30,7 +29,7 @@ public class BuildFlexibleCommandGui implements GuiCommand {
   }
 
   private String buildFlexPortfolio(GuiInterface f, PortfolioManager p)
-          throws IOException, ParseException {
+      throws IOException, ParseException {
 
     //get data from view
     String name = f.getPortfolioName();
@@ -65,13 +64,13 @@ public class BuildFlexibleCommandGui implements GuiCommand {
     f.printLine("Portfolio name set successfully!");
     String getCurrScreen = f.getCurrScreen();
     switch (getCurrScreen) {
-      case "Build Portfolio" :
+      case "Build Portfolio":
         f.setCurrScreen("Add Stock");
         break;
-      case "Build Strategy" :
+      case "Build Strategy":
         f.setCurrScreen("Add Strategy");
         break;
-      default :
+      default:
         break;
     }
 

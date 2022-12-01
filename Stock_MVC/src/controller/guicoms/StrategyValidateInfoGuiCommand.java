@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
+/**
+ * A GuiCommand to validate the info for a strategy action.
+ */
 public class StrategyValidateInfoGuiCommand implements GuiCommand {
 
   @Override
@@ -32,7 +34,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
     float amount;
     int frequency;
 
-    try{
+    try {
       amount = Float.parseFloat(amountString);
       if (amount < 1) {
         throw new IllegalArgumentException();
@@ -43,7 +45,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       return;
     }
 
-    try{
+    try {
       frequency = Integer.parseInt(frequencyString);
       if (frequency < 1) {
         throw new IllegalArgumentException();
@@ -54,7 +56,7 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       return;
     }
 
-    try{
+    try {
       startingDate = formatter.parse(year1 + "-" + month1 + "-" + day1);
     } catch (Exception e) {
       f.printLine("The starting date entered was invalid.");
@@ -85,11 +87,10 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
     String[] tickers = p.getTickers(name);
     if (tickers.length == 0) {
       f.setCurrScreen("Proceed Build");
-    }
-    else {
-      for(int i = 0; i < tickers.length; i++) {
+    } else {
+      for (int i = 0; i < tickers.length; i++) {
         try {
-          if(!p.validateTicker(tickers[i], startingDate)){
+          if (!p.validateTicker(tickers[i], startingDate)) {
             f.printLine("The date entered was earlier than the tickers in the portfolio allow.");
             f.setCurrScreen("Error");
             return;
@@ -103,13 +104,13 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       f.setCurrScreen("Proceed Edit");
     }
     ArrayList<String> uniques = new ArrayList<>();
-    for (String ticker: tickers) {
+    for (String ticker : tickers) {
       if (!uniques.contains(ticker)) {
         uniques.add(ticker);
       }
     }
     String[] uniqueTickers = new String[uniques.size()];
-    for (int i =0; i < uniques.size(); i++) {
+    for (int i = 0; i < uniques.size(); i++) {
       uniqueTickers[i] = uniques.get(i);
     }
     f.setConStuff(uniqueTickers);

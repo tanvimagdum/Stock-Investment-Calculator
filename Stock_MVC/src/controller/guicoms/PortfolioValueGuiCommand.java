@@ -10,6 +10,9 @@ import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
 
+/**
+ * A GuiCommand to get the value of a portfolio on a certain date.
+ */
 public class PortfolioValueGuiCommand implements GuiCommand {
 
   @Override

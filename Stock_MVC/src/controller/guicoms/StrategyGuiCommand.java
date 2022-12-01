@@ -12,6 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * A GuiCommand to finish off a strategy action.
+ */
 public class StrategyGuiCommand implements GuiCommand {
 
   @Override

@@ -2,15 +2,15 @@ package controller.guicoms;
 
 import controller.API;
 import controller.GuiCommand;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
+/**
+ * A GuiCommand to validate stocks as they are entered for a strategy.
+ */
 public class StrategyValidateStockGuiCommand implements GuiCommand {
 
   @Override

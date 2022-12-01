@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
+/**
+ * A GuiCommand to generate the cost basis of a portfolio on a given date.
+ */
 public class CostBasisGuiCommand implements GuiCommand {
 
   @Override
@@ -103,7 +104,7 @@ public class CostBasisGuiCommand implements GuiCommand {
       sum += values[j] * counts[j];
       if (counts[j] > 0) {
         sendToView[i + 1] = tickers[j];
-        sendToView[i + 2] = String.format("%.02f",counts[j]);
+        sendToView[i + 2] = String.format("%.02f", counts[j]);
         sendToView[i + 3] = formatter.format(dates[j]);
         sendToView[i + 4] = String.format("%.02f", values[j] * counts[j]);
         j++;

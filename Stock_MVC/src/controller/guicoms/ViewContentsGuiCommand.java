@@ -7,8 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.PortfolioManager;
 import view.GuiInterface;
-import view.JFrameView;
 
+/**
+ * A GuiCommand to view the contents of a portfolio. Used by several other commands as well.
+ */
 public class ViewContentsGuiCommand implements GuiCommand {
 
   @Override
@@ -23,8 +25,8 @@ public class ViewContentsGuiCommand implements GuiCommand {
     int j = 0;
     for (int i = 0; i < sendToView.length; i += 3) {
       sendToView[i] = tickers[j];
-      sendToView[i+1] = String.format("%.02f", counts[j]);
-      sendToView[i+2] = formatter.format(dates[j]);
+      sendToView[i + 1] = String.format("%.02f", counts[j]);
+      sendToView[i + 2] = formatter.format(dates[j]);
       j++;
     }
 
