@@ -35,7 +35,7 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
     ArrayList<String> tickerList = new ArrayList<>();
     ArrayList<Stock<String, Float>> list = new ArrayList<>();
 
-    if (o.length <= 8) {
+    if (o.length <= 4) {
       f.printLine("A strategy cannot be applied without specified stocks, please try again.");
       f.setCurrScreen("Error");
       return;
@@ -45,8 +45,8 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
     float sum = 0;
     int j = 0;
     for (int i = 0; i < (o.length - 4); i += 2) {
-      Float percent = Float.parseFloat(o[i + 9].toString());
-      tickerList.add(o[i + 8].toString());
+      Float percent = Float.parseFloat(o[i + 5].toString());
+      tickerList.add(o[i + 4].toString());
       percentages[j] = percent;
       sum += percent;
       j++;
