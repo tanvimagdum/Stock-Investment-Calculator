@@ -69,6 +69,15 @@ public class StrategyGuiCommand implements GuiCommand {
       return;
     }
 
+    for (j = 0; j < tickerList.size(); j++) {
+      if (!p.validateTicker(tickerList.get(j), start)) {
+        f.printLine("You entered tickers that were not available at the start of your strategy."
+            + "Please try again.");
+        f.setCurrScreen("Error");
+        return;
+      }
+    }
+
     f.printLine("Please wait while API is loading the information...");
     for (j = 0; j < tickerList.size(); j++) {
       list.add(new Stock(tickerList.get(j), amount * percentages[j] * 0.01f));

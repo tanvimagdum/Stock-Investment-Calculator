@@ -101,12 +101,4 @@ public class ViewImplTest {
     assertEquals("PrintLine1\nPrintLine2\n", out.toString());
   }
 
-  @Test
-  public void testDisplayError() {
-    OutputStream out = new ByteArrayOutputStream();
-    ViewInterface v = new ViewImpl(new PrintStream(out));
-    v.displayError();
-    assertEquals("Please re-enter a choice number from the given list\n", out.toString());
-  }
-
 }

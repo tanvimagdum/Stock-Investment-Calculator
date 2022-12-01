@@ -226,11 +226,6 @@ public class TextCommandTests {
     public void printLines(String[] lines) {
       log.append("printLines method called ");
     }
-
-    @Override
-    public void displayError() {
-      log.append("displayError method called ");
-    }
   }
 
   /**

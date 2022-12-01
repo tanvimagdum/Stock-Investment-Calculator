@@ -213,10 +213,6 @@ public class ControllerImplTest {
       log.append("printLines method called ");
     }
 
-    @Override
-    public void displayError() {
-      log.append("displayError method called ");
-    }
   }
 
   /**

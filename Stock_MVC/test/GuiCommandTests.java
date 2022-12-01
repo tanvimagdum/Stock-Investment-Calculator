@@ -1,5 +1,15 @@
+import static org.junit.Assert.assertEquals;
+
 import controller.API;
+import controller.GuiCommand;
 import controller.PersistenceInterface;
+import controller.guicoms.LoadCommandGui;
+import controller.guicoms.SaveCommandGui;
+import controller.guicoms.SaveGuiCommand;
+import controller.guicoms.StrategyGuiCommand;
+import controller.guicoms.StrategyValidateInfoGuiCommand;
+import controller.guicoms.StrategyValidateStockGuiCommand;
+import controller.guicoms.ViewContentsGuiCommand;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,8 +21,10 @@ import model.PortfolioManager;
 import model.Stock;
 import org.junit.Test;
 import view.GuiInterface;
-import view.ViewInterface;
 
+/**
+ * A JUnit test class for testing GUI commands.
+ */
 public class GuiCommandTests {
 
   /**
@@ -160,9 +172,12 @@ public class GuiCommandTests {
   public class MockGui implements GuiInterface {
 
     private StringBuilder log;
+    private Object[] stuff;
+    private String portName;
+
 
     /**
-     * A constructor for the mock GUI
+     * A constructor for the mock GUI.
      *
      * @param log a stringbuilder for logging
      */
@@ -179,17 +194,18 @@ public class GuiCommandTests {
     @Override
     public Object[] getOperationalStuff() {
       log.append("getOperationalStuff called ");
-      return new Object[0];
+      return this.stuff;
     }
 
     @Override
     public String getPortfolioName() {
       log.append("getPortfolioName called ");
-      return "dummy";
+      return this.portName;
     }
 
     @Override
     public void setConStuff(Object[] o) {
+      this.stuff = o;
       log.append("setConStuff called ");
     }
 
@@ -239,9 +255,13 @@ public class GuiCommandTests {
       log.append("printLines called ");
     }
 
-    @Override
-    public void displayError() {
-      log.append("displayError called ");
+    /**
+     * A method to change internal variables for testing.
+     *
+     * @param name the name of the portfolio
+     */
+    public void setPortName(String name) {
+      this.portName = name;
     }
   }
 
@@ -315,77 +335,298 @@ public class GuiCommandTests {
   //TESTS
 
   @Test
-  public void buildEditCommandTest() {
-
-  }
-
-  @Test
   public void buildFlexibleCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
   public void costBasisCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
   public void dollarCostBuyCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
   public void dollarCostStartCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
   public void editFlexibleCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
-  public void loadCommandTest() {
-
-  }
-
-  @Test
-  public void portfolioValueCommandTest(){
-
+  public void portfolioValueCommandTest() {
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveCommandGui();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("", log.toString());
   }
 
   @Test
   public void strategyCommandTest() {
+    //success
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new StrategyGuiCommand();
+    Object[] o = new Object[10];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020";
+    o[6] = "01";
+    o[7] = "01";
+    o[8] = "GOOG";
+    o[9] = "100";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getPortfolioName called getOperationalStuff "
+        + "called printLine called addStrategy method called updateFromStrategy method "
+        + "called getPortfolioName called getTickers method called with null getCounts "
+        + "method called with null getDates method called with null setConStuff called "
+        + "setCurrScreen called ", log.toString());
+    log.delete(0, log.toString().length());
 
   }
 
   @Test
   public void strategyValidateInfoCommandTest() {
+    //success
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new StrategyValidateInfoGuiCommand();
+    Object[] o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called "
+        + "getPortfolioName called getTickers method called with null "
+        + "setCurrScreen called setConStuff called ", log.toString());
+    log.delete(0, log.toString().length());
 
+    //success with no end date
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "";
+    o[6] = "";
+    o[7] = "";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called "
+        + "getPortfolioName called getTickers method called with "
+        + "null setCurrScreen called setConStuff called ", log.toString());
+    log.delete(0, log.toString().length());
+
+    //bad start date
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2019sdf";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called "
+        + "printLine called setCurrScreen called ", log.toString());
+    log.delete(0, log.toString().length());
+
+    //bad end date
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020okg";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called "
+        + "printLine called setCurrScreen called ", log.toString());
+    log.delete(0, log.toString().length());
+
+    //bad amount
+    o = new Object[8];
+    o[0] = "1000kk";
+    o[1] = "100";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called "
+        + "printLine called setCurrScreen called ", log.toString());
+    log.delete(0, log.toString().length());
+
+    //bad interval
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100kk";
+    o[2] = "2019";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2020";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff "
+        + "called printLine called setCurrScreen called ", log.toString());
+    log.delete(0, log.toString().length());
+
+    //dates out of order
+    o = new Object[8];
+    o[0] = "1000";
+    o[1] = "100";
+    o[2] = "2020";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "2019";
+    o[6] = "01";
+    o[7] = "01";
+    gui.setConStuff(o);
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff "
+        + "called printLine called setCurrScreen called ", log.toString());
   }
 
   @Test
   public void strategyValidateStockCommandTest() {
+    //success
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    Object[] o = new Object[7];
+    o[2] = "2020";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "GOOG";
+    gui.setConStuff(o);
+    GuiCommand cmd = new StrategyValidateStockGuiCommand();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called validateTicker "
+        + "method called with GOOG and 01-01-2020 setCurrScreen called ", log.toString());
 
-  }
+    //bad ticker
+    log.delete(0, log.toString().length());
+    o = new Object[7];
+    o[2] = "2020";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "asdfasdf";
+    gui.setConStuff(o);
+    cmd = new StrategyValidateStockGuiCommand();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called validateTicker method "
+        + "called with asdfasdf and 01-01-2020 setCurrScreen called ", log.toString());
 
-  @Test
-  public void viewCommandGuiTest() {
-
+    //early ticker
+    log.delete(0, log.toString().length());
+    o = new Object[7];
+    o[2] = "2010";
+    o[3] = "01";
+    o[4] = "01";
+    o[5] = "GOOG";
+    gui.setConStuff(o);
+    cmd = new StrategyValidateStockGuiCommand();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("setConStuff called getOperationalStuff called validateTicker "
+        + "method called with GOOG and 01-01-2010 setCurrScreen called ", log.toString());
   }
 
   @Test
   public void viewContentsCommandTest() {
-
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new ViewContentsGuiCommand();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("getPortfolioName called getTickers method called with null "
+        + "getCounts method called with null getDates method called with "
+        + "null setConStuff called setCurrScreen called ", log.toString());
   }
 
   @Test
-  public void saveCommandTest() {
+  public void saveAndLoadCommandTests() {
+    StringBuilder log = new StringBuilder();
+    GuiInterface gui = new MockGui(log);
+    PortfolioManager mockP = new MockPortfolioManager(log);
+    API mockA = new MockAPI(log);
+    GuiCommand cmd = new SaveGuiCommand();
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("getPortfolioName called savePortfolio method "
+        + "called with null printLine called ", log.toString());
 
-  }
-
-  @Test
-  public void saveAllCommandTest() {
-
+    cmd = new LoadCommandGui();
+    log.delete(0, log.toString().length());
+    cmd.goDoStuff(gui, mockP, mockA);
+    assertEquals("getPortfolioName called getPortfolioNames method called "
+        + "readPortfolioFile method called with null.csv getPortfolioName called "
+        + "getTickers method called with null getCounts method called with null "
+        + "getDates method called with null setConStuff called "
+        + "setCurrScreen called ", log.toString());
   }
 }
