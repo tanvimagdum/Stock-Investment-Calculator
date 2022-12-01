@@ -36,6 +36,7 @@ public class PortfolioValueGuiCommand implements GuiCommand {
       return;
     }
 
+    f.printLine("Please wait while API is loading the information...");
     String[] startTickers = p.getTickers(name);
     Float[] startCounts = p.getCounts(name);
     Date[] startDates = p.getDates(name);

@@ -89,10 +89,12 @@ public class CostBasisGuiCommand implements GuiCommand {
     try {
       values = p.getCostBasis(name, target, api);
     } catch (ParseException | IOException e) {
-      f.printLine("There was an error retreiving that information. Please try again.");
+      f.printLine("There was an error retrieving that information. Please try again.");
       f.setCurrScreen("Error");
       return;
     }
+
+    f.printLine("Please wait while API is loading the information...");
     Object[] sendToView = new Object[3 + 4 * tickers.length];
     sendToView[0] = formatter.format(target);
     float sum = 0;
@@ -103,13 +105,14 @@ public class CostBasisGuiCommand implements GuiCommand {
         sendToView[i + 1] = tickers[j];
         sendToView[i + 2] = String.format("%.02f",counts[j]);
         sendToView[i + 3] = formatter.format(dates[j]);
-        sendToView[i + 4] = String.format("%.02f", values[j]);
+        sendToView[i + 4] = String.format("%.02f", values[j] * counts[j]);
         j++;
       }
     }
     sendToView[sendToView.length - 2] = String.format("%.02f", p.getCommissionFee() * comTracker);
     sendToView[sendToView.length - 1] =
-        String.format("%.02f", sum - p.getCommissionFee() * comTracker);
+        String.format("%.02f", sum + p.getCommissionFee() * comTracker);
     f.setConStuff(sendToView);
+    f.setCurrScreen("Cost Basis");
   }
 }

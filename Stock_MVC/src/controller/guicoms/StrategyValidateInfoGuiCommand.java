@@ -81,6 +81,12 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
     }
     String name = f.getPortfolioName();
     String[] tickers = p.getTickers(name);
+    if (tickers.length == 0) {
+      f.setCurrScreen("Proceed Build");
+    }
+    else {
+      f.setCurrScreen("Proceed Edit");
+    }
     ArrayList<String> uniques = new ArrayList<>();
     for (String ticker: tickers) {
       if (!uniques.contains(ticker)) {
@@ -92,6 +98,5 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       uniqueTickers[i] = uniques.get(i);
     }
     f.setConStuff(uniqueTickers);
-    f.setCurrScreen("Proceed");
   }
 }
