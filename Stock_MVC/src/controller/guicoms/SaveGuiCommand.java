@@ -16,8 +16,9 @@ public class SaveGuiCommand implements GuiCommand {
     String name = f.getPortfolioName();
     try {
       p.savePortfolio(name);
+      f.printLine("Portfolio saved.");
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      f.printLine("Saving failed.");
     }
   }
 }

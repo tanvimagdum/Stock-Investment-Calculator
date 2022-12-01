@@ -13,8 +13,9 @@ public class SaveAllCommand implements TextCommand {
 
   @Override
   public void go(Scanner sc, ViewInterface v, PortfolioManager p, API api) {
-    String[] names = p.getPortfolioNames();
+
     try {
+      String[] names = p.getPortfolioNames();
       for (int i = 0; i < names.length; i++) {
         p.savePortfolio(names[i]);
       }

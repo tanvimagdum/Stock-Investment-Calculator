@@ -1,19 +1,6 @@
 package controller;
 
-import controller.guicoms.BuildEditCommandGui;
-import controller.guicoms.BuildFlexibleCommandGui;
-import controller.guicoms.CostBasisGuiCommand;
-import controller.guicoms.DollarCostBuyGuiCommand;
-import controller.guicoms.DollarCostStartCommand;
-import controller.guicoms.EditFlexibleCommandGui;
-import controller.guicoms.LoadCommandGui;
-import controller.guicoms.PortfolioValueGuiCommand;
-import controller.guicoms.SaveCommandGui;
-import controller.guicoms.StrategyGuiCommand;
-import controller.guicoms.StrategyValidateInfoGuiCommand;
-import controller.guicoms.StrategyValidateStockGuiCommand;
-import controller.guicoms.ViewCommandGui;
-import controller.guicoms.ViewContentsGuiCommand;
+import controller.guicoms.*;
 import controller.textcoms.BuildFlexibleCommand;
 import controller.textcoms.BuildSimpleCommand;
 import controller.textcoms.CostBasisCommand;
@@ -224,6 +211,10 @@ public class ControllerImpl implements InputController, ActionListener {
     guiViewScreen.put("Back Button", new BackCommandGui());
     guiViewScreen.put("Show Portfolio Contents", new ViewContentsGuiCommand());
     guiViewScreen.put("Show Portfolio Value", new PortfolioValueGuiCommand());
+
+    guiSaveScreen.put("Save Port", new SaveCommandGui());
+    guiSaveScreen.put("Save a specific portfolio", new SaveGuiCommand());
+    guiSaveScreen.put("Back Button", new BackCommandGui());
 
     //guiBuildScreen.put("Button Name", new CommandName());
 

@@ -614,7 +614,7 @@ public class JFrameView extends JFrame implements GuiInterface {
           showPortValueScreen();
           break;
         case "Show Cost Basis" :
-          //showCostBasisScreen();
+          showCostBasisScreen();
           break;
         case "Error" :
           subContentPanel.setVisible(true);
@@ -697,9 +697,7 @@ public class JFrameView extends JFrame implements GuiInterface {
           Object[] out = new Object[getConStuff().length - 2];
           int j = 1;
           for (int i = 0; i < out.length; i++) {
-            System.out.println(getConStuff()[j]);
             out[i] = getConStuff()[j];
-            System.out.println(out[i]);
             j++;
           }
           String[] columnNames = {"Ticker", "Count", "Date", "Value"};
@@ -713,7 +711,7 @@ public class JFrameView extends JFrame implements GuiInterface {
             j++;
           }
           showContents(data, columnNames);
-          subContentPanel.add(new JLabel("Total Value of Portfolio on "
+          subContentPanel.add(new JLabel("          Total Value of Portfolio on "
                  + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
       }
     });
@@ -731,12 +729,63 @@ public class JFrameView extends JFrame implements GuiInterface {
     subContentPanel.add(portName);
   }
 
-  @Override
-  public void showSaveScreen() {
-    disableButtons();
-    content.setText("Save a Portfolio");
+  private void showCostBasisScreen() {
+
   }
 
+  @Override
+  public void showSaveScreen() {
+    opStuff = new Object[1];
+    disableButtons();
+    content.setText("Save a Portfolio");
+
+    addSubContentPanel();
+    JLabel selectOption = new JLabel("Please select one of the options- ");
+    subContentPanel.add(selectOption);
+    String[] items = new String[3];
+    items[0] = "Select Option";
+    items[1] = "Save a specific portfolio";
+    items[2] = "Save all portfolios";
+    JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
+
+    JButton submit = new JButton("Submit");
+    submit.setActionCommand("Save Port");
+    submit.addActionListener(evt -> { subContentPanel.setVisible(false);
+      switch(currScreen) {
+        case "Save Portfolio" :
+          savePortfolio();
+          break;
+        case "Save All Portfolios" :
+        case "Error" :
+          subContentPanel.setVisible(true);
+          break;
+        default :
+          break;
+      }});
+    submit.addActionListener(this.actionListner);
+    submit.addActionListener(evt -> opStuff[0] = options.getSelectedItem());
+    subContentPanel.add(submit);
+  }
+
+  private void savePortfolio() {
+    addSubContentPanel();
+
+    JLabel lblPortName = new JLabel("Select a portfolio : ");
+    subContentPanel.add(lblPortName);
+    Object[] o = getConStuff();
+    String[] item = new String[o.length];
+    for (int i = 0; i < o.length; i++) {
+      item[i] = o[i].toString();
+    }
+    JComboBox<String> portNames = new JComboBox<>(item);
+    subContentPanel.add(portNames);
+
+    JButton portButton = new JButton("Save Portfolio");
+    portButton.setActionCommand("Save a specific portfolio");
+    portButton.addActionListener(this.actionListner);
+    subContentPanel.add(portButton);
+  }
   //display validation errors given by the controller
   @Override
   public void printLine(String line) {
@@ -820,6 +869,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     JTable contentTable = new JTable(data, columnNames);
     JScrollPane subDisplayScroll = new JScrollPane(contentTable);
     contentTable.setFillsViewportHeight(true);
+    contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+    contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
+    contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
     contentTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 13));
     subDisplay.add(subDisplayScroll);
 
