@@ -19,9 +19,6 @@ public class SaveCommandGui implements GuiCommand {
       case "Save all portfolios"  :
 
         break;
-      case "View cost basis of a portfolio on a certain date" :
-
-        break;
       default :
         f.printLine("Please select one option");
         f.setCurrScreen("Error");

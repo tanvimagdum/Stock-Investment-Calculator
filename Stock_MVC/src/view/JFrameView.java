@@ -614,7 +614,7 @@ public class JFrameView extends JFrame implements GuiInterface {
           showPortValueScreen();
           break;
         case "Show Cost Basis" :
-          //showCostBasisScreen();
+          showCostBasisScreen();
           break;
         case "Error" :
           subContentPanel.setVisible(true);
@@ -729,6 +729,10 @@ public class JFrameView extends JFrame implements GuiInterface {
       txtDay.setText("");
     });
     subContentPanel.add(portName);
+  }
+
+  private void showCostBasisScreen() {
+
   }
 
   @Override
