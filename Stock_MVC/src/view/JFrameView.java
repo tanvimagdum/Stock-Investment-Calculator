@@ -339,6 +339,8 @@ public class JFrameView extends JFrame implements GuiInterface {
     txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtDay);
 
+    subContentPanel.add(new JLabel("Please click on 'Back to Home' to quit, "
+            + "else 'Add Stocks' to enter Stock Info."));
     JButton addStock = new JButton("Add Stock");
     addStock.setActionCommand("Add Stock");
     addStock.addActionListener(evt -> opStuff = new Object[6]);
