@@ -333,6 +333,7 @@ public class JFrameView extends JFrame implements GuiInterface {
     items[0] = "Buy Stock";
     items[1] = "Sell Stock";
     JComboBox<String> options = new JComboBox<>(items);
+    subContentPanel.add(options);
 
     JLabel lblTicker = new JLabel("Enter the Ticker : ");
     subContentPanel.add(lblTicker);
@@ -358,7 +359,6 @@ public class JFrameView extends JFrame implements GuiInterface {
     JTextField txtDay = new JTextField(2);
     txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtDay);
-    subContentPanel.add(options);
 
     subContentPanel.add(new JLabel("Please click on 'Back to Home' to quit, "));
     subContentPanel.add(new JLabel("else 'Add Stocks' to enter Stock Info."));
