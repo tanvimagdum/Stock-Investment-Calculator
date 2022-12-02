@@ -1194,14 +1194,9 @@ public class JFrameView extends JFrame implements GuiInterface {
     JTable contentTable = new JTable(data, columnNames);
     JScrollPane subDisplayScroll = new JScrollPane(contentTable);
     contentTable.setFillsViewportHeight(true);
-    try {
-      contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
-      contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
-      contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
-      contentTable.getColumnModel().getColumn(3).setPreferredWidth(7);
-    } catch (Exception e) {
-      //do nothing
-    }
+    contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+    contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
+    contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
     contentTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 13));
     subDisplay.add(subDisplayScroll);
 
