@@ -72,12 +72,21 @@ public class StrategyGuiCommand implements GuiCommand {
       return;
     }
 
+    ArrayList<String> duplicateCheck = new ArrayList<>();
     for (j = 0; j < tickerList.size(); j++) {
       if (!p.validateTicker(tickerList.get(j), start)) {
         f.printLine("You entered tickers that were not available at the start of your strategy."
             + "Please try again.");
         f.setCurrScreen("Error");
         return;
+      }
+      if (duplicateCheck.contains(tickerList.get(j))){
+        f.printLine("You entered the same ticker multiple times. This is not permitted."
+            + "Please try again.");
+        f.setCurrScreen("Error");
+        return;
+      } else {
+        duplicateCheck.add(tickerList.get(j));
       }
     }
 
