@@ -56,7 +56,6 @@ public class JFrameView extends JFrame implements GuiInterface {
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     Border paddingMain = BorderFactory.createEmptyBorder(20, 20, 20, 20);
     mainPanel.setBorder(paddingMain);
-    //mainScrollPane = new JScrollPane(mainPanel);
     add(mainPanel);
 
     JPanel headerPanel = new JPanel();
@@ -944,34 +943,30 @@ public class JFrameView extends JFrame implements GuiInterface {
     JButton portButton = new JButton("Get Portfolio Value");
     portButton.setActionCommand("Show Portfolio Value");
     portButton.addActionListener(evt -> {
-      switch (currScreen) {
-        case "Error":
-          subContentPanel.setVisible(true);
-          break;
-        case "Value Extracted":
-          subContentPanel.setVisible(false);
-          Object[] out = new Object[getConStuff().length - 2];
-          int j = 1;
-          for (int i = 0; i < out.length; i++) {
-            out[i] = getConStuff()[j];
-            j++;
-          }
-          String[] columnNames = {"Ticker", "Count", "Date", "Value"};
-          Object[][] data = new Object[out.length / 4][4];
-          j = 0;
-          for (int i = 0; i < out.length; i = i + 4) {
-            data[j][0] = out[i];
-            data[j][1] = out[i + 1];
-            data[j][2] = out[i + 2];
-            data[j][3] = out[i + 3];
-            j++;
-          }
-          showContents(data, columnNames);
-          subContentPanel.add(new JLabel("          Total Value of Portfolio on "
-              + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
-          break;
-        default:
-          break;
+      if (currScreen.equals("Error")) {
+        subContentPanel.setVisible(true);
+      }
+      else if (currScreen.equals("Value Extracted")) {
+        subContentPanel.setVisible(false);
+        Object[] out = new Object[getConStuff().length - 2];
+        int j = 1;
+        for (int i = 0; i < out.length; i++) {
+          out[i] = getConStuff()[j];
+          j++;
+        }
+        String[] columnNames = {"Ticker", "Count", "Date", "Value"};
+        Object[][] data = new Object[out.length / 4][4];
+        j = 0;
+        for (int i = 0; i < out.length; i = i + 4) {
+          data[j][0] = out[i];
+          data[j][1] = out[i + 1];
+          data[j][2] = out[i + 2];
+          data[j][3] = out[i + 3];
+          j++;
+        }
+        showContents(data, columnNames);
+        subContentPanel.add(new JLabel("          Total Value of Portfolio on "
+                + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
       }
     });
     portButton.addActionListener(this.actionListner);
@@ -1022,36 +1017,32 @@ public class JFrameView extends JFrame implements GuiInterface {
     JButton portButton = new JButton("Get Cost Basis");
     portButton.setActionCommand("Show Cost Basis");
     portButton.addActionListener(evt -> {
-      switch (currScreen) {
-        case "Error":
-          subContentPanel.setVisible(true);
-          break;
-        case "Cost Basis":
-          subContentPanel.setVisible(false);
-          Object[] out = new Object[getConStuff().length - 3];
-          int j = 1;
-          for (int i = 0; i < out.length; i++) {
-            out[i] = getConStuff()[j];
-            j++;
-          }
-          String[] columnNames = {"Ticker", "Count", "Date", "Cost"};
-          Object[][] data = new Object[out.length / 4][4];
-          j = 0;
-          for (int i = 0; i < out.length; i = i + 4) {
-            data[j][0] = out[i];
-            data[j][1] = out[i + 1];
-            data[j][2] = out[i + 2];
-            data[j][3] = out[i + 3];
-            j++;
-          }
-          showContents(data, columnNames);
-          subContentPanel.add(new JLabel("        Total Cost Basis of Portfolio on "
-              + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
-          subContentPanel.add(new JLabel("        Total Amount Spent on Commission Fee is "
-              + getConStuff()[getConStuff().length - 2] + "$"));
-          break;
-        default:
-          break;
+      if (currScreen.equals("Error")) {
+        subContentPanel.setVisible(true);
+      }
+      else if (currScreen.equals("Cost Basis")) {
+        subContentPanel.setVisible(false);
+        Object[] out = new Object[getConStuff().length - 3];
+        int j = 1;
+        for (int i = 0; i < out.length; i++) {
+          out[i] = getConStuff()[j];
+          j++;
+        }
+        String[] columnNames = {"Ticker", "Count", "Date", "Cost"};
+        Object[][] data = new Object[out.length / 4][4];
+        j = 0;
+        for (int i = 0; i < out.length; i = i + 4) {
+          data[j][0] = out[i];
+          data[j][1] = out[i + 1];
+          data[j][2] = out[i + 2];
+          data[j][3] = out[i + 3];
+          j++;
+        }
+        showContents(data, columnNames);
+        subContentPanel.add(new JLabel("        Total Cost Basis of Portfolio on "
+                + getConStuff()[0] + " is : " + getConStuff()[getConStuff().length - 1] + "$"));
+        subContentPanel.add(new JLabel("        Total Amount Spent on Commission Fee is "
+                + getConStuff()[getConStuff().length - 2] + "$"));
       }
     });
     portButton.addActionListener(this.actionListner);
