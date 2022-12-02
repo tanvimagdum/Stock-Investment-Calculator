@@ -24,7 +24,6 @@ public class APIImpl implements API {
     float[] out = new float[tickerList.length];
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     date = format.parse(format.format(date));
-    System.out.println(format.format(date));
 
     for (int i = 0; i < tickerList.length; i++) {
       try {
