@@ -44,8 +44,7 @@ public class StrategyValidateStockGuiCommand implements GuiCommand {
 
     try {
       float percent = Float.parseFloat(count);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       f.printLine("The entered count was blank or less than 0.");
       f.setCurrScreen("Error");
       return;

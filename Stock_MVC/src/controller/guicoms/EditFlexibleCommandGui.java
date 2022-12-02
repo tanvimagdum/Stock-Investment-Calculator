@@ -52,8 +52,8 @@ public class EditFlexibleCommandGui implements GuiCommand {
     }
     boolean dateCheck = true;
     if (!p.validateTicker(ticker)) {
-      String response = f.printWarning("Warning: the symbol you entered is not recognized. " +
-          "Click 'YES' to continue with this symbol. Else click 'No'");
+      String response = f.printWarning("Warning: the symbol you entered is not recognized. "
+          + "Click 'YES' to continue with this symbol. Else click 'No'");
       if (!response.equals("y")) {
         return;
       } else {

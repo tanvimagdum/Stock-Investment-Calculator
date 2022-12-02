@@ -67,7 +67,7 @@ public class DollarCostBuyGuiCommand implements GuiCommand {
       return;
     }
 
-    String tickers[] = new String[tickerList.size()];
+    String[] tickers = new String[tickerList.size()];
     for (int i = 0; i < tickerList.size(); i++) {
       tickers[i] = tickerList.get(i);
     }

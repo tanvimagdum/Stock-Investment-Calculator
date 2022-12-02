@@ -40,7 +40,8 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
         throw new IllegalArgumentException();
       }
     } catch (Exception e) {
-      f.printLine("The amount entered was blank or, not a dollar amount greater than or equal to $1.");
+      f.printLine(
+          "The amount entered was blank or, not a dollar amount greater than or equal to $1.");
       f.setCurrScreen("Error");
       return;
     }
@@ -63,7 +64,19 @@ public class StrategyValidateInfoGuiCommand implements GuiCommand {
       f.setCurrScreen("Error");
       return;
     }
-    if (year2.equals("") || year2.equals(null)) {
+
+    try {
+      Date lowerLimit = formatter.parse("2000-01-01");
+      if (startingDate.before(lowerLimit)) {
+        f.printLine("A strategy cannot begin before 2000-01-01. Please try again.");
+        f.setCurrScreen("Error");
+        return;
+      }
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
+
+    if (year2.equals("") || year2 == null) {
       try {
         endingDate = formatter.parse("2100-01-01");
       } catch (ParseException e) {

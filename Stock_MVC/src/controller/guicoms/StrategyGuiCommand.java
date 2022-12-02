@@ -41,7 +41,7 @@ public class StrategyGuiCommand implements GuiCommand {
     String day2 = o[7].toString();
     Date start = formatter.parse(year1 + "-" + month1 + "-" + day1);
     Date end;
-    if (year2.equals("") || year2.equals(null)) {
+    if (year2.equals("") || year2 == null) {
       end = formatter.parse("2100-01-01");
     } else {
       end = formatter.parse(year2 + "-" + month2 + "-" + day2);
@@ -80,7 +80,7 @@ public class StrategyGuiCommand implements GuiCommand {
         f.setCurrScreen("Error");
         return;
       }
-      if (duplicateCheck.contains(tickerList.get(j))){
+      if (duplicateCheck.contains(tickerList.get(j))) {
         f.printLine("You entered the same ticker multiple times. This is not permitted."
             + "Please try again.");
         f.setCurrScreen("Error");
