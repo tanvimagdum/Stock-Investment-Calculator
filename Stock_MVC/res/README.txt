@@ -1,6 +1,8 @@
 Features of the program that are completely working --
 
 All listed features are working the Text UI. Features that also work in the GUI have '(GUI)' next to them.
+NOTE: The GUI was designed on a single screen. We found right before submission that different devices
+might skew the elements in the GUI. Please resize your window if you have this issue.
 
 1. User is able to see the menu and select the operation by his choice. Operations shown to the user are (names of operations may vary) -
 Main Menu
