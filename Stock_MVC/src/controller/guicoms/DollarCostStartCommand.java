@@ -32,7 +32,8 @@ public class DollarCostStartCommand implements GuiCommand {
         throw new IllegalArgumentException();
       }
     } catch (Exception e) {
-      f.printLine("The amount entered was blank or, not a dollar amount greater than or equal to $1.");
+      f.printLine("The amount entered was blank or, "
+          + "not a dollar amount greater than or equal to $1.");
       f.setCurrScreen("Error");
       return;
     }
