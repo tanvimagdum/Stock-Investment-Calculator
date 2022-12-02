@@ -505,16 +505,16 @@ public class JFrameView extends JFrame implements GuiInterface {
 
     JButton doneBuild = new JButton("Update Strategy");
 
-    if (currScreen.equals("Proceed Build")) {
+    if (tempCurrScreen.equals("Proceed Build")) {
       addTickerCount(op, tickerCountFrame, displayContentPanel);
       doneBuild.setActionCommand("Done build strategy");
     }
-    if (currScreen.equals("Proceed Edit")) {
+    if (tempCurrScreen.equals("Proceed Edit")) {
       iter = 0;
       addCount(op, tickerCountFrame, displayContentPanel);
       doneBuild.setActionCommand("Done build strategy");
     }
-    if (currScreen.equals("Proceed Dollar Cost")) {
+    if (tempCurrScreen.equals("Proceed Dollar Cost")) {
       //doneBuild.setVisible(false);
       iter = 0;
       addDCCount(op, tickerCountFrame, displayContentPanel);
