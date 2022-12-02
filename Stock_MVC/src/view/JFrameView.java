@@ -333,7 +333,6 @@ public class JFrameView extends JFrame implements GuiInterface {
     items[0] = "Buy Stock";
     items[1] = "Sell Stock";
     JComboBox<String> options = new JComboBox<>(items);
-    subContentPanel.add(options);
 
     JLabel lblTicker = new JLabel("Enter the Ticker : ");
     subContentPanel.add(lblTicker);
@@ -355,15 +354,14 @@ public class JFrameView extends JFrame implements GuiInterface {
     subContentPanel.add(txtYear);
     JTextField txtMon = new JTextField(2);
     txtMon.setFont(new Font("Calibri", Font.PLAIN, 12));
-    //subContentPanel.add(lblSlash);
     subContentPanel.add(txtMon);
-    //subContentPanel.add(lblSlash);
     JTextField txtDay = new JTextField(2);
     txtDay.setFont(new Font("Calibri", Font.PLAIN, 12));
     subContentPanel.add(txtDay);
+    subContentPanel.add(options);
 
-    subContentPanel.add(new JLabel("Please click on 'Back to Home' to quit, "
-        + "else 'Add Stocks' to enter Stock Info."));
+    subContentPanel.add(new JLabel("Please click on 'Back to Home' to quit, "));
+    subContentPanel.add(new JLabel("else 'Add Stocks' to enter Stock Info."));
     JButton addStock = new JButton("Add Stock");
     addStock.setActionCommand("Add Stock");
     addStock.addActionListener(evt -> opStuff = new Object[6]);
@@ -1196,9 +1194,14 @@ public class JFrameView extends JFrame implements GuiInterface {
     JTable contentTable = new JTable(data, columnNames);
     JScrollPane subDisplayScroll = new JScrollPane(contentTable);
     contentTable.setFillsViewportHeight(true);
-    contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
-    contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
-    contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
+    try {
+      contentTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+      contentTable.getColumnModel().getColumn(1).setPreferredWidth(7);
+      contentTable.getColumnModel().getColumn(2).setPreferredWidth(7);
+      contentTable.getColumnModel().getColumn(3).setPreferredWidth(7);
+    } catch (Exception e) {
+      //do nothing
+    }
     contentTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 13));
     subDisplay.add(subDisplayScroll);
 
