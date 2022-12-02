@@ -367,6 +367,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
         }
       }
       for (int j = 0; j < tickers.length; j++) {
+        if (percentages[j] == 0.0) {
+          continue;
+        }
         float countBuy = (percentages[j]) / prices[j];
         tickerBuys.add(tickers[j]);
         countBuys.add(countBuy);
