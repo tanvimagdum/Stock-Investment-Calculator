@@ -1,0 +1,34 @@
+{
+  "GOOG": [
+    {
+      "Fee": 4.0,
+      "Quantity": 23.07,
+      "Operation": "BUY",
+      "Date": "2022-11-04"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 22.49,
+      "Operation": "BUY",
+      "Date": "2022-11-08"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 20.68,
+      "Operation": "BUY",
+      "Date": "2022-11-12"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 20.2,
+      "Operation": "BUY",
+      "Date": "2022-11-16"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 20.45,
+      "Operation": "BUY",
+      "Date": "2022-11-20"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "MSFT": [
+    {
+      "Fee": 3.0,
+      "Quantity": 100,
+      "Operation": "BUY",
+      "Date": "2020-10-12"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 25,
+      "Operation": "SELL",
+      "Date": "2020-12-10"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 125,
+      "Operation": "BUY",
+      "Date": "2021-05-10"
+    }
+  ]
+}
