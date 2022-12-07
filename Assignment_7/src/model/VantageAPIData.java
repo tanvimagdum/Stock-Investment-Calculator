@@ -31,7 +31,11 @@ public class VantageAPIData implements APIData {
    */
   public VantageAPIData() throws IOException {
     this.properties = new Properties();
-    FileInputStream ip = new FileInputStream("src/config.properties");
+    String currentPath = new java.io.File(".").getCanonicalPath();
+    System.out.println("Current dir:" + currentPath);
+    String currentDir = System.getProperty("user.dir");
+    System.out.println("Current dir using System:" + currentDir);
+    FileInputStream ip = new FileInputStream("Assignment_7/src/config.properties");
     properties.load(ip);
   }
 
