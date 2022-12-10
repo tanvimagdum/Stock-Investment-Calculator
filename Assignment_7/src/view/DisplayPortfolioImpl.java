@@ -122,7 +122,8 @@ public class DisplayPortfolioImpl implements DisplayPortfolio {
             + "6  Get Total Valuation\n"
             + "7. Display Flexible Portfolio Graph\n"
             + "8. Upload Flexible Portfolio\n"
-            + "9. Exit\n\n"
+            + "9. Rebalance a Flexible Portfolio\n"
+            + "10. Exit\n\n"
             + "Please Enter Choice\n");
   }
 

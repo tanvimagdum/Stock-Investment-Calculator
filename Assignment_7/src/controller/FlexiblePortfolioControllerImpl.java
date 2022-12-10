@@ -16,11 +16,12 @@ import model.FlexiblePortfolio;
 import view.DisplayPortfolio;
 
 /**
- * {@code FlexiblePortfolioControllerImpl} implements {@code PortfolioController} Interface.
- * This class has the driver method to run the menu operation as per user input.
- * The menu inside the driver delegates the operations to the flexible portfolio model and the view.
+ * {@code FlexiblePortfolioControllerImpl} implements {@code PortfolioController} Interface. This
+ * class has the driver method to run the menu operation as per user input. The menu inside the
+ * driver delegates the operations to the flexible portfolio model and the view.
  */
 public class FlexiblePortfolioControllerImpl implements PortfolioController {
+
   private final FlexiblePortfolio flexiblePortfolio;
   private final DisplayPortfolio displayPortfolio;
 
@@ -29,21 +30,21 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
   private final Appendable out;
 
   /**
-   * Constructs the FlexiblePortfolioControllerImpl with the input, output, model and view.
-   * The methods from model and view are then used by the controller to perform the operation.
-   * for example - examining portfolio will load the files in the database using the method from
-   * model and view will perform the duty to display the files.
+   * Constructs the FlexiblePortfolioControllerImpl with the input, output, model and view. The
+   * methods from model and view are then used by the controller to perform the operation. for
+   * example - examining portfolio will load the files in the database using the method from model
+   * and view will perform the duty to display the files.
    *
    * @param in                represents the sequence of characters. This uses Readable interface
    *                          which acts as Readable source to the Scanner class.
-   * @param out               represents the output log to be printed on the console.
-   *                          This uses Appendable which appends sequence of characters to object
+   * @param out               represents the output log to be printed on the console. This uses
+   *                          Appendable which appends sequence of characters to object
    * @param flexiblePortfolio represents the model interface of the flexiportfolio.
    * @param displayPortfolio  represents the view interface of the portfolio.
    */
   public FlexiblePortfolioControllerImpl(Readable in, Appendable out,
-                                         FlexiblePortfolio flexiblePortfolio,
-                                         DisplayPortfolio displayPortfolio) {
+      FlexiblePortfolio flexiblePortfolio,
+      DisplayPortfolio displayPortfolio) {
     this.in = in;
     this.out = out;
     this.flexiblePortfolio = flexiblePortfolio;
@@ -66,12 +67,12 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
           case 1: {
             String filename = flexiblePortfolio.createFlexiblePortfolio();
             displayPortfolio.displayMessage(out, "Portfolio " + filename
-                    + " created Successfully\n");
+                + " created Successfully\n");
             int choice = -1;
             do {
               try {
                 displayPortfolio.displayMessage(out, "Enter\n1. Buy Shares\n"
-                        + "2. Sell Shares\n" + "3. Exit\n");
+                    + "2. Sell Shares\n" + "3. Exit\n");
                 choice = Integer.parseInt(sc.nextLine());
                 switch (choice) {
                   case 1:
@@ -122,12 +123,15 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
             String newfile = flexiblePortfolio.createFlexiblePortfolio();
             if (flexiblePortfolio.uploadFlexiblePortfolio(path, newfile)) {
               displayPortfolio.displayMessage(out, "File " + newfile + " "
-                      + "successfully uploaded \n\n");
+                  + "successfully uploaded \n\n");
             } else {
               displayPortfolio.displayMessage(out, "Error in uploading File\n\n");
             }
             break;
           case 9:
+            menuHelper(sc, 'a');
+            break;
+          case 10:
             break;
           default:
             displayPortfolio.displayMessage(out, "Invalid option\n");
@@ -137,7 +141,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
         displayPortfolio.displayMessage(out, "Invalid Input Provided\n");
       }
     }
-    while (input != 9);
+    while (input != 10);
 
   }
 
@@ -164,7 +168,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
   }
 
   private void buySellHelper(Scanner sc, String filename, int choice)
-          throws IOException, ParseException, java.text.ParseException, NoSuchFieldException {
+      throws IOException, ParseException, java.text.ParseException, NoSuchFieldException {
     displayPortfolio.displayMessage(out, "Enter Symbol\n");
     String symbol = sc.nextLine();
     if (!flexiblePortfolio.validateSymbol(symbol)) {
@@ -190,7 +194,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       return;
     }
     displayPortfolio.displayMessage(out, "Enter Commission Fee (Minimum Fee $1"
-            + " and Maximum Fee $20)\n");
+        + " and Maximum Fee $20)\n");
     Double commission = Double.parseDouble(sc.nextLine());
     if (commission < 1 || commission > 20) {
       displayPortfolio.displayMessage(out, "Invalid Commission fee.\n");
@@ -199,31 +203,30 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     if (choice == 1) {
       if (flexiblePortfolio.buyShares(symbol, quantity, date, commission, filename)) {
         displayPortfolio.displayMessage(out, "Successfully bought shares for symbol "
-                + symbol + "\n");
+            + symbol + "\n");
       } else {
         displayPortfolio.displayMessage(out, "Unable to buy shares for symbol "
-                + symbol + "\n");
+            + symbol + "\n");
       }
     } else if (choice == 2) {
       if (flexiblePortfolio.sellShares(symbol, quantity, date, commission, filename)) {
         displayPortfolio.displayMessage(out, "Successfully sold shares for symbol "
-                + symbol + "\n");
+            + symbol + "\n");
       } else {
         displayPortfolio.displayMessage(out, "Unable to sell shares for symbol "
-                + symbol + "\n");
+            + symbol + "\n");
       }
     }
-
   }
 
   private void fixedInvestmentMenuHelper(String fileName, Scanner sc) throws IOException,
-          ParseException, java.text.ParseException {
+      ParseException, java.text.ParseException {
     List<String> symbolList = new ArrayList<>();
     List<Double> weightList = new ArrayList<>();
     displayPortfolio.displayMessage(out, "\nEnter the amount to invest\n");
     double amount = Double.parseDouble(sc.nextLine());
     displayPortfolio.displayMessage(out, "Enter the commission fee (Minimum Fee $1" +
-            " and Maximum Fee $20)\n");
+        " and Maximum Fee $20)\n");
     double commissionFee = Double.parseDouble(sc.nextLine());
     if (commissionFee < 1 || commissionFee > 20) {
       displayPortfolio.displayMessage(out, "Invalid Commission fee.\n");
@@ -236,12 +239,12 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       Date today = new Date();
       if (df.parse(date).after(df.parse(df.format(today)))) {
         displayPortfolio.displayMessage(out, "\nFuture date entered."
-                + " Please enter the valid date.\n\n");
+            + " Please enter the valid date.\n\n");
       } else {
         double remainingWeight = 100.0;
         do {
           displayPortfolio.displayMessage(out, "Remaining weights : " + remainingWeight
-                  + "\n");
+              + "\n");
           displayPortfolio.displayMessage(out, "Enter stock symbol\n");
           String symbol = sc.nextLine();
           if (!flexiblePortfolio.validateSymbol(symbol)) {
@@ -260,14 +263,14 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
           boolean result = true;
           for (int i = 0; i < symbolList.size(); i++) {
             result &= flexiblePortfolio.fixedInvestmentStrategy(amount, weightList.get(i),
-                    symbolList.get(i), date, commissionFee, fileName);
+                symbolList.get(i), date, commissionFee, fileName);
           }
           if (result) {
             displayPortfolio.displayMessage(out, "Successfully invested " + amount +
-                    " in " + fileName + "\n");
+                " in " + fileName + "\n");
           } else {
             displayPortfolio.displayMessage(out, "Unable to invest " + amount + " in " +
-                    "" + fileName + "\n");
+                "" + fileName + "\n");
           }
         } else {
           displayPortfolio.displayMessage(out, "Invalid operation\n");
@@ -280,8 +283,138 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
 
   }
 
+  private void rebalance(Scanner sc, String name)
+      throws IOException, ParseException, java.text.ParseException {
+
+    displayPortfolio.displayMessage(out, "Please choose a date on which to rebalance this"
+        + " portfolio. (yyyy-mm-dd)\n");
+    String date = sc.nextLine();
+    Date target;
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    formatter.setLenient(false);
+    try {
+      target = formatter.parse(date);
+      Date upperLimit = new Date();
+      upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24));
+      Date lowerLimit = formatter.parse("2000-01-01");
+      if (target.compareTo(upperLimit) > -1 || target.before(lowerLimit)) {
+        displayPortfolio.displayMessage(out, "The date entered is out of bounds "
+            + "(2000-01-01 to yesterday). Please enter any key to try again.\n");
+        sc.nextLine();
+        return;
+      }
+    } catch (Exception e) {
+      displayPortfolio.displayMessage(out, "The date provided was not valid."
+          + " Please try again.\n");
+      return;
+    }
+    List<List<String>> contents = flexiblePortfolio.getFlexiblePortfolioComposition(name,
+        formatter.format(target));
+    String[] tickers = new String[contents.size()];
+
+    for (int i = 0; i < contents.size(); i++) {
+        tickers[i] = contents.get(i).get(0);
+        System.out.println(tickers[i]);
+    }
+    /*
+    String[] allTickers = p.getTickers(name); //get unique tickers
+    ArrayList<String> tempTickers = new ArrayList<>();
+    for (int i = 0; i < allTickers.length; i++) {
+      if (!tempTickers.contains(allTickers[i])) {
+        tempTickers.add(allTickers[i]);
+      }
+    }
+
+    String[] tickers = new String[tempTickers.size()];
+    for (int i = 0; i < tempTickers.size(); i++) {
+      tickers[i] = tempTickers.get(i);
+    }
+
+    try {
+      for (int i = 0; i < tickers.length; i++) {
+        boolean valid = p.validateTicker(tickers[i], target);
+        if (!valid) {
+          v.printLine("There is a stock in this portfolio which is not available to buy on the"
+              + " given date.\nPlease choose a date on which all stocks in the portfolio are "
+              + "available.");
+          v.showBuildScreen();
+          return;
+        }
+      }
+    } catch (Exception e) {
+      v.printLine("There was an issue reading the ticker validation file. Please check it is "
+          + "in the correct location and try again.");
+      v.showBuildScreen();
+      return;
+    }
+
+    float[] percentages = new float[tickers.length];
+    float sum = 0;
+    int i = 0;
+
+    v.printLine("Here are the tickers present in the portfolio: ");
+    v.printLines(tickers);
+    v.printLine("Next, please enter a set of values that add to 100.");
+    while (i < tickers.length) {
+      v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "%");
+      v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
+          + tickers[i]);
+
+      String percent = sc.nextLine();
+      try {
+        float per = Float.parseFloat(percent);
+        percentages[i] = per;
+        if (per < 0) {
+          throw new IllegalArgumentException();
+        }
+        sum += per;
+
+        if (sum - 100 > 0.1) {
+          sum -= per;
+          throw new IllegalArgumentException();
+        }
+
+      } catch (Exception e) {
+        v.printLine("Please be sure to enter a number less than or equal to what remains.");
+        continue;
+      }
+      i++;
+    }
+
+    if (Math.abs(100 - sum) > 0.1) {
+      v.printLine("The given apportioning does not add up to 100%. Please try again.");
+      v.showBuildScreen();
+      return;
+    }
+
+    float[] prices;
+    try {
+      prices = api.getPricesAfter(tickers, target);
+    } catch (Exception e) {
+      v.printLine("There was an error during the API call. Please try again.");
+      v.showBuildScreen();
+      return;
+    }
+    for (int k = 0; k < prices.length; k++) {
+      if (prices[k] == 0) {
+        v.printLine("There was an error retrieving prices. Please try again.");
+        v.showBuildScreen();
+        return;
+      }
+    }
+
+    for (int j = 0; j < tickers.length; j++) {
+      float countBuy = (value * percentages[j] * 0.01f) / prices[j];
+      p.editFlexPortfolio(name, tickers[j], countBuy, target);
+    }
+
+     */
+    displayPortfolio.displayMessage(out, "Enter any key to return to the previous menu.\n");
+    sc.nextLine();
+  }
+
   private void menuHelper(Scanner sc, char c) throws IOException,
-          ParseException, java.text.ParseException, NoSuchFieldException {
+      ParseException, java.text.ParseException, NoSuchFieldException {
     String date = "";
     while (true) {
       if (!this.displayList()) {
@@ -299,7 +432,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
         String fileName = getFilename(index);
         if (fileName == null) {
           displayPortfolio.displayMessage(out, "\nFile not found for the index."
-                  + " Please provide correct input.\n\n");
+              + " Please provide correct input.\n\n");
           continue;
         }
         switch (c) {
@@ -311,13 +444,13 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
               Date today = new Date();
               if (df.parse(date).after(df.parse(df.format(today)))) {
                 displayPortfolio.displayMessage(out, "\nFuture date entered."
-                        + " Please enter the valid date.\n\n");
+                    + " Please enter the valid date.\n\n");
               } else {
                 List<List<String>> result =
-                        flexiblePortfolio.getFlexiblePortfolioComposition(fileName, date);
+                    flexiblePortfolio.getFlexiblePortfolioComposition(fileName, date);
                 if (result == null) {
                   displayPortfolio.displayMessage(out, "\nFile is empty. "
-                          + "Please Buy/Sell to view the composition.\n\n");
+                      + "Please Buy/Sell to view the composition.\n\n");
                 } else {
                   displayPortfolio.displayExamineComposition(result, out);
                 }
@@ -342,15 +475,15 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
               Date today = new Date();
               if (df.parse(date).after(df.parse(df.format(today)))) {
                 displayPortfolio.displayMessage(out, "\nFuture date entered."
-                        + " Please enter the valid date.\n\n");
+                    + " Please enter the valid date.\n\n");
               } else {
                 double composition = flexiblePortfolio.calculateCostBasis(fileName, date);
                 if (composition == -1) {
                   displayPortfolio.displayMessage(out, "\nFile is empty. "
-                          + "Please Buy/Sell to view the cost basis.\n\n");
+                      + "Please Buy/Sell to view the cost basis.\n\n");
                 } else {
                   displayPortfolio.displayMessage(out, "Cost Basis for Portfolio "
-                          + fileName + " is $" + String.format("%.2f", composition) + "\n");
+                      + fileName + " is $" + String.format("%.2f", composition) + "\n");
                 }
               }
             } else {
@@ -360,19 +493,19 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
           break;
           case 'v': {
             displayPortfolio.displayMessage(out, "Enter total valuation date (yyyy-mm-dd) "
-                    + ": \n");
+                + ": \n");
             date = sc.nextLine();
             if (flexiblePortfolio.validateDate(date)) {
               List<List<String>> res =
-                      flexiblePortfolio.getFlexiblePortfolioValuation(fileName, date);
+                  flexiblePortfolio.getFlexiblePortfolioValuation(fileName, date);
               if (res == null) {
                 displayPortfolio.displayMessage(out, "\nData not present for the "
-                        + "given Date\n\n");
+                    + "given Date\n\n");
               } else {
                 String totalValue = flexiblePortfolio.getFlexiblePortfolioTotalValuation(res);
                 if (totalValue.equals("")) {
                   displayPortfolio.displayMessage(out, "Data not found for the given date "
-                          + date + "\n");
+                      + date + "\n");
                   break;
                 }
                 displayPortfolio.displayValuation(res, totalValue, out);
@@ -384,37 +517,37 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
           break;
           case 'g': {
             displayPortfolio.displayMessage(out, "Enter Start Date for Graph (yyyy-mm-dd) "
-                    + ": \n");
+                + ": \n");
             String startDate = sc.nextLine();
             displayPortfolio.displayMessage(out, "Enter End Date for Graph (yyyy-mm-dd) : "
-                    + "\n");
+                + "\n");
             String endDate = sc.nextLine();
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date inputStartDate = df.parse(startDate);
             Date inputEndDate = df.parse(endDate);
             if (inputStartDate.before(inputEndDate)) {
               if (flexiblePortfolio.validateDate(startDate) &&
-                      flexiblePortfolio.validateDate(endDate)) {
+                  flexiblePortfolio.validateDate(endDate)) {
                 List<String> result = flexiblePortfolio.generateAndDisplayStockGraph(startDate,
-                        endDate, fileName);
+                    endDate, fileName);
                 if (result == null) {
                   displayPortfolio.displayMessage(out, "\nFile is empty. "
-                          + "Please Buy/Sell to view the performance graph.\n\n");
+                      + "Please Buy/Sell to view the performance graph.\n\n");
                 } else {
                   List<String> asterisks = flexiblePortfolio.generateAsterisk(result);
                   List<Double> intervalSize = flexiblePortfolio.getMinMaxPrice(result);
                   displayPortfolio.displayMessage(out, "Performance of portfolio "
-                          + fileName + " from "
-                          + startDate + " to " +
-                          "" + endDate + "\n\n");
+                      + fileName + " from "
+                      + startDate + " to " +
+                      "" + endDate + "\n\n");
                   displayPortfolio.displayGraph(out, asterisks);
                   if (intervalSize.get(0).equals(intervalSize.get(2))) {
                     displayPortfolio.displayMessage(out, "Scale: * = $"
-                            + intervalSize.get(0) + "\n\n");
+                        + intervalSize.get(0) + "\n\n");
                   } else {
                     displayPortfolio.displayMessage(out, "Base: $"
-                            + intervalSize.get(0) +
-                            " interval $" + intervalSize.get(2) + "\n\n");
+                        + intervalSize.get(0) +
+                        " interval $" + intervalSize.get(2) + "\n\n");
                   }
                 }
               } else {
@@ -422,13 +555,16 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
               }
             } else {
               displayPortfolio.displayMessage(out, "Start date cannot be greater "
-                      + "than End date\n");
+                  + "than End date\n");
             }
 
           }
           break;
           case 'f':
             fixedInvestmentMenuHelper(fileName, sc);
+            break;
+          case 'a':
+            rebalance(sc, fileName);
             break;
           default:
             break;
