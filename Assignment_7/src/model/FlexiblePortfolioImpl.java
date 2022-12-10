@@ -49,7 +49,7 @@ public class FlexiblePortfolioImpl extends StockPortfolioImpl implements Flexibl
    */
   public FlexiblePortfolioImpl() throws IOException {
     this.prop = new Properties();
-    FileInputStream ip = new FileInputStream("Assignment_7/src/config.properties");
+    FileInputStream ip = new FileInputStream("src/config.properties");
     this.prop.load(ip);
     this.prop.setProperty("resource_file", "flexible_portfolios");
     fp = new FileIOImpl(prop, this);

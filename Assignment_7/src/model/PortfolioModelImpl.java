@@ -33,7 +33,7 @@ public class PortfolioModelImpl extends StockPortfolioImpl implements PortfolioM
    */
   public PortfolioModelImpl() throws IOException {
     prop = new Properties();
-    FileInputStream ip = new FileInputStream("Assignment_7/src/config.properties");
+    FileInputStream ip = new FileInputStream("src/config.properties");
     prop.load(ip);
     prop.setProperty("resource_file", "portfolios");
   }
