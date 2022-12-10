@@ -86,7 +86,8 @@ class FileIOImpl implements FileIO {
 
   @Override
   public void writeFileData(String symbol, double quantity, String date, double commissionFee,
-                            String operation, String filename) throws IOException, ParseException {
+                            String operation, String filename, boolean overwriteSells)
+      throws IOException, ParseException {
     JSONParser jsonParser = new JSONParser();
     BufferedReader br = new BufferedReader(
             new FileReader(prop.getProperty("resource_file")

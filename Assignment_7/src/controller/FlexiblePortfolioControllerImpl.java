@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.HashMap;
+import model.APIData;
+import model.VantageAPIData;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -284,7 +287,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
   }
 
   private void rebalance(Scanner sc, String name)
-      throws IOException, ParseException, java.text.ParseException {
+      throws IOException, ParseException, java.text.ParseException, NoSuchFieldException {
 
     displayPortfolio.displayMessage(out, "Please choose a date on which to rebalance this"
         + " portfolio. (yyyy-mm-dd)\n");
@@ -310,14 +313,15 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     }
     List<List<String>> contents = flexiblePortfolio.getFlexiblePortfolioComposition(name,
         formatter.format(target));
-    String[] tickers = new String[contents.size()];
+    String[] allTickers = new String[contents.size()];
+    String[] counts = new String[contents.size()];
 
     for (int i = 0; i < contents.size(); i++) {
-        tickers[i] = contents.get(i).get(0);
-        System.out.println(tickers[i]);
+        allTickers[i] = contents.get(i).get(0);
+        counts[i] = contents.get(i).get(1);
     }
-    /*
-    String[] allTickers = p.getTickers(name); //get unique tickers
+
+    //get unique tickers
     ArrayList<String> tempTickers = new ArrayList<>();
     for (int i = 0; i < allTickers.length; i++) {
       if (!tempTickers.contains(allTickers[i])) {
@@ -330,21 +334,27 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       tickers[i] = tempTickers.get(i);
     }
 
-    try {
-      for (int i = 0; i < tickers.length; i++) {
-        boolean valid = p.validateTicker(tickers[i], target);
-        if (!valid) {
-          v.printLine("There is a stock in this portfolio which is not available to buy on the"
-              + " given date.\nPlease choose a date on which all stocks in the portfolio are "
-              + "available.");
-          v.showBuildScreen();
-          return;
-        }
+    displayPortfolio.displayMessage(out, "Here are the tickers present in the portfolio"
+        + ": \n");
+    for (int i = 0; i < tickers.length; i++) {
+      displayPortfolio.displayMessage(out, tickers[i] + "; ");
+      if (i == tickers.length - 1) {
+        displayPortfolio.displayMessage(out, "\n");
       }
+    }
+
+    displayPortfolio.displayMessage(out, "Now, please choose a commission fee between "
+        + "$1 and $20 for the rebalancing purchases and sales.\n");
+    Float commission = 1f;
+    try {
+      commission = Float.parseFloat(sc.nextLine());
     } catch (Exception e) {
-      v.printLine("There was an issue reading the ticker validation file. Please check it is "
-          + "in the correct location and try again.");
-      v.showBuildScreen();
+      displayPortfolio.displayMessage(out, "The given entry was not interpretable as a"
+          + "number. Please try again.\n");
+    }
+    if (commission < 1 || commission > 20) {
+      displayPortfolio.displayMessage(out, "You entered an invalid commission fee."
+          + "Please try again.\n");
       return;
     }
 
@@ -352,13 +362,13 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     float sum = 0;
     int i = 0;
 
-    v.printLine("Here are the tickers present in the portfolio: ");
-    v.printLines(tickers);
-    v.printLine("Next, please enter a set of values that add to 100.");
+    displayPortfolio.displayMessage(out, "Next, please enter a set of "
+        + "values that add to 100.\n");
     while (i < tickers.length) {
-      v.printLine("There is currently room for " + String.format("%.02f", 100 - sum) + "%");
-      v.printLine("Please select an apportioning (40.5% as '40.5') for the following ticker: "
-          + tickers[i]);
+      displayPortfolio.displayMessage(out, "There is currently room "
+          + "for " + String.format("%.02f", 100 - sum) + "%\n");
+      displayPortfolio.displayMessage(out, "Please select an apportioning "
+          + "(40.5% as '40.5') for the following ticker: " + tickers[i] + "\n");
 
       String percent = sc.nextLine();
       try {
@@ -375,40 +385,73 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
         }
 
       } catch (Exception e) {
-        v.printLine("Please be sure to enter a number less than or equal to what remains.");
+        displayPortfolio.displayMessage(out, "Please be sure to enter a "
+            + "number less than or equal to what remains.\n");
         continue;
       }
       i++;
     }
 
     if (Math.abs(100 - sum) > 0.1) {
-      v.printLine("The given apportioning does not add up to 100%. Please try again.");
-      v.showBuildScreen();
+      displayPortfolio.displayMessage(out, "The given apportioning does not "
+          + "add up to 100%. Please try again.\n");
       return;
     }
 
-    float[] prices;
+    float[] prices = new float[tickers.length];
+    Map<String, Float> priceMap = new HashMap<>();
+    APIData api = new VantageAPIData();
     try {
-      prices = api.getPricesAfter(tickers, target);
+      for (i = 0; i < tickers.length; i++) {
+        String[] reader = api.getInputStream(tickers[i]);
+        String price = api.getPriceForDate(reader, formatter.format(target),
+            "daily").toString();
+        prices[i] = Float.parseFloat(price);
+        priceMap.put(tickers[i], prices[i]);
+      }
     } catch (Exception e) {
-      v.printLine("There was an error during the API call. Please try again.");
-      v.showBuildScreen();
+      displayPortfolio.displayMessage(out, "There was an error during the API call. "
+          + "Please try again.\n");
       return;
     }
     for (int k = 0; k < prices.length; k++) {
       if (prices[k] == 0) {
-        v.printLine("There was an error retrieving prices. Please try again.");
-        v.showBuildScreen();
+        displayPortfolio.displayMessage(out, "There was an error retrieving prices. "
+            + "Please try again.\n");
         return;
       }
     }
 
-    for (int j = 0; j < tickers.length; j++) {
-      float countBuy = (value * percentages[j] * 0.01f) / prices[j];
-      p.editFlexPortfolio(name, tickers[j], countBuy, target);
+    //now rebalance it
+    //find total value
+    sum = 0;
+    Map<String, Float> countMap = new HashMap<>();
+    for (i = 0; i < allTickers.length; i++) {
+      sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
+      if (countMap.containsKey(allTickers[i])) {
+        float count = countMap.get(allTickers[i]);
+        countMap.replace(allTickers[i], count + Float.parseFloat(counts[i]));
+      } else {
+        countMap.put(allTickers[i], Float.parseFloat(counts[i]));
+      }
+    }
+    //for each stock, find out how much to buy or sell
+    for (i = 0; i < tickers.length; i++) {
+      float diff = sum*percentages[i]*0.01f - priceMap.get(tickers[i])*countMap.get(tickers[i]);
+      System.out.println("______");
+      System.out.println("Ticker: " + tickers[i]);
+      System.out.println("Count: " + countMap.get(tickers[i]));
+      System.out.println("Diff: " + diff);
+      System.out.println("To Buy/Sell: " + diff/priceMap.get(tickers[i]));
+      if (diff >= 0) {
+        flexiblePortfolio.buyShares(tickers[i], diff/priceMap.get(tickers[i]),
+            formatter.format(target), commission, name);
+      } else {
+        flexiblePortfolio.rebalanceSell(tickers[i], Math.abs(diff)/priceMap.get(tickers[i]),
+            formatter.format(target), commission, name);
+      }
     }
 
-     */
     displayPortfolio.displayMessage(out, "Enter any key to return to the previous menu.\n");
     sc.nextLine();
   }

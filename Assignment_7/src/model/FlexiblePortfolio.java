@@ -220,4 +220,22 @@ public interface FlexiblePortfolio extends StockPortfolio {
                           String endDate,
                           List<Double> commissionfee, String filename)
           throws IOException, ParseException;
+
+
+  /**
+   * This method is for selling during a portfolio rebalancing. If a necessary sell during
+   * rebalancing would conflict with a future sell, the future sell gets removed.
+   *
+   * @param symbol        represents the ticker symbol (SNP500 Symbols) as input.
+   * @param quantity      represents the integer quantity for the stock.
+   * @param date          represents the date at which the transaction is performed.
+   * @param commissionFee represents the fee associated with each transaction.
+   * @param filename      represents filename in which the above parameters will be written.
+   * @return true if the sell operation is successful else return false
+   * @throws ParseException if error in json parsing.
+   * @throws IOException    if unable to parse string.
+   */
+  boolean rebalanceSell(String symbol, double quantity, String date, double commissionFee,
+      String filename)
+      throws ParseException, IOException, NoSuchFieldException, java.text.ParseException;
 }
