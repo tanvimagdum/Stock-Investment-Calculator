@@ -35,7 +35,7 @@ public class VantageAPIData implements APIData {
     System.out.println("Current dir:" + currentPath);
     String currentDir = System.getProperty("user.dir");
     System.out.println("Current dir using System:" + currentDir);
-    FileInputStream ip = new FileInputStream("Assignment_7/src/config.properties");
+    FileInputStream ip = new FileInputStream("src/config.properties");
     properties.load(ip);
   }
 
