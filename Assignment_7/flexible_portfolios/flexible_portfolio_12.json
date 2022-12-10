@@ -1,0 +1,270 @@
+{
+  "MSFT": [
+    {
+      "Fee": 2.0,
+      "Quantity": 11.24,
+      "Operation": "BUY",
+      "Date": "2022-09-12"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.22,
+      "Operation": "BUY",
+      "Date": "2022-09-15"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.25,
+      "Operation": "BUY",
+      "Date": "2022-09-18"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.55,
+      "Operation": "BUY",
+      "Date": "2022-09-21"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.6,
+      "Operation": "BUY",
+      "Date": "2022-09-24"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.68,
+      "Operation": "BUY",
+      "Date": "2022-09-27"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.87,
+      "Operation": "BUY",
+      "Date": "2022-09-30"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.45,
+      "Operation": "BUY",
+      "Date": "2022-10-03"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.15,
+      "Operation": "BUY",
+      "Date": "2022-10-06"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.8,
+      "Operation": "BUY",
+      "Date": "2022-10-09"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.28,
+      "Operation": "BUY",
+      "Date": "2022-10-12"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.12,
+      "Operation": "BUY",
+      "Date": "2022-10-15"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.57,
+      "Operation": "BUY",
+      "Date": "2022-10-18"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.38,
+      "Operation": "BUY",
+      "Date": "2022-10-21"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.13,
+      "Operation": "BUY",
+      "Date": "2022-10-24"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.22,
+      "Operation": "BUY",
+      "Date": "2022-10-27"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.71,
+      "Operation": "BUY",
+      "Date": "2022-10-30"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.62,
+      "Operation": "BUY",
+      "Date": "2022-11-02"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.54,
+      "Operation": "BUY",
+      "Date": "2022-11-05"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 13.1,
+      "Operation": "BUY",
+      "Date": "2022-11-08"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.13,
+      "Operation": "BUY",
+      "Date": "2022-11-11"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 12.41,
+      "Operation": "BUY",
+      "Date": "2022-11-14"
+    }
+  ],
+  "GOOG": [
+    {
+      "Fee": 2.0,
+      "Quantity": 26.8,
+      "Operation": "BUY",
+      "Date": "2022-09-12"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 28.85,
+      "Operation": "BUY",
+      "Date": "2022-09-15"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 28.93,
+      "Operation": "BUY",
+      "Date": "2022-09-18"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 29.98,
+      "Operation": "BUY",
+      "Date": "2022-09-21"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.23,
+      "Operation": "BUY",
+      "Date": "2022-09-24"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.56,
+      "Operation": "BUY",
+      "Date": "2022-09-27"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 31.18,
+      "Operation": "BUY",
+      "Date": "2022-09-30"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.19,
+      "Operation": "BUY",
+      "Date": "2022-10-03"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 29.32,
+      "Operation": "BUY",
+      "Date": "2022-10-06"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.11,
+      "Operation": "BUY",
+      "Date": "2022-10-09"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.5,
+      "Operation": "BUY",
+      "Date": "2022-10-12"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.85,
+      "Operation": "BUY",
+      "Date": "2022-10-15"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 29.57,
+      "Operation": "BUY",
+      "Date": "2022-10-18"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 29.54,
+      "Operation": "BUY",
+      "Date": "2022-10-21"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 29.12,
+      "Operation": "BUY",
+      "Date": "2022-10-24"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 32.38,
+      "Operation": "BUY",
+      "Date": "2022-10-27"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 31.04,
+      "Operation": "BUY",
+      "Date": "2022-10-30"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 34.43,
+      "Operation": "BUY",
+      "Date": "2022-11-02"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 34.58,
+      "Operation": "BUY",
+      "Date": "2022-11-05"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 33.72,
+      "Operation": "BUY",
+      "Date": "2022-11-08"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 30.99,
+      "Operation": "BUY",
+      "Date": "2022-11-11"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 31.22,
+      "Operation": "BUY",
+      "Date": "2022-11-14"
+    }
+  ]
+}

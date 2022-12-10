@@ -1,0 +1,36 @@
+{
+  "MSFT": [
+    {
+      "Fee": 4.0,
+      "Quantity": 9.06,
+      "Operation": "BUY",
+      "Date": "2020-10-14"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 10.34,
+      "Operation": "BUY",
+      "Date": "2022-11-16"
+    }
+  ],
+  "GOOG": [
+    {
+      "Fee": 4.0,
+      "Quantity": 1.28,
+      "Operation": "BUY",
+      "Date": "2020-10-14"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 25.26,
+      "Operation": "BUY",
+      "Date": "2022-11-16"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 50.6,
+      "Operation": "BUY",
+      "Date": "2022-11-23"
+    }
+  ]
+}

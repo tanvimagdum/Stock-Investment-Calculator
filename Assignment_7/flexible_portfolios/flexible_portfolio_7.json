@@ -1,0 +1,88 @@
+{
+  "MSFT": [
+    {
+      "Fee": 3.0,
+      "Quantity": 100,
+      "Operation": "BUY",
+      "Date": "2020-10-12"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 25,
+      "Operation": "SELL",
+      "Date": "2020-12-10"
+    },
+    {
+      "Fee": 4.0,
+      "Quantity": 125,
+      "Operation": "BUY",
+      "Date": "2021-05-10"
+    },
+    {
+      "Fee": 3.0,
+      "Quantity": 11.37,
+      "Operation": "BUY",
+      "Date": "2022-11-15"
+    },
+    {
+      "Fee": 5.0,
+      "Quantity": 12.39,
+      "Operation": "BUY",
+      "Date": "2022-11-17"
+    },
+    {
+      "Fee": 5.0,
+      "Quantity": 12.42,
+      "Operation": "BUY",
+      "Date": "2022-11-18"
+    }
+  ],
+  "GOOG": [
+    {
+      "Fee": 3.0,
+      "Quantity": 22.79,
+      "Operation": "BUY",
+      "Date": "2022-11-15"
+    },
+    {
+      "Fee": 5.0,
+      "Quantity": 30.41,
+      "Operation": "BUY",
+      "Date": "2022-11-17"
+    },
+    {
+      "Fee": 5.0,
+      "Quantity": 30.62,
+      "Operation": "BUY",
+      "Date": "2022-11-18"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 40.39,
+      "Operation": "BUY",
+      "Date": "2022-11-16"
+    },
+    {
+      "Fee": 2.0,
+      "Quantity": 40.39,
+      "Operation": "BUY",
+      "Date": "2022-11-16"
+    }
+  ],
+  "TSLA": [
+    {
+      "Fee": 2.0,
+      "Quantity": 10.28,
+      "Operation": "BUY",
+      "Date": "2022-11-15"
+    }
+  ],
+  "IBM": [
+    {
+      "Fee": 3.0,
+      "Quantity": 100.0,
+      "Operation": "BUY",
+      "Date": "2022-11-17"
+    }
+  ]
+}
