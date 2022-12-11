@@ -69,7 +69,8 @@ public class FlexiblePortfolioImpl extends StockPortfolioImpl implements Flexibl
                            String filename)
           throws ParseException, IOException, java.text.ParseException {
     if (validateDate(symbol, date)) {
-      fp.writeFileData(symbol, quantity, date, commissionFee, "BUY", filename);
+      fp.writeFileData(symbol, quantity, date, commissionFee,
+          "BUY", filename, true);
       return true;
     }
     return false;
@@ -114,7 +115,8 @@ public class FlexiblePortfolioImpl extends StockPortfolioImpl implements Flexibl
           }
         }
         if (!sellInvalidFlag && totalQuantity >= quantity) {
-          fp.writeFileData(symbol, quantity, date, commissionFee, "SELL", filename);
+          fp.writeFileData(symbol, quantity, date, commissionFee,
+              "SELL", filename, false);
           return true;
         } else {
           return false;
@@ -485,6 +487,13 @@ public class FlexiblePortfolioImpl extends StockPortfolioImpl implements Flexibl
           throws IOException, ParseException {
     return fp.writeStrategy(amount, weight, symbol, currentDate, timeInterval,
             endDate, commissionfee, filename);
+  }
+
+  @Override
+  public boolean rebalanceSell(String symbol, double quantity, String date, double commissionFee,
+      String filename)
+      throws ParseException, IOException, NoSuchFieldException, java.text.ParseException {
+    return false;
   }
 
   public void checkForStrategyAndAdd(String fileName, String date) throws

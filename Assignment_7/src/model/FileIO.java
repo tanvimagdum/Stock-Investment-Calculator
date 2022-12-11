@@ -41,7 +41,7 @@ public interface FileIO {
    * @throws ParseException generates error for error in parsing.
    */
   void writeFileData(String symbol, double quantity, String date, double commissionFee,
-                     String operation, String filename)
+                     String operation, String filename, boolean overwriteSells)
           throws IOException, ParseException;
 
   /**

@@ -348,7 +348,7 @@ public class FlexiblePortfolioImplTest {
     File file = new File("temp/" + filename);
     file.createNewFile();
     fp.writeFileData("GOOG", 100, "2020-10-10", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     boolean actual = flexiblePortfolio.sellShares("GOOG", 100,
             "2020-12-11", 4, filename);
     assertTrue(actual);
@@ -363,7 +363,7 @@ public class FlexiblePortfolioImplTest {
     File file = new File("temp/" + filename);
     file.createNewFile();
     fp.writeFileData("GOOG", 100, "2020-10-10", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     boolean actual = flexiblePortfolio.sellShares("GOOG", 100,
             "2020-10-09", 4, filename);
     assertFalse(actual);
@@ -378,7 +378,7 @@ public class FlexiblePortfolioImplTest {
     File file = new File("temp/" + filename);
     file.createNewFile();
     fp.writeFileData("GOOG", 100, "2020-10-10", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     boolean actual = flexiblePortfolio.sellShares("GOOG", 200,
             "2020-10-11", 4, filename);
     assertFalse(actual);
@@ -393,9 +393,9 @@ public class FlexiblePortfolioImplTest {
     File file = new File("temp/" + filename);
     file.createNewFile();
     fp.writeFileData("GOOG", 100, "2020-10-12", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     fp.writeFileData("IBM", 100, "2020-10-14", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     assertEquals(169517.0, flexiblePortfolio.calculateCostBasis(filename,
             "2020-10-14"), 0.2);
     file.delete();
@@ -409,9 +409,9 @@ public class FlexiblePortfolioImplTest {
     File file = new File("temp/" + filename);
     file.createNewFile();
     fp.writeFileData("GOOG", 100, "2020-10-12", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     fp.writeFileData("IBM", 100, "2020-10-12", 4,
-            "BUY", filename);
+            "BUY", filename, false);
     assertEquals(0.0, flexiblePortfolio.calculateCostBasis(filename,
             "2020-10-11"), DELTA);
     file.delete();
