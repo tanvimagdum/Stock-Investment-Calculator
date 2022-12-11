@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,10 +77,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
 
   private JButton addStockButton;
   private JButton sellStockButton;
-  private JButton addSelectPortfolio;
-
   private JButton fileOpenButton;
-
   private JButton createPortfolioButton;
   private JButton newDollarCostAvgButton;
   private JButton existingDollarCostAvgButton;
@@ -147,10 +145,17 @@ public class SwingViewImpl implements SwingView, ActionListener {
   private JDialog genericDialog;
 
   private JSplitPane valuationPane;
+
+  // re-balance fields
+  private JButton addSelectPortfolio;
+  private JButton addShare;
+  private JButton rebalance;
   private JTextField txtSymbol;
   private JTextField txtQuantity;
   private JTextField txtCommission;
   private String[] controllerStuff;
+  private int iterator = 0;
+  private ArrayList<String> stockList = new ArrayList<>();
 
   /**
    * This represents the constructor of the SwingViewImpl.
@@ -193,7 +198,6 @@ public class SwingViewImpl implements SwingView, ActionListener {
     uploadButton = new JButton("Upload Portfolio");
     addStockButton = new JButton("Buy Shares");
     sellStockButton = new JButton("Sell Shares");
-    addSelectPortfolio = new JButton("Proceed");
     radioDisplay = new JLabel("No options selected yet !");
     createPortfolioButton = new JButton("Create Portfolio");
     portfolioAddStock = new JButton("Add Stocks");
@@ -204,6 +208,10 @@ public class SwingViewImpl implements SwingView, ActionListener {
     addStock = new JButton("Add Stock");
     investNow = new JButton("Invest Now");
     investDollarCostButton = new JButton("Invest Now");
+    //re-balance buttons
+    addSelectPortfolio = new JButton("Proceed");
+    addShare = new JButton("Add Share");
+    rebalance = new JButton("Re-balance Portfolio");
 
     symbolLabel = new JLabel("Enter Symbol");
     quantityLabel = new JLabel("Enter Quantity");
@@ -281,7 +289,6 @@ public class SwingViewImpl implements SwingView, ActionListener {
     sellStockButton.addActionListener(evt -> swingController.sellStock(symbolText.getText(),
             quantityText.getText(), selectedDate, commissionText.getText(),
             portfolioName));
-    addSelectPortfolio.addActionListener(evt -> swingController.validatePortfolio(portfolioName, selectedDate));
     costBasisButton.addActionListener(evt -> swingController.getCostBasis(portfolioName,
             selectedDate));
     valuationButton.addActionListener(evt -> swingController.getValuation(portfolioName,
@@ -445,6 +452,64 @@ public class SwingViewImpl implements SwingView, ActionListener {
       }
     });
 
+    // re-balance buttons
+    addSelectPortfolio.addActionListener(evt -> {
+      try {
+        swingController.validatePortfolio(portfolioName, selectedDate);
+      } catch (ParseException | java.text.ParseException | IOException e) {
+        throw new RuntimeException(e);
+      }
+    });
+
+    addShare.addActionListener(evt -> {
+      boolean result = false;
+      try {
+        result = swingController.validateShare(txtSymbol.getText(),
+                                                txtQuantity.getText(), txtCommission.getText());
+      } catch (IOException | java.text.ParseException e) {
+        throw new RuntimeException(e);
+      }
+
+      if (result) {
+        txtCommission.setEditable(false);
+        txtCommission.setFocusable(false);
+        txtCommission.setEnabled(false);
+
+        remainingAmountLabel.setText("Remaining Weight: " +
+                this.getRemainingAmount(txtQuantity.getText()));
+        double remainingAmount =
+                Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
+        if (remainingAmount < 0) {
+          addStock.setFocusable(true);
+          addStock.setEnabled(true);
+          rebalance.setFocusable(false);
+          rebalance.setEnabled(false);
+          txtCommission.setEditable(true);
+          txtCommission.setFocusable(true);
+          txtCommission.setEnabled(true);
+          txtCommission.setText("");
+          remainingAmountLabel.setText("Remaining Weight: 100.0");
+          this.clearRebalanceFields();
+          stockList = new ArrayList<>();
+          this.displayMessage("Weight cannot be negative");
+        } else if (remainingAmount == 0) {
+          stockList.add(txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
+          swingController.saveShares(stockList);
+          stockList = new ArrayList<>();
+          addShare.setFocusable(false);
+          addShare.setEnabled(false);
+          rebalance.setFocusable(true);
+          rebalance.setEnabled(true);
+        }
+        else {
+          stockList.add(txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
+        }
+      }
+    });
+
+    rebalance.addActionListener(evt -> {
+      swingController.rebalancePortfolio();
+    });
   }
 
   private String getRemainingAmount(String weightText) {
@@ -585,55 +650,6 @@ public class SwingViewImpl implements SwingView, ActionListener {
     sellStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
   }
 
-  @Override
-  public void selectPortfolioPanel(JPanel panel) {
-    panel.add(Box.createVerticalStrut(10));
-    addSelectPortfolio.setAlignmentX(SwingConstants.RIGHT);
-    panel.add(addSelectPortfolio);
-    addSelectPortfolio.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-  }
-
-  @Override
-  public void displayRebalancePanel(JPanel panel) {
-    String tickerList = "";
-    for(int i = 0; i < controllerStuff.length; i++) {
-      tickerList = tickerList + controllerStuff[i] + " ";
-    }
-    panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-    JLabel line = new JLabel("Tickers present in the selected portfolio are -");
-    line.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.add(line);
-
-    JLabel tick = new JLabel(tickerList);
-    tick.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.add(tick);
-
-    symbolLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.add(symbolLabel);
-    panel.add(txtSymbol);
-    panel.add(Box.createVerticalStrut(10));
-    quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.add(quantityLabel);
-    panel.add(txtQuantity);
-    panel.add(Box.createVerticalStrut(10));
-    commissionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    panel.add(commissionLabel);
-    panel.add(txtCommission);
-    panel.add(Box.createVerticalStrut(10));
-  }
-
-  @Override
-  public void clearSelectPortfolioFields() {
-    dateLabel.setText("Select Date");
-    picker.setDate(null);
-    selectedDate = "";
-  }
-
-  @Override
-  public void clearRebalanceFields() {
-
-  }
 
   @Override
   public void clearFields() {
@@ -1095,6 +1111,89 @@ public class SwingViewImpl implements SwingView, ActionListener {
   public void displayPortfolioName(String newFile) {
     String message = "Portfolio Uploaded with filename " + newFile;
     JOptionPane.showMessageDialog(sl, message, "Upload File", JOptionPane.PLAIN_MESSAGE);
+  }
+
+  //re-balance methods
+
+  @Override
+  public void selectPortfolioPanel(JPanel panel) {
+    panel.add(Box.createVerticalStrut(10));
+    addSelectPortfolio.setAlignmentX(SwingConstants.RIGHT);
+    panel.add(addSelectPortfolio);
+    addSelectPortfolio.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+  }
+
+  @Override
+  public void displayRebalancePanel(JPanel panel) {
+    panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    JPanel headerPanel = new JPanel();
+    headerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.PAGE_AXIS));
+    headerPanel.setPreferredSize(new Dimension(400, 50));
+    panel.add(headerPanel);
+    JLabel header = new JLabel("RE-BALANCE PORTFOLIO");
+    header.setFont(new Font("Calibri", Font.BOLD, 12));
+    headerPanel.add(header);
+    commissionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(commissionLabel);
+    panel.add(txtCommission);
+    panel.add(Box.createVerticalStrut(10));
+
+    JPanel addSharePanel = new JPanel();
+    addSharePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    addSharePanel.setBorder(BorderFactory.createTitledBorder("Add Stocks"));
+    addSharePanel.setLayout(new BoxLayout(addSharePanel, BoxLayout.PAGE_AXIS));
+    addSharePanel.setPreferredSize(new Dimension(400, 250));
+    addSharePanel.add(remainingAmountLabel);
+    addSharePanel.add(Box.createVerticalStrut(10));
+    addSharePanel.add(Box.createVerticalStrut(10));
+    panel.add(addSharePanel);
+
+    String tickerList = "";
+    for(int i = 0; i < controllerStuff.length; i++) {
+      tickerList = tickerList + controllerStuff[i] + " ";
+    }
+
+    JLabel line = new JLabel("Tickers present in the selected portfolio are -");
+    line.setAlignmentX(Component.LEFT_ALIGNMENT);
+    addSharePanel.add(line);
+
+    JLabel tick = new JLabel(tickerList);
+    tick.setAlignmentX(Component.LEFT_ALIGNMENT);
+    addSharePanel.add(tick);
+
+    symbolLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    addSharePanel.add(symbolLabel);
+    //txtSymbol.setText(controllerStuff[iterator]);
+    //txtSymbol.setEditable(false);
+    addSharePanel.add(txtSymbol);
+    addSharePanel.add(Box.createVerticalStrut(10));
+    quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    addSharePanel.add(quantityLabel);
+    addSharePanel.add(txtQuantity);
+    addSharePanel.add(Box.createVerticalStrut(10));
+
+    addShare.setEnabled(true);
+    addShare.setFocusable(true);
+    addSharePanel.add(addShare);
+    rebalance.setEnabled(false);
+    rebalance.setFocusable(false);
+    addSharePanel.add(rebalance);
+  }
+
+  @Override
+  public void clearSelectPortfolioFields() {
+    dateLabel.setText("Select Date");
+    picker.setDate(null);
+    selectedDate = "";
+  }
+
+  @Override
+  public void clearRebalanceFields() {
+    txtSymbol.setText("");
+    txtQuantity.setText("");
+    txtCommission.setText("");
   }
 
   @Override

@@ -3,6 +3,7 @@ package controller;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -233,6 +234,10 @@ public interface SwingController {
   void createNewInvestmentMenu();
 
   void rebalancePortfolioChoice();
-  void validatePortfolio(String portfolioName, String selectedDate);
+  void validatePortfolio(String portfolioName, String selectedDate)
+          throws ParseException, java.text.ParseException, IOException;
+  void saveShares(ArrayList<String> arr);
+  boolean validateShare(String symbolText, String txtQuantity, String txtCommission)
+          throws IOException, java.text.ParseException;
   void rebalancePortfolio();
 }

@@ -1,15 +1,14 @@
 package controller;
 
+import model.APIData;
+import model.VantageAPIData;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -29,6 +28,7 @@ public class SwingControllerImpl implements SwingController {
   private SwingView view;
 
   private List<String> stockList;
+  private String[] viewStuff;
 
   /**
    * This constructs the SwingControllerImplementation class.
@@ -338,32 +338,6 @@ public class SwingControllerImpl implements SwingController {
     view.createNewInvestmentMenu();
   }
 
-  @Override
-  public void rebalancePortfolioChoice() {
-    view.clearSelectPortfolioFields();
-    JPanel panel = getPortfolioList();
-    view.selectPortfolioPanel(panel);
-    view.splitViewPanel(panel);
-  }
-
-  @Override
-  public void validatePortfolio(String portfolioName, String selectedDate) {
-    if (!validateDataForSelectPortfolio(portfolioName, selectedDate)) {
-      view.clearSelectPortfolioFields();
-      return;
-    }
-    String[] tickers = {"AAPL", "GOOG", "AAP", "MSFT"};
-    view.setControllerStuff(tickers);
-    JPanel panel = new JPanel();
-    view.displayRebalancePanel(panel);
-    view.splitViewPanel(panel);
-  }
-
-  @Override
-  public void rebalancePortfolio() {
-
-  }
-
   private boolean isInValidPortfolio(String portfolioName) {
     return portfolioName.equals("") || portfolioName.equals("None") || portfolioName == null;
   }
@@ -486,19 +460,6 @@ public class SwingControllerImpl implements SwingController {
     return true;
   }
 
-  private boolean validateDataForSelectPortfolio(String fileName, String date) {
-    if (fileName == null || fileName.equals("None") || fileName.equals("")) {
-      view.displayMessage("Please Select Portfolio");
-      return false;
-    }
-    if (date == null || date.equals("")) {
-      view.displayMessage("Please Enter Date");
-      return false;
-    }
-    return true;
-  }
-
-
   @Override
   public void getUploadedPortfolio(String path) {
     File file = model.getFile(path);
@@ -576,4 +537,184 @@ public class SwingControllerImpl implements SwingController {
     return true;
   }
 
+
+  @Override
+  public void rebalancePortfolioChoice() {
+    view.clearSelectPortfolioFields();
+    view.clearRebalanceFields();
+    JPanel panel = getPortfolioList();
+    view.selectPortfolioPanel(panel);
+    view.splitViewPanel(panel);
+  }
+
+  @Override
+  public void validatePortfolio(String portfolioName, String selectedDate)
+          throws ParseException, java.text.ParseException, IOException {
+    if (!validateDataForSelectPortfolio(portfolioName, selectedDate)) {
+      view.clearSelectPortfolioFields();
+      return;
+    }
+
+    List<List<String>> contents = model.getFlexiblePortfolioComposition(portfolioName, selectedDate);
+    String[] allTickers = new String[contents.size()];
+
+    for (int i = 0; i < contents.size(); i++) {
+      allTickers[i] = contents.get(i).get(0);
+    }
+
+    //get unique tickers
+    ArrayList<String> tempTickers = new ArrayList<>();
+    for (int i = 0; i < allTickers.length; i++) {
+      if (!tempTickers.contains(allTickers[i])) {
+        tempTickers.add(allTickers[i]);
+      }
+    }
+
+    String[] tickers = new String[tempTickers.size()];
+    for (int i = 0; i < tempTickers.size(); i++) {
+      tickers[i] = tempTickers.get(i);
+    }
+
+    viewStuff = new String[2];
+    viewStuff[0] = portfolioName;
+    viewStuff[1] = selectedDate;
+    view.setControllerStuff(tickers);
+
+    JPanel panel = new JPanel();
+    view.displayRebalancePanel(panel);
+    view.splitViewPanel(panel);
+  }
+
+  private boolean validateDataForSelectPortfolio(String fileName, String date) {
+    if (fileName == null || fileName.equals("None") || fileName.equals("")) {
+      view.displayMessage("Please Select Portfolio");
+      return false;
+    }
+    if (date == null || date.equals("")) {
+      view.displayMessage("Please Enter Date");
+      return false;
+    }
+
+    Date target;
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    formatter.setLenient(false);
+    try {
+      target = formatter.parse(date);
+      Date upperLimit = new Date();
+      upperLimit = new Date(upperLimit.getTime() - (1000L * 60 * 60 * 24));
+      Date lowerLimit = formatter.parse("2000-01-01");
+      if (target.compareTo(upperLimit) > -1 || target.before(lowerLimit)) {
+        view.displayMessage("The date entered is out of bounds "
+                + "(2000-01-01 to yesterday). Please enter any key to try again.");
+        return false;
+      }
+    } catch (Exception e) {
+      view.displayMessage("The date provided was not valid."
+              + " Please try again.");
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public boolean validateShare(String txtSymbol, String txtQuantity, String txtCommission)
+          throws IOException {
+
+    double weight = parseDoubleValue(txtQuantity);
+
+    if (weight <= 0) {
+      view.displayMessage("Please enter positive weight");
+      return false;
+    } else if (weight > 100) {
+      view.displayMessage("Weight cannot be greater than 100");
+      return false;
+    }
+
+    double commission = parseDoubleValue(txtCommission);
+
+    if (commission < 1 || commission > 20) {
+      view.displayMessage("Invalid commission. Please enter commission between 1 and 20");
+      return false;
+    }
+
+
+    return true;
+  }
+
+
+  @Override
+  public void saveShares(ArrayList<String> arr) {
+    stockList = arr;
+  }
+
+  @Override
+  public void rebalancePortfolio() {
+/*
+    List<Double> stockQuantity = new ArrayList<>();
+    List<String> stockSymbol = new ArrayList<>();
+    List<Double> stockCommission = new ArrayList<>();
+    String fileName = "";
+    String date = "";
+    for (int i = 0; i < stockList.size(); i++) {
+      String[] stocks = stockList.get(i).split(":");
+    }
+
+    float[] prices = new float[tickers.length];
+    Map<String, Float> priceMap = new HashMap<>();
+    APIData api = new VantageAPIData();
+    try {
+      for (i = 0; i < tickers.length; i++) {
+        String[] reader = api.getInputStream(tickers[i]);
+        String price = api.getPriceForDate(reader, formatter.format(target),
+                "daily").toString();
+        prices[i] = Float.parseFloat(price);
+        priceMap.put(tickers[i], prices[i]);
+      }
+    } catch (Exception e) {
+      displayPortfolio.displayMessage(out, "There was an error during the API call. "
+              + "Please try again.\n");
+      return;
+    }
+    for (int k = 0; k < prices.length; k++) {
+      if (prices[k] == 0) {
+        displayPortfolio.displayMessage(out, "There was an error retrieving prices. "
+                + "Please try again.\n");
+        return;
+      }
+    }
+
+    //now rebalance it
+    //find total value
+    sum = 0;
+    Map<String, Float> countMap = new HashMap<>();
+    for (i = 0; i < allTickers.length; i++) {
+      sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
+      if (countMap.containsKey(allTickers[i])) {
+        float count = countMap.get(allTickers[i]);
+        countMap.replace(allTickers[i], count + Float.parseFloat(counts[i]));
+      } else {
+        countMap.put(allTickers[i], Float.parseFloat(counts[i]));
+      }
+    }
+    //for each stock, find out how much to buy or sell
+    for (i = 0; i < tickers.length; i++) {
+      float diff = sum*percentages[i]*0.01f - priceMap.get(tickers[i])*countMap.get(tickers[i]);
+      System.out.println("______");
+      System.out.println("Ticker: " + tickers[i]);
+      System.out.println("Count: " + countMap.get(tickers[i]));
+      System.out.println("Diff: " + diff);
+      System.out.println("To Buy/Sell: " + diff/priceMap.get(tickers[i]));
+      if (diff >= 0) {
+        flexiblePortfolio.buyShares(tickers[i], diff/priceMap.get(tickers[i]),
+                formatter.format(target), commission, name);
+      } else {
+        flexiblePortfolio.rebalanceSell(tickers[i], Math.abs(diff)/priceMap.get(tickers[i]),
+                formatter.format(target), commission, name);
+      }
+    }
+
+    displayPortfolio.displayMessage(out, "Enter any key to return to the previous menu.\n");
+    sc.nextLine();*/
+  }
 }
