@@ -313,34 +313,21 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     }
     List<List<String>> contents = flexiblePortfolio.getFlexiblePortfolioComposition(name,
         formatter.format(target));
-    String[] allTickers = new String[contents.size()];
-    String[] counts = new String[contents.size()];
+
+    ArrayList<String> tickersTemp= new ArrayList<>();
+    ArrayList<String> countsTemp = new ArrayList<>();
 
     for (int i = 0; i < contents.size(); i++) {
-        allTickers[i] = contents.get(i).get(0);
-        counts[i] = contents.get(i).get(1);
-    }
-
-    //get unique tickers
-    ArrayList<String> tempTickers = new ArrayList<>();
-    for (int i = 0; i < allTickers.length; i++) {
-      if (!tempTickers.contains(allTickers[i])) {
-        tempTickers.add(allTickers[i]);
+      if (!contents.get(i).get(1).equals("0")){
+        tickersTemp.add(contents.get(i).get(0));
+        countsTemp.add(contents.get(i).get(1));
       }
     }
-
-    String[] tickers = new String[tempTickers.size()];
-    for (int i = 0; i < tempTickers.size(); i++) {
-      tickers[i] = tempTickers.get(i);
-    }
-
-    displayPortfolio.displayMessage(out, "Here are the tickers present in the portfolio"
-        + ": \n");
-    for (int i = 0; i < tickers.length; i++) {
-      displayPortfolio.displayMessage(out, tickers[i] + "; ");
-      if (i == tickers.length - 1) {
-        displayPortfolio.displayMessage(out, "\n");
-      }
+    String[] allTickers = new String[tickersTemp.size()];
+    String[] counts = new String[countsTemp.size()];
+    for (int i = 0; i < tickersTemp.size(); i++) {
+      allTickers[i] = tickersTemp.get(i);
+      counts[i] = countsTemp.get(i);
     }
 
     displayPortfolio.displayMessage(out, "Now, please choose a commission fee between "
@@ -358,17 +345,26 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       return;
     }
 
-    float[] percentages = new float[tickers.length];
+    displayPortfolio.displayMessage(out, "Here are the tickers present in the portfolio"
+        + ": \n");
+    for (int i = 0; i < allTickers.length; i++) {
+      displayPortfolio.displayMessage(out, allTickers[i] + "; ");
+      if (i == allTickers.length - 1) {
+        displayPortfolio.displayMessage(out, "\n");
+      }
+    }
+
+    float[] percentages = new float[allTickers.length];
     float sum = 0;
     int i = 0;
 
     displayPortfolio.displayMessage(out, "Next, please enter a set of "
         + "values that add to 100.\n");
-    while (i < tickers.length) {
+    while (i < allTickers.length) {
       displayPortfolio.displayMessage(out, "There is currently room "
           + "for " + String.format("%.02f", 100 - sum) + "%\n");
       displayPortfolio.displayMessage(out, "Please select an apportioning "
-          + "(40.5% as '40.5') for the following ticker: " + tickers[i] + "\n");
+          + "(40.5% as '40.5') for the following ticker: " + allTickers[i] + "\n");
 
       String percent = sc.nextLine();
       try {
@@ -398,16 +394,16 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       return;
     }
 
-    float[] prices = new float[tickers.length];
+    float[] prices = new float[allTickers.length];
     Map<String, Float> priceMap = new HashMap<>();
     APIData api = new VantageAPIData();
     try {
-      for (i = 0; i < tickers.length; i++) {
-        String[] reader = api.getInputStream(tickers[i]);
+      for (i = 0; i < allTickers.length; i++) {
+        String[] reader = api.getInputStream(allTickers[i]);
         String price = api.getPriceForDate(reader, formatter.format(target),
             "daily").toString();
         prices[i] = Float.parseFloat(price);
-        priceMap.put(tickers[i], prices[i]);
+        priceMap.put(allTickers[i], prices[i]);
       }
     } catch (Exception e) {
       displayPortfolio.displayMessage(out, "There was an error during the API call. "
@@ -425,29 +421,18 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     //now rebalance it
     //find total value
     sum = 0;
-    Map<String, Float> countMap = new HashMap<>();
     for (i = 0; i < allTickers.length; i++) {
       sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
-      if (countMap.containsKey(allTickers[i])) {
-        float count = countMap.get(allTickers[i]);
-        countMap.replace(allTickers[i], count + Float.parseFloat(counts[i]));
-      } else {
-        countMap.put(allTickers[i], Float.parseFloat(counts[i]));
-      }
     }
     //for each stock, find out how much to buy or sell
-    for (i = 0; i < tickers.length; i++) {
-      float diff = sum*percentages[i]*0.01f - priceMap.get(tickers[i])*countMap.get(tickers[i]);
-      System.out.println("______");
-      System.out.println("Ticker: " + tickers[i]);
-      System.out.println("Count: " + countMap.get(tickers[i]));
-      System.out.println("Diff: " + diff);
-      System.out.println("To Buy/Sell: " + diff/priceMap.get(tickers[i]));
-      if (diff >= 0) {
-        flexiblePortfolio.buyShares(tickers[i], diff/priceMap.get(tickers[i]),
+    for (i = 0; i < allTickers.length; i++) {
+      float diff = sum*percentages[i]*0.01f - priceMap.get(allTickers[i])
+          *Float.parseFloat(counts[i]);
+      if (diff > 0) {
+        flexiblePortfolio.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
             formatter.format(target), commission, name);
-      } else {
-        flexiblePortfolio.rebalanceSell(tickers[i], Math.abs(diff)/priceMap.get(tickers[i]),
+      } else if (diff < 0){
+        flexiblePortfolio.rebalanceSell(allTickers[i], Math.abs(diff)/priceMap.get(allTickers[i]),
             formatter.format(target), commission, name);
       }
     }

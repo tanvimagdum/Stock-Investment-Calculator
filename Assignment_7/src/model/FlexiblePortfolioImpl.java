@@ -493,7 +493,10 @@ public class FlexiblePortfolioImpl extends StockPortfolioImpl implements Flexibl
   public boolean rebalanceSell(String symbol, double quantity, String date, double commissionFee,
       String filename)
       throws ParseException, IOException, NoSuchFieldException, java.text.ParseException {
-    return false;
+
+    fp.writeFileData(symbol, quantity, date, commissionFee,
+        "SELL", filename, true);
+    return true;
   }
 
   public void checkForStrategyAndAdd(String fileName, String date) throws
