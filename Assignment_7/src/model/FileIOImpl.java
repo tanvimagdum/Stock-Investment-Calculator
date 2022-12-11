@@ -118,7 +118,6 @@ class FileIOImpl implements FileIO {
         } else {
           //erase future sells such that the rules are obeyed
           JSONArray tickerArray = (JSONArray) portfolioData.get(symbol);
-          System.out.println(tickerArray.toString());
           int elements = tickerArray.size();
           String[] operations = new String[elements];
           String[] dates = new String[elements];
@@ -188,14 +187,11 @@ class FileIOImpl implements FileIO {
             //This really should not be happening if the JSON is formatted properly.
           }
           for (int i = 0; i < removed.size(); i++) {
-            System.out.println("removed:" + removed.get(i));
-            System.out.println(tickerArray.getClass());
-            tickerArray.remove(removed.get(i));
+            int remove = removed.get(i);
+            tickerArray.remove(remove);
           }
-          System.out.println(tickerArray.toString());
           JSONObject newStock = stockObjectHelper(quantity, date, commissionFee, operation);
           tickerArray.add(newStock);
-          System.out.println(tickerArray.toString());
           reader.close();
         }
       } else {
