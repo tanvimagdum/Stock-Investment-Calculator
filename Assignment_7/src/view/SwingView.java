@@ -201,4 +201,10 @@ public interface SwingView {
    * This function resets the view after the stock validation and addition is successful.
    */
   void clearAddStockFields();
+
+  void clearSelectPortfolioFields();
+  void clearRebalanceFields();
+  void selectPortfolioPanel(JPanel panel);
+  void displayRebalancePanel(JPanel panel);
+  void setControllerStuff(String[] str);
 }

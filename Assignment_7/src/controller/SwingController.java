@@ -231,4 +231,8 @@ public interface SwingController {
    * This panel is shared across dollar cost averaging as well as fixed portfolio.
    */
   void createNewInvestmentMenu();
+
+  void rebalancePortfolioChoice();
+  void validatePortfolio(String portfolioName, String selectedDate);
+  void rebalancePortfolio();
 }

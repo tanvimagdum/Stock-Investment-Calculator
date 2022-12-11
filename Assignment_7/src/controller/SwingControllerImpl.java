@@ -338,6 +338,32 @@ public class SwingControllerImpl implements SwingController {
     view.createNewInvestmentMenu();
   }
 
+  @Override
+  public void rebalancePortfolioChoice() {
+    view.clearSelectPortfolioFields();
+    JPanel panel = getPortfolioList();
+    view.selectPortfolioPanel(panel);
+    view.splitViewPanel(panel);
+  }
+
+  @Override
+  public void validatePortfolio(String portfolioName, String selectedDate) {
+    if (!validateDataForSelectPortfolio(portfolioName, selectedDate)) {
+      view.clearSelectPortfolioFields();
+      return;
+    }
+    String[] tickers = {"AAPL", "GOOG", "AAP", "MSFT"};
+    view.setControllerStuff(tickers);
+    JPanel panel = new JPanel();
+    view.displayRebalancePanel(panel);
+    view.splitViewPanel(panel);
+  }
+
+  @Override
+  public void rebalancePortfolio() {
+
+  }
+
   private boolean isInValidPortfolio(String portfolioName) {
     return portfolioName.equals("") || portfolioName.equals("None") || portfolioName == null;
   }
@@ -455,6 +481,18 @@ public class SwingControllerImpl implements SwingController {
     if (date == null || date.equals("")) {
       view.displayMessage("Please Enter Date");
       view.clearFieldsForExamine();
+      return false;
+    }
+    return true;
+  }
+
+  private boolean validateDataForSelectPortfolio(String fileName, String date) {
+    if (fileName == null || fileName.equals("None") || fileName.equals("")) {
+      view.displayMessage("Please Select Portfolio");
+      return false;
+    }
+    if (date == null || date.equals("")) {
+      view.displayMessage("Please Enter Date");
       return false;
     }
     return true;
