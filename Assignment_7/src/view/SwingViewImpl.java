@@ -480,19 +480,15 @@ public class SwingViewImpl implements SwingView, ActionListener {
         double remainingAmount =
                 Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
         if (remainingAmount < 0) {
+          this.clearRebalanceFields();
           addStock.setFocusable(true);
           addStock.setEnabled(true);
           rebalance.setFocusable(false);
           rebalance.setEnabled(false);
-          txtCommission.setEditable(true);
-          txtCommission.setFocusable(true);
-          txtCommission.setEnabled(true);
-          txtCommission.setText("");
           remainingAmountLabel.setText("Remaining Weight: 100.0");
-          iterator = 0;
+          txtSymbol.setEditable(true);
           txtSymbol.setText(controllerStuff[iterator]);
           txtSymbol.setEditable(false);
-          this.clearRebalanceFields();
           stockList = new ArrayList<>();
           this.displayMessage("Weight cannot be negative");
         } else if (remainingAmount == 0) {
@@ -1198,9 +1194,13 @@ public class SwingViewImpl implements SwingView, ActionListener {
 
   @Override
   public void clearRebalanceFields() {
+    iterator = 0;
     txtSymbol.setText("");
     txtQuantity.setText("");
     txtCommission.setText("");
+    txtCommission.setEditable(true);
+    txtCommission.setFocusable(true);
+    txtCommission.setEnabled(true);
   }
 
   @Override

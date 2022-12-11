@@ -592,7 +592,7 @@ public class SwingControllerImpl implements SwingController {
       return false;
     }
     if (date == null || date.equals("")) {
-      view.displayMessage("Please Enter Date");
+      view.displayMessage("Please Enter a Valid Date");
       return false;
     }
 
@@ -606,7 +606,7 @@ public class SwingControllerImpl implements SwingController {
       Date lowerLimit = formatter.parse("2000-01-01");
       if (target.compareTo(upperLimit) > -1 || target.before(lowerLimit)) {
         view.displayMessage("The date entered is out of bounds "
-                + "(2000-01-01 to yesterday). Please enter any key to try again.");
+                + "(2000-01-01 to yesterday). Please try again.");
         return false;
       }
     } catch (Exception e) {
@@ -639,7 +639,6 @@ public class SwingControllerImpl implements SwingController {
       return false;
     }
 
-
     return true;
   }
 
@@ -657,8 +656,7 @@ public class SwingControllerImpl implements SwingController {
 
     List<List<String>> contents = null;
     try {
-      contents = model.getFlexiblePortfolioComposition(name,
-          formatter.format(dateString));
+      contents = model.getFlexiblePortfolioComposition(name, dateString);
     } catch (ParseException | IOException | java.text.ParseException e) {
       throw new RuntimeException(e);
     }
@@ -701,7 +699,7 @@ public class SwingControllerImpl implements SwingController {
     try {
       for (int i = 0; i < allTickers.length; i++) {
         String[] reader = api.getInputStream(allTickers[i]);
-        String price = api.getPriceForDate(reader, formatter.format(dateString),
+        String price = api.getPriceForDate(reader, dateString,
             "daily").toString();
         prices[i] = Float.parseFloat(price);
         priceMap.put(allTickers[i], prices[i]);
@@ -720,20 +718,20 @@ public class SwingControllerImpl implements SwingController {
       if (diff > 0) {
         try {
           model.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
-              formatter.format(dateString), coms.get(i), name);
+              dateString, coms.get(i), name);
         } catch (ParseException | IOException | java.text.ParseException e) {
           throw new RuntimeException(e);
         }
       } else if (diff < 0){
         try {
           model.rebalanceSell(allTickers[i], Math.abs(diff)/priceMap.get(allTickers[i]),
-              formatter.format(dateString), coms.get(i), name);
+              dateString, coms.get(i), name);
         } catch (ParseException | IOException
                  | NoSuchFieldException | java.text.ParseException e) {
           throw new RuntimeException(e);
         }
       }
     }
-
+    view.displayMessage("Rebalance Successful!");
   }
 }

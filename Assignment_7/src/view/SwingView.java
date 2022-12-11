@@ -207,4 +207,5 @@ public interface SwingView {
   void selectPortfolioPanel(JPanel panel);
   void displayRebalancePanel(JPanel panel);
   void setControllerStuff(String[] str);
+
 }
