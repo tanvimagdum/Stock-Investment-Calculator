@@ -4,10 +4,9 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.json.simple.parser.ParseException;
 
 
-import java.awt.Dimension;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Component;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
@@ -20,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -36,8 +36,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 import controller.SwingController;
 
@@ -78,6 +76,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
 
   private JButton addStockButton;
   private JButton sellStockButton;
+  private JButton addSelectPortfolio;
 
   private JButton fileOpenButton;
 
@@ -115,7 +114,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
   private final String[] stockOptions = {
       "Create Portfolio", "Buy Stock", "Sell Stock", "Examine Portfolio",
       "Get Total Valuation", "Get Cost Basis", "Upload Portfolio", "Get Portfolio Performance",
-      "Fixed Investment Strategy", "Dollar Cost Averaging"
+      "Fixed Investment Strategy", "Dollar Cost Averaging", "Re-balance Portfolio"
   };
   private JLabel filePathDisplay;
 
@@ -148,6 +147,10 @@ public class SwingViewImpl implements SwingView, ActionListener {
   private JDialog genericDialog;
 
   private JSplitPane valuationPane;
+  private JTextField txtSymbol;
+  private JTextField txtQuantity;
+  private JTextField txtCommission;
+  private String[] controllerStuff;
 
   /**
    * This represents the constructor of the SwingViewImpl.
@@ -190,6 +193,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     uploadButton = new JButton("Upload Portfolio");
     addStockButton = new JButton("Buy Shares");
     sellStockButton = new JButton("Sell Shares");
+    addSelectPortfolio = new JButton("Proceed");
     radioDisplay = new JLabel("No options selected yet !");
     createPortfolioButton = new JButton("Create Portfolio");
     portfolioAddStock = new JButton("Add Stocks");
@@ -225,6 +229,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
     commissionText = new JTextArea();
     amountText = new JTextArea();
     intervalTime = new JTextArea();
+    txtSymbol = new JTextField(15);
+    txtQuantity = new JTextField(15);
+    txtCommission = new JTextField(15);
     panelOne.add(radioDisplay);
     panelTwo.add(displayMessageLabel);
     sl = new JSplitPane(SwingConstants.VERTICAL, panelOne, panelTwo);
@@ -265,6 +272,8 @@ public class SwingViewImpl implements SwingView, ActionListener {
     radioButtons[7].addActionListener(evt -> swingController.getPortfolioPerformance());
     radioButtons[8].addActionListener(evt -> this.displayFixedInvestmentMenu());
     radioButtons[9].addActionListener(evt -> this.displayDollarCostAveraging());
+    radioButtons[10].addActionListener(evt -> swingController.rebalancePortfolioChoice());
+
 
     addStockButton.addActionListener(evt -> swingController.addStock(symbolText.getText(),
             quantityText.getText(), selectedDate, commissionText.getText(),
@@ -272,6 +281,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     sellStockButton.addActionListener(evt -> swingController.sellStock(symbolText.getText(),
             quantityText.getText(), selectedDate, commissionText.getText(),
             portfolioName));
+    addSelectPortfolio.addActionListener(evt -> swingController.validatePortfolio(portfolioName, selectedDate));
     costBasisButton.addActionListener(evt -> swingController.getCostBasis(portfolioName,
             selectedDate));
     valuationButton.addActionListener(evt -> swingController.getValuation(portfolioName,
@@ -573,6 +583,56 @@ public class SwingViewImpl implements SwingView, ActionListener {
     panel.add(Box.createVerticalStrut(10));
     panel.add(sellStockButton);
     sellStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+  }
+
+  @Override
+  public void selectPortfolioPanel(JPanel panel) {
+    panel.add(Box.createVerticalStrut(10));
+    addSelectPortfolio.setAlignmentX(SwingConstants.RIGHT);
+    panel.add(addSelectPortfolio);
+    addSelectPortfolio.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+  }
+
+  @Override
+  public void displayRebalancePanel(JPanel panel) {
+    String tickerList = "";
+    for(int i = 0; i < controllerStuff.length; i++) {
+      tickerList = tickerList + controllerStuff[i] + " ";
+    }
+    panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    JLabel line = new JLabel("Tickers present in the selected portfolio are -");
+    line.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(line);
+
+    JLabel tick = new JLabel(tickerList);
+    tick.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(tick);
+
+    symbolLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(symbolLabel);
+    panel.add(txtSymbol);
+    panel.add(Box.createVerticalStrut(10));
+    quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(quantityLabel);
+    panel.add(txtQuantity);
+    panel.add(Box.createVerticalStrut(10));
+    commissionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    panel.add(commissionLabel);
+    panel.add(txtCommission);
+    panel.add(Box.createVerticalStrut(10));
+  }
+
+  @Override
+  public void clearSelectPortfolioFields() {
+    dateLabel.setText("Select Date");
+    picker.setDate(null);
+    selectedDate = "";
+  }
+
+  @Override
+  public void clearRebalanceFields() {
+
   }
 
   @Override
@@ -1037,6 +1097,11 @@ public class SwingViewImpl implements SwingView, ActionListener {
     JOptionPane.showMessageDialog(sl, message, "Upload File", JOptionPane.PLAIN_MESSAGE);
   }
 
+  @Override
+  public void setControllerStuff(String[] str) {
+    controllerStuff = str;
+  }
+
   /**
    * Method to perform actions.
    *
@@ -1103,6 +1168,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
         break;
       case "Dollar Cost Averaging":
         radioDisplay.setText("Dollar Cost Averaging is Selected");
+        break;
+      case "Re-balance Portfolio":
+        radioDisplay.setText("Re-balance Portfolio is Selected");
         break;
       default:break;
     }
