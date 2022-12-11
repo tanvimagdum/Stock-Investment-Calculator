@@ -489,6 +489,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
           txtCommission.setEnabled(true);
           txtCommission.setText("");
           remainingAmountLabel.setText("Remaining Weight: 100.0");
+          iterator = 0;
+          txtSymbol.setText(controllerStuff[iterator]);
+          txtSymbol.setEditable(false);
           this.clearRebalanceFields();
           stockList = new ArrayList<>();
           this.displayMessage("Weight cannot be negative");
@@ -503,6 +506,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
         }
         else {
           stockList.add(txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
+          iterator++;
+          txtSymbol.setText(controllerStuff[iterator]);
+          txtQuantity.setText("");
         }
       }
     });
@@ -1165,8 +1171,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
 
     symbolLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
     addSharePanel.add(symbolLabel);
-    //txtSymbol.setText(controllerStuff[iterator]);
-    //txtSymbol.setEditable(false);
+    txtSymbol.setBackground(Color.LIGHT_GRAY);
+    txtSymbol.setText(controllerStuff[iterator]);
+    txtSymbol.setEditable(false);
     addSharePanel.add(txtSymbol);
     addSharePanel.add(Box.createVerticalStrut(10));
     quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
