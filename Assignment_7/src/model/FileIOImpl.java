@@ -187,6 +187,7 @@ class FileIOImpl implements FileIO {
             //This really should not be happening if the JSON is formatted properly.
           }
           for (int i = 0; i < removed.size(); i++) {
+            //System.out.println("Removed: " + removed.get(i));
             int remove = removed.get(i);
             tickerArray.remove(remove);
           }
