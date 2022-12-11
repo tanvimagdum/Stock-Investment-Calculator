@@ -555,7 +555,8 @@ public class SwingControllerImpl implements SwingController {
       return;
     }
 
-    List<List<String>> contents = model.getFlexiblePortfolioComposition(portfolioName, selectedDate);
+    List<List<String>> contents =
+        model.getFlexiblePortfolioComposition(portfolioName, selectedDate);
     String[] allTickers = new String[contents.size()];
 
     for (int i = 0; i < contents.size(); i++) {
@@ -650,71 +651,89 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void rebalancePortfolio() {
-/*
-    List<Double> stockQuantity = new ArrayList<>();
-    List<String> stockSymbol = new ArrayList<>();
-    List<Double> stockCommission = new ArrayList<>();
-    String fileName = "";
-    String date = "";
-    for (int i = 0; i < stockList.size(); i++) {
-      String[] stocks = stockList.get(i).split(":");
+    String name = viewStuff[0];
+    String dateString = viewStuff[1];
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    List<List<String>> contents = null;
+    try {
+      contents = model.getFlexiblePortfolioComposition(name,
+          formatter.format(dateString));
+    } catch (ParseException | IOException | java.text.ParseException e) {
+      throw new RuntimeException(e);
     }
 
-    float[] prices = new float[tickers.length];
+    ArrayList<String> tickersTemp= new ArrayList<>();
+    ArrayList<String> countsTemp = new ArrayList<>();
+
+    for (int i = 0; i < contents.size(); i++) {
+      if (!contents.get(i).get(1).equals("0")){
+        tickersTemp.add(contents.get(i).get(0));
+        countsTemp.add(contents.get(i).get(1));
+      }
+    }
+    String[] allTickers = new String[tickersTemp.size()];
+    String[] counts = new String[countsTemp.size()];
+    for (int i = 0; i < tickersTemp.size(); i++) {
+      allTickers[i] = tickersTemp.get(i);
+      counts[i] = countsTemp.get(i);
+    }
+
+    ArrayList<String> ticks = new ArrayList<>();
+    ArrayList<Double> pers = new ArrayList<>();
+    ArrayList<Double> coms = new ArrayList<>();
+    for (int i = 0; i < stockList.size(); i++) {
+      String stuff = stockList.get(i);
+      String[] stuffs = stuff.split(":");
+      ticks.add(stuffs[0]);
+      pers.add(Double.parseDouble(stuffs[1]));
+      coms.add(Double.parseDouble(stuffs[2]));
+    }
+
+    float[] prices = new float[allTickers.length];
     Map<String, Float> priceMap = new HashMap<>();
-    APIData api = new VantageAPIData();
+    APIData api = null;
     try {
-      for (i = 0; i < tickers.length; i++) {
-        String[] reader = api.getInputStream(tickers[i]);
-        String price = api.getPriceForDate(reader, formatter.format(target),
-                "daily").toString();
+      api = new VantageAPIData();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    try {
+      for (int i = 0; i < allTickers.length; i++) {
+        String[] reader = api.getInputStream(allTickers[i]);
+        String price = api.getPriceForDate(reader, formatter.format(dateString),
+            "daily").toString();
         prices[i] = Float.parseFloat(price);
-        priceMap.put(tickers[i], prices[i]);
+        priceMap.put(allTickers[i], prices[i]);
       }
     } catch (Exception e) {
-      displayPortfolio.displayMessage(out, "There was an error during the API call. "
-              + "Please try again.\n");
-      return;
+      throw new RuntimeException(e);
     }
-    for (int k = 0; k < prices.length; k++) {
-      if (prices[k] == 0) {
-        displayPortfolio.displayMessage(out, "There was an error retrieving prices. "
-                + "Please try again.\n");
-        return;
-      }
-    }
-
-    //now rebalance it
-    //find total value
-    sum = 0;
-    Map<String, Float> countMap = new HashMap<>();
-    for (i = 0; i < allTickers.length; i++) {
+    float sum = 0;
+    for (int i = 0; i < allTickers.length; i++) {
       sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
-      if (countMap.containsKey(allTickers[i])) {
-        float count = countMap.get(allTickers[i]);
-        countMap.replace(allTickers[i], count + Float.parseFloat(counts[i]));
-      } else {
-        countMap.put(allTickers[i], Float.parseFloat(counts[i]));
-      }
     }
     //for each stock, find out how much to buy or sell
-    for (i = 0; i < tickers.length; i++) {
-      float diff = sum*percentages[i]*0.01f - priceMap.get(tickers[i])*countMap.get(tickers[i]);
-      System.out.println("______");
-      System.out.println("Ticker: " + tickers[i]);
-      System.out.println("Count: " + countMap.get(tickers[i]));
-      System.out.println("Diff: " + diff);
-      System.out.println("To Buy/Sell: " + diff/priceMap.get(tickers[i]));
-      if (diff >= 0) {
-        flexiblePortfolio.buyShares(tickers[i], diff/priceMap.get(tickers[i]),
-                formatter.format(target), commission, name);
-      } else {
-        flexiblePortfolio.rebalanceSell(tickers[i], Math.abs(diff)/priceMap.get(tickers[i]),
-                formatter.format(target), commission, name);
+    for (int i = 0; i < allTickers.length; i++) {
+      double diff = sum*pers.get(i)*0.01f - priceMap.get(allTickers[i])
+          *Float.parseFloat(counts[i]);
+      if (diff > 0) {
+        try {
+          model.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
+              formatter.format(dateString), coms.get(i), name);
+        } catch (ParseException | IOException | java.text.ParseException e) {
+          throw new RuntimeException(e);
+        }
+      } else if (diff < 0){
+        try {
+          model.rebalanceSell(allTickers[i], Math.abs(diff)/priceMap.get(allTickers[i]),
+              formatter.format(dateString), coms.get(i), name);
+        } catch (ParseException | IOException
+                 | NoSuchFieldException | java.text.ParseException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
 
-    displayPortfolio.displayMessage(out, "Enter any key to return to the previous menu.\n");
-    sc.nextLine();*/
   }
 }
