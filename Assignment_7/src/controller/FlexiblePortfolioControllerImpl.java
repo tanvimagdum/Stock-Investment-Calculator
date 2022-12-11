@@ -321,6 +321,21 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
         counts[i] = contents.get(i).get(1);
     }
 
+    displayPortfolio.displayMessage(out, "Now, please choose a commission fee between "
+        + "$1 and $20 for the rebalancing purchases and sales.\n");
+    Float commission = 1f;
+    try {
+      commission = Float.parseFloat(sc.nextLine());
+    } catch (Exception e) {
+      displayPortfolio.displayMessage(out, "The given entry was not interpretable as a"
+          + "number. Please try again.\n");
+    }
+    if (commission < 1 || commission > 20) {
+      displayPortfolio.displayMessage(out, "You entered an invalid commission fee."
+          + "Please try again.\n");
+      return;
+    }
+
     //get unique tickers
     ArrayList<String> tempTickers = new ArrayList<>();
     for (int i = 0; i < allTickers.length; i++) {
@@ -341,21 +356,6 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       if (i == tickers.length - 1) {
         displayPortfolio.displayMessage(out, "\n");
       }
-    }
-
-    displayPortfolio.displayMessage(out, "Now, please choose a commission fee between "
-        + "$1 and $20 for the rebalancing purchases and sales.\n");
-    Float commission = 1f;
-    try {
-      commission = Float.parseFloat(sc.nextLine());
-    } catch (Exception e) {
-      displayPortfolio.displayMessage(out, "The given entry was not interpretable as a"
-          + "number. Please try again.\n");
-    }
-    if (commission < 1 || commission > 20) {
-      displayPortfolio.displayMessage(out, "You entered an invalid commission fee."
-          + "Please try again.\n");
-      return;
     }
 
     float[] percentages = new float[tickers.length];
@@ -438,15 +438,11 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     //for each stock, find out how much to buy or sell
     for (i = 0; i < tickers.length; i++) {
       float diff = sum*percentages[i]*0.01f - priceMap.get(tickers[i])*countMap.get(tickers[i]);
-      System.out.println("______");
-      System.out.println("Ticker: " + tickers[i]);
-      System.out.println("Count: " + countMap.get(tickers[i]));
-      System.out.println("Diff: " + diff);
-      System.out.println("To Buy/Sell: " + diff/priceMap.get(tickers[i]));
-      if (diff >= 0) {
+      System.out.println(diff);
+      if (diff > 0) {
         flexiblePortfolio.buyShares(tickers[i], diff/priceMap.get(tickers[i]),
             formatter.format(target), commission, name);
-      } else {
+      } else if (diff < 0){
         flexiblePortfolio.rebalanceSell(tickers[i], Math.abs(diff)/priceMap.get(tickers[i]),
             formatter.format(target), commission, name);
       }

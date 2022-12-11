@@ -2,6 +2,9 @@ package model;
 
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,10 +25,11 @@ import java.util.Objects;
 import java.util.Properties;
 
 /**
- * {@code FileIOImpl} represents the implementation of FileIO interface.
- * This class has methods such as create file, read file, write to file and validate json file.
+ * {@code FileIOImpl} represents the implementation of FileIO interface. This class has methods such
+ * as create file, read file, write to file and validate json file.
  */
 class FileIOImpl implements FileIO {
+
   private final Properties prop;
   private final FlexiblePortfolio flexiblePortfolio;
 
@@ -47,7 +51,7 @@ class FileIOImpl implements FileIO {
     File directory = new File(prop.getProperty("resource_file"));
     int fileCount = Objects.requireNonNull(directory.list()).length + 1;
     String filename = prop.getProperty("resource_file") + "/flexible_portfolio_"
-            + fileCount + ".json";
+        + fileCount + ".json";
     File file1 = new File(filename);
     while (file1.exists()) {
       fileCount++;
@@ -65,19 +69,19 @@ class FileIOImpl implements FileIO {
   public Map<String, Object> readFileData(String filename) throws ParseException, IOException {
     JSONParser jsonParser = new JSONParser();
     BufferedReader br = new BufferedReader(
-            new FileReader(prop.getProperty("resource_file")
-                    + "/" + filename));
+        new FileReader(prop.getProperty("resource_file")
+            + "/" + filename));
     if (br.readLine() == null) {
       br.close();
       return null;
     }
     FileReader reader = new FileReader(prop.getProperty("resource_file") +
-            "/" + filename);
+        "/" + filename);
     Object obj = jsonParser.parse(reader);
     JSONObject portFolioData = (JSONObject) obj;
 
     Map<String, Object> portfolioMap = new Gson().fromJson(String.valueOf(portFolioData),
-            HashMap.class);
+        HashMap.class);
 
     reader.close();
     br.close();
@@ -86,12 +90,12 @@ class FileIOImpl implements FileIO {
 
   @Override
   public void writeFileData(String symbol, double quantity, String date, double commissionFee,
-                            String operation, String filename, boolean overwriteSells)
+      String operation, String filename, boolean overwriteSells)
       throws IOException, ParseException {
     JSONParser jsonParser = new JSONParser();
     BufferedReader br = new BufferedReader(
-            new FileReader(prop.getProperty("resource_file")
-                    + "/" + filename));
+        new FileReader(prop.getProperty("resource_file")
+            + "/" + filename));
     JSONObject portfolioData = null;
     if (br.readLine() == null) {
       portfolioData = new JSONObject();
@@ -102,15 +106,98 @@ class FileIOImpl implements FileIO {
       br.close();
     } else {
       FileReader reader = new FileReader(prop.getProperty("resource_file") +
-              "/" + filename);
+          "/" + filename);
       Object obj = jsonParser.parse(reader);
       portfolioData = (JSONObject) obj;
       if (portfolioData.containsKey(symbol)) {
-        JSONArray tickerArray = (JSONArray) portfolioData.get(symbol);
-        JSONObject newStock = stockObjectHelper(quantity, date, commissionFee, operation);
-        tickerArray.add(newStock);
-        reader.close();
+        if (!overwriteSells || operation.equals("BUY")) {
+          JSONArray tickerArray = (JSONArray) portfolioData.get(symbol);
+          JSONObject newStock = stockObjectHelper(quantity, date, commissionFee, operation);
+          tickerArray.add(newStock);
+          reader.close();
+        } else {
+          //erase future sells such that the rules are obeyed
+          JSONArray tickerArray = (JSONArray) portfolioData.get(symbol);
+          System.out.println(tickerArray.toString());
+          int elements = tickerArray.size();
+          String[] operations = new String[elements];
+          String[] dates = new String[elements];
+          String[] quantities = new String[elements];
+          DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+          float futureSum = 0;
+          float priorSum = 0;
+          for (int i = 0; i < elements; i++) {
+            String[] parts = tickerArray.get(i).toString().split(",");
+            operations[i] = parts[2].subSequence(13, 16).toString();
+            dates[i] = parts[3].subSequence(8, 18).toString();
+            quantities[i] = parts[1].substring(11);
 
+            try {
+              if (formatter.parse(dates[i]).after(formatter.parse(date))){
+                if (operations[i].equals("BUY")) {
+                  futureSum += Float.parseFloat(quantities[i]);
+                } else {
+                  futureSum -= Float.parseFloat(quantities[i]);
+                }
+              } else {
+                if (operations[i].equals("BUY")) {
+                  priorSum += Float.parseFloat(quantities[i]);
+                } else {
+                  priorSum -= Float.parseFloat(quantities[i]);
+                }
+              }
+            } catch (Exception e) {
+              throw new RuntimeException(e);
+            }
+          }
+
+          ArrayList<Integer> considered = new ArrayList<>();
+          ArrayList<Integer> removed = new ArrayList<>();
+          float surplus = (float) (priorSum - quantity);
+          try {
+            for (int i = 0; i < elements; i++) {
+              String minDate = "2100-01-01";
+              int minInd = -1;
+
+              for (int j = 0; j < elements; j++) {
+                if (considered.contains(j)) {
+                  continue;
+                }
+                if (!formatter.parse(dates[j]).before(formatter.parse(date))) {
+                  if (formatter.parse(dates[j]).before(formatter.parse(minDate))) {
+                    minDate = dates[j];
+                    minInd = j;
+                  }
+                }
+              }
+              if (minInd == -1) {
+                break;
+              }
+              considered.add(minInd);
+              if (!operations[minInd].equals("BUY")) {
+                if (surplus - Float.parseFloat(quantities[minInd]) < 0) {
+                  removed.add(minInd);
+                } else {
+                  surplus -= Float.parseFloat(quantities[minInd]);
+                }
+              } else {
+                surplus += Float.parseFloat(quantities[minInd]);
+              }
+            }
+          } catch (Exception e) {
+            //This really should not be happening if the JSON is formatted properly.
+          }
+          for (int i = 0; i < removed.size(); i++) {
+            System.out.println("removed:" + removed.get(i));
+            System.out.println(tickerArray.getClass());
+            tickerArray.remove(removed.get(i));
+          }
+          System.out.println(tickerArray.toString());
+          JSONObject newStock = stockObjectHelper(quantity, date, commissionFee, operation);
+          tickerArray.add(newStock);
+          System.out.println(tickerArray.toString());
+          reader.close();
+        }
       } else {
         portfolioData.put(symbol, new JSONArray());
         JSONObject newStock = stockObjectHelper(quantity, date, commissionFee, operation);
@@ -120,7 +207,7 @@ class FileIOImpl implements FileIO {
       }
     }
     FileWriter fw = new FileWriter(prop.getProperty("resource_file") +
-            "/" + filename);
+        "/" + filename);
     BufferedWriter bw = new BufferedWriter(fw);
     bw.write(portfolioData.toJSONString());
     bw.newLine();
@@ -132,7 +219,7 @@ class FileIOImpl implements FileIO {
 
   @Override
   public boolean validateJSONFile(String filename, String newFile) throws IOException,
-          ParseException, java.text.ParseException, NoSuchFieldException {
+      ParseException, java.text.ParseException, NoSuchFieldException {
     JSONParser jsonParser = new JSONParser();
     FileReader reader = new FileReader(filename);
     Object obj;
@@ -185,36 +272,36 @@ class FileIOImpl implements FileIO {
 
   @Override
   public boolean writeStrategy(double amount, List<Double> weight,
-                               List<String> symbol, String currentDate,
-                               int timeInterval, String endDate, List<Double> commissionfee,
-                               String filename) throws IOException, ParseException {
+      List<String> symbol, String currentDate,
+      int timeInterval, String endDate, List<Double> commissionfee,
+      String filename) throws IOException, ParseException {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     String presentDate = sdf.format(new Date());
     JSONParser jsonParser = new JSONParser();
     BufferedReader br = new BufferedReader(
-            new FileReader(prop.getProperty("strategy_file")
-                    + "/" + "dollarCostAveraging.json"));
+        new FileReader(prop.getProperty("strategy_file")
+            + "/" + "dollarCostAveraging.json"));
     JSONObject portfolioData = null;
     if (br.readLine() == null) {
       portfolioData = new JSONObject();
       JSONArray newStock = new JSONArray();
       for (int i = 0; i < weight.size(); i++) {
         JSONObject object = stockArrayHelper(amount, weight.get(i), symbol.get(i),
-                presentDate, timeInterval, endDate, commissionfee.get(i));
+            presentDate, timeInterval, endDate, commissionfee.get(i));
         newStock.add(object);
       }
       portfolioData.put(filename, newStock);
       br.close();
     } else {
       FileReader reader = new FileReader(prop.getProperty("strategy_file") +
-              "/" + "dollarCostAveraging.json");
+          "/" + "dollarCostAveraging.json");
       Object obj = jsonParser.parse(reader);
       portfolioData = (JSONObject) obj;
       if (portfolioData.containsKey(filename)) {
         JSONArray fileData = (JSONArray) portfolioData.get(filename);
         for (int i = 0; i < weight.size(); i++) {
           JSONObject object = stockArrayHelper(amount, weight.get(i), symbol.get(i), presentDate,
-                  timeInterval, endDate, commissionfee.get(i));
+              timeInterval, endDate, commissionfee.get(i));
           fileData.add(object);
         }
         portfolioData.put(filename, fileData);
@@ -224,7 +311,7 @@ class FileIOImpl implements FileIO {
         JSONArray array = new JSONArray();
         for (int i = 0; i < weight.size(); i++) {
           JSONObject object = stockArrayHelper(amount, weight.get(i), symbol.get(i), presentDate,
-                  timeInterval, endDate, commissionfee.get(i));
+              timeInterval, endDate, commissionfee.get(i));
           array.add(object);
         }
         portfolioData.put(filename, array);
@@ -233,7 +320,7 @@ class FileIOImpl implements FileIO {
     }
 
     FileWriter fw = new FileWriter(prop.getProperty("strategy_file") +
-            "/" + "dollarCostAveraging.json");
+        "/" + "dollarCostAveraging.json");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.write(portfolioData.toJSONString());
     bw.newLine();
@@ -246,20 +333,20 @@ class FileIOImpl implements FileIO {
 
   @Override
   public void checkForStrategy(String fileName, String date)
-          throws IOException, ParseException, java.text.ParseException {
+      throws IOException, ParseException, java.text.ParseException {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     String currentDate = sdf.format(new Date());
     JSONParser jsonParser = new JSONParser();
     JSONObject portFolioData = null;
     BufferedReader br = new BufferedReader(
-            new FileReader(prop.getProperty("strategy_file") +
-                    "/" + "dollarCostAveraging.json"));
+        new FileReader(prop.getProperty("strategy_file") +
+            "/" + "dollarCostAveraging.json"));
     if (br.readLine() == null) {
       br.close();
       return;
     } else {
       FileReader reader = new FileReader(prop.getProperty("strategy_file") +
-              "/" + "dollarCostAveraging.json");
+          "/" + "dollarCostAveraging.json");
       Object obj = jsonParser.parse(reader);
       portFolioData = (JSONObject) obj;
 
@@ -277,9 +364,9 @@ class FileIOImpl implements FileIO {
             int interval = Integer.parseInt(String.valueOf(object.get("timeInterval")));
 
             flexiblePortfolio.dollarCostAveraging(amount, weight, object.get("symbol").toString(),
-                    object.get("currentDate").toString(), interval,
-                    object.get("endDate").toString(),
-                    fee, fileName);
+                object.get("currentDate").toString(), interval,
+                object.get("endDate").toString(),
+                fee, fileName);
             object.replace("currentDate", object.get("currentDate"), currentDate);
           }
           toWrite.add(object);
@@ -289,7 +376,7 @@ class FileIOImpl implements FileIO {
     }
 
     FileWriter fw = new FileWriter(prop.getProperty("strategy_file") +
-            "/" + "dollarCostAveraging.json");
+        "/" + "dollarCostAveraging.json");
     BufferedWriter bw = new BufferedWriter(fw);
     bw.write(portFolioData.toJSONString());
     bw.newLine();
@@ -302,13 +389,13 @@ class FileIOImpl implements FileIO {
 
   private boolean validateJSONObject(String date, String operation, Double fee, int quantity) {
     return flexiblePortfolio.validateDate(date)
-            && flexiblePortfolio.isNumber(String.valueOf(quantity))
-            && (operation.equals("BUY") || (operation.equals("SELL"))) && (fee > 0);
+        && flexiblePortfolio.isNumber(String.valueOf(quantity))
+        && (operation.equals("BUY") || (operation.equals("SELL"))) && (fee > 0);
   }
 
 
   private JSONObject stockObjectHelper(double quantity, String date, double commissionFee,
-                                       String operation) {
+      String operation) {
     JSONObject object = new JSONObject();
     object.put("Quantity", quantity);
     object.put("Date", date);
@@ -318,8 +405,8 @@ class FileIOImpl implements FileIO {
   }
 
   private JSONObject stockArrayHelper(double amount, double weight, String symbol,
-                                      String currentDate, int timeInterval, String endDate,
-                                      double commissionfee) {
+      String currentDate, int timeInterval, String endDate,
+      double commissionfee) {
     JSONObject object = new JSONObject();
     object.put("amount", amount);
     object.put("weight", weight);
