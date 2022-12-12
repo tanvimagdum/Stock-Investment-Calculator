@@ -22,6 +22,4 @@ interface PortfolioController {
   void startProgram() throws IOException, ParseException, java.text.ParseException,
           NoSuchFieldException;
 
-
-
 }

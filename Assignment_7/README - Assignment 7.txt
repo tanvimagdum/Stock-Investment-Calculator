@@ -43,6 +43,8 @@ For Text View
 To run from IntelliJ, you must edit the run configuration when running PortfolioMain (which has the main method)
 so that the argument line either reads 'Text' or 'Swing' for the text ui and gui respectively.
 
+
+
 Features Completed in Assignment 7:
 1. Rebalancing flexible portfolios through the Text UI
 2. Rebalancing flexible portfolios through the GUI
@@ -51,17 +53,18 @@ Features Completed in Assignment 7:
 do not work properly, including sales under certain conditions. One should be able to create a portfolio
 and rebalance it though, through both UI's).
 
+
+
 Changes:
 1. Edited 'FileIOImpl.java' method 'writeFileData'
   to include code removing incompatible future sales (based on professor's piazza response @1344
 2. Added public method 'rebalanceSell' to 'FlexiblePortfolio.java' and its implementation
   to offer alternative method of making a sale (to use the code mentioned in #1)
 3. Added private method 'rebalance' to 'FlexiblePortfolioControllerImpl.java', also an extra menu option
-  to take in text input from the user relating to rebalancing (date, weights, etc.) and apply the rebalance.
+  to take in text input from the user relating to rebalancing (date, weights, etc.) and applying the rebalance.
 4. Added public methods 'rebalancePortfolioChoice', 'validatePortfolio', 'saveShares', 'validateShare',
   and 'rebalancePortfolio' to 'SwingController.java' and its implementation
   to handle taking, validating, and applying information relating to rebalancing portfolios through the GUI
 5. Added public methods 'clearSelectPortfolioFields', 'clearRebalanceFields', 'selectPortfolioPanel',
   'displayRebalancePanel', and 'setControllerStuff' to 'SwingView.java' and its implementation
   to handle feeding data to the controller for validation and application when rebalancing portfolios
-6.

@@ -1,0 +1,18 @@
+﻿Design Critique:
+        Model/View/Controller is violated in several ways. FileIO and API are in the model rather than the controller. Consider moving FileIO and API to the controller, perhaps having the controller pass them to the model. The Swing View often tells the Swing Controller what to do; but, the controller should always be the one to tell the view to change what is on the screen. Several classes to implement specific features, which should have been inside other classes. No use of extension whatsoever. BaseController is unnecessary, it offers a choice which should have been consolidated to a single controller for the text UI.
+
+
+Implementation Critique:
+        Portfolio information is stored directly to file, without any intermediate steps, and cannot be undone, changes are forcefully saved. Consider keeping information in objects and letting the user decide when to save. API does not allow purchases on weekends or holidays, should have allowed and simply placed the transaction on prior trading day. The GUI requires multiple public methods to be added for each feature to handle giving and taking information. Consider having a generic method to send and retrieve information to/from the controller. In GUI, everything is on the same panel rather than having different panels for different stages of each feature. In GUI, text fields shift as the user enters input. Consider addressing this to making the user’s experience less confusing. In TextUI, always immediately shows the next slate of options to the user, never lets the user see results. Consider letting the user enter random input before moving on. Never gives the user clear instructions on the format of input  (especially date), could benefit from examples of how to format input. All weight input requires the user to enter the ticker symbol, and the user never knows which tickers are in the portfolio and how many remain (also allows tickers to be added which are not in the portfolio). Consider giving the user a list of present tickers and forcing them to set a weight for them one by one. Inconsistent handling of exceptions; consider having the model throw exceptions and the controller handle them.
+
+
+Documentation Critique:
+        The interface comments are sufficient to understand the purpose of the methods, though not how they actually work. There are no comments in the code body. The SETUP-README was sufficient to get the code running. We were not well informed on what was working and what was not working (many features claimed to be working, like investing a fixed amount, do not actually work in places). 
+
+
+Design/Code Strengths:
+        Menu navigation handled very clearly. The Date selection mechanism on the GUI was quite nice/useful. The file explorer for uploading portfolios on the GUI was a nice addition. Code was concise in most cases, and devoid of large, hard-to-read methods. API having a separate method for monthly checks was a good inclusion. 
+
+
+Design/Code Weaknesses:
+        The number of independent interfaces and classes confounds the extensibility of the program. That the FileIO and API are part of the model means the client cannot choose how to handle those, so they would be better in the controller. The controller setup, relying on a big switch statement, means that adding to the program would continue to increase the size of the file. In many methods, dates are taken and returned as Strings, which means the client must know how the date is formatted; consider swapping to the java calendar object.
