@@ -62,4 +62,6 @@ Changes:
   and 'rebalancePortfolio' to 'SwingController.java' and its implementation
   to handle taking, validating, and applying information relating to rebalancing portfolios through the GUI
 5. Added public methods 'clearSelectPortfolioFields', 'clearRebalanceFields', 'selectPortfolioPanel',
-  'displayRebalancePanel', 'setControllerStuff'
+  'displayRebalancePanel', and 'setControllerStuff' to 'SwingView.java' and its implementation
+  to handle feeding data to the controller for validation and application when rebalancing portfolios
+6.
