@@ -362,20 +362,24 @@ public class SwingControllerRebalanceTest {
   }
 
   @Test
-  public void testRelancing() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalancing() throws IOException, ParseException, java.text.ParseException {
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
     SwingView mockView = new mockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
-    String port = "flexible_portfolio_5.json";
-    String date = "2022-01-01";
+    String port = "flexible_portfolio_1.json";
+    String date = "2022-11-30";
     rb.validatePortfolio(port, date);
 
-    ArrayList<String> arr = new ArrayList<>(Arrays.asList("GOOG:0:5", "AAPL:100:5"));
+    ArrayList<String> arr = new ArrayList<>(Arrays.asList("MSFT:80:5", "GOOG:20:5"));
     rb.saveShares(arr);
     rb.rebalancePortfolio();
-    System.out.println(model.getFlexiblePortfolioComposition(port,date));
+    List<List<String>> contents = model.getFlexiblePortfolioComposition(port,date);
+    assertEquals("MSFT", contents.get(0).get(0));
+    assertEquals("223", contents.get(0).get(1));
+    assertEquals("GOOG", contents.get(1).get(0));
+    assertEquals("140", contents.get(1).get(1));
   }
 
 }
