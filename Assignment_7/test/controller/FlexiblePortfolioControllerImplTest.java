@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  * Junit test cases for Flexible Portfolio Controller Implementation.
  */
 public class FlexiblePortfolioControllerImplTest {
+
   private FlexiblePortfolio flexiblePortfolio;
 
   private DisplayPortfolio displayPortfolio;
@@ -61,37 +63,37 @@ public class FlexiblePortfolioControllerImplTest {
     StringBuilder sb = new StringBuilder();
     FlexiblePortfolio flexiblePortfolio = new MockFlexiblePortfolio(sb);
     assertTrue(flexiblePortfolio.buyShares("GOOG", 100, "2020-10-12",
-            3.5, "dummy.txt"));
+        3.5, "dummy.txt"));
     assertEquals(sb.toString(), "GOOG 100.0 2020-10-12 3.5 dummy.txt");
   }
 
   @Test
   public void testForSellMockModel() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     StringBuilder sb = new StringBuilder();
     FlexiblePortfolio flexiblePortfolio = new MockFlexiblePortfolio(sb);
     assertTrue(flexiblePortfolio.sellShares("GOOG", 100, "2020-10-12",
-            3.5, "dummy.txt"));
+        3.5, "dummy.txt"));
     assertEquals(sb.toString(), "GOOG 100.0 2020-10-12 3.5 dummy.txt");
   }
 
   @Test
   public void testCalculateCostBasisMockModel() throws IOException, ParseException,
-          java.text.ParseException {
+      java.text.ParseException {
     StringBuilder sb = new StringBuilder();
     FlexiblePortfolio flexiblePortfolio = new MockFlexiblePortfolio(sb);
     assertEquals(0, flexiblePortfolio.calculateCostBasis("dummy.txt",
-            "2020-12-12"), 0.1);
+        "2020-12-12"), 0.1);
     assertEquals("dummy.txt 2020-12-12", sb.toString());
   }
 
 
   @Test
   public void testGoForValidMenuCase() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("2\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -102,10 +104,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testForUploadFile() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in = new StringReader("8\nflexible_portfolios/flexible_portfolio_1.json\n9\n");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -115,25 +117,25 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testForUploadFileInvalid() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("8\n/abc\n9\n");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
     assertEquals("File not found at the location. Please enter correct file path",
-            temp[15]);
+        temp[15]);
     in.close();
   }
 
 
   @Test
   public void testStartProgramForCaseOneClose() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(
-            in, out, flexiblePortfolio, displayPortfolio);
+        in, out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -143,10 +145,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyCaseValid() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(
-            in, out, flexiblePortfolio, displayPortfolio);
+        in, out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -157,10 +159,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyCaseInvalidComissionNegative() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3\n2020-10-12\n-1\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -170,10 +172,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyCaseInvalidComissionGreaterThan20() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3\n2020-10-12\n21\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -183,11 +185,11 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testSellCaseValid() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in =
-            new StringReader("1\n1\nGOOG\n3\n2020-10-12\n4\n2\nGOOG\n3\n2020-10-14\n4\n3\n9");
+        new StringReader("1\n1\nGOOG\n3\n2020-10-12\n4\n2\nGOOG\n3\n2020-10-14\n4\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -197,10 +199,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testSellCaseInvalidSymbol() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3\n2020-10-12\n4\n2\nGOO\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -210,11 +212,11 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testSellCaseInvalidSellDate() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader(
-            "1\n1\nGOOG\n3\n2020-10-12\n4\n2\nGOOG\n3\n2020-10-11\n4\n3\n9");
+        "1\n1\nGOOG\n3\n2020-10-12\n4\n2\nGOOG\n3\n2020-10-11\n4\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -224,10 +226,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyInvalidDateFormat() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3\nasdasda\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -237,10 +239,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyInvalidDate() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3\n2023-10-10\n3\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -250,10 +252,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testSellInvalidDateFormat() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n2\nGOOG\n3\nasdasda\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -263,10 +265,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testExaminePortfolio() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n2\n1\n2020-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -279,10 +281,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testExaminePortfolioForPastDate() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n2\n1\n2019-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -295,10 +297,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testExaminePortfolioForFutureDate() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n2\n1\n2021-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -311,10 +313,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testExaminePortfolioForEmptyFile() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n3\n2\n1\n2021-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -324,24 +326,24 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testCostBasisDate() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n5\n1\n2021-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
     in.close();
     assertEquals("Cost Basis for Portfolio flexible_portfolio_1.json is $148598.00",
-            temp[42]);
+        temp[42]);
   }
 
   @Test
   public void testCostBasisPreviousDate() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n100\n2020-10-08\n5\n3\n5\n1\n2019-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -351,10 +353,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testCostBasisEmptyFile() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n3\n5\n1\n2019-11-10\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -365,10 +367,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyCaseInvalidTicker() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOO\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -378,10 +380,10 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testBuyCaseInvalidQuantity() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n3.5\n3\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -391,27 +393,27 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testForDisplayGraph() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader(
-            "1\n1\nGOOG\n300\n2020-10-12\n3.5\n3\n7\n1\n2020-10-01\n2020-10-12\n0\n9");
+        "1\n1\nGOOG\n300\n2020-10-12\n3.5\n3\n7\n1\n2020-10-01\n2020-10-12\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in,
-            out, flexiblePortfolio, displayPortfolio);
+        out, flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
     in.close();
     String s = "Performance of portfolio flexible_portfolio_1.json from 2020-10-01 to 2020-10-12";
     assertEquals(s,
-            temp[43]);
+        temp[43]);
     assertEquals("Scale: * = $470745.0", temp[56]);
   }
 
   @Test
   public void testForTotalValuation() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n300\n2020-10-12\n3.5\n3\n6\n1\n2020-10-12\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -421,24 +423,24 @@ public class FlexiblePortfolioControllerImplTest {
 
   @Test
   public void testForGetCostBasis() throws IOException, ParseException, java.text.ParseException,
-          NoSuchFieldException {
+      NoSuchFieldException {
     Reader in = new StringReader("1\n1\nGOOG\n300\n2020-10-12\n3.5\n3\n5\n1\n2020-10-12\n0\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
     in.close();
     assertEquals("Cost Basis for Portfolio flexible_portfolio_1.json is $470748.50",
-            temp[42]);
+        temp[42]);
   }
 
   @Test
   public void testForGetCostBasisInvalid() throws IOException, ParseException,
-          java.text.ParseException, NoSuchFieldException {
+      java.text.ParseException, NoSuchFieldException {
     Reader in = new StringReader("5\n9");
     PortfolioController basePortfolioController = new FlexiblePortfolioControllerImpl(in, out,
-            flexiblePortfolio, displayPortfolio);
+        flexiblePortfolio, displayPortfolio);
     basePortfolioController.startProgram();
     String[] temp;
     temp = out.toString().split("\n");
@@ -446,5 +448,22 @@ public class FlexiblePortfolioControllerImplTest {
     assertEquals("No Portfolio Found. Please create new portfolio.", temp[14]);
   }
 
-
+  @Test
+  public void rebalanceTest()
+      throws IOException, ParseException, java.text.ParseException, NoSuchFieldException {
+    Reader in = new StringReader("1\n1\nGOOG\n100\n2022-10-31\n5\n1\nMSFT"
+        + "\n100\n2022-10-31\n5\n3\n9\n10\n2022-11-02\n5\n20\n80\nk\n0\n10\n");
+    FlexiblePortfolio model = new FlexiblePortfolioImpl();
+    PortfolioController portCon = new FlexiblePortfolioControllerImpl(in, System.out,
+        model, new DisplayPortfolioImpl());
+    //NOTE THIS:
+    //requires that there be 9 portfolios in the flexible portfolios folder, as this tests the 10th
+    portCon.startProgram();
+    List<List<String>> contents = model.getFlexiblePortfolioComposition(
+        "flexible_portfolio_10.json", "2022-11-30");
+    assertEquals("MSFT", contents.get(0).get(0));
+    assertEquals("27", contents.get(0).get(1));
+    assertEquals("GOOG", contents.get(1).get(0));
+    assertEquals("282", contents.get(1).get(1));
+  }
 }
