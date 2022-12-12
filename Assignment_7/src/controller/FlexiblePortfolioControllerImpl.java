@@ -428,6 +428,14 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     for (i = 0; i < allTickers.length; i++) {
       float diff = sum*percentages[i]*0.01f - priceMap.get(allTickers[i])
           *Float.parseFloat(counts[i]);
+      /*
+      System.out.println("Sum: " + sum);
+      System.out.println("Ticker: " + allTickers[i]);
+      System.out.println("Price: " + priceMap.get(allTickers[i]));
+      System.out.println("Count: " + counts[i]);
+      System.out.println("Percentage: " + percentages[i]);
+      System.out.println("Difference: " + diff);
+      */
       if (diff > 0) {
         flexiblePortfolio.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
             formatter.format(target), commission, name);
