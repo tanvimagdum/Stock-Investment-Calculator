@@ -175,7 +175,7 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     displayPortfolio.displayMessage(out, "Enter Symbol\n");
     String symbol = sc.nextLine();
     if (!flexiblePortfolio.validateSymbol(symbol)) {
-      displayPortfolio.displayMessage(out, "Invalid ticker symbol\n");
+      displayPortfolio.displayMessage(out, "Invalid ticker symbol\n" + symbol);
       return;
     }
     displayPortfolio.displayMessage(out, "Enter Quantity\n");

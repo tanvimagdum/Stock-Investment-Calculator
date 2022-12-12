@@ -1,0 +1,1 @@
+{"MSFT":[{"Fee":5.0,"Quantity":100.0,"Operation":"BUY","Date":"2017-01-01"},{"Fee":5.0,"Quantity":100.0,"Operation":"SELL","Date":"2022-01-01"},{"Fee":5.0,"Quantity":14.483196258544922,"Operation":"BUY","Date":"2020-01-01"}],"AAPL":[{"Fee":5.0,"Quantity":100.0,"Operation":"BUY","Date":"2017-01-01"},{"Fee":5.0,"Quantity":7.7779669761657715,"Operation":"SELL","Date":"2020-01-01"}]}
