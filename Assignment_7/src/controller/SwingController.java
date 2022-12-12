@@ -233,11 +233,45 @@ public interface SwingController {
    */
   void createNewInvestmentMenu();
 
+  /**
+   * This method tells view to change the panel on screen everytime when
+   * re-balance portfolio option is chosen.
+   */
   void rebalancePortfolioChoice();
+
+  /**
+   * This method validates the portfolio name and date entered by the user.
+   * @param portfolioName the name of the portfolio
+   * @param selectedDate date selected by the user
+   * @throws ParseException if the file parsing fails
+   * @throws java.text.ParseException if date parsing fails
+   * @throws IOException if filename is not found
+   */
   void validatePortfolio(String portfolioName, String selectedDate)
           throws ParseException, java.text.ParseException, IOException;
+
+  /**
+   * This method saves the ticker and share information passed by the view
+   * into a class variable, to operate on it later, while re-balancing.
+   * @param arr a String array containing multiple strings with
+   *            tickers, shares and commission fees combination
+   */
   void saveShares(ArrayList<String> arr);
+
+  /**
+   * This method validates the ticker, share and commission fees entered by the user.
+   * @param symbolText ticker symbol entered by the user
+   * @param txtQuantity share entered by the user
+   * @param txtCommission commission fee entered by the user
+   * @return a boolean value false if validation fails and true if validation succeeds
+   * @throws IOException
+   * @throws java.text.ParseException
+   */
   boolean validateShare(String symbolText, String txtQuantity, String txtCommission)
           throws IOException, java.text.ParseException;
+
+  /**
+   * This method re-balances the portfolio.
+   */
   void rebalancePortfolio();
 }

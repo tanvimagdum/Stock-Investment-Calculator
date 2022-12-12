@@ -2,9 +2,12 @@ package view;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.json.simple.parser.ParseException;
-
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;

@@ -202,10 +202,35 @@ public interface SwingView {
    */
   void clearAddStockFields();
 
+  /**
+   * This function resets the view panel for portfolio and date selection
+   * in re-balance portfolio choice.
+   */
   void clearSelectPortfolioFields();
+
+  /**
+   * This function resets the view panel for re-balance portfolio fields.
+   */
   void clearRebalanceFields();
+
+  /**
+   * A method to show a panel containing portfolio selection option and
+   * date selection option.
+   * @param panel a new panel to represent select portfolio and select date options
+   */
   void selectPortfolioPanel(JPanel panel);
+
+  /**
+   * A method to display the re-balance portfolio panel,
+   * containing fields to take inputs for ticker, share and commission fees.
+   * @param panel containing the mentioned fields
+   */
   void displayRebalancePanel(JPanel panel);
+
+  /**
+   * A method to let controller send the display contents to the view.
+   * @param str String array of the contents
+   */
   void setControllerStuff(String[] str);
 
 }

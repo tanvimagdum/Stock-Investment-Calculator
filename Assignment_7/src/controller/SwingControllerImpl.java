@@ -3,15 +3,17 @@ package controller;
 import model.APIData;
 import model.VantageAPIData;
 import org.json.simple.parser.ParseException;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.HashMap;
 import javax.swing.JPanel;
-
 import model.FlexiblePortfolio;
 import view.SwingView;
 
