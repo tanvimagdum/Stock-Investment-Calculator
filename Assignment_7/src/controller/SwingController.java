@@ -264,8 +264,8 @@ public interface SwingController {
    * @param txtQuantity share entered by the user
    * @param txtCommission commission fee entered by the user
    * @return a boolean value false if validation fails and true if validation succeeds
-   * @throws IOException
-   * @throws java.text.ParseException
+   * @throws IOException if there is a problem reading the config file
+   * @throws java.text.ParseException if there's a weird problem reading a date (internal)
    */
   boolean validateShare(String symbolText, String txtQuantity, String txtCommission)
           throws IOException, java.text.ParseException;

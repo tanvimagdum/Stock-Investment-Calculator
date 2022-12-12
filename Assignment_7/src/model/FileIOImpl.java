@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -132,7 +131,7 @@ class FileIOImpl implements FileIO {
             quantities[i] = parts[1].substring(11);
 
             try {
-              if (formatter.parse(dates[i]).after(formatter.parse(date))){
+              if (formatter.parse(dates[i]).after(formatter.parse(date))) {
                 if (operations[i].equals("BUY")) {
                   futureSum += Float.parseFloat(quantities[i]);
                 } else {

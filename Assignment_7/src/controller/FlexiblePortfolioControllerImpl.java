@@ -314,11 +314,11 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     List<List<String>> contents = flexiblePortfolio.getFlexiblePortfolioComposition(name,
         formatter.format(target));
 
-    ArrayList<String> tickersTemp= new ArrayList<>();
+    ArrayList<String> tickersTemp = new ArrayList<>();
     ArrayList<String> countsTemp = new ArrayList<>();
 
     for (int i = 0; i < contents.size(); i++) {
-      if (!contents.get(i).get(1).equals("0")){
+      if (!contents.get(i).get(1).equals("0")) {
         tickersTemp.add(contents.get(i).get(0));
         countsTemp.add(contents.get(i).get(1));
       }
@@ -422,12 +422,12 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
     //find total value
     sum = 0;
     for (i = 0; i < allTickers.length; i++) {
-      sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
+      sum += Float.parseFloat(counts[i]) * priceMap.get(allTickers[i]);
     }
     //for each stock, find out how much to buy or sell
     for (i = 0; i < allTickers.length; i++) {
-      float diff = sum*percentages[i]*0.01f - priceMap.get(allTickers[i])
-          *Float.parseFloat(counts[i]);
+      float diff = sum * percentages[i] * 0.01f - priceMap.get(allTickers[i])
+          * Float.parseFloat(counts[i]);
       /*
       System.out.println("Sum: " + sum);
       System.out.println("Ticker: " + allTickers[i]);
@@ -437,10 +437,10 @@ public class FlexiblePortfolioControllerImpl implements PortfolioController {
       System.out.println("Difference: " + diff);
       */
       if (diff > 0) {
-        flexiblePortfolio.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
+        flexiblePortfolio.buyShares(allTickers[i], diff / priceMap.get(allTickers[i]),
             formatter.format(target), commission, name);
-      } else if (diff < 0){
-        flexiblePortfolio.rebalanceSell(allTickers[i], Math.abs(diff)/priceMap.get(allTickers[i]),
+      } else if (diff < 0) {
+        flexiblePortfolio.rebalanceSell(allTickers[i], Math.abs(diff) / priceMap.get(allTickers[i]),
             formatter.format(target), commission, name);
       }
     }

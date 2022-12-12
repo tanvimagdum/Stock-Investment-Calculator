@@ -44,11 +44,12 @@ import java.util.Map;
 import controller.SwingController;
 
 /**
- * This class represents implementation of the SwingView interface.
- * This class generates the split view panel in the single frame and toggles the right panel based
- * on the user action performed on the left panel.
+ * This class represents implementation of the SwingView interface. This class generates the split
+ * view panel in the single frame and toggles the right panel based on the user action performed on
+ * the left panel.
  */
 public class SwingViewImpl implements SwingView, ActionListener {
+
   private JFrame frame;
 
   private String selectedDate;
@@ -161,10 +162,10 @@ public class SwingViewImpl implements SwingView, ActionListener {
   private ArrayList<String> stockList = new ArrayList<>();
 
   /**
-   * This represents the constructor of the SwingViewImpl.
-   * This constructs the frames, panels and labels with the default value.
-   * Ths split view panel consist of the radio buttons on the left panel on which user performs
-   * action. Based on the action right panel is displayed with the below default values.
+   * This represents the constructor of the SwingViewImpl. This constructs the frames, panels and
+   * labels with the default value. Ths split view panel consist of the radio buttons on the left
+   * panel on which user performs action. Based on the action right panel is displayed with the
+   * below default values.
    */
   public SwingViewImpl() {
     frame = new JFrame();
@@ -207,7 +208,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     displayPerformance = new JButton("Display Portfolio Performance");
     newDollarCostAvgButton = new JButton("Create Dollar Cost Averaging in new portfolio");
     existingDollarCostAvgButton = new JButton("Create Dollar Cost Averaging in existing " +
-            "portfolio");
+        "portfolio");
     addStock = new JButton("Add Stock");
     investNow = new JButton("Invest Now");
     investDollarCostButton = new JButton("Invest Now");
@@ -285,17 +286,16 @@ public class SwingViewImpl implements SwingView, ActionListener {
     radioButtons[9].addActionListener(evt -> this.displayDollarCostAveraging());
     radioButtons[10].addActionListener(evt -> swingController.rebalancePortfolioChoice());
 
-
     addStockButton.addActionListener(evt -> swingController.addStock(symbolText.getText(),
-            quantityText.getText(), selectedDate, commissionText.getText(),
-            portfolioName));
+        quantityText.getText(), selectedDate, commissionText.getText(),
+        portfolioName));
     sellStockButton.addActionListener(evt -> swingController.sellStock(symbolText.getText(),
-            quantityText.getText(), selectedDate, commissionText.getText(),
-            portfolioName));
+        quantityText.getText(), selectedDate, commissionText.getText(),
+        portfolioName));
     costBasisButton.addActionListener(evt -> swingController.getCostBasis(portfolioName,
-            selectedDate));
+        selectedDate));
     valuationButton.addActionListener(evt -> swingController.getValuation(portfolioName,
-            selectedDate));
+        selectedDate));
     uploadButton.addActionListener(evt -> swingController.getUploadedPortfolio(path));
     portfolioAddStock.addActionListener(evt -> {
       String portfolioName = "";
@@ -305,15 +305,15 @@ public class SwingViewImpl implements SwingView, ActionListener {
         portfolioName = "";
       }
       swingController.addNewStocks(symbolText.getText(),
-              quantityText.getText(), selectedDate, commissionText.getText(),
-              portfolioName);
+          quantityText.getText(), selectedDate, commissionText.getText(),
+          portfolioName);
     });
     createPortfolioButton.addActionListener(evt -> {
       newPortfolio = swingController.getNewPortfolio();
     });
     examineButton.addActionListener(evt -> {
       swingController.examinePortfolioList(portfolioName,
-              selectedDate);
+          selectedDate);
     });
     createNewInvestmentStrategy.addActionListener(evt -> {
       swingController.createNewInvestmentMenu();
@@ -348,7 +348,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
       boolean result = false;
       try {
         result = swingController.validateStock(portfolioName, amountText.getText(),
-                symbolText.getText(), weightText.getText(), selectedDate, commissionText.getText());
+            symbolText.getText(), weightText.getText(), selectedDate, commissionText.getText());
       } catch (IOException | java.text.ParseException e) {
         throw new RuntimeException(e);
       }
@@ -373,9 +373,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
         intervalTime.setEnabled(false);
 
         remainingAmountLabel.setText("Remaining Weight: " +
-                this.getRemainingAmount(weightText.getText()));
+            this.getRemainingAmount(weightText.getText()));
         double remainingAmount =
-                Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
+            Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
         if (remainingAmount < 0) {
           addStock.setFocusable(true);
           addStock.setEnabled(true);
@@ -405,8 +405,8 @@ public class SwingViewImpl implements SwingView, ActionListener {
           this.displayMessage("Weight cannot be negative");
         } else if (remainingAmount == 0) {
           swingController.saveStocks(portfolioName, amountText.getText(),
-                  symbolText.getText(), weightText.getText(),
-                  selectedDate, commissionText.getText());
+              symbolText.getText(), weightText.getText(),
+              selectedDate, commissionText.getText());
           addStock.setFocusable(false);
           addStock.setEnabled(false);
           investNow.setFocusable(true);
@@ -449,7 +449,8 @@ public class SwingViewImpl implements SwingView, ActionListener {
       intervalTime.setFocusable(true);
       intervalTime.setEnabled(true);
       try {
-        swingController.investDollarCost(Integer.parseInt(intervalTime.getText()), selectedEndDate);
+        swingController.investDollarCost(Integer
+            .parseInt(intervalTime.getText()), selectedEndDate);
       } catch (java.text.ParseException | IOException | ParseException e) {
         throw new RuntimeException(e);
       }
@@ -468,7 +469,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
       boolean result = false;
       try {
         result = swingController.validateShare(txtSymbol.getText(),
-                                                txtQuantity.getText(), txtCommission.getText());
+            txtQuantity.getText(), txtCommission.getText());
       } catch (IOException | java.text.ParseException e) {
         throw new RuntimeException(e);
       }
@@ -479,9 +480,9 @@ public class SwingViewImpl implements SwingView, ActionListener {
         txtCommission.setEnabled(false);
 
         remainingAmountLabel.setText("Remaining Weight: " +
-                this.getRemainingAmount(txtQuantity.getText()));
+            this.getRemainingAmount(txtQuantity.getText()));
         double remainingAmount =
-                Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
+            Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
         if (remainingAmount < 0) {
           this.clearRebalanceFields();
           addStock.setFocusable(true);
@@ -495,16 +496,17 @@ public class SwingViewImpl implements SwingView, ActionListener {
           stockList = new ArrayList<>();
           this.displayMessage("Weight cannot be negative");
         } else if (remainingAmount == 0) {
-          stockList.add(txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
+          stockList.add(
+              txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
           swingController.saveShares(stockList);
           stockList = new ArrayList<>();
           addShare.setFocusable(false);
           addShare.setEnabled(false);
           rebalance.setFocusable(true);
           rebalance.setEnabled(true);
-        }
-        else {
-          stockList.add(txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
+        } else {
+          stockList.add(
+              txtSymbol.getText() + ":" + txtQuantity.getText() + ":" + txtCommission.getText());
           iterator++;
           txtSymbol.setText(controllerStuff[iterator]);
           txtQuantity.setText("");
@@ -518,7 +520,8 @@ public class SwingViewImpl implements SwingView, ActionListener {
   }
 
   private String getRemainingAmount(String weightText) {
-    double remainingWeight = Double.parseDouble(remainingAmountLabel.getText().split(":")[1]);
+    double remainingWeight = Double.parseDouble(remainingAmountLabel.getText()
+        .split(":")[1]);
     double weight = Double.parseDouble(weightText);
     return String.valueOf(remainingWeight - weight);
   }
@@ -808,7 +811,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
 
   @Override
   public void displayPerformanceGraph(List<String> xData, List<String> yData,
-                                      List<Double> intervalSize) {
+      List<Double> intervalSize) {
     PerformanceGraphView performanceGraphView = new PerformanceGraphViewImpl();
     JPanel panel = performanceGraphView.displayGraph(xData, yData, intervalSize);
     panel.setPreferredSize(new Dimension(900, 600));
@@ -848,7 +851,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     JPanel createNewDollarCostPanel = new JPanel();
     createNewDollarCostPanel.setBorder(BorderFactory.createTitledBorder("Dollar Cost Averaging"));
     createNewDollarCostPanel.setLayout(
-            new BoxLayout(createNewDollarCostPanel, BoxLayout.PAGE_AXIS));
+        new BoxLayout(createNewDollarCostPanel, BoxLayout.PAGE_AXIS));
     createNewDollarCostPanel.add(createPortfolioButton);
     createNewDollarCostPanel.add(createPortfolioLabel);
     createNewDollarCostPanel.add(Box.createVerticalStrut(10));
@@ -899,7 +902,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     JPanel createNewInvestmentMenuPanel = new JPanel();
     createNewInvestmentMenuPanel.setBorder(BorderFactory.createTitledBorder("Fixed Investment"));
     createNewInvestmentMenuPanel.setLayout(
-            new BoxLayout(createNewInvestmentMenuPanel, BoxLayout.PAGE_AXIS));
+        new BoxLayout(createNewInvestmentMenuPanel, BoxLayout.PAGE_AXIS));
     createNewInvestmentMenuPanel.add(createPortfolioButton);
     createNewInvestmentMenuPanel.add(createPortfolioLabel);
     createNewInvestmentMenuPanel.add(picker);
@@ -944,7 +947,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     createNewDollarCostPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
     createNewDollarCostPanel.setBorder(BorderFactory.createTitledBorder("Dollar Cost Averaging"));
     createNewDollarCostPanel.setLayout(
-            new BoxLayout(createNewDollarCostPanel, BoxLayout.PAGE_AXIS));
+        new BoxLayout(createNewDollarCostPanel, BoxLayout.PAGE_AXIS));
     amountLabel.setAlignmentX(20);
     createNewDollarCostPanel.add(amountLabel);
     createNewDollarCostPanel.add(amountText);
@@ -1101,7 +1104,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     pane.setPreferredSize(new Dimension(500, 400));
     displayExaminePanel.add(pane);
     JLabel portfolioValuation =
-            new JLabel("Total Valuation of the Portfolio in Dollars : " + valuation);
+        new JLabel("Total Valuation of the Portfolio in Dollars : " + valuation);
     portfolioValuation.setBorder(new EmptyBorder(50, 10, 50, 10));
     displayExaminePanel.add(portfolioValuation);
     genericDialog = new JDialog();
@@ -1156,7 +1159,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
     panel.add(addSharePanel);
 
     String tickerList = "";
-    for(int i = 0; i < controllerStuff.length; i++) {
+    for (int i = 0; i < controllerStuff.length; i++) {
       tickerList = tickerList + controllerStuff[i] + " ";
     }
 
@@ -1243,7 +1246,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
       case "Open file": {
         final JFileChooser fchooser = new JFileChooser("");
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "JSON files", "json");
+            "JSON files", "json");
         fchooser.setFileFilter(filter);
         int retvalue = fchooser.showOpenDialog(panelTwo);
         if (retvalue == JFileChooser.APPROVE_OPTION) {
@@ -1260,7 +1263,7 @@ public class SwingViewImpl implements SwingView, ActionListener {
           comboboxDisplay.setText("You selected: " + (String) box.getSelectedItem());
           portfolioName = comboboxDisplay.getText().split(":")[1].trim();
           createPortfolioLabel.setText("Portfolio " +
-                  comboboxDisplay.getText().split(":")[1].trim());
+              comboboxDisplay.getText().split(":")[1].trim());
         }
         break;
       case "Get Portfolio Performance":
@@ -1281,7 +1284,8 @@ public class SwingViewImpl implements SwingView, ActionListener {
       case "Re-balance Portfolio":
         radioDisplay.setText("Re-balance Portfolio is Selected");
         break;
-      default:break;
+      default:
+        break;
     }
   }
 }

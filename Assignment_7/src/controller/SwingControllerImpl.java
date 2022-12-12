@@ -18,14 +18,15 @@ import model.FlexiblePortfolio;
 import view.SwingView;
 
 /**
- * This class represent the implementation of the SwingController.
- * This class maintains the stock list for the multiple stock addition operation.
- * This controller consist of call back methods that view use to fetch the result based on actions.
- * This controller performs operations such as buying stock, selling stock, examine portfolio,
- * get portfolio valuation, performing investment strategy such as dollar cost averaging as well
- * as fixed investment strategy, generating graph as uploading external flexible portfolio.
+ * This class represent the implementation of the SwingController. This class maintains the stock
+ * list for the multiple stock addition operation. This controller consist of call back methods that
+ * view use to fetch the result based on actions. This controller performs operations such as buying
+ * stock, selling stock, examine portfolio, get portfolio valuation, performing investment strategy
+ * such as dollar cost averaging as well as fixed investment strategy, generating graph as uploading
+ * external flexible portfolio.
  */
 public class SwingControllerImpl implements SwingController {
+
   private FlexiblePortfolio model;
   private SwingView view;
 
@@ -33,9 +34,8 @@ public class SwingControllerImpl implements SwingController {
   private String[] viewStuff;
 
   /**
-   * This constructs the SwingControllerImplementation class.
-   * In addition to the injection of FlexiblePortfolio and SwingView, it also initialized call back
-   * method addFeature of the view.
+   * This constructs the SwingControllerImplementation class. In addition to the injection of
+   * FlexiblePortfolio and SwingView, it also initialized call back method addFeature of the view.
    *
    * @param flexiblePortfolio represents the object of the FlexiblePortfolio.
    * @param view              represents the view represented by SwingView.
@@ -120,13 +120,13 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void sellStock(String symbol, String quantity, String date, String commissionFee,
-                        String filename) {
+      String filename) {
     try {
       if (!validateData(symbol, commissionFee, quantity, date, filename)) {
         return;
       }
       if (model.sellShares(symbol, Integer.parseInt(quantity), date,
-              Double.parseDouble(commissionFee), filename)) {
+          Double.parseDouble(commissionFee), filename)) {
         view.displayMessage(symbol + " " + quantity + " sold successfully");
       } else {
         view.displayMessage("Unable to sell " + symbol + " " + quantity);
@@ -154,7 +154,7 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void addNewStocks(String symbol, String quantity, String selectedDate,
-                           String commissionFee, String newPortfolio) {
+      String commissionFee, String newPortfolio) {
     try {
       if (validateData(symbol, commissionFee, quantity, selectedDate, newPortfolio)) {
         addStock(symbol, quantity, selectedDate, commissionFee, newPortfolio);
@@ -174,16 +174,16 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void getPortfolioPerformanceData(String portfolioName, String selectedDate,
-                                          String selectedEndDate) throws ParseException,
-          java.text.ParseException, IOException {
+      String selectedEndDate) throws ParseException,
+      java.text.ParseException, IOException {
     if (portfolioName == null || portfolioName.equals("None") || portfolioName.equals("")
-            || isInvalidDate(selectedDate) || isInvalidDate(selectedEndDate) ||
-            !isValidInterval(selectedDate, selectedEndDate)) {
+        || isInvalidDate(selectedDate) || isInvalidDate(selectedEndDate) ||
+        !isValidInterval(selectedDate, selectedEndDate)) {
       view.displayMessage("Invalid Data provided");
       view.clearPerformanceFields();
     } else {
       List<String> result = model.generateAndDisplayStockGraph(selectedDate, selectedEndDate,
-              portfolioName);
+          portfolioName);
       List<String> xData = new ArrayList<>();
       List<String> yData = new ArrayList<>();
       List<String> asteriskResult = model.generateAsterisk(result);
@@ -201,9 +201,9 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void saveStocks(String portfolioName, String amount, String symbol, String weight,
-                         String selectedDate, String commissionText) {
+      String selectedDate, String commissionText) {
     stockList.add(portfolioName + ":" + amount + ":" + symbol + ":" + weight + ":" +
-            selectedDate + ":" + commissionText);
+        selectedDate + ":" + commissionText);
   }
 
   @Override
@@ -223,7 +223,7 @@ public class SwingControllerImpl implements SwingController {
       String date = stocks[4];
       fileName = stocks[0];
       result &= model.fixedInvestmentStrategy(amount, weight, symbol, date,
-              commissionFee, fileName);
+          commissionFee, fileName);
     }
 
     if (result) {
@@ -238,7 +238,7 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void investDollarCost(int interval, String endDate)
-          throws IOException, ParseException {
+      throws IOException, ParseException {
     boolean result = true;
     double amount = 0;
     List<Double> stockWeights = new ArrayList<>();
@@ -260,7 +260,7 @@ public class SwingControllerImpl implements SwingController {
       fileName = stocks[0];
       try {
         result &= model.dollarCostAveraging(amount, weight, symbol, date, interval, endDate,
-                commissionFee, fileName);
+            commissionFee, fileName);
       } catch (IOException | ParseException | java.text.ParseException e) {
         throw new RuntimeException(e);
       }
@@ -271,7 +271,7 @@ public class SwingControllerImpl implements SwingController {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       String currentDate = sdf.format(new Date());
       model.writeToStrategy(amount, stockWeights, stockSymbols, currentDate, interval,
-              endDate, stockCommission, fileName);
+          endDate, stockCommission, fileName);
       view.clearFixedStrategyFields();
     } else {
       view.displayMessage("Unable to invest $" + amount + " in " + fileName);
@@ -290,9 +290,9 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public boolean validateStock(String portfolioName, String amountText,
-                               String symbolText, String weightText,
-                               String selectedDate, String commissionText)
-          throws IOException {
+      String symbolText, String weightText,
+      String selectedDate, String commissionText)
+      throws IOException {
     if (isInValidPortfolio(portfolioName)) {
       view.displayMessage("No portfolio selected. Please select portfolio");
       return false;
@@ -312,7 +312,6 @@ public class SwingControllerImpl implements SwingController {
       view.displayMessage("Invalid Ticker Symbol");
       return false;
     }
-
 
     double weight = parseDoubleValue(weightText);
 
@@ -345,7 +344,7 @@ public class SwingControllerImpl implements SwingController {
   }
 
   private boolean isValidInterval(String startDate, String endDate)
-          throws java.text.ParseException {
+      throws java.text.ParseException {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     return (sdf.parse(startDate).before(sdf.parse(endDate)));
   }
@@ -442,7 +441,7 @@ public class SwingControllerImpl implements SwingController {
     }
     if (result == null) {
       view.displayMessage("File is empty. "
-              + "Please Buy/Sell to view the composition.");
+          + "Please Buy/Sell to view the composition.");
     } else {
       view.displayExamineComposition(result);
     }
@@ -483,13 +482,13 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void addStock(String symbol, String quantity, String date, String commissionFee,
-                       String filename) {
+      String filename) {
     try {
       if (!validateData(symbol, commissionFee, quantity, date, filename)) {
         return;
       }
       if (model.buyShares(symbol, Integer.parseInt(quantity), date,
-              Double.parseDouble(commissionFee), filename)) {
+          Double.parseDouble(commissionFee), filename)) {
         view.displayMessage(symbol + " " + quantity + " bought successfully");
       } else {
         view.displayMessage("Unable to buy " + symbol + " " + quantity);
@@ -502,8 +501,8 @@ public class SwingControllerImpl implements SwingController {
   }
 
   private boolean validateData(String symbol, String commissionFee, String quantity,
-                               String date, String filename)
-          throws IOException, java.text.ParseException {
+      String date, String filename)
+      throws IOException, java.text.ParseException {
     if (filename == null || filename.equals("None") || filename.equals("")) {
       view.displayMessage("No Portfolio selected/created");
       view.clearFields();
@@ -551,7 +550,7 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public void validatePortfolio(String portfolioName, String selectedDate)
-          throws ParseException, java.text.ParseException, IOException {
+      throws ParseException, java.text.ParseException, IOException {
     if (!validateDataForSelectPortfolio(portfolioName, selectedDate)) {
       view.clearSelectPortfolioFields();
       return;
@@ -608,12 +607,12 @@ public class SwingControllerImpl implements SwingController {
       Date lowerLimit = formatter.parse("2000-01-01");
       if (target.compareTo(upperLimit) > -1 || target.before(lowerLimit)) {
         view.displayMessage("The date entered is out of bounds "
-                + "(2000-01-01 to yesterday). Please try again.");
+            + "(2000-01-01 to yesterday). Please try again.");
         return false;
       }
     } catch (Exception e) {
       view.displayMessage("The date provided was not valid."
-              + " Please try again.");
+          + " Please try again.");
       return false;
     }
 
@@ -622,7 +621,7 @@ public class SwingControllerImpl implements SwingController {
 
   @Override
   public boolean validateShare(String txtSymbol, String txtQuantity, String txtCommission)
-          throws IOException {
+      throws IOException {
 
     double weight = parseDoubleValue(txtQuantity);
 
@@ -663,11 +662,11 @@ public class SwingControllerImpl implements SwingController {
       throw new RuntimeException(e);
     }
 
-    ArrayList<String> tickersTemp= new ArrayList<>();
+    ArrayList<String> tickersTemp = new ArrayList<>();
     ArrayList<String> countsTemp = new ArrayList<>();
 
     for (int i = 0; i < contents.size(); i++) {
-      if (!contents.get(i).get(1).equals("0")){
+      if (!contents.get(i).get(1).equals("0")) {
         tickersTemp.add(contents.get(i).get(0));
         countsTemp.add(contents.get(i).get(1));
       }
@@ -711,22 +710,22 @@ public class SwingControllerImpl implements SwingController {
     }
     float sum = 0;
     for (int i = 0; i < allTickers.length; i++) {
-      sum += Float.parseFloat(counts[i])*priceMap.get(allTickers[i]);
+      sum += Float.parseFloat(counts[i]) * priceMap.get(allTickers[i]);
     }
     //for each stock, find out how much to buy or sell
     for (int i = 0; i < allTickers.length; i++) {
-      double diff = sum*pers.get(i)*0.01f - priceMap.get(allTickers[i])
-          *Float.parseFloat(counts[i]);
+      double diff = sum * pers.get(i) * 0.01f - priceMap.get(allTickers[i])
+          * Float.parseFloat(counts[i]);
       if (diff > 0) {
         try {
-          model.buyShares(allTickers[i], diff/priceMap.get(allTickers[i]),
+          model.buyShares(allTickers[i], diff / priceMap.get(allTickers[i]),
               dateString, coms.get(i), name);
         } catch (ParseException | IOException | java.text.ParseException e) {
           throw new RuntimeException(e);
         }
-      } else if (diff < 0){
+      } else if (diff < 0) {
         try {
-          model.rebalanceSell(allTickers[i], Math.abs(diff)/priceMap.get(allTickers[i]),
+          model.rebalanceSell(allTickers[i], Math.abs(diff) / priceMap.get(allTickers[i]),
               dateString, coms.get(i), name);
         } catch (ParseException | IOException
                  | NoSuchFieldException | java.text.ParseException e) {

@@ -6,7 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import view.SwingView;
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -18,15 +18,19 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This is a JUnit test to test the swing controller for portfolio rebalancing.
+ */
 public class SwingControllerRebalanceTest {
 
-  class mockView implements SwingView {
+  class MockView implements SwingView {
 
     private StringBuilder log;
 
-    public mockView(StringBuilder log) {
+    public MockView(StringBuilder log) {
       this.log = log;
     }
+
     @Override
     public void splitViewPanel(JPanel panel) {
       log.append("splitViewPanel method called\n");
@@ -84,7 +88,8 @@ public class SwingControllerRebalanceTest {
 
     @Override
     public void existingDollarAvg(JPanel panel) {
-      log.append("existingDollarAvg method called\n");
+      log.append("existingDollarAvg "
+          + "method called\n");
     }
 
     @Override
@@ -140,7 +145,8 @@ public class SwingControllerRebalanceTest {
     }
 
     @Override
-    public void displayPerformanceGraph(List<String> xData, List<String> yData, List<Double> intervalSize) {
+    public void displayPerformanceGraph(List<String> xData, List<String> yData,
+        List<Double> intervalSize) {
       log.append("displayPerformanceGraph method called\n");
     }
 
@@ -151,7 +157,8 @@ public class SwingControllerRebalanceTest {
 
     @Override
     public void createNewInvestmentMenu() {
-      log.append("createNewInvestmentMenu method called\n");
+      log.append("createNewInvestmentMenu "
+          + "method called\n");
     }
 
     @Override
@@ -201,80 +208,85 @@ public class SwingControllerRebalanceTest {
   }
 
   @Test
-  public void testRebalanceValidation1() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalanceValidation1()
+      throws IOException, ParseException, java.text.ParseException {
     String port = "flexible_portfolio_5.json";
     String date = "2050-01-01";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
     rb.validatePortfolio(port, date);
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n" +
-            "clearSelectPortfolioFields method called\n", log.toString());
+        "displayMessage method called\n" +
+        "clearSelectPortfolioFields method called\n", log.toString());
 
   }
 
   @Test
-  public void testRebalanceValidation2() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalanceValidation2()
+      throws IOException, ParseException, java.text.ParseException {
     String port = "";
     String date = "2020-01-01";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
     rb.validatePortfolio(port, date);
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n" +
-            "clearSelectPortfolioFields method called\n", log.toString());
+        "displayMessage method called\n" +
+        "clearSelectPortfolioFields method called\n", log.toString());
   }
 
   @Test
-  public void testRebalanceValidation3() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalanceValidation3()
+      throws IOException, ParseException, java.text.ParseException {
     String port = "flexible_portfolio_5.json";
     String date = "1987-01-01";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
     rb.validatePortfolio(port, date);
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n" +
-            "clearSelectPortfolioFields method called\n", log.toString());
+        "displayMessage method called\n" +
+        "clearSelectPortfolioFields method called\n", log.toString());
   }
 
   @Test
-  public void testRebalanceValidation4() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalanceValidation4()
+      throws IOException, ParseException, java.text.ParseException {
     String port = "flexible_portfolio_5.json";
     String date = null;
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
     rb.validatePortfolio(port, date);
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n" +
-            "clearSelectPortfolioFields method called\n", log.toString());
+        "displayMessage method called\n" +
+        "clearSelectPortfolioFields method called\n", log.toString());
   }
 
   @Test
-  public void testRebalanceValidation5() throws IOException, ParseException, java.text.ParseException {
+  public void testRebalanceValidation5()
+      throws IOException, ParseException, java.text.ParseException {
     String port = "flexible_portfolio_5.json";
     String date = "2020-01-01";
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
     rb.validatePortfolio(port, date);
     assertEquals("addFeatures method called\n" +
-            "setControllerStuff method called\n" +
-            "displayRebalancePanel method called\n" +
-            "splitViewPanel method called\n", log.toString());
+        "setControllerStuff method called\n" +
+        "displayRebalancePanel method called\n" +
+        "splitViewPanel method called\n", log.toString());
   }
 
   @Test
@@ -284,14 +296,14 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> coms = new ArrayList<>(Arrays.asList("5", "5"));
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     for (int i = 0; i < ticks.size(); i++) {
       rb.validateShare(ticks.get(i), pers.get(i), coms.get(i));
     }
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n", log.toString());
+        "displayMessage method called\n", log.toString());
   }
 
   @Test
@@ -301,14 +313,14 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> coms = new ArrayList<>(Arrays.asList("5", "5"));
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     for (int i = 0; i < ticks.size(); i++) {
       rb.validateShare(ticks.get(i), pers.get(i), coms.get(i));
     }
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n", log.toString());
+        "displayMessage method called\n", log.toString());
   }
 
   @Test
@@ -318,14 +330,14 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> coms = new ArrayList<>(Arrays.asList("-5", "5"));
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     for (int i = 0; i < ticks.size(); i++) {
       rb.validateShare(ticks.get(i), pers.get(i), coms.get(i));
     }
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n", log.toString());
+        "displayMessage method called\n", log.toString());
   }
 
   @Test
@@ -335,14 +347,14 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> coms = new ArrayList<>(Arrays.asList("25", "5"));
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     for (int i = 0; i < ticks.size(); i++) {
       rb.validateShare(ticks.get(i), pers.get(i), coms.get(i));
     }
     assertEquals("addFeatures method called\n" +
-            "displayMessage method called\n", log.toString());
+        "displayMessage method called\n", log.toString());
   }
 
   @Test
@@ -352,7 +364,7 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> coms = new ArrayList<>(Arrays.asList("5", "5"));
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     for (int i = 0; i < ticks.size(); i++) {
@@ -365,7 +377,7 @@ public class SwingControllerRebalanceTest {
   public void testRebalancing() throws IOException, ParseException, java.text.ParseException {
     FlexiblePortfolio model = new FlexiblePortfolioImpl();
     StringBuilder log = new StringBuilder();
-    SwingView mockView = new mockView(log);
+    SwingView mockView = new MockView(log);
     SwingController rb = new SwingControllerImpl(model, mockView);
 
     String port = "flexible_portfolio_1.json";
@@ -375,7 +387,7 @@ public class SwingControllerRebalanceTest {
     ArrayList<String> arr = new ArrayList<>(Arrays.asList("MSFT:80:5", "GOOG:20:5"));
     rb.saveShares(arr);
     rb.rebalancePortfolio();
-    List<List<String>> contents = model.getFlexiblePortfolioComposition(port,date);
+    List<List<String>> contents = model.getFlexiblePortfolioComposition(port, date);
     assertEquals("MSFT", contents.get(0).get(0));
     assertEquals("223", contents.get(0).get(1));
     assertEquals("GOOG", contents.get(1).get(0));

@@ -32,6 +32,7 @@ Choose `From Maven` option and use the above maven dependency name to add the li
 Running the Project for Assignment 7
 
 1. Open the terminal inside the folder that contains Assignment7.jar, data, portfolios, src, flexible_portfolios, strategy
+(Note that the .jar should run from where it is in the assignment 7 folder)
 2. Execute the java command to run the executable jar file
 
 For Swing View
